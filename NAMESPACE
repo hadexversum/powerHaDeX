@@ -1,0 +1,3 @@
+useDynLib(HDX-test-pkg, .registration=TRUE)
+exportPattern("^[[:alpha:]]+")
+importFrom(Rcpp, evalCpp)

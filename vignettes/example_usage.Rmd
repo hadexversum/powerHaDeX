@@ -1,0 +1,43 @@
+---
+title: "Running simulations"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Running simulations}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(HDXtestpkg)
+library(ggplot2)
+library(tidyverse)
+library(BRAIN)
+
+source("phasim1_mbp.R")
+
+proton_mass = 1.007276466
+
+inputSeq = "KITEGKLVIWINGDKGYNGLAEVGKKFEKDTGIKVTVEHPDKLEEKFPQVAATGDGPDIIFWAHDRFGGYAQSGLLAEITPDKAFQDKLYPFTWDAVRYNGKLIAYPIAVEALSLIYNKDLLPNPPKTWEEIPALDKELKAKGKSALMFNLQEPYFTWPLIAADGGYAFKYENGKYDIKDVGVDNAGAKAGLTFLVDLIKNKHMNADTDYSIAEAAFNKGETAMTINGPWAWSNIDTSKVNYGVTVLPTFKGQPSKPFVGVLSAGINAASPNKELAKEFLENYLLTDEGLEAVNKDKPLGAVALKSYEEELAKDPRIAATMENAQKGEIMPNIPQMSAFWYAVRTAVINAASGRQTVDEALKDAQTRITK"
+
+result <- do_simulation(inputSeq, Charge = 3, inputPF = 1, START = 1, END = 10)
+result = data.frame(result)
+colnames(result) = c("mz", "intensity")
+
+result %>%
+  # filter(intensity > 0) %>%
+  ggplot(aes(x = mz, ymin = 0, ymax = intensity)) +
+  geom_linerange() +
+  theme_bw()
+
+useBRAIN(getAtomsFromSeq(substr(inputSeq, 1, 10)))
+1185.712/3 + proton_mass
+
+result
+```
