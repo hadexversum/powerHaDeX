@@ -1,195 +1,171 @@
 
 
-# inputSeq1 = "KITEGKLVIWINGDKGYNGLAEVGKKFEKDTGIKVTVEHPDKLEEKFPQVAATGDGPDIIFWAHDRFGGYAQSGLLAEITPDKAFQDKLYPFTWDAVRYNGKLIAYPIAVEALSLIYNKDLLPNPPKTWEEIPALDKELKAKGKSALMFNLQEPYFTWPLIAADGGYAFKYENGKYDIKDVGVDNAGAKAGLTFLVDLIKNKHMNADTDYSIAEAAFNKGETAMTINGPWAWSNIDTSKVNYGVTVLPTFKGQPSKPFVGVLSAGINAASPNKELAKEFLENYLLTDEGLEAVNKDKPLGAVALKSYEEELAKDPRIAATMENAQKGEIMPNIPQMSAFWYAVRTAVINAASGRQTVDEALKDAQTRITK"
-# inputSeq = strsplit(inputSeq1, "")[[1]]
-# TempC = 15
+# sequence = "KITEGKLVIWINGDKGYNGLAEVGKKFEKDTGIKVTVEHpdKLEEKFPQVAATGDGpdIIFWAHDRFGGYAQSGLLAEITpdKAFQDKLYPFTWDAVRYNGKLIAYPIAVEALSLIYNKDLLPNPPKTWEEIPALDKELKAKGKSALMFNLQEPYFTWPLIAADGGYAFKYENGKYDIKDVGVDNAGAKAGLTFLVDLIKNKHMNADTDYSIAEAAFNKGETAMTINGPWAWSNIDTSKVNYGVTVLPTFKGQPSKPFVGVLSAGINAASPNKELAKEFLENYLLTDEGLEAVNKDKPLGAVALKSYEEELAKDPRIAATMENAQKGEIMPNIPQMSAFWYAVRTAVINAASGRQTVDEALKDAQTRITK"
+# sequence = strsplit(sequence1, "")[[1]]
+# temp_kelvinerature = 15
 # pH = 9
-# molType = 'poly'
-# pDread = 9
-# ifCorr = 0
-# kcHD <- fbmme_hd(inputSeq, pDread, TempC, molType, ifCorr)
-
-fbmme_hd <- function(inputSeq, pDread, TempC, molType, ifCorr){
+# mol_type = 'poly'
+# ph = 9
+# if_corr = 0
+# kcHD =  fbmme_hd(sequence, ph, temp_kelvinerature, mol_type, if_corr)
 
 
-  Temp = TempC + 273.15; #convert to kelvin scale
-
-  if(ifCorr == 1){
-    pD = pDread+0.4
-  }else{
-    if(ifCorr == 0){
-      pD = pDread
-    }else{
-      print('ifCorr must be 1 or 0!')
-    }
-  }
-
-  D = 10^(-pD) #[D+]
-  OD = 10^(pD - 15.05) #[OD-]
-
-  R = 1.9858775 #gas constant(cal/(K*mol)); the value in spreadsheet is 1.987
-
-  Ea_A = 14000 #unit: cal/mol
+get_F_const = function(temp_kelvin, gas_constant) {
+  
+  Ea_A = 14000 #unit: cal / mol
   Ea_B = 17000
   Ea_W = 19000
+  
+  Q7 = (1 / temp_kelvin - 1 / 293) / gas_constant # 1 / (dT * R)
+  list(Fta = exp(-Q7 * Ea_A), 
+       Ftb = exp(-Q7 * Ea_B), 
+       Ftw = exp(-Q7 * Ea_W))
+}
 
-  Q7 = (1/Temp - 1/293)/R #1/(dT*R)
-  Fta = exp(-Q7 * Ea_A)
-  Ftb = exp(-Q7 * Ea_B)
-  Ftw = exp(-Q7 * Ea_W)
 
-  Ea_Asp = 1000 #unit: cal/mol
+get_poly_const = function(mol_type) {
+  if(!(mol_type %in% c("poly", "oligo"))) stop("Mol type must be poly / oligo")
+  Ka_poly = (10^(1.62)) / 60
+  Ka_oligo = Ka_poly * 2.34
+  Kb_poly = (10^(10.05)) / 60
+  Kb_oligo = Kb_poly * 1.35
+  Kw_poly = (10^(- 1.5)) / 60
+  Kw_oligo = Kw_poly * 1.585
+  if(mol_type  ==  "poly") {
+    list(Ka = Ka_poly, 
+         Kb = Kb_poly, 
+         Kw = Kw_poly)
+  }  else  {
+    list(Ka = Ka_oligo, 
+         Kb = Kb_oligo, 
+         Kw = Kw_oligo)
+  }
+}
+
+
+get_pkc = function(temp_kelvin, gas_constant) {
+  Ea_Asp = 1000 #unit: cal / mol
   Ea_Glu = 1083
   Ea_His = 7500
-
-  pKc_Asp = -log10(10^(-4.48)*exp(-1*Ea_Asp*((1/Temp-1/278)/R)))
-  pKc_Glu = -log10(10^(-4.93)*exp(-1*Ea_Glu*((1/Temp-1/278)/R)))
-  pKc_His = -log10(10^(-7.42)*exp(-1*Ea_His*((1/Temp-1/278)/R)))
-
-  Ka_poly = (10^(1.62))/60
-  Ka_oligo = Ka_poly*2.34
-
-  Kb_poly = (10^(10.05))/60
-  Kb_oligo = Kb_poly*1.35
-
-  Kw_poly = (10^(-1.5))/60
-  Kw_oligo = Kw_poly*1.585
+  pKc_Asp =  - log10(10^(- 4.48) * exp(- 1 * Ea_Asp * ((1 / temp_kelvin - 1 / 278) / gas_constant)))
+  pKc_Glu =  - log10(10^(- 4.93) * exp(- 1 * Ea_Glu * ((1 / temp_kelvin - 1 / 278) / gas_constant)))
+  pKc_His =  - log10(10^(- 7.42) * exp(- 1 * Ea_His * ((1 / temp_kelvin - 1 / 278) / gas_constant)))
+  list(asp = pKc_Asp, 
+       glu = pKc_Glu, 
+       his = pKc_His)
+}
 
 
-  if(molType == "poly"){
-    Ka = Ka_poly
-    Kb = Kb_poly
-    Kw = Kw_poly
-  }else
-    if(molType =="oligo"){
-      Ka = Ka_oligo
-      Kb = Kb_oligo
-      Kw = Kw_oligo
-    }else{
-      print('Unknown molType!(must be "poly" or "oligo")')
-    }
 
-  ###########################################################################
-  ###reproduce FBMME_HD.XLS Table B:
-  # # # ASP COOH D+	d
-  # # # CYSTINE	C2	s
-  # # # GLU COOH E+	e
-  # # # PRO cis	Pc	p
-  # # # N-Term	NT	n
-  # # # C-Term	CT	c
-  # # # -NHMe	NMe	m
-  # # # H3CCO-	Ac	a
-
-  Factors_list = strsplit('ARDdNCsGEeQHILKMFPpSTWYVncma', "")[[1]]
-  Factors_values = matrix(c(0,0,0,0,
-                          -0.590000000000000,-0.320000000000000,0.0767122542818456,0.220000000000000,
-                          0,0,0,0, #Asp; calculate later
-                          -0.900000000000000,-0.120000000000000,0.690000000000000,0.600000000000000,
-                          -0.580000000000000,-0.130000000000000,0.490000000000000,0.320000000000000,
-                          -0.540000000000000,-0.460000000000000,0.620000000000000,0.550000000000000,
-                          -0.740000000000000,-0.580000000000000,0.550000000000000,0.460000000000000,
-                          -0.220000000000000,0.218176047120386,0.267251569286023,0.170000000000000,
-                          0,0,0,0, #Glu; calculate later
-                          -0.600000000000000,-0.270000000000000,0.240000000000000,0.390000000000000,
-                          -0.470000000000000,-0.270000000000000,0.0600000000000000,0.200000000000000,
-                          0,0,0,0, #His; calculate later
-                          -0.910000000000000,-0.590000000000000,-0.730000000000000,-0.230000000000000,
-                          -0.570000000000000,-0.130000000000000,-0.576252727721677,-0.210000000000000,
-                          -0.560000000000000,-0.290000000000000,-0.0400000000000000,0.120000000000000,
-                          -0.640000000000000,-0.280000000000000,-0.00895484265292644,0.110000000000000,
-                          -0.520000000000000,-0.430000000000000,-0.235859464059171,0.0631315866300978,
-                          0,-0.194773472023435,0,-0.240000000000000,
-                          0,-0.854416534276379,0,0.600000000000000,
-                          -0.437992277698594,-0.388518934646472,0.370000000000000,0.299550285605933,
-                          -0.790000000000000,-0.468073125742265,-0.0662579798400606,0.200000000000000,
-                          -0.400000000000000,-0.440000000000000,-0.410000000000000,-0.110000000000000,
-                          -0.410000000000000,-0.370000000000000,-0.270000000000000,0.0500000000000000,
-                          -0.739022273362575,-0.300000000000000,-0.701934483299758,-0.140000000000000,
-                          0,-1.32000000000000,0,1.62000000000000,
-                          0,0,-1.80000000000000,0, #C-Term; col1 calculate later
-                          0,0,0,0, #-NHMe; col1&3 calulate later
-                          0,0.293000000000000,0,-0.197000000000000), ncol = 4, byrow=TRUE) #//above part same with that of FBMME_DH.XLS
-
-  Factors_values[3,1] = log10(10^(-0.9-pD)/(10^(-pKc_Asp)+10^(-pD))+10^(0.9-pKc_Asp)/(10^(-pKc_Asp)+10^(-pD)))
-  Factors_values[3,2] = log10(10^(-0.12-pD)/(10^(-pKc_Asp)+10^(-pD))+10^(0.58-pKc_Asp)/(10^(-pKc_Asp)+10^(-pD)))
-  Factors_values[3,3] = log10(10^(0.69-pD)/(10^(-pKc_Asp)+10^(-pD))+10^(-0.3-pKc_Asp)/(10^(-pKc_Asp)+10^(-pD)))
-  Factors_values[3,4] = log10(10^(0.6-pD)/(10^(-pKc_Asp)+10^(-pD))+10^(-0.18-pKc_Asp)/(10^(-pKc_Asp)+10^(-pD)))
-
-  Factors_values[9,1] = log10(10^(-0.6-pD)/(10^(-pKc_Glu)+10^(-pD))+10^(-0.9-pKc_Glu)/(10^(-pKc_Glu)+10^(-pD)))
-  Factors_values[9,2] = log10(10^(-0.27-pD)/(10^(-pKc_Glu)+10^(-pD))+10^(0.31-pKc_Glu)/(10^(-pKc_Glu)+10^(-pD)))
-  Factors_values[9,3] = log10(10^(0.24-pD)/(10^(-pKc_Glu)+10^(-pD))+10^(-0.51-pKc_Glu)/(10^(-pKc_Glu)+10^(-pD)))
-  Factors_values[9,4] = log10(10^(0.39-pD)/(10^(-pKc_Glu)+10^(-pD))+10^(-0.15-pKc_Glu)/(10^(-pKc_Glu)+10^(-pD)))
-
-  Factors_values[12,1] = log10(10^(-0.8-pD)/(10^(-pKc_His)+10^(-pD))+10^(0-pKc_His)/(10^(-pKc_His)+10^(-pD)))
-  Factors_values[12,2] = log10(10^(-0.51-pD)/(10^(-pKc_His)+10^(-pD))+10^(0-pKc_His)/(10^(-pKc_His)+10^(-pD)))
-  Factors_values[12,3] = log10(10^(0.8-pD)/(10^(-pKc_His)+10^(-pD))+10^(-0.1-pKc_His)/(10^(-pKc_His)+10^(-pD)))
-  Factors_values[12,4] = log10(10^(0.83-pD)/(10^(-pKc_His)+10^(-pD))+10^(0.14-pKc_His)/(10^(-pKc_His)+10^(-pD)))
-
-  Factors_values[26,1] = log10(10^(0.05-pD)/(10^(-pKc_Glu)+10^(-pD))+10^(0.96-pKc_Glu)/(10^(-pKc_Glu)+10^(-pD)))
-
-  Factors_values[27,1] = log10(135.5/(Ka*60))
-  Factors_values[27,3] = log10(2970000000/(Kb*60))
+get_exchange_constants = function(pd, pkc_consts, k_consts) {
+  constants = matrix(
+    c(0, 0, 0, 0, 
+       - 0.59,  - 0.32, 0.0767122542818456, 0.22, 
+      0, 0, 0, 0, #Asp; calculate later
+       - 0.90,  - 0.12, 0.69, 0.60, 
+       - 0.58,  - 0.13, 0.49, 0.32, 
+       - 0.54,  - 0.46, 0.62, 0.55, 
+       - 0.74,  - 0.58, 0.55, 0.46, 
+       - 0.22, 0.218176047120386, 0.267251569286023, 0.17, 
+      0, 0, 0, 0, #Glu; calculate later
+       - 0.60,  - 0.27, 0.24, 0.39, 
+       - 0.47,  - 0.27, 0.060, 0.20, 
+      0, 0, 0, 0, #His; calculate later
+       - 0.91,  - 0.59,  - 0.73,  - 0.23, 
+       - 0.57,  - 0.13,  - 0.576252727721677,  - 0.21, 
+       - 0.56,  - 0.29,  - 0.040, 0.12, 
+       - 0.64,  - 0.28,  - 0.00895484265292644, 0.11, 
+       - 0.52,  - 0.43,  - 0.235859464059171, 0.0631315866300978, 
+      0,  - 0.194773472023435, 0,  - 0.24, 
+      0,  - 0.854416534276379, 0, 0.60, 
+       - 0.437992277698594,  - 0.388518934646472, 0.37, 0.299550285605933, 
+       - 0.79,  - 0.468073125742265,  - 0.0662579798400606, 0.20, 
+       - 0.40,  - 0.44,  - 0.41,  - 0.11, 
+       - 0.41,  - 0.37,  - 0.27, 0.050, 
+       - 0.739022273362575,  - 0.30,  - 0.701934483299758,  - 0.14, 
+      0,  - 1.32, 0, 1.62, 
+      0, 0,  - 1.8, 0, #C - Term; col1 calculate later
+      0, 0, 0, 0, # - NHMe; col1&3 calulate later
+      0, 0.293, 0,  - 0.197
+    ), ncol = 4, byrow=TRUE)
+  
+  constants[3, 1] = log10(10^(- 0.9 - pd) / (10^(- pkc_consts[["asp"]]) + 10^(-pd)) + 10^(0.9 - pkc_consts[["asp"]]) / (10^(-pkc_consts[["asp"]]) + 10^(-pd)))
+  constants[3, 2] = log10(10^(-0.12 - pd) / (10^(-pkc_consts[["asp"]]) + 10^(-pd)) + 10^(0.58 - pkc_consts[["asp"]]) / (10^(-pkc_consts[["asp"]]) + 10^(-pd)))
+  constants[3, 3] = log10(10^(0.69 - pd) / (10^(-pkc_consts[["asp"]]) + 10^(-pd)) + 10^(-0.3 - pkc_consts[["asp"]]) / (10^(-pkc_consts[["asp"]]) + 10^(-pd)))
+  constants[3, 4] = log10(10^(0.6 - pd) / (10^(-pkc_consts[["asp"]]) + 10^(-pd)) + 10^(-0.18 - pkc_consts[["asp"]]) / (10^(-pkc_consts[["asp"]]) + 10^(-pd)))
+  
+  constants[9, 1] = log10(10^(-0.6 - pd) / (10^(-pkc_consts[["glu"]]) + 10^(-pd)) + 10^(-0.9 - pkc_consts[["glu"]]) / (10^(-pkc_consts[["glu"]]) + 10^(-pd)))
+  constants[9, 2] = log10(10^(-0.27 - pd) / (10^(-pkc_consts[["glu"]]) + 10^(-pd)) + 10^(0.31 - pkc_consts[["glu"]]) / (10^(-pkc_consts[["glu"]]) + 10^(-pd)))
+  constants[9, 3] = log10(10^(0.24 - pd) / (10^(-pkc_consts[["glu"]]) + 10^(-pd)) + 10^(-0.51 - pkc_consts[["glu"]]) / (10^(-pkc_consts[["glu"]]) + 10^(-pd)))
+  constants[9, 4] = log10(10^(0.39 - pd) / (10^(-pkc_consts[["glu"]]) + 10^(-pd)) + 10^(-0.15 - pkc_consts[["glu"]]) / (10^(-pkc_consts[["glu"]]) + 10^(-pd)))
+  
+  constants[12, 1] = log10(10^(-0.8 - pd) / (10^(-pkc_consts[["his"]]) + 10^(-pd)) + 10^(0 - pkc_consts[["his"]]) / (10^(-pkc_consts[["his"]]) + 10^(-pd)))
+  constants[12, 2] = log10(10^(-0.51 - pd) / (10^(-pkc_consts[["his"]]) + 10^(-pd)) + 10^(0 - pkc_consts[["his"]]) / (10^(-pkc_consts[["his"]]) + 10^(-pd)))
+  constants[12, 3] = log10(10^(0.8 - pd) / (10^(-pkc_consts[["his"]]) + 10^(-pd)) + 10^(-0.1 - pkc_consts[["his"]]) / (10^(-pkc_consts[["his"]]) + 10^(-pd)))
+  constants[12, 4] = log10(10^(0.83 - pd) / (10^(-pkc_consts[["his"]]) + 10^(-pd)) + 10^(0.14 - pkc_consts[["his"]]) / (10^(-pkc_consts[["his"]]) + 10^(-pd)))
+  
+  constants[26, 1] = log10(10^(0.05 - pd) / (10^(-pkc_consts[["glu"]]) + 10^(-pd)) + 10^(0.96 - pkc_consts[["glu"]]) / (10^(-pkc_consts[["glu"]]) + 10^(-pd)))
+  
+  constants[27, 1] = log10(135.5 / (k_consts[["Ka"]] * 60))
+  constants[27, 3] = log10(2970000000 / (k_consts[["Kb"]] * 60))
+  constants
+}
 
 
-  ###########################################################################
-  ###calculate kc(H->D) of each position:
+fbmme_hd =  function(sequence, ph = 9, temp_kelvinerature = 15, mol_type = "poly", if_corr = 0, gas_constant = 1.9858775) {
 
-  Seq = c("n", inputSeq, "c")
-  N = length(Seq) #residue numbers of the input peptide/protein plus 2(N- & C-term)
+  temp_kelvin = temp_kelvinerature + 273.15
+  
+  if(!(if_corr %in% c(0, 1))) stop("If_corr must be 1 or 0")
+  pd = ph + 0.4 * if_corr
+  D = 10^(-pd) #[D + ]
+  OD = 10^(pd - 15.05) #[OD - ]
+  F_consts = get_F_const(temp_kelvin, gas_constant)
+  poly_consts = get_poly_const(mol_type)
+  pkc_consts = get_pkc(temp_kelvin, gas_constant)
+  
+  AAs = strsplit('ARDdNCsGEeQHILKMFPpSTWYVncma', "")[[1]]
+  constants = get_exchange_constants(pd, pkc_consts, poly_consts)
+  
+  sequence = c("n", sequence, "c")
+  
+  N = length(sequence) #residue numbers of the input peptide/protein plus 2(N -  & C - term)
+  if(!(N > 2)) stop("Length of sequence must be greater than 0")
   kcHD = rep(0, N)
 
-  for(i in 1:N){
-
-    if(i==1 || Seq[i]=='P' || Seq[i]=='p' || Seq[i]=='a'){
-      #do nothing, leave kc=0
-    }else{
-      ###Fa:
-      if(Seq[i]=='P' || Seq[i]=='a' || i==1 || Seq[i]=='p' || i==N || i-1==1){
-        Fa=0
-      }else{
-        j=which(Factors_list==Seq[i])
-        k=which(Factors_list==Seq[i-1])
-
-        if((i-2 <= 1 && i+1 == N && Seq[i-1] != 'a') && Seq[i] != 'm'){
-          Fa=10^(Factors_values[j,1]+Factors_values[k,2]+Factors_values[25,2]+Factors_values[26,1])
-        }else{
-          if(i-2<=1 && Seq[i-1]!='a'){
-            Fa=10^(Factors_values[j,1] + Factors_values[k,2] + Factors_values[25,2])
-          }else{
-            if( i+1 == N && Seq[i] != 'm'){
-              Fa=10^(Factors_values[j,1] + Factors_values[k,2] + Factors_values[26,1])
-            }else{
-              Fa=10^(Factors_values[j,1] + Factors_values[k,2])
-            }
-          }
-        }
-      }
-      ###Fb:
-      if( Seq[i]=='P' || Seq[i]=='a' || i==1 || Seq[i]=='p' || i==N || i-1==1){
+  for(i in 1:N) {
+    if(i == 1 || sequence[i] %in% c("P", "a", "p")) {
+      next()
+    } else {
+      if(sequence[i] %in% c("P", "a", "p") || i %in% c(1, 2, N)) {
+        Fa = 0
         Fb = 0
-      }else{
-        j = which(Factors_list == Seq[i])
-        k = which(Factors_list == Seq[i-1])
-        if((i - 2 <= 1 && i + 1 == N && Seq[i - 1] != 'a') && Seq[i] != 'm'){
-          Fb = 10^(Factors_values[j, 3] + Factors_values[k, 4] + Factors_values[25, 4] + Factors_values[26, 3])
-        }else{
-          if(i - 2 <= 1 && Seq[i - 1] != 'a'){
-            Fb=10^(Factors_values[j, 3] + Factors_values[k, 4] + Factors_values[25, 4])
-          }else{
-            if(i + 1 == N && Seq[i] != 'm'){
-              Fb=10^(Factors_values[j, 3] + Factors_values[k, 4] + Factors_values[26, 3])
-            }else{
-              Fb=10^(Factors_values[j, 3] + Factors_values[k, 4])
+      } else {
+        j = which(AAs == sequence[i])
+        k = which(AAs == sequence[i - 1])
+        if(i - 2 <= 1 && i + 1  ==  N && sequence[i - 1] != "a" && sequence[i] != "m"){
+          Fa = 10^(constants[j, 1] + constants[k, 2] + constants[25, 2] + constants[26, 1])
+          Fb = 10^(constants[j, 3] + constants[k, 4] + constants[25, 4] + constants[26, 3])
+        } else {
+          if(i - 2 <= 1 && sequence[i - 1] != "a"){
+            Fa = 10^(constants[j, 1] + constants[k, 2] + constants[25, 2])
+            Fb = 10^(constants[j, 3] + constants[k, 4] + constants[25, 4])
+          } else {
+            if( i + 1 == N && sequence[i] != "m"){
+              Fa = 10^(constants[j, 1] + constants[k, 2] + constants[26, 1])
+              Fb = 10^(constants[j, 3] + constants[k, 4] + constants[26, 3])
+            } else {
+              Fa = 10^(constants[j, 1] + constants[k, 2])
+              Fb = 10^(constants[j, 3] + constants[k, 4])
             }
           }
         }
       }
-    kcHD[i] = Fa*Ka*D*Fta + Fb*Kb*OD*Ftb + Fb*Kw*Ftw
+      kcHD[i] = Fa * poly_consts[["Ka"]] * D * F_consts[["Fta"]] + 
+        Fb * poly_consts[["Kb"]] * OD * F_consts[["Ftb"]] + 
+        Fb * poly_consts[["Kw"]] * F_consts[["Ftw"]]
     }
   }
-
-  kcHD = kcHD[2:(N-1)]
-
-  return(kcHD)
+  kcHD[2:(N - 1)]
 }
 
