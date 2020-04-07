@@ -5,9 +5,9 @@ get_F_const = function(temp_kelvin, gas_constant) {
   Ea_B = 17000
   Ea_W = 19000
   Q7 = (1 / temp_kelvin - 1 / 293) / gas_constant # 1/(dT * R)
-  list(Fta = exp( - Q7 * Ea_A),
-       Ftb = exp( - Q7 * Ea_B),
-       Ftw = exp( - Q7 * Ea_W))
+  list(Fta = exp(- Q7 * Ea_A),
+       Ftb = exp(- Q7 * Ea_B),
+       Ftw = exp(- Q7 * Ea_W))
 }
 
 get_poly_const = function(mol_type) {
@@ -30,7 +30,7 @@ get_poly_const = function(mol_type) {
 }
 
 
-get_pkc = function(temp_kelvin, gas_constant, ) {
+get_pkc = function(temp_kelvin, gas_constant) {
   Ea_Asp = 960 #unit: cal/mol
   Ea_Glu = 1083
   Ea_His = 7500
@@ -109,7 +109,8 @@ fbmme_dh = function(sequence, ph = 9, temperature = 15, mol_type = "poly",
   constants = get_exchange_constants(ph, pkc_consts, poly_consts)
   sequence = c("n", sequence, "c")
   N = length(sequence) #residue numbers of the input peptide/protein plus 2(N -  & C - term)
-  kcDH = rep(0, N) # TODO: assert N > 2
+  if(!(N > 2)) stop("Length of sequence must be greater than 0")
+  kcDH = rep(0, N)
 
   for(i in 1:N) {
     if(i == 1 || sequence[i] == 'P' || sequence[i] == 'p' || sequence[i] == 'a') {
