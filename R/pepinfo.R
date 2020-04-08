@@ -1,4 +1,4 @@
-sequence = strsplit("KITEGKLVIWINGDKGYNGLAEVGKK", "")[[1]]
+#sequence = strsplit("KITEGKLVIWINGDKGYNGLAEVGKK", "")[[1]]
 # Internal data, left here for convenience for now:
 AAshort = c("A", "C", "D", "E", "F", "G", "H", "I", "K", "L", "M", "N", "O",
             "P", "Q", "R", "S", "T", "U", "V", "W", "Y")
