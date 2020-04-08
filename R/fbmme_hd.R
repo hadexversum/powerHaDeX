@@ -112,9 +112,9 @@ get_exchange_constants = function(pd, pkc_consts, k_consts) {
 }
 
 
-fbmme_hd =  function(sequence, ph = 9, temp_kelvinerature = 15, mol_type = "poly", if_corr = 0, gas_constant = 1.9858775) {
+fbmme_hd =  function(sequence, ph = 9, temperature = 15, mol_type = "poly", if_corr = 0, gas_constant = 1.9858775) {
 
-  temp_kelvin = temp_kelvinerature + 273.15
+  temp_kelvin = temperature + 273.15
   
   if(!(if_corr %in% c(0, 1))) stop("If_corr must be 1 or 0")
   pd = ph + 0.4 * if_corr
