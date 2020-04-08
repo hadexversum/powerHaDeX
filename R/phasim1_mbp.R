@@ -37,8 +37,6 @@ do_simulation = function(inputSeq, Charge, inputPF = 1, START = 1,
       pf = rep(pf, END)
     }
   }
-
-
   ###data prep:
 
   pepinfoData = pepinfo(Seq[START:END])
@@ -47,8 +45,8 @@ do_simulation = function(inputSeq, Charge, inputPF = 1, START = 1,
   maxND = pepinfoData[3]
   maxD = pepinfoData[4]
 
-  kcHD = fbmme_hd(inputSeq = Seq, pH_p, Temp, 'poly', 0) #call fbmme_hd.m
-  kcDH = fbmme_dh(Seq, pH_p, Temp, 'poly') #call fbmme_dh.m
+  kcHD = fbmme_hd(inputSeq = Seq, pH_p, Temp, 'poly', 0) # call fbmme_hd.m
+  kcDH = fbmme_dh(Seq, pH_p, Temp, 'poly') # call fbmme_dh.m
   Dfraction = QFratio[1]/(QFratio[1] + QFratio[2] + QFratio[3])
   Hfraction =(QFratio[2] + QFratio[3])/(QFratio[1] + QFratio[2] + QFratio[3])
 
@@ -57,10 +55,8 @@ do_simulation = function(inputSeq, Charge, inputPF = 1, START = 1,
   N = END - START + 1
   HDmatrix = matrix(1, M, N) #0=H; 1=D
   kmax = max(max(kcDH[START:END]), max(kcHD[START:END]))
-  #kmax = max(kcHD[START:END])
   deltaT = 0.1/kmax   #step size of simulation time
   Time_seq = seq(0, Time_p, deltaT)
-
 
   for(time in Time_seq){
     ran1 = matrix(runif(M*N), M, N)
@@ -82,7 +78,6 @@ do_simulation = function(inputSeq, Charge, inputPF = 1, START = 1,
     print(time)
   }
 
-
   # consider N-term two residues and Prolines
   for (i in 1:N){
     if (i < 3 || Seq[i + START - 1] == 'P'){
@@ -90,10 +85,6 @@ do_simulation = function(inputSeq, Charge, inputPF = 1, START = 1,
       HDmatrix[,i] = rep(0, M)
     }
   }
-
-  # get simulation result distribution
-  # Distr = zeros(1, maxD[[1]] + 1)
-  # deltaMass = zeros(1, M)
 
   Distr = rep(0, maxD[[1]] + 1)
   deltaMass = rep(0, M)
@@ -119,13 +110,9 @@ do_simulation = function(inputSeq, Charge, inputPF = 1, START = 1,
     obsPeaks[i,1] <- obsPeaks[i-1, 1] + DM/Charge
     obsPeaks[i,2] <- obsDistr[i]
   }
+
   data.frame(
     mz = obsPeaks[, 1],
     intensity = obsPeaks[, 2]
   )
-  return(obsPeaks)
 }
-
-iso = useBRAIN(getAtomsFromSeq(inputSeq))
-iso
-
