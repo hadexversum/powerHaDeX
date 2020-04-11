@@ -18,8 +18,6 @@ molType = "poly"
 ph = 9
 
 
-
-
 get_transition_probs = function(kcHD, kcDH, QFratio, deltaT) {
   Dfraction = QFratio[1]/(QFratio[1] + QFratio[2] + QFratio[3])
   Hfraction =(QFratio[2] + QFratio[3])/(QFratio[1] + QFratio[2] + QFratio[3])
@@ -29,21 +27,16 @@ get_transition_probs = function(kcHD, kcDH, QFratio, deltaT) {
 }
 
 
-
 get_HD_matrix = function(sequence, time_sequence, transition_probs, M = 3000, N = length(sequence)) {
-  
-  HDmatrix = matrix(1, N, M) #0=H; 1=D
-  
+  HDmatrix = matrix(1, M, N) #0=H; 1=D
   for(time in time_sequence) {
-    rand_unif_matrix = matrix(runif(M * N), N, M)
+    rand_unif_matrix = matrix(runif(M * N), M, N)
     HD_zeros = (HDmatrix == 0)
     HD_ones = (HDmatrix == 1)
-    HDmatrix[HD_zeros & rand_unif_matrix <= transition_probs[["HD"]]] = 1
-    HDmatrix[HD_ones  & rand_unif_matrix <= transition_probs[["DH"]]] = 0
+    HDmatrix[HD_zeros & rand_unif_matrix <= matrix(rep(transition_probs[["HD"]], M), nrow = M)] = 1
+    HDmatrix[HD_ones  & rand_unif_matrix <= matrix(rep(transition_probs[["DH"]], M), nrow = M)] = 0
     print(time)
   }
-  
-  HDmatrix = t(HDmatrix)
   # consider N-term two residues and Prolines
   for (i in 1:N) {
     if (i < 3 || sequence[i] == "P") {
@@ -53,8 +46,6 @@ get_HD_matrix = function(sequence, time_sequence, transition_probs, M = 3000, N 
   }
   HDmatrix
 }
-
-
 
 
 get_obsDistr = function(HDmatrix, M = 3000) {
