@@ -37,7 +37,7 @@ get_HD_matrices = function(sequence, time_sequence, transition_probs, times,
   separated_times = split(time_sequence, cut(time_sequence, c(0, time_to_record),
                                              include.lowest = TRUE))
   hd_matrices = vector("list", length(times))
-  HDmatrix = matrix(0L, M, length(sequence)) #0=H; 1=D
+  HDmatrix = matrix(1L, M, length(sequence)) #0=H; 1=D
 
   for(i in 1:length(hd_matrices)) {
     HDmatrix = get_deuteration_single_timepoint(HDmatrix, separated_times[[i]],
@@ -115,3 +115,28 @@ do_simulation = function(sequence, charge, pf = 1, time_p = c(0.015, 0.1),
 get_centroided_mz = function(mz, intensity) {
   weighted.mean(mz, intensity)
 }
+
+
+sequence = "KITEGKLVIWINGDKGYNGLAEVGKKFEKDTGIKVTVEHPDKLEEKFPQVAATGD"
+charge = 3
+time_p  = c(15, 40)/1000
+pf = 3
+ph = 9
+QFratio = c(1, 10, 2, 2)
+temperature_C = 15
+molType = "poly"
+ph = 9
+
+end_spec = do_simulation(sequence, charge, pf, time_p)
+
+
+ggplot(dplyr::filter(end_spec, intensity > 1e-4), 
+       aes(x = mz, ymin = 0, ymax = intensity, color = as.character(time))) +
+  geom_linerange() +
+  facet_wrap(~sequence) +
+  theme_bw()
+
+
+
+
+
