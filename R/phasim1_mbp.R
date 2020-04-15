@@ -12,6 +12,7 @@ get_deuteration_single_timepoint = function(initial_matrix, time_sequence,
   M = nrow(initial_matrix)
   N = ncol(initial_matrix)
   for(time in time_sequence) {
+    set.seed(round(1e6*time))
     rand_unif_matrix = matrix(runif(M * N), M, N)
     HD_zeros = (initial_matrix == 0L)
     HD_ones = (initial_matrix == 1L)
@@ -61,7 +62,7 @@ get_obsDistr = function(HDmatrix, distND, maxD, M = 3000) {
 }
 
 #' @export
-do_simulation = function(sequence, charge, pf = 1, time_p = c(1, 60)/1000,
+do_simulation = function(sequence, charge, pf = 1, time_p = c(0.015, 0.1),
                          ph = 9, QFratio = c(1, 10, 2, 2), temperature_C = 15,
                          M = 3000) {
 
@@ -111,6 +112,6 @@ do_simulation = function(sequence, charge, pf = 1, time_p = c(1, 60)/1000,
 
 #' @export
 #' @importFrom stats weighted.mean
-get_centroided_mz = function(spectrum) {
-  weighted.mean(spectrum$mz, spectrum$intensity)
+get_centroided_mz = function(mz, intensity) {
+  weighted.mean(mz, intensity)
 }
