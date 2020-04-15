@@ -1,5 +1,5 @@
 
-get_transition_probs = function(kcHD, kcDH, QFratio, deltaT) {
+get_transition_probs = function(kcHD, kcDH, QFratio, deltaT, pf) {
   Dfraction = QFratio[1]/(QFratio[1] + QFratio[2] + QFratio[3])
   Hfraction =(QFratio[2] + QFratio[3])/(QFratio[1] + QFratio[2] + QFratio[3])
 
@@ -31,12 +31,12 @@ get_recording_times = function(exchange_times, experiment_times) {
 }
 
 get_HD_matrices = function(sequence, time_sequence, transition_probs, times,
-                         M = 3000, N = length(sequence)) {
+                           M = 3000) {
   time_to_record = get_recording_times(time_sequence, times)
   separated_times = split(time_sequence, cut(time_sequence, c(0, time_to_record),
                                              include.lowest = TRUE))
   hd_matrices = vector("list", length(times))
-  HDmatrix = matrix(0L, M, N) #0=H; 1=D
+  HDmatrix = matrix(0L, M, length(sequence)) #0=H; 1=D
 
   for(i in 1:length(hd_matrices)) {
     HDmatrix = get_deuteration_single_timepoint(HDmatrix, separated_times[[i]],
@@ -49,9 +49,8 @@ get_HD_matrices = function(sequence, time_sequence, transition_probs, times,
 
 get_obsDistr = function(HDmatrix, distND, maxD, M = 3000) {
   Distr = rep(0, maxD + 1)
-  deltaMass = rep(0, M)
+  deltaMass = rowSums(HDmatrix)
   for (i in 1:M){
-    deltaMass[i] = sum(HDmatrix[i, ])
     Distr[deltaMass[i] + 1] = Distr[deltaMass[i] + 1] + 1 # Distr(x) means x-1 units of mass above monoisotopic
   }
   Distr = Distr / sum(Distr) #normalization
@@ -82,7 +81,7 @@ do_simulation = function(sequence, charge, pf = 1, time_p = c(1, 60)/1000,
   deltaT = 0.1/kmax   #step size of simulation time
   time_sequence = seq(0, max(time_p), deltaT)
 
-  transition_probs = get_transition_probs(kcHD, kcDH, QFratio, deltaT)
+  transition_probs = get_transition_probs(kcHD, kcDH, QFratio, deltaT, pf)
   HDmatrix = get_HD_matrices(sequence, time_sequence, transition_probs, time_p, M)
 
   isotope_dists = lapply(1:length(time_p), function(ith_time) {
