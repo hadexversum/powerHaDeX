@@ -51,9 +51,9 @@ get_HD_matrices = function(sequence, time_sequence, transition_probs, times,
 get_obsDistr = function(HDmatrix, distND, maxD, M = 3000) {
   Distr = rep(0, maxD + 1)
   deltaMass = rowSums(HDmatrix)
-  for (i in 1:M){
-    Distr[deltaMass[i] + 1] = Distr[deltaMass[i] + 1] + 1 # Distr(x) means x-1 units of mass above monoisotopic
-  }
+
+  Distr[sort(unique(deltaMass)) + 1] = table(deltaMass)
+
   Distr = Distr / sum(Distr) #normalization
   #do convolution with allH peaks:
   obsDistr = conv(distND, Distr)
@@ -93,10 +93,8 @@ do_simulation = function(sequence, charge, pf = 1, time_p = c(0.015, 0.1),
     obsPeaks[1, 1] = peptideMass / charge + 1.007276 # m/z of mono; 1.007276 is the mass of proton
     obsPeaks[1, 2] = obsDistr[1]
 
-    for (i in 2:(maxD + maxND + 1)){
-      obsPeaks[i, 1] = obsPeaks[i - 1, 1] + DM / charge
-      obsPeaks[i, 2] = obsDistr[i]
-    }
+    obsPeaks[2:(maxD + maxND + 1), 1] = obsPeaks[(2:(maxD + maxND + 1)) - 1, 1] + DM / charge
+    obsPeaks1[2:(maxD + maxND + 1), 2] = obsDistr[2:(maxD + maxND + 1)]
 
     data.frame(
       time = time_p[ith_time],
@@ -130,7 +128,7 @@ ph = 9
 end_spec = do_simulation(sequence, charge, pf, time_p)
 
 
-ggplot(dplyr::filter(end_spec, intensity > 1e-4), 
+ggplot(dplyr::filter(end_spec, intensity > 1e-4),
        aes(x = mz, ymin = 0, ymax = intensity, color = as.character(time))) +
   geom_linerange() +
   facet_wrap(~sequence) +
