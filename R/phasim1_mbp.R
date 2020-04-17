@@ -25,13 +25,7 @@ get_deuteration_single_timepoint = function(initial_matrix, time_sequence,
 
 get_recording_times = function(exchange_times, experiment_times) {
     # TODO: this requires tests
-
-    number_of_times = length(experiment_times)
-
-    exchange_times_matrix = matrix(rep(exchange_times, number_of_times), byrow = TRUE, nrow = number_of_times)
-    experiment_times_matrix = matrix(rep(experiment_times, length(exchange_times)), nrow = number_of_times)
-
-    exchange_times[sort(rowSums(exchange_times_matrix <= experiment_times_matrix))]
+    exchange_times[findInterval(experiment_times, exchange_times)]
 }
 
 get_HD_matrices = function(sequence, time_sequence, transition_probs, times,
