@@ -24,11 +24,14 @@ get_deuteration_single_timepoint = function(initial_matrix, time_sequence,
 
 
 get_recording_times = function(exchange_times, experiment_times) {
-  # TODO: this requires tests
-  # TODO: drop sapply
-  sapply(experiment_times, function(single_timepoint) {
-    max(exchange_times[exchange_times <= single_timepoint])
-  })
+    # TODO: this requires tests
+
+    number_of_times = length(experiment_times)
+
+    exchange_times_matrix = matrix(rep(exchange_times, number_of_times), byrow = TRUE, nrow = number_of_times)
+    experiment_times_matrix = matrix(rep(experiment_times, length(exchange_times)), nrow = number_of_times)
+
+    exchange_times[sort(rowSums(exchange_times_matrix <= experiment_times_matrix))]
 }
 
 get_HD_matrices = function(sequence, time_sequence, transition_probs, times,
@@ -51,9 +54,7 @@ get_HD_matrices = function(sequence, time_sequence, transition_probs, times,
 get_obsDistr = function(HDmatrix, distND, maxD, M = 3000) {
   Distr = rep(0, maxD + 1)
   deltaMass = rowSums(HDmatrix)
-
   Distr[sort(unique(deltaMass)) + 1] = table(deltaMass)
-
   Distr = Distr / sum(Distr) #normalization
   #do convolution with allH peaks:
   obsDistr = conv(distND, Distr)
