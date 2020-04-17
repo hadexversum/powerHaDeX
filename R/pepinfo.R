@@ -18,16 +18,12 @@ pepinfo = function(sequence) {
     distN = dbinom(seq(0, n_nitrogen), n_nitrogen, pN15)
     dist = dbinom(seq(0, n_oxygen), n_oxygen, pO18)
     distO = rep(0, 2*n_oxygen + 1)
+    distO[seq(1, 2*n_oxygen + 1, 2)] = dist[1:(n_oxygen + 1)]
 
-    for (i in 1:(n_oxygen + 1)) {
-        distO[i*2 - 1] = dist[i]
-    }
     if (!is.na(n_sulfer)) {
         dist = dbinom(seq(0, n_sulfer), n_sulfer, pS34)
         distS = rep(0, 2 * n_sulfer+1)
-        for (i in 1:(n_sulfer + 1)){
-            distS[i*2 - 1] = dist[i]
-        }
+        distS[seq(1, 2*n_sulfer + 1, 2)] = dist[1:(n_sulfer + 1)]
     } else {
         distS = 1
     }
@@ -35,21 +31,18 @@ pepinfo = function(sequence) {
     finalDist = sort(conv(distS, conv(distO, conv(distC, distN))),
                      decreasing = TRUE) # jakiego to jest wymiaru?? wektor?
     maxND = length(finalDist) - 1  # tego nie jestem pewna??
+
     for (m in 3:(maxND + 1)){
-        if (finalDist[m] < obsCThreshold & finalDist[m-1] < obsCThreshold & finalDist[m - 2] >= obsCThreshold){
+        if (finalDist[m] < obsCThreshold & finalDist[m - 1] < obsCThreshold & finalDist[m - 2] >= obsCThreshold){
             maxND = m - 3
             break
         }
     }
 
-    distND = finalDist[1:(maxND+1)]
+    distND = finalDist[1:(maxND + 1)]
     # calculate maxD:
     maxD = length(sequence) - 2 # exclude N-terminal two residues
-    for (m in 3:length(sequence)) {
-        if (sequence[m] == 'P') {  #exclude Proline
-            maxD = maxD - 1
-        }
-    }
+    maxD = maxD - sum(sequence[3:length(sequence)] == 'P')
 
     return(list(peptide_mass, distND, maxND, maxD))
 }
