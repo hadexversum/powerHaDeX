@@ -7,6 +7,7 @@ get_transition_probs = function(kcHD, kcDH, QFratio, deltaT, pf) {
        DH = (1 - exp(- kcDH * deltaT / pf)) * Hfraction)
 }
 
+
 get_deuteration_single_timepoint = function(initial_matrix, time_sequence,
                                             transition_probs) {
   M = nrow(initial_matrix)
@@ -28,17 +29,19 @@ get_recording_times = function(exchange_times, experiment_times) {
     exchange_times[findInterval(experiment_times, exchange_times)]
 }
 
-get_HD_matrices = function(sequence, time_sequence, transition_probs, times,
-                           M = 3000) {
+
+get_HD_matrices = function(sequence, time_sequence, transition_probs, times, M = 3000) {
   time_to_record = get_recording_times(time_sequence, times)
   separated_times = split(time_sequence, cut(time_sequence, c(0, time_to_record),
                                              include.lowest = TRUE))
   hd_matrices = vector("list", length(times))
-  HDmatrix = matrix(1L, M, length(sequence)) #0=H; 1=D
+  HDmatrix = matrix(0L, M, length(sequence)) #0=H; 1=D
 
   for(i in 1:length(hd_matrices)) {
     HDmatrix = get_deuteration_single_timepoint(HDmatrix, separated_times[[i]],
                                                 transition_probs)
+
+    HDmatrix[, unique(c(1, 2, which(sequence == "P")))] = 0 #all must be H
     hd_matrices[[i]] = HDmatrix
   }
   hd_matrices
@@ -55,6 +58,7 @@ get_obsDistr = function(HDmatrix, distND, maxD, M = 3000) {
   obsDistr = obsDistr / sum(obsDistr) # normalization
   obsDistr
 }
+
 
 #' @export
 do_simulation = function(sequence, charge, pf = 1, time_p = c(0.015, 0.1),
@@ -89,7 +93,7 @@ do_simulation = function(sequence, charge, pf = 1, time_p = c(0.015, 0.1),
     obsPeaks[1, 2] = obsDistr[1]
 
     obsPeaks[2:(maxD + maxND + 1), 1] = obsPeaks[(2:(maxD + maxND + 1)) - 1, 1] + DM / charge
-    obsPeaks1[2:(maxD + maxND + 1), 2] = obsDistr[2:(maxD + maxND + 1)]
+    obsPeaks[2:(maxD + maxND + 1), 2] = obsDistr[2:(maxD + maxND + 1)]
 
     data.frame(
       time = time_p[ith_time],
@@ -112,7 +116,7 @@ get_centroided_mz = function(mz, intensity) {
 
 sequence = "KITEGKLVIWINGDKGYNGLAEVGKKFEKDTGIKVTVEHPDKLEEKFPQVAATGD"
 charge = 3
-time_p  = c(15, 40)/1000
+times  = c(15, 40)/1000
 pf = 3
 ph = 9
 QFratio = c(1, 10, 2, 2)
@@ -120,7 +124,7 @@ temperature_C = 15
 molType = "poly"
 ph = 9
 
-end_spec = do_simulation(sequence, charge, pf, time_p)
+end_spec = do_simulation(sequence, charge, pf, time_p, QFratio = c(1, 10, 2, 2))
 
 
 ggplot(dplyr::filter(end_spec, intensity > 1e-4),
