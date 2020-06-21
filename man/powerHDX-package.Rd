@@ -1,6 +1,6 @@
-\name{HDX-test-pkg-package}
-\alias{HDX-test-pkg-package}
-\alias{HDX-test-pkg}
+\name{powerHDX-package}
+\alias{powerHDX-package}
+\alias{powerHDX}
 \docType{package}
 \title{
   A short title line describing what the package does
