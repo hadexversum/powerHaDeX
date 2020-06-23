@@ -65,5 +65,5 @@ student = function(data, compare = "Mass", alpha) {
 }
 
 
-
+student(test_data_time_1)
 
