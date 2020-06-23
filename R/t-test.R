@@ -25,7 +25,7 @@ test_data_time_1 = data %>%
 
 
 
-student = function(data, compare = "Mass", alpha) {
+student = function(data, compare = "Mass", alpha = 0.05) {
   if(compare != "Mass" & compare != "Deuteration") stop("Either Mass or Deuteration must be chosen.")
   
   States = unique(data$State)
@@ -51,14 +51,15 @@ student = function(data, compare = "Mass", alpha) {
     }else {
       p_value = NA
       conclusion = NA
+      estimate = c(NA, NA)
       warning("Sample size must be greater than 1.")
     }
     
-    c("Welch Two Sample t-test", state1, state2, estimate, 
+    c("Welch Two Sample t-test", compare, state1, state2, estimate, 
       significance_level = alpha, p_value, conclusion)
   })
   output = data.frame(t(test_results))
-  colnames(output) = c("Test", "State_1", "State_2", "Estimate_State_1", 
+  colnames(output) = c("Test", "Covariate", "State_1", "State_2", "Estimate_State_1", 
                        "Estimate_State_2", "Significance_level", "p_value", 
                        "Conclusion")
   output
