@@ -26,10 +26,10 @@ test_data_time_1 = data %>%
 
 
 student = function(data, compare = "Mass", alpha) {
-  if(compare != "Mass" & compare != "Deuteration") stop("More than one state must be chosen.")
+  if(compare != "Mass" & compare != "Deuteration") stop("Either Mass or Deuteration must be chosen.")
   
   States = unique(data$State)
-  if(length(States) < 2) stop("Either Mass or Deuteration must be chosen.")
+  if(length(States) < 2) stop("More than one state must be chosen.")
   
   tests = combinations(length(States), 2, States)
   n_tests = length(tests[,1])
