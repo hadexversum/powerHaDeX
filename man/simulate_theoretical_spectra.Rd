@@ -6,14 +6,15 @@
 \usage{
 simulate_theoretical_spectra(
   sequence,
-  charge,
+  charge = NULL,
   protection_factor = 1,
   times = c(60, 600),
   pH = 7.5,
   temperature = 15,
   n_molecules = 100,
   time_step_const = 1,
-  if_corr = 0
+  if_corr = 0,
+  min_probability = 1e-04
 )
 }
 \arguments{
@@ -36,6 +37,8 @@ same protection factor will be assumed for each amide.}
 to obtain time step. Hydrogen-deuteration exchange may occur at each of these steps.}
 
 \item{if_corr}{correction factor for pH - 0 or 1}
+
+\item{min_probability}{smallest isotopic probability to consider}
 }
 \value{
 data.frame

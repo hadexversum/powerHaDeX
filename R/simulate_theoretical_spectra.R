@@ -13,7 +13,7 @@
 #' @param min_probability smallest isotopic probability to consider
 #' @return data.frame
 #' @export
-simulate_theoretical_spectra = function(sequence, charge, protection_factor = 1,
+simulate_theoretical_spectra = function(sequence, charge = NULL, protection_factor = 1,
                                         times = c(60, 600), pH = 7.5,
                                         temperature = 15, n_molecules = 100,
                                         time_step_const = 1, if_corr = 0,
@@ -22,6 +22,9 @@ simulate_theoretical_spectra = function(sequence, charge, protection_factor = 1,
     sequence = strsplit(sequence, "")[[1]]
     if (length(protection_factor) == 1L) {
         protection_factor = rep(protection_factor, length(sequence))
+    }
+    if (is.null(charge)) {
+        charge = sample(2:6, 1)
     }
 
     peptide_iso_dist = get_approx_isotopic_distribution(sequence, min_probability)
