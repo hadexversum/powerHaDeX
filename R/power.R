@@ -1,12 +1,28 @@
-calculate_hdx_power_from_spectrum = function(theoretical_spectrum, tests, n_runs, n_replicates,
-                                            mass_deviations, intensity_deviations = NULL,
-                                            deuteration_deviations = NULL, min_probability = 1e-4) {
+get_noisy_deuteration_curves = function(theoretical_spectrum, n_runs, n_replicates,
+                                        mass_deviations, intensity_deviations = NULL,
+                                        deuteration_deviations = NULL, 
+                                        min_probability = 1e-4, relative = TRUE) {
     theoretical_spectrum = theoretical_spectrum[theoretical_spectrum$intensity > min_probability, ]
     perturbed_spectra = perturb_spectra(theoretical_spectrum, mass_deviations,
                                         intensity_deviations, n_replicates, n_runs)
     deuteration_curves = get_deuteration_curves(perturbed_spectra)
     deuteration_curves = perturb_curves(deuteration_curves, deuteration_deviations)
+    deuteration_curves = get_relative_mass(deuteration_curves, relative)
     deuteration_curves
+}
+
+get_relative_mass = function(deuterations_list, relative) {
+    if (relative) {
+        deuterations_list = lapply(deuterations_list, function(curves) {
+            by_timepoint = split(curves, curves[, c("Rep", "Sequence", "Charge", "State")])
+            relative_masses = lapply(by_timepoint, function(single_timepoint) {
+                single_timepoint$Mass = single_timepoint$Mass - single_timepoint$Mass[single_timepoint$Exposure == 0]
+                single_timepoint
+            })
+            do.call("rbind", c(relative_masses, make.row.names = FALSE))
+        })
+    }
+    deuterations_list
 }
 
 
