@@ -32,7 +32,7 @@ deuteros = function(data, significance_level = 0.05) {
   loglik[3] = logLik(model)
   p_value[3] = result$`Pr(>F)`[2]
   
-  data.table(Test = "Deuteros", #TODO: name model
+  data.table(Test = "Deuteros",
              P_value = p_value,
              Significant_difference = (p_value <= alpha),
              Time = Time,
