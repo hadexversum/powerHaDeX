@@ -4,12 +4,14 @@
 \alias{add_noise_to_curves}
 \title{Adds noise to deuteration curves}
 \usage{
-add_noise_to_curves(curves, per_run_deviations)
+add_noise_to_curves(curves, per_run_deviations, relative)
 }
 \arguments{
 \item{curves}{list of lists of deuteration curves}
 
 \item{per_run_deviations}{vector of standard deviations of per-replicate error}
+
+\item{relative}{if TRUE (default), each curve will start at 0}
 }
 \value{
 list of lists of data.tables

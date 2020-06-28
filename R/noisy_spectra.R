@@ -36,14 +36,12 @@ get_noisy_deuteration_curves = function(theoretical_spectra,
                                         intensity_deviations = NULL,
                                         per_run_deviations = NULL,
                                         relative = TRUE) {
-    Rep = Exposure = State = NULL
-
     undeuterated_mass = get_undeuterated_mass(theoretical_spectra)
     spectra = get_spectra_list(theoretical_spectra, compare_pairs, reference)
     spectra = add_noise_to_spectra(spectra, n_runs, n_replicates, undeuterated_mass,
                                    mass_deviations, intensity_deviations)
-    curves = get_deuteration_curves_from_spectra(spectra, relative)
-    curves = add_noise_to_curves(curves, per_run_deviations)
+    curves = get_deuteration_curves_from_spectra(spectra)
+    curves = add_noise_to_curves(curves, per_run_deviations, relative)
     curves = fix_columns_names_types(curves)
     curves
 }
@@ -156,66 +154,67 @@ add_noise_to_one_spectrum = function(spectrum, undeuterated_mass,
 #' Create a list of deuteration curves from a list of spectra
 #' @param spectra list created by `get_spectra_list` and `add_noise_to_spectra`
 #' functions.
-#' @param relative logical, if TRUE (default), each curve will start at 0
 #' @return list of lists of data.tables
 #' @keywords internal
-get_deuteration_curves_from_spectra = function(spectra, relative = TRUE) {
+get_deuteration_curves_from_spectra = function(spectra) {
     lapply(spectra, function(spectrum) {
         lapply(spectrum, function(replicate) {
-            get_deuteration_curve_single_spectrum(replicate, relative)
+            get_deuteration_curve_single_spectrum(replicate)
         })
     })
 }
 #' Get a deuteration curve from a single spectrum
 #' @param spectrum data.table with a spectrum
-#' @param relative if TRUE (default), each curve will start at 0
 #' @return data.table
 #' @keywords internal
-get_deuteration_curve_single_spectrum = function(spectrum, relative) {
-    Mass = Exposure = Mz = Intensity = Charge = NULL
+get_deuteration_curve_single_spectrum = function(spectrum) {
+    Mz = Intensity = Charge = NULL
 
     grouping_columns = setdiff(colnames(spectrum), c("Mz", "Intensity", "Charge"))
     spectrum = spectrum[, list(Mass = weighted.mean(Charge * (Mz - 1.007276),
                                                     Intensity)),
                         by = grouping_columns]
-    if (relative) {
-        grouping_columns = setdiff(grouping_columns, "Exposure")
-        spectrum = spectrum[, list(Exposure, Mass = get_relative_mass(Mass, Exposure)),
-                            by = grouping_columns]
-    }
     spectrum
 }
 # Noise for deuteration curves ----
 #' Adds noise to deuteration curves
 #' @param curves list of lists of deuteration curves
 #' @param per_run_deviations vector of standard deviations of per-replicate error
+#' @param relative if TRUE (default), each curve will start at 0
 #' @return list of lists of data.tables
 #' @keywords internal
-add_noise_to_curves = function(curves, per_run_deviations) {
-    if (is.null(per_run_deviations)) {
-        return(curves)
-    } else {
-        lapply(curves, function(curve) {
-            lapply(curve, function(replicate_curve) {
-                add_noise_to_single_curve(replicate_curve, per_run_deviations)
-            })
+add_noise_to_curves = function(curves, per_run_deviations, relative) {
+    lapply(curves, function(curve) {
+        lapply(curve, function(replicate_curve) {
+            add_noise_to_single_curve(replicate_curve, per_run_deviations,
+                                      relative)
         })
-    }
+    })
 }
 #' Adds noise to a single deuteration curve
 #' @param replicate_curve `data.table` with technical replicates of a deuteration curve
 #' @param per_run_deviations vector of standard deviations of random error
+#' @param relative if TRUE (default), each curve will start at 0
 #' @return `data.table`
 #' @keywords internal
-add_noise_to_single_curve = function(replicate_curve, per_run_deviations) {
-    if (length(per_run_deviations) == 1) {
-        per_run_deviations = rep(per_run_deviations, length(unique(replicate_curve$Rep)))
-    }
-    names(per_run_deviations) = as.character(unique(replicate_curve$Rep))
+add_noise_to_single_curve = function(replicate_curve, per_run_deviations, relative) {
+    Exposure = Mass = NULL
+    if (!is.null(per_run_deviations)) {
+        if (length(per_run_deviations) == 1) {
+            per_run_deviations = rep(per_run_deviations, length(unique(replicate_curve$Rep)))
+        }
+        names(per_run_deviations) = as.character(unique(replicate_curve$Rep))
 
-    replicate_curve = replicate_curve[, add_noise(.SD, per_run_deviations),
-                                      by = "Rep", .SDcols = colnames(replicate_curve)]
-    replicate_curve = replicate_curve[, -1, with = FALSE]
+        replicate_curve = replicate_curve[, add_noise(.SD, per_run_deviations),
+                                          by = "Rep", .SDcols = colnames(replicate_curve)]
+        replicate_curve = replicate_curve[, -1, with = FALSE]
+    }
+    if (relative) {
+        grouping_columns = setdiff(colnames(replicate_curve),
+                                   c("Mass", "Charge", "Exposure"))
+        replicate_curve = replicate_curve[, list(Exposure, Mass = get_relative_mass(Mass, Exposure)),
+                                          by = grouping_columns]
+    }
     replicate_curve
 }
 # Smaller utility functions ----
