@@ -42,7 +42,7 @@ memhdx_model = function(data, significance_level = 0.05) {
   data.table(Test = "MEMHDX lmm",
              State_1 = States[1],
              State_2 = States[2],
-             F_statistic = F_statistic,
+             Test_statistic = Test_statistic,
              P_value = p_value,
              Significant_difference = (p_value <= significance_level),
              Time = Time,
