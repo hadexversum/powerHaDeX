@@ -5,18 +5,22 @@
 #' @param significance_level significance level that will be used for testing
 #'
 #' @return list of data.tables with test result, optionally summarized with power
-#' @importFrom data.table rbindlist
+#' @importFrom data.table rbindlist uniqueN
 #' @export
 #'
 calculate_hdx_power = function(deuteration_curves, tests, significance_level = 0.05,
                                summarized = TRUE) {
-    Significant_difference = NULL
+    Significant_difference = Sequence = Rep = State = Exposure = NULL
 
     test_results = lapply(
         deuteration_curves, function(curve) {
             single_curve = lapply(curve, function(replicate_curve) {
                 all_tests = lapply(tests, function(test) {
-                    test(replicate_curve, significance_level = 0.05)
+                    info = replicate_curve[, list(Sequence = unique(Sequence),
+                                                  Num_replicates = uniqueN(Rep),
+                                                  Num_states = uniqueN(State),
+                                                  Num_timepoints = uniqueN(Exposure))]
+                    cbind(info, test(replicate_curve, significance_level = 0.05))
                 })
                 data.table::rbindlist(all_tests)
             })
@@ -31,5 +35,5 @@ calculate_hdx_power = function(deuteration_curves, tests, significance_level = 0
             test_result[, .(Power = mean(Significant_difference)), by = grouping_columns]
         })
     }
-    test_results
+    rbindlist(test_results)
 }
