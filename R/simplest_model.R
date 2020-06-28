@@ -32,6 +32,7 @@ deuteros = function(data, significance_level = 0.05) {
   aic[3] = AIC(model)
   loglik[3] = logLik(model)
   p_value[3] = result$`Pr(>F)`[2]
+<<<<<<< HEAD
 
   data.table::data.table(Test = "Deuteros", #TODO: name model
                          P_value = p_value,
@@ -40,5 +41,15 @@ deuteros = function(data, significance_level = 0.05) {
                          Transformation = Transformation,
                          AIC = aic,
                          logLik = loglik)
+=======
+  
+  data.table(Test = "Deuteros",
+             P_value = p_value,
+             Significant_difference = (p_value <= alpha),
+             Time = Time,
+             Transformation = Transformation,
+             AIC = aic,
+             logLik = loglik)
+>>>>>>> master
 }
 
