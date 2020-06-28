@@ -8,8 +8,6 @@ get_deuteration_curve_single_spectrum(spectrum, relative)
 }
 \arguments{
 \item{spectrum}{data.table with a spectrum}
-
-\item{relative}{if TRUE (default), each curve will start at 0}
 }
 \value{
 data.table

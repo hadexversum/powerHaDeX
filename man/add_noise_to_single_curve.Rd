@@ -4,7 +4,7 @@
 \alias{add_noise_to_single_curve}
 \title{Adds noise to a single deuteration curve}
 \usage{
-add_noise_to_single_curve(replicate_curve, per_run_deviations)
+add_noise_to_single_curve(replicate_curve, per_run_deviations, relative)
 }
 \arguments{
 \item{replicate_curve}{`data.table` with technical replicates of a deuteration curve}
