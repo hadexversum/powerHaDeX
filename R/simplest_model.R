@@ -32,7 +32,7 @@ deuteros = function(data, significance_level = 0.05) {
   p_value[2] = result$`Pr(>F)`[2]
 
   # continuous, log
-  model = lm(log(Mass + 1) ~ Exposure*State, data = data)
+  model = lm(Mass ~ log(Exposure + 1)*State, data = data)
   result = anova(model)
   aic[3] = AIC(model)
   loglik[3] = logLik(model)

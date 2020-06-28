@@ -1,7 +1,7 @@
 library(lme4)
 library(lmerTest)
 
-jurgen_model = function(data, significance_level = 0.05) {
+memhdx_model = function(data, significance_level = 0.05) {
   
   States = unique(data$State)
   
@@ -31,7 +31,7 @@ jurgen_model = function(data, significance_level = 0.05) {
   p_value[2] = result$`Pr(>F)`[1]
   
   # continuous, log
-  model = lmer(log(Mass+1) ~ State + Exposure*State + Exposure + (1|Rep), data = data)
+  model = lmer(Mass ~ State + log(Exposure+1)*State + log(Exposure+1) + (1|Rep), data = data)
   result = anova(model)
   aic[3] = AIC(model)
   loglik[3] = logLik(model)
