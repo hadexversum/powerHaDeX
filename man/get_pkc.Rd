@@ -14,3 +14,4 @@ get_pkc(temp_kelvin, gas_constant, exchange = "HD")
 \description{
 Constant related to...
 }
+\keyword{internal}

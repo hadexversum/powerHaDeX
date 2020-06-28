@@ -39,9 +39,11 @@ to obtain time step. Hydrogen-deuteration exchange may occur at each of these st
 \item{if_corr}{correction factor for pH - 0 or 1}
 
 \item{min_probability}{smallest isotopic probability to consider}
+
+\item{importFrom}{data.table as.data.table}
 }
 \value{
-data.frame
+data.table
 }
 \description{
 Simulate theoretical spectra of a deuterated peptide over time

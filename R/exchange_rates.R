@@ -52,6 +52,7 @@ get_poly_const = function(mol_type, exchange = "HD") {
 
 #' Constant related to...
 #' @inheritParams get_F_const
+#' @keywords internal
 get_pkc = function(temp_kelvin, gas_constant, exchange = "HD") {
     # Unit: cal / mol
     if (exchange == "HD") {

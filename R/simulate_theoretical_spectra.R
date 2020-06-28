@@ -11,7 +11,8 @@
 #' to obtain time step. Hydrogen-deuteration exchange may occur at each of these steps.
 #' @param if_corr correction factor for pH - 0 or 1
 #' @param min_probability smallest isotopic probability to consider
-#' @return data.frame
+#' @param importFrom data.table as.data.table
+#' @return data.table
 #' @export
 simulate_theoretical_spectra = function(sequence, charge = NULL, protection_factor = 1,
                                         times = c(60, 600), pH = 7.5,
@@ -81,8 +82,13 @@ simulate_theoretical_spectra = function(sequence, charge = NULL, protection_fact
                                      pH = pH),
                           isotope_dists)
     isotope_dists$sequence = paste0(sequence, collapse = "")
-    isotope_dists$protection_factor = protection_factor[1] # TODO: what if it's a vector?
+    if (length(unique(protection_factor)) == 1) {
+        isotope_dists$protection_factor = protection_factor[1]
+    } else {
+        isotope_dists$protection_factor = paste(protection_factor,
+                                                sep = ",", collapse = ",")
+    }
     isotope_dists$charge = charge
     isotope_dists = isotope_dists[isotope_dists$intensity > min_probability, ]
-    isotope_dists
+    data.table::as.data.table(isotope_dists)
 }
