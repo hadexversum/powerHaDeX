@@ -2,17 +2,17 @@ library(lme4)
 library(lmerTest)
 
 memhdx_model = function(data, significance_level = 0.05) {
-  
+
   States = unique(data$State)
-  
+
   Time = c("continuous", "categorical", "continuous")
   Transformation = c("identity", "identity", "log")
-  
+
   aic = rep(NA, 3)
   loglik = rep(NA, 3)
   Test_statistic = rep(NA, 3)
   p_value = rep(NA, 3)
-  
+
   # continuous, identity
   model = lmer(Mass ~ State + Exposure*State + Exposure + (1|Rep), 
                data = data,

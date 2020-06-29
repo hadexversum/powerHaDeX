@@ -20,7 +20,11 @@ calculate_hdx_power = function(deuteration_curves, tests, significance_level = 0
                                                   Num_replicates = uniqueN(Rep),
                                                   Num_states = uniqueN(State),
                                                   Num_timepoints = uniqueN(Exposure))]
-                    cbind(info, test(replicate_curve, significance_level = 0.05))
+                    test_for_replicate = suppressWarnings(
+                        test(replicate_curve,
+                             significance_level = 0.05)
+                    )
+                    cbind(info, test_for_replicate)
                 })
                 data.table::rbindlist(all_tests)
             })
