@@ -14,10 +14,10 @@ jurgen_model = function(data, alpha = 0.05) {
   p_value = rep(NA, 3)
   
   # continuous, identity
-  model = lmer(Mass ~ State + Exposure*State + Exposure + (Rep| Exposure) + (1|State), 
+  model = lmer(Mass ~ State * Exposure + (1 + Exposure|Sequence), 
                data = data,
                REML = FALSE)
-  model_reduced = lmer(Mass ~ Exposure + (Rep| Exposure), 
+  model_reduced = lmer(Mass ~ Exposure + (1 + Exposure|Sequence), 
                        data = data,
                        REML = FALSE)
   result = anova(model, model_reduced)
@@ -26,24 +26,33 @@ jurgen_model = function(data, alpha = 0.05) {
   p_value[1] = result$`Pr(>Chisq)`[2]
   
   # categorical, identity
-  model = out <- lmer(Mass ~ State * factor(Exposure) + (1 + Exposure|Sequence), 
-                      data = data)
-  result = anova(model)
+  model = lmer(Mass ~ State * factor(Exposure) + (1 + Exposure|Sequence), 
+               data = data,
+               REML = FALSE)
+  model_reduced = lmer(Mass ~ factor(Exposure) + (1 + Exposure|Sequence), 
+                       data = data,
+                       REML = FALSE)
+  result = anova(model, model_reduced)
   aic[2] = AIC(model)
   loglik[2] = logLik(model)
   Test_statistic[2] = result$Chisq[2]
   p_value[2] = result$`Pr(>Chisq)`[2]
   
   # continuous, log
-  model = lmer(log(Mass+1) ~ State + log(Exposure+1)*State + log(Exposure+1) + (Rep| Exposure) + (1|State), data = data)
-  result = anova(model)
+  model = lmer(Mass ~ State * log(Exposure+1) + (1 + log(Exposure+1)|Sequence), 
+               data = data,
+               REML = FALSE)
+  model_reduced = lmer(Mass ~ log(Exposure+1) + (1 + log(Exposure+1)|Sequence), 
+                       data = data,
+                       REML = FALSE)
+  result = anova(model, model_reduced)
   aic[3] = AIC(model)
   loglik[3] = logLik(model)
   Test_statistic[3] = result$Chisq[2]
   p_value[3] = result$`Pr(>Chisq)`[2]
   
   
-  data.frame(Test = "Jurgen Cl", 
+  data.frame(Test = "Jurgen Claesen lmm", 
              State_1 = States[1],
              State_2 = States[2],
              Test_statistic = Test_statistic,
