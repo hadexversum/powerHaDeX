@@ -14,10 +14,10 @@ jurgen_model = function(data, alpha = 0.05) {
   p_value = rep(NA, 3)
   
   # continuous, identity
-  model = lmer(Mass ~ State * Exposure + (1 + Exposure|Sequence), 
+  model = lmer(Mass ~ State * Exposure , 
                data = data,
                REML = FALSE)
-  model_reduced = lmer(Mass ~ Exposure + (1 + Exposure|Sequence), 
+  model_reduced = lmer(Mass ~ Exposure , 
                        data = data,
                        REML = FALSE)
   result = anova(model, model_reduced)
@@ -26,10 +26,10 @@ jurgen_model = function(data, alpha = 0.05) {
   p_value[1] = result$`Pr(>Chisq)`[2]
   
   # categorical, identity
-  model = lmer(Mass ~ State * factor(Exposure) + (1 + Exposure|Sequence), 
+  model = lmer(Mass ~ State * factor(Exposure) , 
                data = data,
                REML = FALSE)
-  model_reduced = lmer(Mass ~ factor(Exposure) + (1 + Exposure|Sequence), 
+  model_reduced = lmer(Mass ~ factor(Exposure) , 
                        data = data,
                        REML = FALSE)
   result = anova(model, model_reduced)
@@ -39,10 +39,10 @@ jurgen_model = function(data, alpha = 0.05) {
   p_value[2] = result$`Pr(>Chisq)`[2]
   
   # continuous, log
-  model = lmer(Mass ~ State * log(Exposure+1) + (1 + log(Exposure+1)|Sequence), 
+  model = lmer(Mass ~ State * log(Exposure+1) , 
                data = data,
                REML = FALSE)
-  model_reduced = lmer(Mass ~ log(Exposure+1) + (1 + log(Exposure+1)|Sequence), 
+  model_reduced = lmer(Mass ~ log(Exposure+1) , 
                        data = data,
                        REML = FALSE)
   result = anova(model, model_reduced)
