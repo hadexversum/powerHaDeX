@@ -14,29 +14,44 @@ memhdx_model = function(data, significance_level = 0.05) {
   p_value = rep(NA, 3)
   
   # continuous, identity
-  model = lmer(Mass ~ State + Exposure*State + Exposure + (1|Rep), data = data)
-  result = anova(model)
+  model = lmer(Mass ~ State + Exposure*State + Exposure + (1|Rep), 
+               data = data,
+               REML = FALSE)
+  model_reduced = lmer(Mass ~ Exposure + (1|Rep), 
+                       data = data,
+                       REML = FALSE)
+  result = anova(model, model_reduced)
   aic[1] = AIC(model)
   loglik[1] = logLik(model)
-  Test_statistic[1] = result$`F value`[1]
-  p_value[1] = result$`Pr(>F)`[1]
+  Test_statistic[1] = result$Chisq[2]
+  p_value[1] = result$`Pr(>Chisq)`[2]
   
   
   # categorical, identity
-  model = lmer(Mass ~ State + factor(Exposure)*State + factor(Exposure) + (1|Rep), data = data)
-  result = anova(model)
+  model = lmer(Mass ~ State + factor(Exposure)*State + factor(Exposure) + (1|Rep), 
+               data = data,
+               REML = FALSE)
+  model_reduced = lmer(Mass ~ factor(Exposure) + (1|Rep), 
+                       data = data,
+                       REML = FALSE)
+  result = anova(model, model_reduced)
   aic[2] = AIC(model)
   loglik[2] = logLik(model)
-  Test_statistic[2] = result$`F value`[1]
-  p_value[2] = result$`Pr(>F)`[1]
+  Test_statistic[2] = result$Chisq[2]
+  p_value[2] = result$`Pr(>Chisq)`[2]
   
   # continuous, log
-  model = lmer(Mass ~ State + log(Exposure+1)*State + log(Exposure+1) + (1|Rep), data = data)
-  result = anova(model)
+  model = lmer(Mass ~ State + log(Exposure+1)*State + log(Exposure+1) + (1|Rep), 
+               data = data,
+               REML = FALSE)
+  model_reduced = lmer(Mass ~ log(Exposure+1)+ (1|Rep), 
+               data = data,
+               REML = FALSE)
+  result = anova(model, model_reduced)
   aic[3] = AIC(model)
   loglik[3] = logLik(model)
-  Test_statistic[3] = result$`F value`[1]
-  p_value[3] = result$`Pr(>F)`[1]
+  Test_statistic[3] = result$Chisq[2]
+  p_value[3] = result$`Pr(>Chisq)`[2]
   
   
   data.table(Test = "MEMHDX lmm",

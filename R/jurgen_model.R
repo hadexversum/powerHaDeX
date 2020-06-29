@@ -3,43 +3,54 @@ library(lmerTest)
 
 jurgen_model = function(data, alpha = 0.05) {
   
+  States = unique(data$State)
+  
   Time = c("continuous", "categorical", "continuous")
   Transformation = c("identity", "identity", "log")
   
   aic = rep(NA, 3)
   loglik = rep(NA, 3)
+  Test_statistic = rep(NA, 3)
   p_value = rep(NA, 3)
   
   # continuous, identity
-  model = lmer(Mass ~ State + Exposure*State + Exposure + (Rep| Exposure) + (1|State), data = data)
-  result = anova(model)
+  model = lmer(Mass ~ State + Exposure*State + Exposure + (Rep| Exposure) + (1|State), 
+               data = data,
+               REML = FALSE)
+  model_reduced = lmer(Mass ~ Exposure + (Rep| Exposure), 
+                       data = data,
+                       REML = FALSE)
+  result = anova(model, model_reduced)
   aic[1] = AIC(model)
-  loglik[1] = logLik(model)
-  p_value[1] = result$`Pr(>F)`[1]
+  Test_statistic[1] = result$Chisq[2]
+  p_value[1] = result$`Pr(>Chisq)`[2]
   
   # categorical, identity
-  model = lmer(Mass ~ State + factor(Exposure)*State + factor(Exposure) + (Rep| Exposure) + (1|State), data = data)
+  model = out <- lmer(Mass ~ State * factor(Exposure) + (1 + Exposure|Sequence), 
+                      data = data)
   result = anova(model)
   aic[2] = AIC(model)
   loglik[2] = logLik(model)
-  p_value[2] = result$`Pr(>F)`[1]
+  Test_statistic[2] = result$Chisq[2]
+  p_value[2] = result$`Pr(>Chisq)`[2]
   
   # continuous, log
-  model = lmer(log(Mass+1) ~ State + Exposure*State + Exposure + (Rep| Exposure) + (1|State), data = data)
+  model = lmer(log(Mass+1) ~ State + log(Exposure+1)*State + log(Exposure+1) + (Rep| Exposure) + (1|State), data = data)
   result = anova(model)
   aic[3] = AIC(model)
   loglik[3] = logLik(model)
-  p_value[3] = result$`Pr(>F)`[1]
-
+  Test_statistic[3] = result$Chisq[2]
+  p_value[3] = result$`Pr(>Chisq)`[2]
   
-  if (p_value <= alpha) {
-    conclusion = "different"
-  } else {
-    conclusion = "equal"
-  }
   
-  data.frame(Test = "Jurgen Cl", #TODO: name model
-             Covariate = compare,
-             p_value = p_value,
-             conclusion = conclusion)
+  data.frame(Test = "Jurgen Cl", 
+             State_1 = States[1],
+             State_2 = States[2],
+             Test_statistic = Test_statistic,
+             P_value = p_value,
+             Significant_difference = (p_value <= significance_level),
+             Time = Time,
+             Transformation = Transformation,
+             AIC = aic,
+             logLik = loglik)
 }
