@@ -70,8 +70,8 @@ get_spectra_list = function(theoretical_spectra, compare_pairs, reference) {
 get_paired_spectra = function(theoretical_spectra, reference) {
     PF = NULL
     reference_spectrum = theoretical_spectra[abs(PF - reference) < 1e-9, ]
-    theoretical_spectra = split(theoretical_spectra,
-                                theoretical_spectra$PF)
+    theoretical_spectra = split(theoretical_spectra[abs(PF - reference) > 1e-9, ],
+                                theoretical_spectra[abs(PF - reference) > 1e-9, ]$PF)
     theoretical_spectra = lapply(theoretical_spectra,
                                  function(spectrum) rbind(spectrum, reference_spectrum))
     unname(theoretical_spectra)
