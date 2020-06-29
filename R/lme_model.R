@@ -1,7 +1,6 @@
 #' Linear mixed effects model proposed by Jurgen Claesen
 #' @param data data.table of deuteration curves
 #' @param significance_level significance level for testing
-#' @importFrom lme4 lmer
 #' @import lmerTest
 #' @export
 lme_model = function(data, significance_level = 0.05) {
@@ -20,7 +19,7 @@ lme_model = function(data, significance_level = 0.05) {
   model = lmer4::lmer(Mass ~ State * Exposure ,
                       data = data,
                       REML = FALSE)
-  model_reduced = lme4::lmer(Mass ~ Exposure ,
+  model_reduced = lmerTest::lmer(Mass ~ Exposure ,
                              data = data,
                              REML = FALSE)
   result = anova(model, model_reduced)
@@ -29,10 +28,10 @@ lme_model = function(data, significance_level = 0.05) {
   p_value[1] = result$`Pr(>Chisq)`[2]
 
   # categorical, identity
-  model = lme4::lmer(Mass ~ State * factor(Exposure) ,
+  model = lmerTest::lmer(Mass ~ State * factor(Exposure) ,
                      data = data,
                      REML = FALSE)
-  model_reduced = lme4::lmer(Mass ~ factor(Exposure) ,
+  model_reduced = lmerTest::lmer(Mass ~ factor(Exposure) ,
                              data = data,
                              REML = FALSE)
   result = anova(model, model_reduced)
@@ -42,10 +41,10 @@ lme_model = function(data, significance_level = 0.05) {
   p_value[2] = result$`Pr(>Chisq)`[2]
 
   # continuous, log
-  model = lme4::lmer(Mass ~ State * log(Exposure+1) ,
+  model = lmerTest::lmer(Mass ~ State * log(Exposure+1) ,
                      data = data,
                      REML = FALSE)
-  model_reduced = lme4::lmer(Mass ~ log(Exposure+1) ,
+  model_reduced = lmerTest::lmer(Mass ~ log(Exposure+1) ,
                              data = data,
                              REML = FALSE)
   result = anova(model, model_reduced)

@@ -4,7 +4,7 @@
 \alias{get_deuteration_curve_single_spectrum}
 \title{Get a deuteration curve from a single spectrum}
 \usage{
-get_deuteration_curve_single_spectrum(spectrum, relative)
+get_deuteration_curve_single_spectrum(spectrum)
 }
 \arguments{
 \item{spectrum}{data.table with a spectrum}

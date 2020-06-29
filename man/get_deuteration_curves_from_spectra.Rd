@@ -4,13 +4,11 @@
 \alias{get_deuteration_curves_from_spectra}
 \title{Create a list of deuteration curves from a list of spectra}
 \usage{
-get_deuteration_curves_from_spectra(spectra, relative = TRUE)
+get_deuteration_curves_from_spectra(spectra)
 }
 \arguments{
 \item{spectra}{list created by `get_spectra_list` and `add_noise_to_spectra`
 functions.}
-
-\item{relative}{logical, if TRUE (default), each curve will start at 0}
 }
 \value{
 list of lists of data.tables

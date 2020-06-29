@@ -10,6 +10,8 @@ add_noise_to_single_curve(replicate_curve, per_run_deviations, relative)
 \item{replicate_curve}{`data.table` with technical replicates of a deuteration curve}
 
 \item{per_run_deviations}{vector of standard deviations of random error}
+
+\item{relative}{if TRUE (default), each curve will start at 0}
 }
 \value{
 `data.table`
