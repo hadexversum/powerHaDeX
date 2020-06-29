@@ -1,70 +1,61 @@
-
-
-
-simplest_model = function(data, compare = "Deuteration", alpha = 0.05) {
-  if (compare != "Mass" & compare != "Deuteration") stop("Either Mass or Deuteration must be chosen.")
+#' Test based on area under the deuteration curve
+#' @param data data.table of deuteration curves
+#' @param significance_level significance level that will be used for testing
+#' @importFrom data.table data.table
+#' @export
+auc_test = function(data, significance_level = 0.05) {
   States = unique(data$State)
   if (length(States) < 2) stop("More than one state must be chosen.")
 
-  data = calculate_deuteration(data, compare)
-  tests = t(combn(States, 2))
-  n_tests = length(tests[, 1])
-  
-  test_results = lapply(1:n_tests, function(n) {
-    state1 = tests[n, 1]
-    state2 = tests[n, 2]
-    state1_data = data[data$State == state1,]
-    state2_data = data[data$State == state2,]
-    
-    states_exposure = setdiff(intersect(state1_data$Exposure, state2_data$Exposure), 0)
+  state1_data = data[data$State == States[1], ]
+  state2_data = data[data$State == States[2], ]
 
-    state1_data = state1_data[state1_data$Exposure %in% states_exposure,]
-    state2_data = state2_data[state2_data$Exposure %in% states_exposure,]
-    
-    
-    t_n = tail(Exposure, n = 1)
-    t_1 = Exposure[1]
-    times = length(Exposure)
-    
-    y_a = aggregate(state1_data$Mass, list(state1_data$Exposure), mean)$x
-    y_b = aggregate(state2_data$Mass, list(state2_data$Exposure), mean)$x
-    
-    A_aver = log(t_n/t_1) * (1/times) * sum(y_a - y_b)
-    
-    A_trapez_a = 0.5*(y_a[1]*log(states_exposure[2]/states_exposure[1]) + 
-                      y_a[times]*log(states_exposure[times]/states_exposure[times - 1])+
-                      sum(y_a[2:(times-1)]*log(states_exposure[3:times]/states_exposure[1:(times-2)])))
-    
-    A_trapez_b = 0.5*(y_b[1]*log(states_exposure[2]/states_exposure[1]) + 
-                        y_b[times]*log(states_exposure[times]/states_exposure[times - 1])+
-                        sum(y_b[2:(times-1)]*log(states_exposure[3:times]/states_exposure[1:(times-2)])))
-    
-    A_trapez = A_trapez_b - A_trapez_a
-    
-    
-    if (length(state1_data) > 1 & length(state2_data) > 1) {
-      p_value = #####?? nie mam pojecia 
-        
-      if (p_value <= alpha) {
-        conclusion = "difference"
-      } else {
-        conclusion = "no difference"
-      }
-    } else {
-      p_value = NA
-      conclusion = NA
-      warning("Sample size must be greater than 1.")
-    }
-    
-    data.frame(
-      test = "Test based on the Area Between Exchange Curves",
-      State_1 = state1,
-      State_2 = state2,
-      P_value = p_value,
-      Significance_level = alpha,
-      Decision = conclusion
-    )
-  })
-  do.call("rbind", c(test_results, make.row.names = FALSE))
+  states_exposure = setdiff(intersect(state1_data$Exposure, state2_data$Exposure), 0)
+
+  state1_data = state1_data[state1_data$Exposure %in% states_exposure, ]
+  state2_data = state2_data[state2_data$Exposure %in% states_exposure, ]
+
+  t_n = max(states_exposure)
+  t_1 = min(states_exposure)
+  times = length(data$Exposure)
+  state1_masses = (max(state1_data$Mass) - state1_data$Mass) / max(state1_data$Mass)
+  state2_masses = (max(state2_data$Mass) - state2_data$Mass) / max(state2_data$Mass)
+
+  y_a = aggregate(state1_masses,
+                  list(state1_data$Exposure), mean)$x
+  y_b = aggregate(state2_masses,
+                  list(state2_data$Exposure), mean)$x
+  s_a = aggregate(state1_masses,
+                  list(state1_data$Exposure), sd)$x
+  s_b = aggregate(state2_masses,
+                  list(state2_data$Exposure), sd)$x
+  S_a = sqrt(log(t_n / t_1) * mean(s_a^2))
+  S_b = sqrt(log(t_n / t_1) * mean(s_b^2))
+  n_rep_a = length(unique(state1_data$Rep))
+  n_rep_b = length(unique(state2_data$Rep))
+  S = sqrt(((n_rep_a - 1)*S_a^2 + (n_rep_b - 1)*S_b^2 ) / (n_rep_a + n_rep_b - 2))
+  A_aver = log(t_n/t_1) * (1/times) * sum(y_a - y_b)
+
+  Test_statistic = A_aver / (S * sqrt(1/n_rep_a + 1/n_rep_b))
+
+  if (length(state1_data) > 1 & length(state2_data) > 1) {
+    P_value = pt(abs(Test_statistic), df = (n_rep_a + n_rep_b - 2))
+  } else {
+    P_value = NA
+    warning("Sample size must be greater than 1.")
+  }
+
+  data.table::data.table(
+    test = "AUC test",
+    State_1 = as.character(States[1]),
+    State_2 = as.character(States[2]),
+    Test_statistic = Test_statistic,
+    P_value = P_value,
+    Time = "continuous",
+    Transformation = "log",
+    Significant_difference = P_value < significance_level,
+    AIC = NA,
+    logLik = NA
+  )
 
 }
