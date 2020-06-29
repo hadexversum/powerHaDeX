@@ -1,6 +1,9 @@
-library(lme4)
-library(lmerTest)
-
+#' Linear mixed effects model used in MEMHDX tools
+#' @param data data.table of deuteration curves
+#' @param significance_level significance level for testing
+#' @importFrom lme4 lmer
+#' @import lmerTest
+#' @export
 memhdx_model = function(data, significance_level = 0.05) {
 
   States = unique(data$State)
@@ -14,10 +17,10 @@ memhdx_model = function(data, significance_level = 0.05) {
   p_value = rep(NA, 3)
 
   # continuous, identity
-  model = lmer(Mass ~ State + Exposure*State + Exposure + (1|Rep), 
+  model = lme4::lmer(Mass ~ Exposure*State + (1|Rep),
                data = data,
                REML = FALSE)
-  model_reduced = lmer(Mass ~ Exposure + (1|Rep), 
+  model_reduced = lme4::lmer(Mass ~ Exposure + (1|Rep),
                        data = data,
                        REML = FALSE)
   result = anova(model, model_reduced)
@@ -25,13 +28,13 @@ memhdx_model = function(data, significance_level = 0.05) {
   loglik[1] = logLik(model)
   Test_statistic[1] = result$Chisq[2]
   p_value[1] = result$`Pr(>Chisq)`[2]
-  
-  
+
+
   # categorical, identity
-  model = lmer(Mass ~ State + factor(Exposure)*State + factor(Exposure) + (1|Rep), 
+  model = lme4::lmer(Mass ~ factor(Exposure)*State + (1|Rep),
                data = data,
                REML = FALSE)
-  model_reduced = lmer(Mass ~ factor(Exposure) + (1|Rep), 
+  model_reduced = lme4::lmer(Mass ~ factor(Exposure) + (1|Rep),
                        data = data,
                        REML = FALSE)
   result = anova(model, model_reduced)
@@ -39,12 +42,12 @@ memhdx_model = function(data, significance_level = 0.05) {
   loglik[2] = logLik(model)
   Test_statistic[2] = result$Chisq[2]
   p_value[2] = result$`Pr(>Chisq)`[2]
-  
+
   # continuous, log
-  model = lmer(Mass ~ State + log(Exposure+1)*State + log(Exposure+1) + (1|Rep), 
+  model = lme4::lmer(Mass ~ log(Exposure + 1)*State + (1|Rep),
                data = data,
                REML = FALSE)
-  model_reduced = lmer(Mass ~ log(Exposure+1)+ (1|Rep), 
+  model_reduced = lme4::lmer(Mass ~ log(Exposure+1) + (1|Rep),
                data = data,
                REML = FALSE)
   result = anova(model, model_reduced)
@@ -52,8 +55,7 @@ memhdx_model = function(data, significance_level = 0.05) {
   loglik[3] = logLik(model)
   Test_statistic[3] = result$Chisq[2]
   p_value[3] = result$`Pr(>Chisq)`[2]
-  
-  
+
   data.table(Test = "MEMHDX lmm",
              State_1 = States[1],
              State_2 = States[2],
