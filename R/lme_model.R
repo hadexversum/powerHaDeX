@@ -16,24 +16,24 @@ lme_model = function(data, significance_level = 0.05) {
   p_value = rep(NA, 3)
 
   # continuous, identity
-  model = lmer4::lmer(Mass ~ State * Exposure ,
-                      data = data,
-                      REML = FALSE)
-  model_reduced = lmerTest::lmer(Mass ~ Exposure ,
-                             data = data,
-                             REML = FALSE)
+  model = lmerTest::lmer(Mass ~ State * Exposure + (1|State),
+                         data = data,
+                         REML = FALSE)
+  model_reduced = lm(Mass ~ Exposure ,
+                     data = data,
+                     REML = FALSE)
   result = anova(model, model_reduced)
   aic[1] = AIC(model)
   Test_statistic[1] = result$Chisq[2]
   p_value[1] = result$`Pr(>Chisq)`[2]
 
   # categorical, identity
-  model = lmerTest::lmer(Mass ~ State * factor(Exposure) ,
+  model = lmerTest::lmer(Mass ~ State * factor(Exposure) + (1|State),
+                         data = data,
+                         REML = FALSE)
+  model_reduced = lm(Mass ~ factor(Exposure) ,
                      data = data,
                      REML = FALSE)
-  model_reduced = lmerTest::lmer(Mass ~ factor(Exposure) ,
-                             data = data,
-                             REML = FALSE)
   result = anova(model, model_reduced)
   aic[2] = AIC(model)
   loglik[2] = logLik(model)
@@ -41,12 +41,12 @@ lme_model = function(data, significance_level = 0.05) {
   p_value[2] = result$`Pr(>Chisq)`[2]
 
   # continuous, log
-  model = lmerTest::lmer(Mass ~ State * log(Exposure+1) ,
+  model = lmerTest::lmer(Mass ~ State * log(Exposure+1) + (1|State),
+                         data = data,
+                         REML = FALSE)
+  model_reduced = lm(Mass ~ log(Exposure+1) ,
                      data = data,
                      REML = FALSE)
-  model_reduced = lmerTest::lmer(Mass ~ log(Exposure+1) ,
-                             data = data,
-                             REML = FALSE)
   result = anova(model, model_reduced)
   aic[3] = AIC(model)
   loglik[3] = logLik(model)
@@ -54,7 +54,7 @@ lme_model = function(data, significance_level = 0.05) {
   p_value[3] = result$`Pr(>Chisq)`[2]
 
 
-  data.frame(Test = "Jurgen Claesen lmm",
+  data.frame(Test = "LMM JC",
              State_1 = States[1],
              State_2 = States[2],
              Test_statistic = Test_statistic,

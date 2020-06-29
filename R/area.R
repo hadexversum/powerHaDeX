@@ -46,14 +46,14 @@ auc_test = function(data, significance_level = 0.05) {
   }
 
   data.table::data.table(
-    test = "AUC test",
+    Test = "AUC test",
     State_1 = as.character(States[1]),
     State_2 = as.character(States[2]),
     Test_statistic = Test_statistic,
     P_value = P_value,
+    Significant_difference = P_value < significance_level,
     Time = "continuous",
     Transformation = "log",
-    Significant_difference = P_value < significance_level,
     AIC = NA,
     logLik = NA
   )
