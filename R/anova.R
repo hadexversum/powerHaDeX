@@ -6,34 +6,43 @@
 
 hdx_anova = function(data, significance_level = 0.05) {
   
+  structure = c("compound symmetry", "AR(1)")
+  
   aic = rep(NA, 2)
   loglik = rep(NA, 2)
   Test_statistic = rep(NA, 2)
   p_value = rep(NA, 2)
-  structure = c("compound symmetry", "AR(1)")
   
-  # compound symmetry structure
-  model = nlme::gls(Mass ~ State,
-                    data = data,
-                    correlation = corCompSymm())
+  # compound symmetry structure, categorical time
+  model = nlme::gls(Mass ~ factor(Exposure) + State + factor(Exposure) : State,
+                    data = data, method = "ML",
+                    correlation = corCompSymm(form = ~1|Rep))
   
-  result = anova(model)
+  model_reduced = nlme::gls(Mass ~ factor(Exposure) ,
+                     data = data, method = "ML",
+                     correlation = corCompSymm(form = ~1|Rep))
+  
+  result = anova(model, model_reduced)
   aic[1] = AIC(model)
-  Test_statistic[1] = result$`F-value`[2]
+  Test_statistic[1] = result$L.Ratio[2]
   p_value[1] = result$`p-value`[2]
   loglik[1] = logLik(model)
   
-  # compound symmetry structure
-  model = nlme::gls(Mass ~ State,
-                    data = data,
-                    correlation = corAR1())
+  # AR(1) structure, categorical
+  model = nlme::gls(Mass ~ factor(Exposure) + State + factor(Exposure) : State,
+                    data = data, method = "ML",
+                    correlation = corAR1(form = ~1|Rep))
   
-  result = anova(model)
+  model_reduced = nlme::gls(Mass ~ factor(Exposure) ,
+                            data = data, method = "ML",
+                            correlation = corAR1(form = ~1|Rep))
+  
+  result = anova(model, model_reduced)
   aic[2] = AIC(model)
-  Test_statistic[2] = result$`F-value`[2]
+  Test_statistic[2] = result$L.Ratio[2]
   p_value[2] = result$`p-value`[2]
   loglik[2] = logLik(model)
-  
+
   
   data.frame(Test = "ANOVA",
              Structure = structure,
