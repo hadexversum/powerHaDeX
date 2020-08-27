@@ -19,7 +19,7 @@ simulate_theoretical_spectra = function(sequence, charge = NULL, protection_fact
                                         temperature = 15, n_molecules = 100,
                                         time_step_const = 1, if_corr = 0,
                                         min_probability = 1e-4) {
-
+    
     sequence = strsplit(sequence, "")[[1]]
     if (length(protection_factor) == 1L) {
         protection_factor = rep(protection_factor, length(sequence))
@@ -27,7 +27,7 @@ simulate_theoretical_spectra = function(sequence, charge = NULL, protection_fact
     if (is.null(charge)) {
         charge = sample(2:6, 1)
     }
-
+    
     peptide_iso_dist = get_approx_isotopic_distribution(sequence, min_probability)
     peptide_mass = peptide_iso_dist[[1]]
     isotopic_probs = peptide_iso_dist[[2]]
@@ -35,11 +35,11 @@ simulate_theoretical_spectra = function(sequence, charge = NULL, protection_fact
     maxD = peptide_iso_dist[[4]]
     kcHD = get_exchange_rates(sequence, "HD", pH, temperature, 'poly', if_corr)
     kcDH = get_exchange_rates(sequence, "DH", pH, temperature, 'poly')
-
+    
     kmax = max(max(kcDH), max(kcHD))
     deltaT = time_step_const / kmax
     time_sequence = seq(0, max(times), deltaT)
-
+    
     if (time_sequence == 0 && length(time_sequence) == 1) {
         print("There is no deuteration before given time point.")
         isotope_dists = data.frame()
@@ -47,48 +47,48 @@ simulate_theoretical_spectra = function(sequence, charge = NULL, protection_fact
         tryCatch({
             times_to_record = get_recording_times(time_sequence, times)
             times_to_record = setdiff(times_to_record, 0)
-
+            
             transition_probs = get_exchange_probabilities(kcHD, kcDH, deltaT, protection_factor)
             HD_matrices = get_HD_matrices(sequence, transition_probs,
                                           time_sequence, times_to_record,
                                           n_molecules)
-
+            
             isotope_dists = lapply(1:length(times_to_record), function(ith_time) {
                 observed_dist = get_observed_iso_dist(HD_matrices[[ith_time]], isotopic_probs, maxD)
                 observed_peaks = matrix(0, maxD + maxND + 1, 2)
                 DM = 1.00628
                 observed_peaks[1, 1] = peptide_mass / charge + 1.007276
                 observed_peaks[1, 2] = observed_dist[1]
-
+                
                 for (i in 2:(maxD + maxND + 1)) {
                     observed_peaks[i, 1] = observed_peaks[i - 1, 1] + DM / charge
                     observed_peaks[i, 2] = observed_dist[i]
                 }
                 data.frame(
-                    time = times[ith_time],
-                    mz = observed_peaks[, 1],
-                    intensity = observed_peaks[, 2],
-                    pH = pH
+                    Exposure = times[ith_time],
+                    Mz = observed_peaks[, 1],
+                    Intensity = observed_peaks[, 2],
+                    PH = pH
                 )
             })
             isotope_dists = do.call("rbind", isotope_dists)
         })
-
+        
     }
-
-    isotope_dists = rbind(data.frame(time = 0,
-                                     mz = peptide_mass / charge + 1.007276,
-                                     intensity = isotopic_probs,
-                                     pH = pH),
+    
+    isotope_dists = rbind(data.frame(Exposure = 0,
+                                     Mz = peptide_mass / charge + 1.007276,
+                                     Intensity = isotopic_probs,
+                                     PH = pH),
                           isotope_dists)
-    isotope_dists$sequence = paste0(sequence, collapse = "")
+    isotope_dists[["Sequence"]] = paste0(sequence, collapse = "")
     if (length(unique(protection_factor)) == 1) {
-        isotope_dists$protection_factor = protection_factor[1]
+        isotope_dists[["PF"]] = protection_factor[1]
     } else {
-        isotope_dists$protection_factor = paste(protection_factor,
-                                                sep = ",", collapse = ",")
+        isotope_dists[["PF"]] = paste(protection_factor,
+                                 sep = ",", collapse = ",")
     }
-    isotope_dists$charge = charge
+    isotope_dists[["Charge"]] = charge
     isotope_dists = isotope_dists[isotope_dists$intensity > min_probability, ]
     data.table::as.data.table(isotope_dists)
 }
