@@ -89,6 +89,6 @@ simulate_theoretical_spectra = function(sequence, charge = NULL, protection_fact
                                  sep = ",", collapse = ",")
     }
     isotope_dists[["Charge"]] = charge
-    isotope_dists = isotope_dists[isotope_dists$intensity > min_probability, ]
+    isotope_dists = isotope_dists[isotope_dists[["Intensity"]] > min_probability, ]
     data.table::as.data.table(isotope_dists)
 }
