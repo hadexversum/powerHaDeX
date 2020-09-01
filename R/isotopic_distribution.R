@@ -4,6 +4,7 @@
 #' @importFrom signal conv
 #' @return list
 #' @keywords internal
+#' @export
 get_approx_isotopic_distribution = function(sequence, min_probability = 1e-3) {
     h2_o_mass = 1.007825 * 2 + 15.994915
     pC13 = 0.0111

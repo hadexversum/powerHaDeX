@@ -5,6 +5,7 @@
 #' @param protection_factor protection factor
 #' @return list
 #' @keywords internal
+#' @export
 get_exchange_probabilities = function(HD_rate, DH_rate, time_step, protection_factor) {
     list(HD = (1 - exp(-HD_rate * time_step / protection_factor)),
          DH = (1 - exp(-DH_rate * time_step / protection_factor)))
@@ -22,6 +23,7 @@ get_exchange_probabilities = function(HD_rate, DH_rate, time_step, protection_fa
 #' are be measured
 #' @return numeric vector
 #' @keywords internal
+#' @export
 get_recording_times = function(exchange_times, experiment_times) {
     unique(exchange_times[findInterval(experiment_times, exchange_times)])
 }
@@ -37,6 +39,7 @@ get_recording_times = function(exchange_times, experiment_times) {
 #' @keywords internal
 #' @importFrom Rcpp evalCpp
 #' @useDynLib powerHDX, .registration = TRUE
+#' @export
 get_HD_matrices = function(sequence, transition_probs, experiment_times,
                            times_to_record, n_molecules = 100) {
     peptide_length = length(sequence)
@@ -62,6 +65,7 @@ get_HD_matrices = function(sequence, transition_probs, experiment_times,
 #' @param maxD length of the isotopic distribution - 1
 #' @importFrom signal conv
 #' @keywords internal
+#' @export
 get_observed_iso_dist = function(HDmatrix, isotopic_distribution, maxD) {
     Distr = rep(0, maxD + 1)
     deltaMass = rowSums(HDmatrix)
