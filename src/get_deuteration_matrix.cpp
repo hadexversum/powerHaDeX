@@ -4,6 +4,8 @@
 #include <cmath>
 using namespace Rcpp;
 
+// [[Rcpp::plugins(cpp11)]]
+
 NumericMatrix get_constant_matrix(const double constant, const int nrow, const int ncol) {
     NumericVector constant_vector(nrow * ncol, constant);
     NumericMatrix constant_matrix(nrow, ncol, constant_vector.begin());
