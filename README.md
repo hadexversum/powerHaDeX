@@ -15,6 +15,6 @@ Development version can be downloaded from Github:
 if (!require(devtools)) {
   install.packages('devtools')
 }
-devtools::install_github("mstaniak/powerHDX")
+devtools::install_github("hadexversum/powerHDX")
 ```
 

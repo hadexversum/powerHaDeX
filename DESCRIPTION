@@ -9,10 +9,11 @@ Description: One paragraph description of what the package does as one or more f
 License: GPL (>= 2)
 Encoding: UTF-8
 Imports: 
-    Rcpp (>= 1.0.3),
-    signal,
     data.table,
     lme4,
-    lmerTest
+    lmerTest,
+    nlme,
+    signal,
+    Rcpp (>= 1.0.3),
 LinkingTo: Rcpp
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.1
