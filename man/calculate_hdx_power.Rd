@@ -17,6 +17,8 @@ calculate_hdx_power(
 \item{tests}{lists of tests to perform. Each test function should have}
 
 \item{significance_level}{significance level that will be used for testing}
+
+\item{summarized}{default \code{TRUE}}
 }
 \value{
 list of data.tables with test result, optionally summarized with power

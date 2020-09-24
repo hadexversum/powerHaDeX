@@ -16,11 +16,11 @@ hdx_anova = function(data, significance_level = 0.05) {
   # compound symmetry structure, categorical time
   model = nlme::gls(Mass ~ factor(Exposure) + State + factor(Exposure) : State,
                     data = data, method = "ML",
-                    correlation = corCompSymm(form = ~1|Rep))
+                    correlation = nlme::corCompSymm(form = ~1|Rep))
 
   model_reduced = nlme::gls(Mass ~ factor(Exposure) ,
                      data = data, method = "ML",
-                     correlation = corCompSymm(form = ~1|Rep))
+                     correlation = nlme::corCompSymm(form = ~1|Rep))
 
   result = anova(model, model_reduced)
   aic[1] = AIC(model)
@@ -31,11 +31,11 @@ hdx_anova = function(data, significance_level = 0.05) {
   # AR(1) structure, categorical
   model = nlme::gls(Mass ~ factor(Exposure) + State + factor(Exposure) : State,
                     data = data, method = "ML",
-                    correlation = corAR1(form = ~1|Rep))
+                    correlation = nlme::corAR1(form = ~1|Rep))
 
   model_reduced = nlme::gls(Mass ~ factor(Exposure) ,
                             data = data, method = "ML",
-                            correlation = corAR1(form = ~1|Rep))
+                            correlation = nlme::corAR1(form = ~1|Rep))
 
   result = anova(model, model_reduced)
   aic[2] = AIC(model)
