@@ -169,6 +169,8 @@ get_deuteration_curves_from_spectra = function(spectra) {
 #' @param spectrum data.table with a spectrum
 #' @return data.table
 #' @keywords internal
+#' @export
+#'
 get_deuteration_curve_single_spectrum = function(spectrum) {
     Mz = Intensity = Charge = NULL
 
