@@ -156,6 +156,7 @@ add_noise_to_one_spectrum = function(spectrum, undeuterated_mass,
 #' functions.
 #' @return list of lists of data.tables
 #' @keywords internal
+#' @export
 get_deuteration_curves_from_spectra = function(spectra) {
     lapply(spectra, function(spectrum) {
         lapply(spectrum, function(replicate) {
