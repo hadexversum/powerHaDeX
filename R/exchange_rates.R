@@ -149,6 +149,7 @@ get_exchange_constants = function(pH, pkc_consts, k_consts) {
 #' @param if_corr pH correction factor
 #' @return numeric vector of exchange rates
 #' @keywords internal
+#' @export
 get_exchange_rates = function(sequence, exchange = "HD", pH = 9, temperature = 15,
                               mol_type = "poly", if_corr = 0) {
     if (exchange == "HD") {
