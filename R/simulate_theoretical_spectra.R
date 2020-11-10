@@ -44,15 +44,12 @@ simulate_theoretical_spectra = function(sequence, charge = NULL, protection_fact
         isotope_dists = data.frame()
     } else {
         tryCatch({
-            times_to_record = get_recording_times(time_sequence, times)
-            times_to_record = setdiff(times_to_record, 0)
-
             transition_probs = get_exchange_probabilities(kcHD, kcDH, deltaT, protection_factor)
             HD_matrices = get_HD_matrices(sequence, transition_probs,
-                                          time_sequence, times_to_record,
+                                          time_sequence, times,
                                           n_molecules)
 
-            isotope_dists = lapply(1:length(times_to_record), function(ith_time) {
+            isotope_dists = lapply(1:length(times), function(ith_time) {
                 observed_dist = get_observed_iso_dist(HD_matrices[[ith_time]], isotopic_probs, maxD)
                 observed_peaks = matrix(0, maxD + maxND + 1, 2)
                 DM = 1.00628

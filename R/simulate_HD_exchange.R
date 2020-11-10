@@ -43,17 +43,22 @@ get_recording_times = function(exchange_times, experiment_times) {
 get_HD_matrices = function(sequence, transition_probs, experiment_times,
                            times_to_record, n_molecules = 100) {
     peptide_length = length(sequence)
-    separated_times = split(experiment_times,
-                            cut(experiment_times, c(0, times_to_record),
-                                include.lowest = TRUE))
+
+    time_intervals <- cut(experiment_times, c(0, times_to_record), right = TRUE, include.lowest = TRUE)
+    separated_times <- split(experiment_times, time_intervals)
+
     hd_matrices = vector("list", length(times_to_record))
     HDmatrix = matrix(0L, n_molecules, peptide_length) # 0 denotes hydrogen, 1 denotes deuterium
 
     for (i in 1:length(hd_matrices)) {
-        HDmatrix = get_deuteration_single_timepoint(HDmatrix, separated_times[[i]],
-                                                    transition_probs[[1]], transition_probs[[2]])
-        HDmatrix[, unique(c(1, 2, which(sequence == "P")))] = 0
-        hd_matrices[[i]] = HDmatrix
+        if(length(separated_times[[i]]) == 0) {
+            hd_matrices[[i]] = HDmatrix
+        }else {
+            HDmatrix = get_deuteration_single_timepoint(HDmatrix, separated_times[[i]],
+                                                        transition_probs[[1]], transition_probs[[2]])
+            HDmatrix[, unique(c(1, 2, which(sequence == "P")))] = 0
+            hd_matrices[[i]] = HDmatrix
+        }
     }
     hd_matrices
 }
