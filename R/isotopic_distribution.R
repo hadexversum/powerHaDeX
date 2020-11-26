@@ -44,8 +44,7 @@ get_approx_isotopic_distribution = function(sequence, min_probability = 1e-3) {
     }
 
     distND = finalDist[1:(maxND + 1)]
-    maxD = length(sequence)
-    maxD = maxD - sum(sequence[3:length(sequence)] == 'P')
+    maxD = length(sequence)- sum(sequence[3:length(sequence)] == 'P')
 
     return(list(mass = peptide_mass,
                 isotopic_distribution = distND,

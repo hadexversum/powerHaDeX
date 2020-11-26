@@ -48,25 +48,9 @@ simulate_theoretical_spectra = function(sequence, charge = NULL, protection_fact
             HD_matrices = get_HD_matrices(sequence, transition_probs,
                                           time_sequence, times,
                                           n_molecules)
-
-            isotope_dists = lapply(1:length(times), function(ith_time) {
-                observed_dist = get_observed_iso_dist(HD_matrices[[ith_time]], isotopic_probs, maxD)
-                observed_peaks = matrix(0, maxD + maxND + 1, 2)
-                DM = 1.00628
-                observed_peaks[1, 1] = peptide_mass / charge + 1.007276
-                observed_peaks[1, 2] = observed_dist[1]
-
-                for (i in 2:(maxD + maxND + 1)) {
-                    observed_peaks[i, 1] = observed_peaks[i - 1, 1] + DM / charge
-                    observed_peaks[i, 2] = observed_dist[i]
-                }
-                data.frame(
-                    Exposure = times[ith_time],
-                    Mz = observed_peaks[, 1],
-                    Intensity = observed_peaks[, 2],
-                    PH = pH
-                )
-            })
+            isotope_dists = get_intensity(HD_matrices, maxD, maxND,
+                                          isotopic_probs, peptide_mass,
+                                          times, charge, pH)
             isotope_dists = do.call("rbind", isotope_dists)
         })
 

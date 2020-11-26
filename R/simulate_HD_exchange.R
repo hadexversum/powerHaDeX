@@ -64,10 +64,10 @@ get_HD_matrices = function(sequence, transition_probs, experiment_times,
 }
 
 
-#' Get observed isotopic distribition after hydrogen-deuterium exchange
+#' Get observed isotopic distribution after hydrogen-deuterium exchange
 #' @param HDmatrix simulated matrix after hydrogen-deuterium-exchange
 #' @param isotopic_distribution vector of isotopic probabilities of a peptide
-#' @param maxD length of the isotopic distribution - 1
+#' @inheritParams get_intensity
 #' @importFrom signal conv
 #' @keywords internal
 #' @export
@@ -82,4 +82,38 @@ get_observed_iso_dist = function(HDmatrix, isotopic_distribution, maxD) {
 }
 
 
+#' Get the isotopic probabilities for the deuterated peptide.
+#'
+#' Compute the isotopic probabilities for the deuterated peptide as a convolution
+#' of the isotopic distribution for the undeuterated peptide and the observed
+#' isotopic distribition after hydrogen-deuterium exchange computed by \code{get_observed_iso_dist}.
+#'
+#' @param HD_matrices list. Simulated matrices for every time point after hydrogen-deuterium-exchange
+#' @param maxD length of the sequence - amount of prolines
+#' @param maxND length of the isotopic distribution - 1
+#' @param peptide_mass mass of the peptide + mass of H2O
+#' @param isotopic_probs the isotopic distribution for the undeuterated peptide.
+#' @inheritParams simulate_theoretical_spectra
+#' @export
+
+get_intensity <- function(HD_matrices, maxD, maxND, isotopic_probs, peptide_mass, times, charge, pH) {
+    lapply(1:length(times), function(ith_time) {
+        observed_dist = get_observed_iso_dist(HD_matrices[[ith_time]], isotopic_probs, maxD)
+        observed_peaks = matrix(0, maxD + maxND + 1, 2)
+        DM = 1.00628
+        observed_peaks[1, 1] = peptide_mass / charge + 1.007276
+        observed_peaks[1, 2] = observed_dist[1]
+
+        for (i in 2:(maxD + maxND + 1)) {
+            observed_peaks[i, 1] = observed_peaks[i - 1, 1] + DM / charge
+            observed_peaks[i, 2] = observed_dist[i]
+        }
+        data.frame(
+            Exposure = times[ith_time],
+            Mz = observed_peaks[, 1],
+            Intensity = observed_peaks[, 2],
+            PH = pH
+        )
+    })
+}
 

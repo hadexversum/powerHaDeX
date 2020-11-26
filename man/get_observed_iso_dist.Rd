@@ -2,7 +2,7 @@
 % Please edit documentation in R/simulate_HD_exchange.R
 \name{get_observed_iso_dist}
 \alias{get_observed_iso_dist}
-\title{Get observed isotopic distribition after hydrogen-deuterium exchange}
+\title{Get observed isotopic distribution after hydrogen-deuterium exchange}
 \usage{
 get_observed_iso_dist(HDmatrix, isotopic_distribution, maxD)
 }
@@ -11,9 +11,9 @@ get_observed_iso_dist(HDmatrix, isotopic_distribution, maxD)
 
 \item{isotopic_distribution}{vector of isotopic probabilities of a peptide}
 
-\item{maxD}{length of the isotopic distribution - 1}
+\item{maxD}{length of the sequence - amount of prolines}
 }
 \description{
-Get observed isotopic distribition after hydrogen-deuterium exchange
+Get observed isotopic distribution after hydrogen-deuterium exchange
 }
 \keyword{internal}
