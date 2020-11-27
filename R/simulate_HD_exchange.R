@@ -63,6 +63,37 @@ get_HD_matrices = function(sequence, transition_probs, experiment_times,
     hd_matrices
 }
 
+#' Get a matrix of simulated exchanged hydrogens for each experiment time point using markov chains
+#' @inheritParams get_HD_matrices
+#' @return list of matrices
+#' @keywords internal
+#' @export
+get_HD_matrices_using_markov <- function(sequence, transition_probs, experiment_times,
+                                        times_to_record, n_molecules = 100) {
+
+    time_intervals <- cut(experiment_times, c(0, times_to_record), right = TRUE, include.lowest = TRUE)
+    separated_times <- split(experiment_times, time_intervals)
+    peptide_length <- length(sequence)
+    initial_state <- c(1, 0)
+
+    hd_matrices <- lapply(1:length(times_to_record), function(i) {
+
+        steps <- sum(lengths(separated_times)[1:i])
+        HDmatrix <- sapply(1:peptide_length, function(amino_acid) {
+            transition_matrix <- matrix(c(transition_probs[["HH"]][amino_acid], transition_probs[["HD"]][amino_acid],
+                                          transition_probs[["DH"]][amino_acid], transition_probs[["DD"]][amino_acid]), nrow = 2,
+                                        byrow = TRUE)
+
+            chain <- new('markovchain', states = c("0", "1"),
+                         transitionMatrix = transition_matrix, byrow = TRUE)  # 0 denotes hydrogen, 1 denotes deuterium
+            sample(c(0, 1), n_molecules, replace = TRUE, prob = initial_state*chain^steps)
+        })
+        HDmatrix[, unique(c(1, 2, which(sequence == "P")))] <- 0
+        HDmatrix
+    })
+    hd_matrices
+}
+
 
 #' Get observed isotopic distribution after hydrogen-deuterium exchange
 #' @param HDmatrix simulated matrix after hydrogen-deuterium-exchange
@@ -86,7 +117,7 @@ get_observed_iso_dist = function(HDmatrix, isotopic_distribution, maxD) {
 #'
 #' Compute the isotopic probabilities for the deuterated peptide as a convolution
 #' of the isotopic distribution for the undeuterated peptide and the observed
-#' isotopic distribition after hydrogen-deuterium exchange computed by \code{get_observed_iso_dist}.
+#' isotopic distribution after hydrogen-deuterium exchange computed by \code{get_observed_iso_dist}.
 #'
 #' @param HD_matrices list. Simulated matrices for every time point after hydrogen-deuterium-exchange
 #' @param maxD length of the sequence - amount of prolines

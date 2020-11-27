@@ -11,13 +11,16 @@
 #' to obtain time step. Hydrogen-deuteration exchange may occur at each of these steps.
 #' @param if_corr correction factor for pH - 0 or 1
 #' @param min_probability smallest isotopic probability to consider
+#' @param use_markov logical. If TRUE algorithm basing on Markov chain will be used.
+#' If FALSE simulation from kanzy??? will be executed.
 #' @return data.table
 #' @export
 simulate_theoretical_spectra = function(sequence, charge = NULL, protection_factor = 1,
                                         times = c(60, 600), pH = 7.5,
                                         temperature = 15, n_molecules = 100,
                                         time_step_const = 1, if_corr = 0,
-                                        min_probability = 1e-4) {
+                                        min_probability = 1e-4,
+                                        use_markov = TRUE) {
 
     sequence = strsplit(sequence, "")[[1]]
     if (length(protection_factor) == 1L) {
@@ -45,9 +48,17 @@ simulate_theoretical_spectra = function(sequence, charge = NULL, protection_fact
     } else {
         tryCatch({
             transition_probs = get_exchange_probabilities(kcHD, kcDH, deltaT, protection_factor)
-            HD_matrices = get_HD_matrices(sequence, transition_probs,
-                                          time_sequence, times,
-                                          n_molecules)
+
+            if(use_markov) {
+                HD_matrices = get_HD_matrices_using_markov(sequence, transition_probs,
+                                                           time_sequence, times,
+                                                           n_molecules)
+            }else {
+                HD_matrices = get_HD_matrices(sequence, transition_probs,
+                                              time_sequence, times,
+                                              n_molecules)
+            }
+
             isotope_dists = get_intensity(HD_matrices, maxD, maxND,
                                           isotopic_probs, peptide_mass,
                                           times, charge, pH)

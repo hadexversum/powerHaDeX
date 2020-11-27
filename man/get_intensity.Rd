@@ -35,5 +35,5 @@ get_intensity(
 \description{
 Compute the isotopic probabilities for the deuterated peptide as a convolution
 of the isotopic distribution for the undeuterated peptide and the observed
-isotopic distribition after hydrogen-deuterium exchange computed by \code{get_observed_iso_dist}.
+isotopic distribution after hydrogen-deuterium exchange computed by \code{get_observed_iso_dist}.
 }

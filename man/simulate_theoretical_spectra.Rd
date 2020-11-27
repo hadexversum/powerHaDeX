@@ -14,7 +14,8 @@ simulate_theoretical_spectra(
   n_molecules = 100,
   time_step_const = 1,
   if_corr = 0,
-  min_probability = 1e-04
+  min_probability = 1e-04,
+  use_markov = TRUE
 )
 }
 \arguments{
@@ -39,6 +40,9 @@ to obtain time step. Hydrogen-deuteration exchange may occur at each of these st
 \item{if_corr}{correction factor for pH - 0 or 1}
 
 \item{min_probability}{smallest isotopic probability to consider}
+
+\item{use_markov}{logical. If TRUE algorithm basing on Markov chain will be used.
+If FALSE simulation from kanzy??? will be executed.}
 }
 \value{
 data.table
