@@ -59,9 +59,9 @@ simulate_theoretical_spectra = function(sequence, charge = NULL, protection_fact
                                               n_molecules)
             }
 
-            isotope_dists = get_intensity(HD_matrices, maxD, maxND,
-                                          isotopic_probs, peptide_mass,
-                                          times, charge, pH)
+            isotope_dists = get_iso_probs_deut(HD_matrices, maxD, maxND,
+                                               isotopic_probs, peptide_mass,
+                                               times, charge, pH)
             isotope_dists = do.call("rbind", isotope_dists)
         })
 
@@ -77,7 +77,7 @@ simulate_theoretical_spectra = function(sequence, charge = NULL, protection_fact
         isotope_dists[["PF"]] = protection_factor[1]
     } else {
         isotope_dists[["PF"]] = paste(protection_factor,
-                                 sep = ",", collapse = ",")
+                                      sep = ",", collapse = ",")
     }
     isotope_dists[["Charge"]] = charge
     isotope_dists = isotope_dists[isotope_dists[["Intensity"]] > min_probability, ]

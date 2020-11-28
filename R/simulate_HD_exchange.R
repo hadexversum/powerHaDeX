@@ -98,7 +98,7 @@ get_HD_matrices_using_markov <- function(sequence, transition_probs, experiment_
 #' Get observed isotopic distribution after hydrogen-deuterium exchange
 #' @param HDmatrix simulated matrix after hydrogen-deuterium-exchange
 #' @param isotopic_distribution vector of isotopic probabilities of a peptide
-#' @inheritParams get_intensity
+#' @inheritParams get_iso_probs_deut
 #' @importFrom signal conv
 #' @keywords internal
 #' @export
@@ -127,7 +127,7 @@ get_observed_iso_dist = function(HDmatrix, isotopic_distribution, maxD) {
 #' @inheritParams simulate_theoretical_spectra
 #' @export
 
-get_intensity <- function(HD_matrices, maxD, maxND, isotopic_probs, peptide_mass, times, charge, pH) {
+get_iso_probs_deut <- function(HD_matrices, maxD, maxND, isotopic_probs, peptide_mass, times, charge, pH) {
     lapply(1:length(times), function(ith_time) {
         observed_dist = get_observed_iso_dist(HD_matrices[[ith_time]], isotopic_probs, maxD)
         observed_peaks = matrix(0, maxD + maxND + 1, 2)
