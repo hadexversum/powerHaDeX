@@ -83,10 +83,7 @@ get_HD_matrices_using_markov <- function(sequence, transition_probs, experiment_
             transition_matrix <- matrix(c(transition_probs[["HH"]][amino_acid], transition_probs[["HD"]][amino_acid],
                                           transition_probs[["DH"]][amino_acid], transition_probs[["DD"]][amino_acid]), nrow = 2,
                                         byrow = TRUE)
-
-            chain <- new('markovchain', states = c("0", "1"),
-                         transitionMatrix = transition_matrix, byrow = TRUE)  # 0 denotes hydrogen, 1 denotes deuterium
-            sample(c(0, 1), n_molecules, replace = TRUE, prob = initial_state*chain^steps)
+            sample(c(0, 1), n_molecules, replace = TRUE, prob = initial_state*transition_matrix^steps)
         })
         HDmatrix[, unique(c(1, 2, which(sequence == "P")))] <- 0
         HDmatrix
