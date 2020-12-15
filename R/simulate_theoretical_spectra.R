@@ -40,9 +40,9 @@ simulate_theoretical_spectra = function(sequence, charge = NULL, protection_fact
 
     kmax = max(max(kcDH), max(kcHD))
     deltaT = time_step_const / kmax
-    time_sequence = seq(0, max(times), deltaT)
+    steps_between_time_points = ceiling(times/deltaT)
 
-    if (time_sequence == 0 && length(time_sequence) == 1) {
+    if (floor(max(times)/deltaT) == 0) {
         print("There is no deuteration before given time point.")
         isotope_dists = data.frame()
     } else {
@@ -53,9 +53,10 @@ simulate_theoretical_spectra = function(sequence, charge = NULL, protection_fact
                 transition_probs[["HH"]] <- 1 - transition_probs[["HD"]]
                 transition_probs[["DD"]] <- 1 - transition_probs[["DH"]]
                 HD_matrices = get_HD_matrices_using_markov(sequence, transition_probs,
-                                                           time_sequence, times,
+                                                           steps_between_time_points,
                                                            n_molecules)
             }else {
+                time_sequence = seq(0, max(times), deltaT)
                 HD_matrices = get_HD_matrices(sequence, transition_probs,
                                               time_sequence, times,
                                               n_molecules)

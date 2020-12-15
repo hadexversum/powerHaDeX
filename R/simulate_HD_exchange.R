@@ -64,26 +64,28 @@ get_HD_matrices = function(sequence, transition_probs, experiment_times,
 }
 
 #' Get a matrix of simulated exchanged hydrogens for each experiment time point using markov chains
+#' @param steps_between_time_points A vector containing sum of steps between
+#' times at which deuteration levels are measured.
 #' @inheritParams get_HD_matrices
 #' @return list of matrices
 #' @keywords internal
 #' @export
-get_HD_matrices_using_markov <- function(sequence, transition_probs, experiment_times,
-                                        times_to_record, n_molecules = 100) {
+get_HD_matrices_using_markov <- function(sequence, transition_probs,
+                                         steps_between_time_points,
+                                         n_molecules = 100) {
 
-    time_intervals <- cut(experiment_times, c(0, times_to_record), right = TRUE, include.lowest = TRUE)
-    separated_times <- split(experiment_times, time_intervals)
     peptide_length <- length(sequence)
     initial_state <- c(1, 0)
 
-    hd_matrices <- lapply(1:length(times_to_record), function(i) {
+    hd_matrices <- lapply(1:length(steps_between_time_points), function(i) {
 
-        steps <- sum(lengths(separated_times)[1:i])
+        steps <- sum(steps_between_time_points[1:i])
         HDmatrix <- sapply(1:peptide_length, function(amino_acid) {
             transition_matrix <- matrix(c(transition_probs[["HH"]][amino_acid], transition_probs[["HD"]][amino_acid],
                                           transition_probs[["DH"]][amino_acid], transition_probs[["DD"]][amino_acid]), nrow = 2,
                                         byrow = TRUE)
-            sample(c(0, 1), n_molecules, replace = TRUE, prob = initial_state*transition_matrix^steps)
+            probabilities = as.vector(initial_state%*%(transition_matrix%^%steps))
+            sample(c(0, 1), n_molecules, replace = TRUE, prob = probabilities)
         })
         HDmatrix[, unique(c(1, 2, which(sequence == "P")))] <- 0
         HDmatrix

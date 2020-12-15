@@ -18,7 +18,7 @@ Description: One paragraph description of what the package does as one or more f
 License: GPL (>= 2)
 Encoding: UTF-8
 Imports: 
-    markovchain,
+    expm,
     methods,
     data.table,
     lme4,

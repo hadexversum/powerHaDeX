@@ -7,8 +7,7 @@
 get_HD_matrices_using_markov(
   sequence,
   transition_probs,
-  experiment_times,
-  times_to_record,
+  steps_between_time_points,
   n_molecules = 100
 )
 }
@@ -17,9 +16,8 @@ get_HD_matrices_using_markov(
 
 \item{transition_probs}{list of probabilities of exchange returned by the get_exchange_probabilities function}
 
-\item{experiment_times}{numeric vector of times at which exchange will happen}
-
-\item{times_to_record}{numeric vector of times for which deuteration level measurement should be made}
+\item{steps_between_time_points}{A vector containing sum of steps between
+times at which deuteration levels are measured.}
 
 \item{n_molecules}{number of peptide molecules}
 }
