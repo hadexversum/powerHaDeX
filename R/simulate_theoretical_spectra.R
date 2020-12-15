@@ -48,10 +48,10 @@ simulate_theoretical_spectra = function(sequence, charge = NULL, protection_fact
     } else {
         tryCatch({
             transition_probs = get_exchange_probabilities(kcHD, kcDH, deltaT, protection_factor)
-            transition_probs[["HH"]] <- 1 - transition_probs[["HD"]]
-            transition_probs[["DD"]] <- 1 - transition_probs[["DH"]]
 
             if(use_markov) {
+                transition_probs[["HH"]] <- 1 - transition_probs[["HD"]]
+                transition_probs[["DD"]] <- 1 - transition_probs[["DH"]]
                 HD_matrices = get_HD_matrices_using_markov(sequence, transition_probs,
                                                            time_sequence, times,
                                                            n_molecules)
