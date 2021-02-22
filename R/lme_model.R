@@ -19,11 +19,12 @@ lme_model = function(data, significance_level = 0.05) {
   model = lmerTest::lmer(Mass ~ State * Exposure + (1|State),
                          data = data,
                          REML = FALSE)
-  model_reduced = lm(Mass ~ Exposure ,
+  model_reduced = lm(Mass ~ Exposure,
                      data = data,
                      REML = FALSE)
   result = anova(model, model_reduced)
   aic[1] = AIC(model)
+  loglik[1] = logLik(model)
   Test_statistic[1] = result$Chisq[2]
   p_value[1] = result$`Pr(>Chisq)`[2]
 
