@@ -52,6 +52,6 @@ get_approx_isotopic_distribution = function(sequence, min_probability = 1e-3) {
 
     return(list(mass = peptide_mass,
                 isotopic_distribution = distND,
-                max_ND = maxND,
+                max_ND = maxND - 1,
                 n_exchangeable = maxD))
 }
