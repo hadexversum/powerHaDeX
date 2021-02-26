@@ -34,16 +34,20 @@ get_approx_isotopic_distribution = function(sequence, min_probability = 1e-3) {
 
     finalDist = sort(signal::conv(distS, signal::conv(distO, signal::conv(distC, distN))),
                      decreasing = TRUE)
-    maxND = length(finalDist) - 1
 
-    for (m in 3:(maxND + 1)) {
-        if (finalDist[m] < min_probability & finalDist[m - 1] < min_probability & finalDist[m - 2] >= min_probability) {
-            maxND = m - 3
-            break
-        }
-    }
+    # maxND = length(finalDist) - 1
+    #
+    # for (m in 3:(maxND + 1)) {
+    #     if (finalDist[m] < min_probability & finalDist[m - 1] < min_probability & finalDist[m - 2] >= min_probability) {
+    #         maxND = m - 3
+    #         break
+    #     }
+    # }
+    # distND = finalDist[1:(maxND + 1)]
 
-    distND = finalDist[1:(maxND + 1)]
+    maxND = sum(finalDist >= min_probability)
+    distND = finalDist[1:maxND]
+
     maxD = length(sequence)- sum(sequence[3:length(sequence)] == 'P')
 
     return(list(mass = peptide_mass,
