@@ -68,9 +68,9 @@ get_pkc = function(temp_kelvin, gas_constant, exchange = "HD") {
     }
     Ea_Glu = 1083
     Ea_His = 7500
-    pKc_Asp = -log10(10^(-3.87) * exp(-1 * Ea_Asp * ((1 / temp_kelvin - 1 / 278) / gas_constant)))
-    pKc_Glu = -log10(10^(-4.33) * exp(-1 * Ea_Glu * ((1 / temp_kelvin - 1 / 278) / gas_constant)))
-    pKc_His = -log10(10^(-7) * exp(-1 * Ea_His * ((1 / temp_kelvin - 1 / 278) / gas_constant)))
+    pKc_Asp = -log10(10^(Asp_exponent) * exp(-1 * Ea_Asp * ((1 / temp_kelvin - 1 / 278) / gas_constant)))
+    pKc_Glu = -log10(10^(Glu_exponent) * exp(-1 * Ea_Glu * ((1 / temp_kelvin - 1 / 278) / gas_constant)))
+    pKc_His = -log10(10^(His_exponent) * exp(-1 * Ea_His * ((1 / temp_kelvin - 1 / 278) / gas_constant)))
     list(asp = pKc_Asp,
          glu = pKc_Glu,
          his = pKc_His)
