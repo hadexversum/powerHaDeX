@@ -1,3 +1,6 @@
+[![R build status](https://github.com/hadexversum/powerHDX/workflows/R-CMD-check/badge.svg)](https://github.com/hadexversum/powerHDX/actions)
+[![license](https://img.shields.io/badge/license-GPL--3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
+
 # Power calculations for Hydrogen/Deuterium Exchange experiments 
 
 
