@@ -1,6 +1,6 @@
 Package: powerHDX
 Type: Package
-Title: What the Package Does in One 'Title Case' Line
+Title: Efficient simulation of HDX-MS data
 Version: 1.0
 Date: 2020-06-21
 Author: c(person("Krystyna", "Grzesiak", 
