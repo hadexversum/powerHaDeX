@@ -47,7 +47,7 @@ plot_single_spectrum <- function(spectrum, time_point = NULL, ...) {
         if (length(times_from_data) > 1) stop("One time point must be chosen.")
         time_point <- times_from_data
     }
-    match.arg(time_point, times_from_data)
+    match.arg(as.character(time_point), as.character(times_from_data))
     spectrum_time_point <- spectrum[spectrum[["Exposure"]] == time_point, ]
 
     p <- ggplot(spectrum_time_point, aes(x = Mz, xend = Mz, yend = Intensity, y = 0)) +
