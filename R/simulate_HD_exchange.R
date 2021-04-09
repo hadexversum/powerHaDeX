@@ -7,8 +7,12 @@
 #' @keywords internal
 #' @export
 get_exchange_probabilities = function(HD_rate, DH_rate, time_step, protection_factor) {
-    list(HD = (1 - exp(-HD_rate * time_step / protection_factor)),
-         DH = (1 - exp(-DH_rate * time_step / protection_factor)))
+
+    transition_probs <- list(HD = (1 - exp(-HD_rate * time_step / protection_factor)),
+                             DH = (1 - exp(-DH_rate * time_step / protection_factor)))
+    transition_probs[["HH"]] <- 1 - transition_probs[["HD"]]
+    transition_probs[["DD"]] <- 1 - transition_probs[["DH"]]
+    transition_probs
 }
 
 
