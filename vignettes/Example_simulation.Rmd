@@ -1,0 +1,76 @@
+---
+title: "Simulation - example usage"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Example_simulation}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 5,
+  fig.align = 'center'
+)
+```
+
+
+
+
+```{r setup}
+library(powerHDX)
+library(ggplot2)
+```
+
+
+Using the simulation implemented in the package *powerHDX* noisy deuteration curves can be generated. Let us consider an example peptide *PPVQ*. The function *simulate_theoretical_spectra* is used to obtain mass spectra for given exposure times provided as *times* as follows:
+
+```{r}
+times <- c(5, 10, 20, 30, 40, 50, 60, 100, 300, 500, 900, 1200, 1500, 1800)
+set.seed(17)
+
+spectra <- simulate_theoretical_spectra(sequence = "PPVQ",
+                                        charge = 4,
+                                        protection_factor = 100,
+                                        times = times,
+                                        pH = 7.5,
+                                        temperature = 15,
+                                        n_molecules = 500,
+                                        time_step_const = 1,
+                                        use_markov = TRUE)
+
+head(spectra)
+```
+
+
+Simulated spectrum for particular time can be visualized using *powerHDX* as follows
+
+```{r}
+plot_single_spectrum(spectra, 30)
+plot_single_spectrum(spectra, 300)
+```
+
+
+Deuteration curve for such theoretical spectra is calculated via *get_deuteration_curve_single_spectrum*:
+
+```{r}
+one_curve <- get_deuteration_curve_single_spectrum(spectra)
+one_curve
+
+ggplot(one_curve, aes(x = Exposure, y = Mass)) +
+  geom_point() +
+  geom_line()
+```
+
+
+Noisy curves are generated via *get_noisy_deuteration_curves*. The number of technical replicates among which uncertainty can be calculated is *n_runs* and the number of noisy curves is *n_replicates*. 
+
+```{r}
+get_noisy_deuteration_curves(spectra, 
+                             n_runs = 2,
+                             n_replicates = 3,
+                             compare_pairs = FALSE)
+```
+
