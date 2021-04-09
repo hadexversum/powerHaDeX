@@ -7,3 +7,5 @@ src/*.so
 src/*.dll
 inst/doc
 powerHDX.Rproj
+doc
+Meta
