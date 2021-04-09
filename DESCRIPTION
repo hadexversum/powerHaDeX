@@ -32,4 +32,6 @@ Depends: R (>= 2.10)
 LinkingTo: Rcpp
 RoxygenNote: 7.1.1
 Suggests: 
-    testthat
+    testthat,
+    spelling
+Language: en-US
