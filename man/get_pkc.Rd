@@ -10,8 +10,12 @@ get_pkc(temp_kelvin, gas_constant, exchange = "HD")
 \item{temp_kelvin}{temperature reaction in Kelvins}
 
 \item{gas_constant}{gas constant (1/(dT * R))}
+
+\item{exchange}{type of exchange - "HD" for hydrogen to deuterium,
+"DH" for deuterium to hydrogen (back-exchange). Default "HD.}
 }
 \description{
-Constant related to...
+This function calculates supplementary constants for aspartic
+acid (Asp), glutamic acid (Glu) and histidine (His).
 }
 \keyword{internal}

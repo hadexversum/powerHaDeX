@@ -2,17 +2,19 @@
 #' @param sequence amino acid sequence of a petpide as a single string
 #' @param charge charge of the peptide ion.
 #' @param protection_factor protection factor. If a single number of provided,
-#' same protection factor will be assumed for each amide.
+#' same protection factor will be assumed for each amide. Default value: 1
+#' (indicates that the exchange rate is equal to the intristic exchange rate)
 #' @param times times at which deuteration levels will be measured (seconds)
-#' @param pH pH of the reaction
+#' @param pH pH of the reaction. Default to 7.5.
 #' @param temperature temperature of the reaction (Celsius)
-#' @param n_molecules number of peptide molecules
+#' @param n_molecules number of peptide molecules. Default to 100.
 #' @param time_step_const constant that will be dived by a maximum exchange rate
 #' to obtain time step. Hydrogen-deuteration exchange may occur at each of these steps.
-#' @param if_corr correction factor for pH - 0 or 1
+#' @inheritParams get_exchange_rates
 #' @param min_probability smallest isotopic probability to consider
 #' @param use_markov logical. If TRUE algorithm basing on Markov chain will be used.
-#' If FALSE simulation from kanzy??? will be executed.
+#' If FALSE simulation provided by Zhong-Yuan Kan will be executed. Default to TRUE,
+#' as it fastens the calculation
 #' @return data.table
 #' @export
 simulate_theoretical_spectra = function(sequence, charge = NULL, protection_factor = 1,

@@ -7,13 +7,13 @@
 get_poly_const(mol_type, exchange = "HD")
 }
 \arguments{
-\item{mol_type}{TODO: fill this in}
+\item{mol_type}{character, "poly" or "oligo".}
 
 \item{exchange}{type of exchange - "HD" for hydrogen to deuterium,
-"DH" for deuterium to hydrogen (back-exchange).}
+"DH" for deuterium to hydrogen (back-exchange). Default "HD.}
 }
 \value{
-list
+list of Ka,Kb and Kw corresponding to the chosen \code{mol_type} and acid, base or water.
 }
 \description{
 Constant related to...

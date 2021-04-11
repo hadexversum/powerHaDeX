@@ -30,7 +30,7 @@ get_iso_probs_deut(
 
 \item{charge}{charge of the peptide ion.}
 
-\item{pH}{pH of the reaction}
+\item{pH}{pH of the reaction. Default to 7.5.}
 }
 \description{
 Compute the isotopic probabilities for the deuterated peptide as a convolution

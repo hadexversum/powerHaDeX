@@ -24,25 +24,28 @@ simulate_theoretical_spectra(
 \item{charge}{charge of the peptide ion.}
 
 \item{protection_factor}{protection factor. If a single number of provided,
-same protection factor will be assumed for each amide.}
+same protection factor will be assumed for each amide. Default value: 1
+(indicates that the exchange rate is equal to the intristic exchange rate)}
 
 \item{times}{times at which deuteration levels will be measured (seconds)}
 
-\item{pH}{pH of the reaction}
+\item{pH}{pH of the reaction. Default to 7.5.}
 
 \item{temperature}{temperature of the reaction (Celsius)}
 
-\item{n_molecules}{number of peptide molecules}
+\item{n_molecules}{number of peptide molecules. Default to 100.}
 
 \item{time_step_const}{constant that will be dived by a maximum exchange rate
 to obtain time step. Hydrogen-deuteration exchange may occur at each of these steps.}
 
-\item{if_corr}{correction factor for pH - 0 or 1}
+\item{if_corr}{pH correction indicator. Default value 0. The value of pH is equal to pD.
+If there is correction, the pD = pH + 0.4. (Conelly et al 1993)}
 
 \item{min_probability}{smallest isotopic probability to consider}
 
 \item{use_markov}{logical. If TRUE algorithm basing on Markov chain will be used.
-If FALSE simulation from kanzy??? will be executed.}
+If FALSE simulation provided by Zhong-Yuan Kan will be executed. Default to TRUE,
+as it fastens the calculation}
 }
 \value{
 data.table

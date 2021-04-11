@@ -1,7 +1,8 @@
-#' Constants related to... in cal/(K * mol)
+#' Constants related to water, base and acid in cal/(K * mol)
 #' @param temp_kelvin temperature reaction in Kelvins
 #' @param gas_constant gas constant (1/(dT * R))
-#' @return list
+#' @return list of constants \code{Fta} for acid, \code{Ftb} for base and
+#' \code{Ftw} for water.
 #' @keywords internal
 get_F_const = function(temp_kelvin, gas_constant) {
     # Unit: cal / mol
@@ -16,10 +17,10 @@ get_F_const = function(temp_kelvin, gas_constant) {
 
 
 #' Constant related to...
-#' @param mol_type TODO: fill this in
+#' @param mol_type character, "poly" or "oligo".
 #' @param exchange type of exchange - "HD" for hydrogen to deuterium,
-#' "DH" for deuterium to hydrogen (back-exchange).
-#' @return list
+#' "DH" for deuterium to hydrogen (back-exchange). Default "HD.
+#' @return list of Ka,Kb and Kw corresponding to the chosen \code{mol_type} and acid, base or water.
 #' @keywords internal
 get_poly_const = function(mol_type, exchange = "HD") {
     if (exchange == "HD") {
@@ -51,7 +52,11 @@ get_poly_const = function(mol_type, exchange = "HD") {
 
 
 #' Constant related to...
+#' @description This function calculates supplementary constants for aspartic
+#' acid (Asp), glutamic acid (Glu) and histidine (His).
 #' @inheritParams get_F_const
+#' @inheritParams get_poly_const
+#'
 #' @keywords internal
 get_pkc = function(temp_kelvin, gas_constant, exchange = "HD") {
     # Unit: cal / mol
@@ -79,9 +84,10 @@ get_pkc = function(temp_kelvin, gas_constant, exchange = "HD") {
 
 #' Exchange constant for Hydrogen-Deuterium Exchange.
 #' @param pH reaction pH
-#' @param pkc_consts constants...
-#' @param k_consts constants...
-#' @return matrix
+#' @param pkc_consts constants calculated via \code{\link[powerHDX]{get_pkc}}
+#' @param k_consts constants calculated via \code{\link[powerHDX]{get_poly_const}}
+#' @return a matrix named \code{constants} of tabular and calculated constants
+#' (specifically for Asp, Glu, His, C−Term and NHMe)
 #' @keywords internal
 get_exchange_constants = function(pH, pkc_consts, k_consts) {
     constants = matrix(
@@ -139,15 +145,14 @@ get_exchange_constants = function(pH, pkc_consts, k_consts) {
 
 
 #' Hydrogen-deuterium or back-exchange exchange rates
-#' @param sequence peptide amino acid sequence as a single string
-#' @param exchange "HD" for hydrogen-deuterium exchange,
-#' "DH" for deuterium-hydrogen (back-exchange).
-#' @param pH pH of the reaction
-#' @param temperature temperature of the reaction (Celsius)
-#' @param mol_type ... TODO: fill this in
+#' @param sequence peptide amino acid sequence as a character vector of amino acids
+#' @inheritParams get_poly_const
+#' @inheritParams get_exchange_constants
+#' @param temperature temperature of the reaction (Celsius). Default to 15.
 #' @param gas_constant gas constant
-#' @param if_corr pH correction factor
-#' @return numeric vector of exchange rates
+#' @param if_corr pH correction indicator. Default value 0. The value of pH is equal to pD.
+#' If there is correction, the pD = pH + 0.4. (Conelly et al 1993)
+#' @return numeric vector of exchange rates according to the provided exchange direction.
 #' @keywords internal
 #' @export
 get_exchange_rates = function(sequence, exchange = "HD", pH = 9, temperature = 15,

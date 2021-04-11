@@ -14,23 +14,24 @@ get_exchange_rates(
 )
 }
 \arguments{
-\item{sequence}{peptide amino acid sequence as a single string}
+\item{sequence}{peptide amino acid sequence as a character vector of amino acids}
 
-\item{exchange}{"HD" for hydrogen-deuterium exchange,
-"DH" for deuterium-hydrogen (back-exchange).}
+\item{exchange}{type of exchange - "HD" for hydrogen to deuterium,
+"DH" for deuterium to hydrogen (back-exchange). Default "HD.}
 
-\item{pH}{pH of the reaction}
+\item{pH}{reaction pH}
 
-\item{temperature}{temperature of the reaction (Celsius)}
+\item{temperature}{temperature of the reaction (Celsius). Default to 15.}
 
-\item{mol_type}{... TODO: fill this in}
+\item{mol_type}{character, "poly" or "oligo".}
 
-\item{if_corr}{pH correction factor}
+\item{if_corr}{pH correction indicator. Default value 0. The value of pH is equal to pD.
+If there is correction, the pD = pH + 0.4. (Conelly et al 1993)}
 
 \item{gas_constant}{gas constant}
 }
 \value{
-numeric vector of exchange rates
+numeric vector of exchange rates according to the provided exchange direction.
 }
 \description{
 Hydrogen-deuterium or back-exchange exchange rates

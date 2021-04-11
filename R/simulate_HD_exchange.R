@@ -1,7 +1,7 @@
 #' Get probability of an exchange (H->D and D->H)
-#' @param HD_rate rate of hydrogen-deuterium exchange
-#' @param DH_rate rate of deuterium-hydrogen exchange (back-exchange)
-#' @param time_step time step of a simulation
+#' @param HD_rate rate of hydrogen-deuterium exchange calculated via \code{\link[powerHDX]{get_exchange_rates}}
+#' @param DH_rate rate of deuterium-hydrogen exchange (back-exchange) calculated via \code{\link[powerHDX]{get_exchange_rates}}
+#' @param time_step size of a single time step of a simulation
 #' @param protection_factor protection factor
 #' @return list
 #' @keywords internal

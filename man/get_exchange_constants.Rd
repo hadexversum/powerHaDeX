@@ -9,12 +9,13 @@ get_exchange_constants(pH, pkc_consts, k_consts)
 \arguments{
 \item{pH}{reaction pH}
 
-\item{pkc_consts}{constants...}
+\item{pkc_consts}{constants calculated via \code{\link[powerHDX]{get_pkc}}}
 
-\item{k_consts}{constants...}
+\item{k_consts}{constants calculated via \code{\link[powerHDX]{get_poly_const}}}
 }
 \value{
-matrix
+a matrix named \code{constants} of tabular and calculated constants
+(specifically for Asp, Glu, His, C−Term and NHMe)
 }
 \description{
 Exchange constant for Hydrogen-Deuterium Exchange.
