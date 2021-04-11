@@ -106,6 +106,7 @@ make_experimental_design = function(spectra, n_runs) {
 #' with these standard deviations.
 #' @return list of lists of data.tables
 #' @keywords internal
+#' @export
 add_noise_to_spectra = function(spectra, n_runs, n_replicates, undeuterated_mass,
                                 mass_deviations, intensity_deviations) {
     spectra = make_experimental_design(spectra, n_runs)
