@@ -40,7 +40,7 @@
 
 
 <meta property="og:title" content="Calculate power of statistical tests for HDX experiments — calculate_hdx_power" />
-<meta property="og:description" content="Calculate power of statistical tests for HDX experiments" />
+<meta property="og:description" content="This function estimates power of statistical tests for HDX experiments." />
 
 
 
@@ -124,7 +124,7 @@
     </div>
 
     <div class="ref-description">
-    <p>Calculate power of statistical tests for HDX experiments</p>
+    <p>This function estimates power of statistical tests for HDX experiments.</p>
     </div>
 
     <pre class="usage"><span class='fu'>calculate_hdx_power</span><span class='op'>(</span>
@@ -139,25 +139,31 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>deuteration_curves</th>
-      <td><p>list returned by the `get_noisy_deuteration_curves`</p></td>
+      <td><p>list returned by the <code><a href='get_noisy_deuteration_curves.html'>get_noisy_deuteration_curves</a></code></p></td>
     </tr>
     <tr>
       <th>tests</th>
-      <td><p>lists of tests to perform. Each test function should have</p></td>
+      <td><p>lists of tests to perform. Each test function should take two parameters - data
+(data_table containing replicated curves) and <code>significance_level</code>, and have particular
+output - data frame of variables: <code>Test</code> (name of a test which should be displayed in
+the final result), <code>State_1</code>, <code>State_2</code> (biological states of interest), <code>Test_statistic</code>,
+<code>P_value</code>, <code>Significant_difference</code> (the same as <code>p_value &lt;= significance_level</code>), <code>Time</code>
+(character, "continuous" or "categorical"), <code>Transformation</code> (character, transformation that is used
+for exposure), <code>AIC</code>, <code>logLik</code>.</p></td>
     </tr>
     <tr>
       <th>significance_level</th>
-      <td><p>significance level that will be used for testing</p></td>
+      <td><p>significance level that will be used for testing. See <code>tests</code></p></td>
     </tr>
     <tr>
       <th>summarized</th>
-      <td><p>default <code>TRUE</code></p></td>
+      <td><p>logical. Indicates whether the power should be calculated. Default <code>TRUE</code></p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>list of data.tables with test result, optionally summarized with power</p>
+    <p>list of data.tables with test result, optionally summarized with power.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

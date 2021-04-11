@@ -155,7 +155,8 @@
     <tr>
       <th>protection_factor</th>
       <td><p>protection factor. If a single number of provided,
-same protection factor will be assumed for each amide.</p></td>
+same protection factor will be assumed for each amide. Default value: 1
+(indicates that the exchange rate is equal to the intristic exchange rate)</p></td>
     </tr>
     <tr>
       <th>times</th>
@@ -163,7 +164,7 @@ same protection factor will be assumed for each amide.</p></td>
     </tr>
     <tr>
       <th>pH</th>
-      <td><p>pH of the reaction</p></td>
+      <td><p>pH of the reaction. Default to 7.5.</p></td>
     </tr>
     <tr>
       <th>temperature</th>
@@ -171,7 +172,7 @@ same protection factor will be assumed for each amide.</p></td>
     </tr>
     <tr>
       <th>n_molecules</th>
-      <td><p>number of peptide molecules</p></td>
+      <td><p>number of peptide molecules. Default to 100.</p></td>
     </tr>
     <tr>
       <th>time_step_const</th>
@@ -180,7 +181,8 @@ to obtain time step. Hydrogen-deuteration exchange may occur at each of these st
     </tr>
     <tr>
       <th>if_corr</th>
-      <td><p>correction factor for pH - 0 or 1</p></td>
+      <td><p>pH correction indicator. Default value 0. The value of pH is equal to pD.
+If there is correction, the pD = pH + 0.4. (Conelly et al 1993)</p></td>
     </tr>
     <tr>
       <th>min_probability</th>
@@ -189,7 +191,8 @@ to obtain time step. Hydrogen-deuteration exchange may occur at each of these st
     <tr>
       <th>use_markov</th>
       <td><p>logical. If TRUE algorithm basing on Markov chain will be used.
-If FALSE simulation from kanzy??? will be executed.</p></td>
+If FALSE simulation provided by Zhong-Yuan Kan will be executed. Default to TRUE,
+as it fastens the calculation</p></td>
     </tr>
     </table>
 

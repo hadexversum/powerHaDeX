@@ -141,28 +141,29 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>sequence</th>
-      <td><p>peptide amino acid sequence as a single string</p></td>
+      <td><p>peptide amino acid sequence as a character vector of amino acids</p></td>
     </tr>
     <tr>
       <th>exchange</th>
-      <td><p>"HD" for hydrogen-deuterium exchange,
-"DH" for deuterium-hydrogen (back-exchange).</p></td>
+      <td><p>type of exchange - "HD" for hydrogen to deuterium,
+"DH" for deuterium to hydrogen (back-exchange). Default "HD.</p></td>
     </tr>
     <tr>
       <th>pH</th>
-      <td><p>pH of the reaction</p></td>
+      <td><p>reaction pH</p></td>
     </tr>
     <tr>
       <th>temperature</th>
-      <td><p>temperature of the reaction (Celsius)</p></td>
+      <td><p>temperature of the reaction (Celsius). Default to 15.</p></td>
     </tr>
     <tr>
       <th>mol_type</th>
-      <td><p>... TODO: fill this in</p></td>
+      <td><p>character, "poly" or "oligo".</p></td>
     </tr>
     <tr>
       <th>if_corr</th>
-      <td><p>pH correction factor</p></td>
+      <td><p>pH correction indicator. Default value 0. The value of pH is equal to pD.
+If there is correction, the pD = pH + 0.4. (Conelly et al 1993)</p></td>
     </tr>
     <tr>
       <th>gas_constant</th>
@@ -172,7 +173,7 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>numeric vector of exchange rates</p>
+    <p>numeric vector of exchange rates according to the provided exchange direction.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
