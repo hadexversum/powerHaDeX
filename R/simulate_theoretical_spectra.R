@@ -1,5 +1,5 @@
 #' Simulate theoretical spectra of a deuterated peptide over time
-#' @param sequence amino acid sequence of a petpide as a single string
+#' @param sequence amino acid sequence of a peptide as a single string
 #' @param charge charge of the peptide ion.
 #' @param protection_factor protection factor. If a single number of provided,
 #' same protection factor will be assumed for each amide. Default value: 1
