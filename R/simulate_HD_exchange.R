@@ -143,16 +143,15 @@ get_iso_probs_deut <- function(HD_matrices, maxD, maxND, isotopic_probs, peptide
                 observed_peaks[i, 1] = observed_peaks[i - 1, 1] + DM / charge[ith_charge]
                 observed_peaks[i, 2] = observed_dist[i]
             }
-            data.frame(
-                Exposure = times[ith_time],
-                Mz = observed_peaks[, 1],
-                Intensity = observed_peaks[, 2],
-                PH = pH,
-                Charge = charge[ith_charge]
+            data.frame(Exposure = times[ith_time],
+                       Mz = observed_peaks[, 1],
+                       Intensity = observed_peaks[, 2],
+                       PH = pH,
+                       Charge = charge[ith_charge]
             )
         }))
     })
-    isotope_dists = do.call("rbind", isotope_dists)
+    isotope_dists = data.table::rbindlist(isotope_dists)
 
     rbind(merge(data.frame(Exposure = 0,
                            Intensity = isotopic_probs,
