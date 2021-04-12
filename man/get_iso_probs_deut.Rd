@@ -26,9 +26,10 @@ get_iso_probs_deut(
 
 \item{peptide_mass}{mass of the peptide + mass of H2O}
 
-\item{times}{times at which deuteration levels will be measured (seconds)}
+\item{times}{a vector of times at which deuteration levels will be measured (seconds)}
 
-\item{charge}{charge of the peptide ion.}
+\item{charge}{vector of charges of the peptide ion. If NULL, oe value is sampled
+from vector 2:6. Default NULL.}
 
 \item{pH}{pH of the reaction. Default to 7.5.}
 }

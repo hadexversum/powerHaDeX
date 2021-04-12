@@ -23,4 +23,3 @@ list of data.tables
 \description{
 Get a list of spectra
 }
-\keyword{internal}

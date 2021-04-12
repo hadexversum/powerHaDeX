@@ -19,15 +19,16 @@ simulate_theoretical_spectra(
 )
 }
 \arguments{
-\item{sequence}{amino acid sequence of a petpide as a single string}
+\item{sequence}{amino acid sequence of a peptide as a single string}
 
-\item{charge}{charge of the peptide ion.}
+\item{charge}{vector of charges of the peptide ion. If NULL, oe value is sampled
+from vector 2:6. Default NULL.}
 
 \item{protection_factor}{protection factor. If a single number of provided,
 same protection factor will be assumed for each amide. Default value: 1
 (indicates that the exchange rate is equal to the intristic exchange rate)}
 
-\item{times}{times at which deuteration levels will be measured (seconds)}
+\item{times}{a vector of times at which deuteration levels will be measured (seconds)}
 
 \item{pH}{pH of the reaction. Default to 7.5.}
 

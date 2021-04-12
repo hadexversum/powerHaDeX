@@ -131,23 +131,36 @@ get_observed_iso_dist = function(HDmatrix, isotopic_distribution, maxD) {
 #' @export
 
 get_iso_probs_deut <- function(HD_matrices, maxD, maxND, isotopic_probs, peptide_mass, times, charge, pH) {
-    lapply(1:length(times), function(ith_time) {
-        observed_dist = get_observed_iso_dist(HD_matrices[[ith_time]], isotopic_probs, maxD)
-        observed_peaks = matrix(0, maxD + maxND + 1, 2)
-        DM = 1.00628
-        observed_peaks[1, 1] = peptide_mass / charge + 1.007276
-        observed_peaks[1, 2] = observed_dist[1]
+    isotope_dists <- lapply(1:length(times), function(ith_time) {
+        do.call(rbind, lapply(1:length(charge), function(ith_charge) {
+            observed_dist = get_observed_iso_dist(HD_matrices[[ith_time]], isotopic_probs, maxD)
+            observed_peaks = matrix(0, maxD + maxND + 1, 2)
+            DM = 1.00628
+            observed_peaks[1, 1] = peptide_mass / charge[ith_charge] + 1.007276
+            observed_peaks[1, 2] = observed_dist[1]
 
-        for (i in 2:(maxD + maxND + 1)) {
-            observed_peaks[i, 1] = observed_peaks[i - 1, 1] + DM / charge
-            observed_peaks[i, 2] = observed_dist[i]
-        }
-        data.frame(
-            Exposure = times[ith_time],
-            Mz = observed_peaks[, 1],
-            Intensity = observed_peaks[, 2],
-            PH = pH
-        )
+            for (i in 2:(maxD + maxND + 1)) {
+                observed_peaks[i, 1] = observed_peaks[i - 1, 1] + DM / charge[ith_charge]
+                observed_peaks[i, 2] = observed_dist[i]
+            }
+            data.frame(
+                Exposure = times[ith_time],
+                Mz = observed_peaks[, 1],
+                Intensity = observed_peaks[, 2],
+                PH = pH,
+                Charge = charge[ith_charge]
+            )
+        }))
     })
+    isotope_dists = do.call("rbind", isotope_dists)
+
+    rbind(merge(data.frame(Exposure = 0,
+                           Intensity = isotopic_probs,
+                           PH = pH),
+                data.frame(Mz = peptide_mass / charge + 1.007276,
+                           PH = pH,
+                           Exposure = 0,
+                           Charge = charge)),
+          isotope_dists)
 }
 

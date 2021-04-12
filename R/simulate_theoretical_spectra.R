@@ -1,10 +1,11 @@
 #' Simulate theoretical spectra of a deuterated peptide over time
 #' @param sequence amino acid sequence of a peptide as a single string
-#' @param charge charge of the peptide ion.
+#' @param charge vector of charges of the peptide ion. If NULL, oe value is sampled
+#' from vector 2:6. Default NULL.
 #' @param protection_factor protection factor. If a single number of provided,
 #' same protection factor will be assumed for each amide. Default value: 1
 #' (indicates that the exchange rate is equal to the intristic exchange rate)
-#' @param times times at which deuteration levels will be measured (seconds)
+#' @param times a vector of times at which deuteration levels will be measured (seconds)
 #' @param pH pH of the reaction. Default to 7.5.
 #' @param temperature temperature of the reaction (Celsius)
 #' @param n_molecules number of peptide molecules. Default to 100.
@@ -65,16 +66,8 @@ simulate_theoretical_spectra = function(sequence, charge = NULL, protection_fact
             isotope_dists = get_iso_probs_deut(HD_matrices, maxD, maxND,
                                                isotopic_probs, peptide_mass,
                                                times, charge, pH)
-            isotope_dists = do.call("rbind", isotope_dists)
         })
-
     }
-
-    isotope_dists = rbind(data.frame(Exposure = 0,
-                                     Mz = peptide_mass / charge + 1.007276,
-                                     Intensity = isotopic_probs,
-                                     PH = pH),
-                          isotope_dists)
     isotope_dists[["Sequence"]] = paste0(sequence, collapse = "")
     if (length(unique(protection_factor)) == 1) {
         isotope_dists[["PF"]] = protection_factor[1]
@@ -82,7 +75,6 @@ simulate_theoretical_spectra = function(sequence, charge = NULL, protection_fact
         isotope_dists[["PF"]] = paste(protection_factor,
                                       sep = ",", collapse = ",")
     }
-    isotope_dists[["Charge"]] = charge
     isotope_dists = isotope_dists[isotope_dists[["Intensity"]] > min_probability, ]
     data.table::as.data.table(isotope_dists)
 }
