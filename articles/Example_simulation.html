@@ -97,13 +97,13 @@
                                         use_markov <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">spectra</span><span class="op">)</span>
-<span class="co">#&gt;    Exposure      Mz    Intensity  PH Sequence  PF Charge</span>
-<span class="co">#&gt; 1:        0 110.818 0.7774507202 7.5     PPVQ 100      4</span>
-<span class="co">#&gt; 2:        0 110.818 0.1887326538 7.5     PPVQ 100      4</span>
-<span class="co">#&gt; 3:        0 110.818 0.0298879909 7.5     PPVQ 100      4</span>
-<span class="co">#&gt; 4:        0 110.818 0.0035555122 7.5     PPVQ 100      4</span>
-<span class="co">#&gt; 5:        0 110.818 0.0003430289 7.5     PPVQ 100      4</span>
-<span class="co">#&gt; 6:        5 110.818 0.7541498940 7.5     PPVQ 100      4</span></code></pre></div>
+<span class="co">#&gt;    Exposure  PH    Intensity      Mz Charge Sequence  PF</span>
+<span class="co">#&gt; 1:        0 7.5 0.7774507202 110.818      4     PPVQ 100</span>
+<span class="co">#&gt; 2:        0 7.5 0.1887326538 110.818      4     PPVQ 100</span>
+<span class="co">#&gt; 3:        0 7.5 0.0298879909 110.818      4     PPVQ 100</span>
+<span class="co">#&gt; 4:        0 7.5 0.0035555122 110.818      4     PPVQ 100</span>
+<span class="co">#&gt; 5:        0 7.5 0.0003430289 110.818      4     PPVQ 100</span>
+<span class="co">#&gt; 6:        5 7.5 0.7541498940 110.818      4     PPVQ 100</span></code></pre></div>
 <p>Simulated spectrum for particular time can be visualized using <em>powerHDX</em> as follows</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/plot_single_spectrum.html">plot_single_spectrum</a></span><span class="op">(</span><span class="va">spectra</span>, <span class="fl">30</span><span class="op">)</span></code></pre></div>
@@ -115,22 +115,22 @@
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">one_curve</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_deuteration_curve_single_spectrum.html">get_deuteration_curve_single_spectrum</a></span><span class="op">(</span><span class="va">spectra</span><span class="op">)</span>
 <span class="va">one_curve</span>
-<span class="co">#&gt;     Exposure  PH Sequence  PF     Mass</span>
-<span class="co">#&gt;  1:        0 7.5     PPVQ 100 439.2431</span>
-<span class="co">#&gt;  2:        5 7.5     PPVQ 100 439.5354</span>
-<span class="co">#&gt;  3:       10 7.5     PPVQ 100 439.5615</span>
-<span class="co">#&gt;  4:       20 7.5     PPVQ 100 439.6158</span>
-<span class="co">#&gt;  5:       30 7.5     PPVQ 100 439.6499</span>
-<span class="co">#&gt;  6:       40 7.5     PPVQ 100 439.6981</span>
-<span class="co">#&gt;  7:       50 7.5     PPVQ 100 439.7306</span>
-<span class="co">#&gt;  8:       60 7.5     PPVQ 100 439.7749</span>
-<span class="co">#&gt;  9:      100 7.5     PPVQ 100 439.7608</span>
-<span class="co">#&gt; 10:      300 7.5     PPVQ 100 439.8695</span>
-<span class="co">#&gt; 11:      500 7.5     PPVQ 100 439.8272</span>
-<span class="co">#&gt; 12:      900 7.5     PPVQ 100 439.8272</span>
-<span class="co">#&gt; 13:     1200 7.5     PPVQ 100 439.8494</span>
-<span class="co">#&gt; 14:     1500 7.5     PPVQ 100 439.8715</span>
-<span class="co">#&gt; 15:     1800 7.5     PPVQ 100 439.8655</span>
+<span class="co">#&gt;     Exposure  PH Charge Sequence  PF     Mass</span>
+<span class="co">#&gt;  1:        0 7.5      4     PPVQ 100 439.2431</span>
+<span class="co">#&gt;  2:        5 7.5      4     PPVQ 100 439.5354</span>
+<span class="co">#&gt;  3:       10 7.5      4     PPVQ 100 439.5615</span>
+<span class="co">#&gt;  4:       20 7.5      4     PPVQ 100 439.6158</span>
+<span class="co">#&gt;  5:       30 7.5      4     PPVQ 100 439.6499</span>
+<span class="co">#&gt;  6:       40 7.5      4     PPVQ 100 439.6981</span>
+<span class="co">#&gt;  7:       50 7.5      4     PPVQ 100 439.7306</span>
+<span class="co">#&gt;  8:       60 7.5      4     PPVQ 100 439.7749</span>
+<span class="co">#&gt;  9:      100 7.5      4     PPVQ 100 439.7608</span>
+<span class="co">#&gt; 10:      300 7.5      4     PPVQ 100 439.8695</span>
+<span class="co">#&gt; 11:      500 7.5      4     PPVQ 100 439.8272</span>
+<span class="co">#&gt; 12:      900 7.5      4     PPVQ 100 439.8272</span>
+<span class="co">#&gt; 13:     1200 7.5      4     PPVQ 100 439.8494</span>
+<span class="co">#&gt; 14:     1500 7.5      4     PPVQ 100 439.8715</span>
+<span class="co">#&gt; 15:     1800 7.5      4     PPVQ 100 439.8655</span>
 
 <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">one_curve</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">Exposure</span>, y <span class="op">=</span> <span class="va">Mass</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>

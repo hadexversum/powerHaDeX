@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get the isotopic probabilities for the deuterated peptide. — get_iso_probs_deut • powerHDX</title>
+<title>Complete data frame with columns — add_column • powerHDX</title>
 
 
 <!-- jquery -->
@@ -39,10 +39,8 @@
 
 
 
-<meta property="og:title" content="Get the isotopic probabilities for the deuterated peptide. — get_iso_probs_deut" />
-<meta property="og:description" content="Compute the isotopic probabilities for the deuterated peptide as a convolution
-of the isotopic distribution for the undeuterated peptide and the observed
-isotopic distribution after hydrogen-deuterium exchange computed by get_observed_iso_dist." />
+<meta property="og:title" content="Complete data frame with columns — add_column" />
+<meta property="og:description" content="This function adds column if does not exist and fill it with provided value." />
 
 
 
@@ -59,6 +57,8 @@ isotopic distribution after hydrogen-deuterium exchange computed by get_observed
 <![endif]-->
 
 
+
+<!-- dependencies from examples -->
 
 
   
@@ -120,67 +120,47 @@ isotopic distribution after hydrogen-deuterium exchange computed by get_observed
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get the isotopic probabilities for the deuterated peptide.</h1>
+    <h1>Complete data frame with columns</h1>
     
-    <div class="hidden name"><code>get_iso_probs_deut.Rd</code></div>
+    <div class="hidden name"><code>add_column.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Compute the isotopic probabilities for the deuterated peptide as a convolution
-of the isotopic distribution for the undeuterated peptide and the observed
-isotopic distribution after hydrogen-deuterium exchange computed by <code>get_observed_iso_dist</code>.</p>
+    <p>This function adds column if does not exist and fill it with provided value.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_iso_probs_deut</span><span class='op'>(</span>
-  <span class='va'>HD_matrices</span>,
-  <span class='va'>maxD</span>,
-  <span class='va'>maxND</span>,
-  <span class='va'>isotopic_probs</span>,
-  <span class='va'>peptide_mass</span>,
-  <span class='va'>times</span>,
-  <span class='va'>charge</span>,
-  <span class='va'>pH</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>add_column</span><span class='op'>(</span><span class='va'>data</span>, <span class='va'>col_name</span>, value <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>HD_matrices</th>
-      <td><p>list. Simulated matrices for every time point after hydrogen-deuterium-exchange</p></td>
+      <th>data</th>
+      <td><p>a data frame of interest.</p></td>
     </tr>
     <tr>
-      <th>maxD</th>
-      <td><p>length of the sequence - amount of prolines</p></td>
+      <th>col_name</th>
+      <td><p>a character. Name of column that should be created if it does not exist</p></td>
     </tr>
     <tr>
-      <th>maxND</th>
-      <td><p>length of the isotopic distribution - 1</p></td>
-    </tr>
-    <tr>
-      <th>isotopic_probs</th>
-      <td><p>the isotopic distribution for the undeuterated peptide.</p></td>
-    </tr>
-    <tr>
-      <th>peptide_mass</th>
-      <td><p>mass of the peptide + mass of H2O</p></td>
-    </tr>
-    <tr>
-      <th>times</th>
-      <td><p>a vector of times at which deuteration levels will be measured (seconds)</p></td>
-    </tr>
-    <tr>
-      <th>charge</th>
-      <td><p>vector of charges of the peptide ion. If NULL, oe value is sampled
-from vector 2:6. Default NULL.</p></td>
-    </tr>
-    <tr>
-      <th>pH</th>
-      <td><p>pH of the reaction. Default to 7.5.</p></td>
+      <th>value</th>
+      <td><p>optional. A value to fill with.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
+    
+
+
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'>add_column</span><span class='op'>(</span><span class='va'>mtcars</span>, <span class='st'>"mpg"</span><span class='op'>)</span>
+<span class='fu'>add_column</span><span class='op'>(</span><span class='va'>mtcars</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"column1"</span>, <span class='st'>"column2"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

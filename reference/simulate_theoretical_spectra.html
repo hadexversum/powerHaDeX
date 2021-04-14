@@ -146,11 +146,12 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>sequence</th>
-      <td><p>amino acid sequence of a petpide as a single string</p></td>
+      <td><p>amino acid sequence of a peptide as a single string</p></td>
     </tr>
     <tr>
       <th>charge</th>
-      <td><p>charge of the peptide ion.</p></td>
+      <td><p>vector of charges of the peptide ion. If NULL, oe value is sampled
+from vector 2:6. Default NULL.</p></td>
     </tr>
     <tr>
       <th>protection_factor</th>
@@ -160,7 +161,7 @@ same protection factor will be assumed for each amide. Default value: 1
     </tr>
     <tr>
       <th>times</th>
-      <td><p>times at which deuteration levels will be measured (seconds)</p></td>
+      <td><p>a vector of times at which deuteration levels will be measured (seconds)</p></td>
     </tr>
     <tr>
       <th>pH</th>
