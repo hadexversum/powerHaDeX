@@ -49,7 +49,7 @@ get_noisy_deuteration_curves = function(theoretical_spectra,
 #' Get a list of spectra
 #' @inheritParams get_noisy_deuteration_curves
 #' @return list of data.tables
-#' @keywords internal
+#' @export
 get_spectra_list = function(theoretical_spectra, compare_pairs, reference) {
     if (compare_pairs & (is.na(reference) |
                          !(as.integer(reference) %in% as.integer(unique(theoretical_spectra$PF))))) {
@@ -175,7 +175,7 @@ get_deuteration_curves_from_spectra = function(spectra) {
 get_deuteration_curve_single_spectrum = function(spectrum) {
     Mz = Intensity = Charge = NULL
 
-    grouping_columns = setdiff(colnames(spectrum), c("Mz", "Intensity", "Charge"))
+    grouping_columns = setdiff(colnames(spectrum), c("Mz", "Intensity"))
     spectrum = spectrum[, list(Mass = weighted.mean(Charge * (Mz - 1.007276),
                                                     Intensity)),
                         by = grouping_columns]
@@ -227,6 +227,7 @@ add_noise_to_single_curve = function(replicate_curve, per_run_deviations, relati
 #' @param theoretical_spectra `data.table` returned by the `simulate_theoretical_spectra` function.
 #' @return `data.table`
 #' @keywords internal
+#' @export
 get_undeuterated_mass = function(theoretical_spectra) {
     unique(theoretical_spectra$Charge * (theoretical_spectra$Mz - 1.007276))[1]
 }
