@@ -10,7 +10,8 @@ create_experimental_file(
   charge,
   n_runs = 3,
   mass_deviations = 50,
-  intensity_deviations = NULL
+  intensity_deviations = NULL,
+  file_type = "DynamX"
 )
 }
 \arguments{
@@ -37,6 +38,8 @@ will be added to intensities. Either a single number (then the error at each
 time point will be the same) or a vector of the same length as number of unique
 time points in the experiment. The error will be sampled from normal distribution
 with these standard deviations.}
+
+\item{file_type}{...}
 }
 \value{
 

@@ -3,6 +3,7 @@
 export(add_noise_to_spectra)
 export(auc_test)
 export(calculate_hdx_power)
+export(calculate_peptide_mass)
 export(create_experimental_file)
 export(deuteros)
 export(get_HD_matrices)

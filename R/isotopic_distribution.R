@@ -1,3 +1,17 @@
+
+
+#' Calculate mass of undeuterated peptide
+#' @param sequence character vector of amino acid sequence of a peptide
+#' @keywords internal
+#' @export
+
+calculate_peptide_mass <- function(sequence) {
+    h2_o_mass = 1.007825 * 2 + 15.994915
+    sum(AAmonoMass[sequence]) + h2_o_mass
+}
+
+
+
 #' Approximates isotopic distribution via sampling
 #' @param sequence amino acid sequence of a peptide
 #' @param min_probability minimum isotopic probability that will be considered
@@ -6,13 +20,12 @@
 #' @keywords internal
 #' @export
 get_approx_isotopic_distribution = function(sequence, min_probability = 1e-3) {
-    h2_o_mass = 1.007825 * 2 + 15.994915
     pC13 = 0.0111
     pN15 = 0.00364
     pO18 = 0.00205
     pS34 = 0.04293
 
-    peptide_mass = sum(AAmonoMass[sequence]) + h2_o_mass
+    peptide_mass = calculate_peptide_mass(sequence)
     n_carbon = sum(AAcarbonNum[sequence])
     n_nitrogen = sum(AAnitrogenNum[sequence])
     n_oxygen = sum(AAoxygenNum[sequence])

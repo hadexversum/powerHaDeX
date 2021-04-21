@@ -8,6 +8,7 @@
 #' about the additional parameters.
 #' @inheritParams simulate_theoretical_spectra
 #' @inheritParams get_noisy_deuteration_curves
+#' @param file_type ...
 #' @return
 #' @examples
 #' \dontrun{
@@ -25,7 +26,8 @@ create_experimental_file <- function(peptides,
                                      charge,
                                      n_runs = 3,
                                      mass_deviations = 50,
-                                     intensity_deviations = NULL) {
+                                     intensity_deviations = NULL,
+                                     file_type = "DynamX") {
 
     if (is.null(peptides[["sequence"]])) stop("You must provide at least one sequence to simulate spectra.
                                               See simulate_theoretical_spectra for more details.")
@@ -48,6 +50,7 @@ create_experimental_file <- function(peptides,
         spectra_by_charge <- split(spectrum, f = spectrum$Charge)
 
         rbindlist(lapply(spectra_by_charge, function(one_charge_spectrum) {
+            browser()
             undeuterated_mass = get_undeuterated_mass(one_charge_spectrum)
             spectra = get_spectra_list(one_charge_spectrum,
                                        compare_pairs = FALSE,
@@ -58,7 +61,7 @@ create_experimental_file <- function(peptides,
                                                  undeuterated_mass,
                                                  mass_deviations = mass_deviations,
                                                  intensity_deviations = intensity_deviations)
-            noisy_spectra[[1]][[1]][["MHP"]] = undeuterated_mass
+            noisy_spectra[[1]][[1]][["MHP"]] = calculate_peptide_mass(strsplit(all_params[ith_row, "sequence"], "")[[1]])
             noisy_spectra_center <- get_deuteration_curve_single_spectrum(noisy_spectra[[1]][[1]])
             noisy_spectra_center[["Protein"]] <- all_params[ith_row, "Protein"]
             noisy_spectra_center[["Start"]] <- all_params[ith_row, "Start"]
@@ -67,6 +70,7 @@ create_experimental_file <- function(peptides,
             colnames(noisy_spectra_center) <- c("Exposure", "z", "Sequence",
                                                 "State", "File", "MHP", "Center",
                                                 "Protein", "Start", "End")
+            noisy_spectra_center[["State"]] <- paste0("PF_", noisy_spectra_center[["State"]])
             noisy_spectra_center
         }))
     }))
