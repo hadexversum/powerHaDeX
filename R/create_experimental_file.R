@@ -50,7 +50,6 @@ create_experimental_file <- function(peptides,
         spectra_by_charge <- split(spectrum, f = spectrum$Charge)
 
         rbindlist(lapply(spectra_by_charge, function(one_charge_spectrum) {
-            browser()
             undeuterated_mass = get_undeuterated_mass(one_charge_spectrum)
             spectra = get_spectra_list(one_charge_spectrum,
                                        compare_pairs = FALSE,
