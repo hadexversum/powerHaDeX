@@ -23,15 +23,37 @@ calculate_hdx_power = function(deuteration_curves, tests, significance_level = 0
     test_results = lapply(
         deuteration_curves, function(curve) {
             single_curve = lapply(curve, function(replicate_curve) {
-                all_tests = lapply(tests, function(test) {
+
+                if(uniqueN(replicate_curve[["State"]]) == 1 & uniqueN(replicate_curve[["Experimental_state"]]) == 2) {
+
+                    replicate_curve[["State"]] = paste0(replicate_curve[["State"]],
+                                                        replicate_curve[["Experimental_state"]])
+                    info = replicate_curve[, list(Sequence = unique(Sequence),
+                                                  Num_replicates = uniqueN(Rep),
+                                                  Num_states = 2,
+                                                  Num_timepoints = uniqueN(Exposure))]
+                    type_one_err = TRUE
+
+                }else {
+                    type_one_err = FALSE
                     info = replicate_curve[, list(Sequence = unique(Sequence),
                                                   Num_replicates = uniqueN(Rep),
                                                   Num_states = uniqueN(State),
                                                   Num_timepoints = uniqueN(Exposure))]
+                }
+                all_tests = lapply(tests, function(test) {
                     test_for_replicate = tryCatch({suppressMessages(suppressWarnings(
                         test(replicate_curve,
                              significance_level = 0.05)
-                    ))}, error = function(e) data.table::data.table())
+                    ))}, error = function(e) {
+                        print(e)
+                        data.table::data.table()
+                    })
+                    if(type_one_err) {
+                        test_for_replicate[, State_1 := substr(State_1, 1 , nchar(State_1) - 1)]
+                        test_for_replicate[, State_2 := substr(State_2, 1 , nchar(State_2) - 1)]
+                    }
+
                     cbind(info, test_for_replicate)
                 })
                 data.table::rbindlist(all_tests)
