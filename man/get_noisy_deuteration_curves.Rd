@@ -25,7 +25,9 @@ will be considered jointly. If TRUE (default), each protection factor will be
 considered together with the protection factor given by the `reference` parameter}
 
 \item{reference}{protection factor that will be used for comparison to other
-protection factors in}
+protection factors in. The function accepts either \code{NA} (for comparing all
+protection factors), a number (for comparing with reference value of protection factor)
+or "all"(for pairwise comparisons of all the possible combinations). Default \code{NA}.}
 
 \item{n_runs}{number of technical replicates to create}
 

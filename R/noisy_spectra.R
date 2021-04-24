@@ -6,7 +6,9 @@
 #' will be considered jointly. If TRUE (default), each protection factor will be
 #' considered together with the protection factor given by the `reference` parameter
 #' @param reference protection factor that will be used for comparison to other
-#' protection factors in
+#' protection factors in. The function accepts either \code{NA} (for comparing all
+#' protection factors), a number (for comparing with reference value of protection factor)
+#' or "all"(for pairwise comparisons of all the possible combinations). Default \code{NA}.
 #' @param n_runs number of technical replicates to create
 #' @param n_replicates number of replicates of a spectrum for power calculation
 #' @param mass_deviations mass deviation in parts per million. Either a single number
@@ -51,8 +53,7 @@ get_noisy_deuteration_curves = function(theoretical_spectra,
 #' @return list of data.tables
 #' @export
 get_spectra_list = function(theoretical_spectra, compare_pairs, reference) {
-    if (compare_pairs & (is.na(reference) |
-                         !(as.integer(reference) %in% as.integer(unique(theoretical_spectra$PF))))) {
+    if (compare_pairs & (is.na(reference))) {
         stop("With pair comparisons, reference protection factor must be provided")
     }
 
@@ -68,13 +69,32 @@ get_spectra_list = function(theoretical_spectra, compare_pairs, reference) {
 #' @return list of data.tables
 #' @keywords internal
 get_paired_spectra = function(theoretical_spectra, reference) {
-    PF = NULL
-    reference_spectrum = theoretical_spectra[abs(PF - reference) < 1e-9, ]
-    theoretical_spectra = split(theoretical_spectra[abs(PF - reference) > 1e-9, ],
-                                theoretical_spectra[abs(PF - reference) > 1e-9, ]$PF)
-    theoretical_spectra = lapply(theoretical_spectra,
-                                 function(spectrum) rbind(spectrum, reference_spectrum))
-    unname(theoretical_spectra)
+
+    if(reference == "all") {
+        states = unique(theoretical_spectra[["PF"]])
+        pairs = expand.grid(states, states)
+        split_spectra = split(theoretical_spectra, theoretical_spectra[["PF"]])
+
+        lapply(1:nrow(pairs), function(i) {
+            spectrum = split_spectra[[as.character(pairs[i, 1])]]
+            reference_spectrum = split_spectra[[as.character(pairs[i, 2])]]
+
+            spectrum[["Experimental_state"]] = "A"
+            reference_spectrum[["Experimental_state"]] = "B"
+            paired_spectra = rbind(spectrum, reference_spectrum)
+        })
+    }else {
+        if (!(as.integer(reference) %in% as.integer(unique(theoretical_spectra$PF)))) {
+            stop("Reference protection factor does not fit the data.")
+        }
+        PF = NULL
+        reference_spectrum = theoretical_spectra[abs(PF - reference) < 1e-9, ]
+        theoretical_spectra = split(theoretical_spectra[abs(PF - reference) > 1e-9, ],
+                                    theoretical_spectra[abs(PF - reference) > 1e-9, ]$PF)
+        theoretical_spectra = lapply(theoretical_spectra,
+                                     function(spectrum) rbind(spectrum, reference_spectrum))
+        unname(theoretical_spectra)
+    }
 }
 # Add noise to spectra in mass and intensity domains ----
 #' Create a list of spectra with replicates from a a list of spectra
@@ -107,16 +127,20 @@ make_experimental_design = function(spectra, n_runs) {
 #' @return list of lists of data.tables
 #' @keywords internal
 #' @export
+#'
 add_noise_to_spectra = function(spectra, n_runs, n_replicates, undeuterated_mass,
                                 mass_deviations, intensity_deviations) {
     spectra = make_experimental_design(spectra, n_runs)
     make_noisy_spectra(spectra, n_replicates, undeuterated_mass,
                        mass_deviations, intensity_deviations)
 }
+
+
 #' Creates spectra with technical replicates and noise
 #' @inheritParams add_noise_to_spectra
 #' @return list of lists of data.tables
 #' @keywords internal
+#'
 make_noisy_spectra = function(spectra, n_replicates, undeuterated_mass,
                               mass_deviations, intensity_deviations) {
     lapply(spectra, function(spectrum) {
@@ -126,6 +150,8 @@ make_noisy_spectra = function(spectra, n_replicates, undeuterated_mass,
         })
     })
 }
+
+
 #' Add noise to a single spectrum
 #' @inheritParams add_noise_to_spectra
 #' @return data.table
@@ -202,8 +228,9 @@ add_noise_to_curves = function(curves, per_run_deviations, relative) {
 #' @param relative if TRUE (default), each curve will start at 0
 #' @return `data.table`
 #' @keywords internal
+#' @export
 add_noise_to_single_curve = function(replicate_curve, per_run_deviations, relative) {
-    Exposure = Mass = NULL
+    Exposure = Mass = Charge = NULL
     if (!is.null(per_run_deviations)) {
         if (length(per_run_deviations) == 1) {
             per_run_deviations = rep(per_run_deviations, length(unique(replicate_curve$Rep)))
@@ -217,7 +244,7 @@ add_noise_to_single_curve = function(replicate_curve, per_run_deviations, relati
     if (relative) {
         grouping_columns = setdiff(colnames(replicate_curve),
                                    c("Mass", "Charge", "Exposure"))
-        replicate_curve = replicate_curve[, list(Exposure, Mass = get_relative_mass(Mass, Exposure)),
+        replicate_curve = replicate_curve[, list(Exposure, Charge, Mass = get_relative_mass(Mass, Exposure)),
                                           by = grouping_columns]
     }
     replicate_curve
@@ -271,13 +298,13 @@ get_relative_mass = function(mass, time) {
 #' Standardize column names and types
 #' @param curves list of lists of data.tables
 fix_columns_names_types = function(curves) {
-    Sequence = Rep = PF = Exposure = Mass = NULL
+    Sequence = Rep = PF = Exposure = Mass = Charge = Experimental_state =  NULL
     lapply(curves, function(curve) {
         lapply(curve, function(replicate_curve) {
             replicate_curve[, list(Sequence = as.factor(Sequence),
                                    Rep = as.factor(as.character(Rep)),
                                    State = as.factor(as.character(PF)),
-                                   Exposure, Mass)]
+                                   Exposure, Mass, Charge, Experimental_state)]
         })
     })
 }

@@ -11,7 +11,9 @@ get_paired_spectra(theoretical_spectra, reference)
 `simulate_theoretical_spectra` function}
 
 \item{reference}{protection factor that will be used for comparison to other
-protection factors in}
+protection factors in. The function accepts either \code{NA} (for comparing all
+protection factors), a number (for comparing with reference value of protection factor)
+or "all"(for pairwise comparisons of all the possible combinations). Default \code{NA}.}
 }
 \value{
 list of data.tables

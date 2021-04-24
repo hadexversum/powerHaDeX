@@ -28,6 +28,7 @@ create_experimental_file <- function(peptides,
                                      mass_deviations = 50,
                                      intensity_deviations = NULL,
                                      file_type = "DynamX") {
+    Modification = MaxUptake = Fragment = Sequence = RT = NULL
 
     if (is.null(peptides[["sequence"]])) stop("You must provide at least one sequence to simulate spectra.
                                               See simulate_theoretical_spectra for more details.")
@@ -129,7 +130,5 @@ add_column <- function(data, col_name, value = NULL) {
     }
     data
 }
-
-
 
 
