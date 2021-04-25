@@ -72,7 +72,7 @@ get_paired_spectra = function(theoretical_spectra, reference) {
 
     if(reference == "all") {
         states = unique(theoretical_spectra[["PF"]])
-        pairs = expand.grid(states, states)
+        pairs = rbind(t(combn(states, 2)), cbind(states, states))
         split_spectra = split(theoretical_spectra, theoretical_spectra[["PF"]])
 
         lapply(1:nrow(pairs), function(i) {
