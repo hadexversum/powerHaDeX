@@ -41,6 +41,8 @@ calculate_hdx_power = function(deuteration_curves, tests, significance_level = 0
                                                   Num_states = uniqueN(State),
                                                   Num_timepoints = uniqueN(Exposure))]
                 }
+                replicate_curve[, id := as.numeric(paste0(Rep, Charge, match(Experimental_state, LETTERS)))]
+
                 all_tests = lapply(tests, function(test) {
                     test_for_replicate = tryCatch({suppressMessages(suppressWarnings(
                         test(replicate_curve,
