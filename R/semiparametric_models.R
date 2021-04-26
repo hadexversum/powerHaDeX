@@ -18,7 +18,7 @@ S1 <- function(data, significance_level = 0.05) {
 
     States = unique(data$State)
     Transformation = c("identity", "log")
-    aic = loglik = F_statistic = p_value = rep(NA, 2)
+    aic = loglik = Test_statistic = p_value = rep(NA, 2)
 
     knots <- unique(setdiff(data$Exposure, c(max(data$Exposure), min(data$Exposure))))
 
@@ -34,7 +34,7 @@ S1 <- function(data, significance_level = 0.05) {
     result = anova(model, model_reduced)
     aic[1] = AIC(model)
     loglik[1] = logLik(model)
-    F_statistic[1] = result$`F`[2]
+    Test_statistic[1] = result$`F`[2]
     p_value[1] = result$`Pr(>F)`[2]
 
     # log
@@ -45,13 +45,13 @@ S1 <- function(data, significance_level = 0.05) {
     result = anova(model, model_reduced)
     aic[2] = AIC(model)
     loglik[2] = logLik(model)
-    F_statistic[2] = result$`F`[2]
+    Test_statistic[2] = result$`F`[2]
     p_value[2] = result$`Pr(>F)`[2]
 
     data.table::data.table(Test = "S1",
                            State_1 = States[1],
                            State_2 = States[2],
-                           Test_statistic = F_statistic,
+                           Test_statistic = Test_statistic,
                            P_value = p_value,
                            Significant_difference = (p_value <= significance_level),
                            Time = NA,
@@ -70,7 +70,7 @@ S2 <- function(data, significance_level = 0.05) {
 
     States = unique(data$State)
     Transformation = c("identity", "log")
-    aic = loglik = F_statistic = p_value = rep(NA, 2)
+    aic = loglik = Test_statistic = p_value = rep(NA, 2)
 
     knots <- unique(setdiff(data$Exposure, c(max(data$Exposure), min(data$Exposure))))
 
@@ -85,7 +85,7 @@ S2 <- function(data, significance_level = 0.05) {
     result = anova(model, model_reduced)
     aic[1] = AIC(model)
     loglik[1] = logLik(model)
-    F_statistic[1] = result$`F`[2]
+    Test_statistic[1] = result$`F`[2]
     p_value[1] = result$`Pr(>F)`[2]
 
     # log
@@ -96,13 +96,13 @@ S2 <- function(data, significance_level = 0.05) {
     result = anova(model, model_reduced)
     aic[2] = AIC(model)
     loglik[2] = logLik(model)
-    F_statistic[2] = result$`F`[2]
+    Test_statistic[2] = result$`F`[2]
     p_value[2] = result$`Pr(>F)`[2]
 
     data.table::data.table(Test = "S2",
                            State_1 = States[1],
                            State_2 = States[2],
-                           Test_statistic = F_statistic,
+                           Test_statistic = Test_statistic,
                            P_value = p_value,
                            Significant_difference = (p_value <= significance_level),
                            Time = NA,
@@ -156,7 +156,7 @@ S3 <- function(data, significance_level = 0.05) {
     data.table::data.table(Test = "S3",
                            State_1 = States[1],
                            State_2 = States[2],
-                           Test_statistic = F_statistic,
+                           Test_statistic = Test_statistic,
                            P_value = p_value,
                            Significant_difference = (p_value <= significance_level),
                            Time = NA,
@@ -188,10 +188,10 @@ S4 <- function(data, significance_level = 0.05) {
                  method="REML")
 
     result = anova.gam(model, model_reduced, test = "Chisq")
-    aic = AIC(model)
-    Test_statistic = result$Deviance[2]
-    p_value = result$`Pr(>Chi)`[2]
-    loglik = as.numeric(logLik(model))
+    aic[1] = AIC(model)
+    Test_statistic[1] = result$Deviance[2]
+    p_value[1] = result$`Pr(>Chi)`[2]
+    loglik[1] = as.numeric(logLik(model))
 
     #log
     model_reduced <- gam(Mass ~ s(log(Exposure + 1)),
@@ -202,15 +202,15 @@ S4 <- function(data, significance_level = 0.05) {
                  method="REML")
 
     result = anova.gam(model, model_reduced, test = "Chisq")
-    aic = AIC(model)
-    Test_statistic = result$Deviance[2]
-    p_value = result$`Pr(>Chi)`[2]
-    loglik = as.numeric(logLik(model))
+    aic[2] = AIC(model)
+    Test_statistic[2] = result$Deviance[2]
+    p_value[2] = result$`Pr(>Chi)`[2]
+    loglik[2] = as.numeric(logLik(model))
 
     data.table::data.table(Test = "S4",
                            State_1 = States[1],
                            State_2 = States[2],
-                           Test_statistic = F_statistic,
+                           Test_statistic = Test_statistic,
                            P_value = p_value,
                            Significant_difference = (p_value <= significance_level),
                            Time = NA,
@@ -242,10 +242,10 @@ S5 <- function(data, significance_level = 0.05) {
                 method="REML")
 
     result = anova.gam(model, model_reduced, test = "Chisq")
-    aic = AIC(model)
-    Test_statistic = result$Deviance[2]
-    p_value = result$`Pr(>Chi)`[2]
-    loglik = as.numeric(logLik(model))
+    aic[1] = AIC(model)
+    Test_statistic[1] = result$Deviance[2]
+    p_value[1] = result$`Pr(>Chi)`[2]
+    loglik[1] = as.numeric(logLik(model))
 
     #log
     model_reduced = gam(Mass ~ s(log(Exposure + 1)) + log(Exposure + 1)+ s(id, bs = "re"),
@@ -256,15 +256,15 @@ S5 <- function(data, significance_level = 0.05) {
                 method="REML")
 
     result = anova.gam(model, model_reduced, test = "Chisq")
-    aic = AIC(model)
-    Test_statistic = result$Deviance[2]
-    p_value = result$`Pr(>Chi)`[2]
-    loglik = as.numeric(logLik(model))
+    aic[2] = AIC(model)
+    Test_statistic[2] = result$Deviance[2]
+    p_value[2] = result$`Pr(>Chi)`[2]
+    loglik[2] = as.numeric(logLik(model))
 
     data.table::data.table(Test = "S5",
                            State_1 = States[1],
                            State_2 = States[2],
-                           Test_statistic = F_statistic,
+                           Test_statistic = Test_statistic,
                            P_value = p_value,
                            Significant_difference = (p_value <= significance_level),
                            Time = NA,
@@ -301,10 +301,10 @@ S6 <- function(data, significance_level = 0.05) {
                 method="REML")
 
     result = anova.gam(model, model_reduced, test = "Chisq")
-    aic = AIC(model)
-    Test_statistic = result$Deviance[2]
-    p_value = result$`Pr(>Chi)`[2]
-    loglik = as.numeric(logLik(model))
+    aic[1] = AIC(model)
+    Test_statistic[1] = result$Deviance[2]
+    p_value[1] = result$`Pr(>Chi)`[2]
+    loglik[1] = as.numeric(logLik(model))
 
     #log
     model_reduced = gam(Mass~s(log(Exposure + 1)) + log(Exposure + 1) +
@@ -318,15 +318,15 @@ S6 <- function(data, significance_level = 0.05) {
                 method="REML")
 
     result = anova.gam(model, model_reduced, test = "Chisq")
-    aic = AIC(model)
-    Test_statistic = result$Deviance[2]
-    p_value = result$`Pr(>Chi)`[2]
-    loglik = as.numeric(logLik(model))
+    aic[2] = AIC(model)
+    Test_statistic[2] = result$Deviance[2]
+    p_value[2] = result$`Pr(>Chi)`[2]
+    loglik[2] = as.numeric(logLik(model))
 
     data.table::data.table(Test = "S6",
                            State_1 = States[1],
                            State_2 = States[2],
-                           Test_statistic = F_statistic,
+                           Test_statistic = Test_statistic,
                            P_value = p_value,
                            Significant_difference = (p_value <= significance_level),
                            Time = NA,
