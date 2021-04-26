@@ -293,11 +293,11 @@ S6 <- function(data, significance_level = 0.05) {
     #identity
     model_reduced = gam(Mass~s(Exposure) + Exposure*State +
                             s(id, bs="re") + s(id, Exposure, bs="re"),
-                        data=example_data,
+                        data=data,
                         method="REML")
     model = gam(Mass~s(Exposure) + Exposure*State +
                     s(id, bs="re") + s(id, Exposure, bs="re"),
-                data=example_data,
+                data=data,
                 method="REML")
 
     result = anova.gam(model, model_reduced, test = "Chisq")
@@ -309,12 +309,12 @@ S6 <- function(data, significance_level = 0.05) {
     #log
     model_reduced = gam(Mass~s(log(Exposure + 1)) + log(Exposure + 1) +
                             s(id, bs="re") + s(id, Exposure, bs="re"),
-                        data=example_data,
+                        data=data,
                         method="REML")
 
     model = gam(Mass~s(log(Exposure + 1)) + log(Exposure + 1)*State +
                     s(id, bs="re") + s(id, Exposure, bs="re"),
-                data=example_data,
+                data=data,
                 method="REML")
 
     result = anova.gam(model, model_reduced, test = "Chisq")
