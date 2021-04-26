@@ -75,7 +75,7 @@ S2 <- function(data, significance_level = 0.05) {
     knots <- unique(setdiff(data$Exposure, c(max(data$Exposure), min(data$Exposure))))
 
     X <- sapply(1:length(knots), function(knot) {
-        truncated_lines(x, knots[knot])
+        truncated_lines(data$Exposure, knots[knot])
     })
     # identity
     model <- lm(Mass ~ Exposure*State + X,
