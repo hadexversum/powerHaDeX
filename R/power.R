@@ -41,7 +41,9 @@ calculate_hdx_power = function(deuteration_curves, tests, significance_level = 0
                                                   Num_states = uniqueN(State),
                                                   Num_timepoints = uniqueN(Exposure))]
                 }
-                replicate_curve[, id := as.numeric(paste0(Rep, Charge, match(Experimental_state, LETTERS)))]
+                replicate_curve[["id"]] = as.numeric(paste0(replicate_curve[["Rep"]],
+                                                            replicate_curve[["Charge"]],
+                                                            match(replicate_curve[["Experimental_state"]], LETTERS)))
 
                 all_tests = lapply(tests, function(test) {
                     test_for_replicate = tryCatch({suppressMessages(suppressWarnings(
@@ -52,8 +54,11 @@ calculate_hdx_power = function(deuteration_curves, tests, significance_level = 0
                         data.table::data.table()
                     })
                     if(type_one_err) {
-                        test_for_replicate[, State_1 := substr(State_1, 1 , nchar(State_1) - 1)]
-                        test_for_replicate[, State_2 := substr(State_2, 1 , nchar(State_2) - 1)]
+
+                        test_for_replicate[["State_1"]] = substr(test_for_replicate[["State_1"]], 1 ,
+                                                                 nchar(test_for_replicate[["State_1"]]) - 1)
+                        test_for_replicate[["State_2"]] = substr(test_for_replicate[["State_2"]], 1 ,
+                                                                 nchar(test_for_replicate[["State_2"]]) - 1)
                     }
 
                     cbind(info, test_for_replicate)
