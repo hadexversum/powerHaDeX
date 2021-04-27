@@ -155,7 +155,7 @@ S2_by_1 <- function(data, significance_level = 0.05) {
     Test_statistic[2] = result$`F`[2]
     p_value[2] = result$`Pr(>F)`[2]
 
-    data.table::data.table(Test = "S2_by_2",
+    data.table::data.table(Test = "S2_by_1",
                            State_1 = States[1],
                            State_2 = States[2],
                            Test_statistic = Test_statistic,
