@@ -2,6 +2,10 @@
 
 export(S1)
 export(S2)
+export(S2_1)
+export(S2_by_1)
+export(S2_by_2)
+export(S2_by_4)
 export(S3)
 export(S4)
 export(S5)

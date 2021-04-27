@@ -118,6 +118,233 @@ S2 <- function(data, significance_level = 0.05) {
 #' @importFrom data.table data.table
 #' @export
 
+S2_by_1 <- function(data, significance_level = 0.05) {
+
+    States = unique(data$State)
+    Transformation = c("identity", "log")
+    aic = loglik = Test_statistic = p_value = rep(NA, 2)
+
+    exposures_knots <- c(TRUE)
+
+    knots <- c(unique(setdiff(unique(data$Exposure)[unique(data$Exposure) < 3600][exposures_knots],
+                              min(data$Exposure))),
+               3600)
+
+    X <- sapply(1:length(knots), function(knot) {
+        truncated_lines(data$Exposure, knots[knot])
+    })
+    # identity
+    model <- lm(Mass ~ Exposure*State + X,
+                data = data)
+    model_reduced <- lm(Mass ~ Exposure + X,
+                        data = data)
+    result = anova(model, model_reduced)
+    aic[1] = AIC(model)
+    loglik[1] = logLik(model)
+    Test_statistic[1] = result$`F`[2]
+    p_value[1] = result$`Pr(>F)`[2]
+
+    # log
+    model = lm(Mass ~ log(Exposure + 1)*State + log(X + 1),
+               data = data)
+    model_reduced = lm(Mass ~ log(Exposure + 1) + log(X + 1),
+                       data = data)
+    result = anova(model, model_reduced)
+    aic[2] = AIC(model)
+    loglik[2] = logLik(model)
+    Test_statistic[2] = result$`F`[2]
+    p_value[2] = result$`Pr(>F)`[2]
+
+    data.table::data.table(Test = "S2_by_2",
+                           State_1 = States[1],
+                           State_2 = States[2],
+                           Test_statistic = Test_statistic,
+                           P_value = p_value,
+                           Significant_difference = (p_value <= significance_level),
+                           Time = NA,
+                           Transformation = Transformation,
+                           AIC = aic,
+                           logLik = loglik)
+}
+
+
+
+
+#' Semiparametric for deuteration curves
+#' @param data data.table with deuteration curves
+#' @param significance_level significance level for tests
+#' @importFrom data.table data.table
+#' @export
+
+S2_by_2 <- function(data, significance_level = 0.05) {
+
+    States = unique(data$State)
+    Transformation = c("identity", "log")
+    aic = loglik = Test_statistic = p_value = rep(NA, 2)
+
+    exposures_knots <- c(TRUE, FALSE)
+
+    knots <- c(unique(setdiff(unique(data$Exposure)[unique(data$Exposure) < 3600][exposures_knots],
+                              min(data$Exposure))),
+               3600)
+
+    X <- sapply(1:length(knots), function(knot) {
+        truncated_lines(data$Exposure, knots[knot])
+    })
+    # identity
+    model <- lm(Mass ~ Exposure*State + X,
+                data = data)
+    model_reduced <- lm(Mass ~ Exposure + X,
+                        data = data)
+    result = anova(model, model_reduced)
+    aic[1] = AIC(model)
+    loglik[1] = logLik(model)
+    Test_statistic[1] = result$`F`[2]
+    p_value[1] = result$`Pr(>F)`[2]
+
+    # log
+    model = lm(Mass ~ log(Exposure + 1)*State + log(X + 1),
+               data = data)
+    model_reduced = lm(Mass ~ log(Exposure + 1) + log(X + 1),
+                       data = data)
+    result = anova(model, model_reduced)
+    aic[2] = AIC(model)
+    loglik[2] = logLik(model)
+    Test_statistic[2] = result$`F`[2]
+    p_value[2] = result$`Pr(>F)`[2]
+
+    data.table::data.table(Test = "S2_by_2",
+                           State_1 = States[1],
+                           State_2 = States[2],
+                           Test_statistic = Test_statistic,
+                           P_value = p_value,
+                           Significant_difference = (p_value <= significance_level),
+                           Time = NA,
+                           Transformation = Transformation,
+                           AIC = aic,
+                           logLik = loglik)
+}
+
+
+
+#' Semiparametric for deuteration curves
+#' @param data data.table with deuteration curves
+#' @param significance_level significance level for tests
+#' @importFrom data.table data.table
+#' @export
+
+S2_by_4 <- function(data, significance_level = 0.05) {
+
+    States = unique(data$State)
+    Transformation = c("identity", "log")
+    aic = loglik = Test_statistic = p_value = rep(NA, 2)
+
+    exposures_knots <- c(TRUE, FALSE, FALSE, FALSE)
+
+    knots <- c(unique(setdiff(unique(data$Exposure)[unique(data$Exposure) < 3600][exposures_knots],
+                              min(data$Exposure))),
+               3600)
+
+    X <- sapply(1:length(knots), function(knot) {
+        truncated_lines(data$Exposure, knots[knot])
+    })
+    # identity
+    model <- lm(Mass ~ Exposure*State + X,
+                data = data)
+    model_reduced <- lm(Mass ~ Exposure + X,
+                        data = data)
+    result = anova(model, model_reduced)
+    aic[1] = AIC(model)
+    loglik[1] = logLik(model)
+    Test_statistic[1] = result$`F`[2]
+    p_value[1] = result$`Pr(>F)`[2]
+
+    # log
+    model = lm(Mass ~ log(Exposure + 1)*State + log(X + 1),
+               data = data)
+    model_reduced = lm(Mass ~ log(Exposure + 1) + log(X + 1),
+                       data = data)
+    result = anova(model, model_reduced)
+    aic[2] = AIC(model)
+    loglik[2] = logLik(model)
+    Test_statistic[2] = result$`F`[2]
+    p_value[2] = result$`Pr(>F)`[2]
+
+    data.table::data.table(Test = "S2_by_4",
+                           State_1 = States[1],
+                           State_2 = States[2],
+                           Test_statistic = Test_statistic,
+                           P_value = p_value,
+                           Significant_difference = (p_value <= significance_level),
+                           Time = NA,
+                           Transformation = Transformation,
+                           AIC = aic,
+                           logLik = loglik)
+}
+
+
+
+#' Semiparametric for deuteration curves
+#' @param data data.table with deuteration curves
+#' @param significance_level significance level for tests
+#' @importFrom data.table data.table
+#' @export
+
+S2_1 <- function(data, significance_level = 0.05) {
+
+    States = unique(data$State)
+    Transformation = c("identity", "log")
+    aic = loglik = Test_statistic = p_value = rep(NA, 2)
+
+    exposures_knots <- c(TRUE, FALSE, FALSE, FALSE)
+
+    knots <- 3600
+
+    X <- sapply(1:length(knots), function(knot) {
+        truncated_lines(data$Exposure, knots[knot])
+    })
+    # identity
+    model <- lm(Mass ~ Exposure*State + X,
+                data = data)
+    model_reduced <- lm(Mass ~ Exposure + X,
+                        data = data)
+    result = anova(model, model_reduced)
+    aic[1] = AIC(model)
+    loglik[1] = logLik(model)
+    Test_statistic[1] = result$`F`[2]
+    p_value[1] = result$`Pr(>F)`[2]
+
+    # log
+    model = lm(Mass ~ log(Exposure + 1)*State + log(X + 1),
+               data = data)
+    model_reduced = lm(Mass ~ log(Exposure + 1) + log(X + 1),
+                       data = data)
+    result = anova(model, model_reduced)
+    aic[2] = AIC(model)
+    loglik[2] = logLik(model)
+    Test_statistic[2] = result$`F`[2]
+    p_value[2] = result$`Pr(>F)`[2]
+
+    data.table::data.table(Test = "S2_1",
+                           State_1 = States[1],
+                           State_2 = States[2],
+                           Test_statistic = Test_statistic,
+                           P_value = p_value,
+                           Significant_difference = (p_value <= significance_level),
+                           Time = NA,
+                           Transformation = Transformation,
+                           AIC = aic,
+                           logLik = loglik)
+}
+
+
+
+#' Semiparametric for deuteration curves
+#' @param data data.table with deuteration curves
+#' @param significance_level significance level for tests
+#' @importFrom data.table data.table
+#' @export
+
 
 S3 <- function(data, significance_level = 0.05) {
 
