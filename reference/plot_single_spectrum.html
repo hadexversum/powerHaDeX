@@ -58,8 +58,6 @@
 
 
 
-<!-- dependencies from examples -->
-
 
   
 
@@ -129,7 +127,7 @@
     <p>Draw mass spectrum</p>
     </div>
 
-    <pre class="usage"><span class='fu'>plot_single_spectrum</span><span class='op'>(</span><span class='va'>spectrum</span>, time_point <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>plot_single_spectrum</span><span class='op'>(</span><span class='va'>spectrum</span>, time_point <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -159,33 +157,33 @@ Default to <code>NULL</code>.</p></td>
 <code><a href='simulate_theoretical_spectra.html'>simulate_theoretical_spectra</a></code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='va'>spectrum</span> <span class='op'>&lt;-</span>   <span class='fu'><a href='simulate_theoretical_spectra.html'>simulate_theoretical_spectra</a></span><span class='op'>(</span>sequence <span class='op'>=</span> <span class='st'>"AAHLPAEFTPAVHASLDKFLASVSTVLTSKYR"</span>,
-              charge <span class='op'>=</span> <span class='fl'>3</span>,
-              protection_factor <span class='op'>=</span> <span class='fl'>100</span>,
-              times <span class='op'>=</span> <span class='fl'>60</span>,
-              pH <span class='op'>=</span> <span class='fl'>6</span>,
-              temperature <span class='op'>=</span> <span class='fl'>15</span>,
-              n_molecules <span class='op'>=</span> <span class='fl'>500</span>,
-              time_step_const <span class='op'>=</span> <span class='fl'>1</span>,
-              use_markov <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-<span class='co'>#one exposure in data so time_point can be NULL</span>
-<span class='fu'>plot_single_spectrum</span><span class='op'>(</span><span class='va'>spectrum</span><span class='op'>)</span>
-
-<span class='va'>spectrum</span> <span class='op'>&lt;-</span>   <span class='fu'><a href='simulate_theoretical_spectra.html'>simulate_theoretical_spectra</a></span><span class='op'>(</span>sequence <span class='op'>=</span> <span class='st'>"AAHLPAEFTPAVHASLDKFLASVSTVLTSKYR"</span>,
-              charge <span class='op'>=</span> <span class='fl'>3</span>,
-              protection_factor <span class='op'>=</span> <span class='fl'>100</span>,
-              times <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>60</span>, <span class='fl'>600</span><span class='op'>)</span>,
-              pH <span class='op'>=</span> <span class='fl'>6</span>,
-              temperature <span class='op'>=</span> <span class='fl'>15</span>,
-              n_molecules <span class='op'>=</span> <span class='fl'>500</span>,
-              time_step_const <span class='op'>=</span> <span class='fl'>1</span>,
-              use_markov <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-<span class='co'>#in case of two time points one must be chosen</span>
-<span class='fu'>plot_single_spectrum</span><span class='op'>(</span><span class='va'>spectrum</span>, <span class='fl'>60</span><span class='op'>)</span>
-<span class='op'>}</span>
-
-</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='va'>spectrum</span> <span class='op'>&lt;-</span>   <span class='fu'><a href='simulate_theoretical_spectra.html'>simulate_theoretical_spectra</a></span><span class='op'>(</span>sequence <span class='op'>=</span> <span class='st'>"AAHLPAEFTPAVHASLDKFLASVSTVLTSKYR"</span>,</span>
+<span class='r-in'>              charge <span class='op'>=</span> <span class='fl'>3</span>,</span>
+<span class='r-in'>              protection_factor <span class='op'>=</span> <span class='fl'>100</span>,</span>
+<span class='r-in'>              times <span class='op'>=</span> <span class='fl'>60</span>,</span>
+<span class='r-in'>              pH <span class='op'>=</span> <span class='fl'>6</span>,</span>
+<span class='r-in'>              temperature <span class='op'>=</span> <span class='fl'>15</span>,</span>
+<span class='r-in'>              n_molecules <span class='op'>=</span> <span class='fl'>500</span>,</span>
+<span class='r-in'>              time_step_const <span class='op'>=</span> <span class='fl'>1</span>,</span>
+<span class='r-in'>              use_markov <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'>#one exposure in data so time_point can be NULL</span></span>
+<span class='r-in'><span class='fu'>plot_single_spectrum</span><span class='op'>(</span><span class='va'>spectrum</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>spectrum</span> <span class='op'>&lt;-</span>   <span class='fu'><a href='simulate_theoretical_spectra.html'>simulate_theoretical_spectra</a></span><span class='op'>(</span>sequence <span class='op'>=</span> <span class='st'>"AAHLPAEFTPAVHASLDKFLASVSTVLTSKYR"</span>,</span>
+<span class='r-in'>              charge <span class='op'>=</span> <span class='fl'>3</span>,</span>
+<span class='r-in'>              protection_factor <span class='op'>=</span> <span class='fl'>100</span>,</span>
+<span class='r-in'>              times <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>60</span>, <span class='fl'>600</span><span class='op'>)</span>,</span>
+<span class='r-in'>              pH <span class='op'>=</span> <span class='fl'>6</span>,</span>
+<span class='r-in'>              temperature <span class='op'>=</span> <span class='fl'>15</span>,</span>
+<span class='r-in'>              n_molecules <span class='op'>=</span> <span class='fl'>500</span>,</span>
+<span class='r-in'>              time_step_const <span class='op'>=</span> <span class='fl'>1</span>,</span>
+<span class='r-in'>              use_markov <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'>#in case of two time points one must be chosen</span></span>
+<span class='r-in'><span class='fu'>plot_single_spectrum</span><span class='op'>(</span><span class='va'>spectrum</span>, <span class='fl'>60</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
