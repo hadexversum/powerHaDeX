@@ -23,7 +23,7 @@ about the additional parameters.}
 
 \item{times}{a vector of times at which deuteration levels will be measured (seconds)}
 
-\item{charge}{vector of charges of the peptide ion. If NULL, oe value is sampled
+\item{charge}{vector of charges of the peptide ion. If NULL, one value is sampled
 from vector 2:6. Default NULL.}
 
 \item{n_runs}{number of technical replicates to create}

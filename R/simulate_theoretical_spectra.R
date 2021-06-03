@@ -1,6 +1,6 @@
 #' Simulate theoretical spectra of a deuterated peptide over time
 #' @param sequence amino acid sequence of a peptide as a single string
-#' @param charge vector of charges of the peptide ion. If NULL, oe value is sampled
+#' @param charge vector of charges of the peptide ion. If NULL, one value is sampled
 #' from vector 2:6. Default NULL.
 #' @param protection_factor protection factor. If a single number of provided,
 #' same protection factor will be assumed for each amide. Default value: 1

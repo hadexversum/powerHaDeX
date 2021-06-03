@@ -21,7 +21,7 @@ simulate_theoretical_spectra(
 \arguments{
 \item{sequence}{amino acid sequence of a peptide as a single string}
 
-\item{charge}{vector of charges of the peptide ion. If NULL, oe value is sampled
+\item{charge}{vector of charges of the peptide ion. If NULL, one value is sampled
 from vector 2:6. Default NULL.}
 
 \item{protection_factor}{protection factor. If a single number of provided,
