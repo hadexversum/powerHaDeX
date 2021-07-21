@@ -2,19 +2,45 @@
 % Please edit documentation in R/isotopic_distribution.R
 \name{get_approx_isotopic_distribution}
 \alias{get_approx_isotopic_distribution}
-\title{Approximates isotopic distribution via sampling}
+\title{Approximates isotopic distribution}
 \usage{
 get_approx_isotopic_distribution(sequence, min_probability = 0.001)
 }
 \arguments{
-\item{sequence}{amino acid sequence of a peptide}
+\item{sequence}{character vector of amino acid sequence of a peptide}
 
 \item{min_probability}{minimum isotopic probability that will be considered}
 }
 \value{
-list
+list of elements: the mass of the peptide (\code{peptide_mass}),
+final distribution (\code{isotopic_distribution}) of the isotopes,
+number of significant probabilities minus one (\code{max_ND}) and
+number of exchangeable amino acids (\code{n_exchangeable}).
 }
 \description{
-Approximates isotopic distribution via sampling
+Internal function used in the simulation of theoretical spectra.
+It calculates the isotopic distribution of an undeuterated peptide
+that is required to get an empirical distribution.
+}
+\details{
+Additional file \code{sysdata.RDA} contains the maximal possible occurrence
+of the isotopes C13, N15, O18, S34 (carbon, nitrogen, oxygen, and sulfur, respectively)
+in the respective amino acids, and their masses. Based on that, the maximal possible
+number of molecules of the isotopes in the sequence is calculated. Peptide mass is the
+sum of the masses of amino acids and H2O mass - as it includes the N terminal group
+(H) and C terminal group (OH).
+
+Next, the distributions of mentioned isotopes are calculated under the assumption
+that the occurrence of ith considered isotope has a binomial distribution B(n_i, p_i)
+ with parameters n_i (maximal possible occurrence in the sequence) and p_i
+ (natural richness - possibility of occurrence in the universe).  For the oxygen
+ molecules, we have to take into account that oxygen occurs in a diatomic molecule.
+ Calculation of the sulfur distribution takes into account its rare occurrence.
+
+ The final isotopic distribution is computed as a convolution of obtained distributions
+ with probabilities greater than \code{min_probability}. It is a vector of probabilities
+ of possible monoisotopic masses. The number of exchangeable amides is computed as the
+ length of the sequence, reduced by the number of prolines located on the third of
+ further position.
 }
 \keyword{internal}

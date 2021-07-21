@@ -9,14 +9,48 @@
 #' @param pH pH of the reaction. Default to 7.5.
 #' @param temperature temperature of the reaction (Celsius)
 #' @param n_molecules number of peptide molecules. Default to 100.
-#' @param time_step_const constant that will be dived by a maximum exchange rate
-#' to obtain time step. Hydrogen-deuteration exchange may occur at each of these steps.
+#' @param time_step_const time step constant. Default value: $1$. Value that
+#' indicates the length of the time step of the simulation. The bigger the time
+#' step, the fewer time points are simulated (the fewer iterations in case of
+#' Zhong-Yuan Kan's approach).
 #' @inheritParams get_exchange_rates
 #' @param min_probability smallest isotopic probability to consider
 #' @param use_markov logical. If TRUE algorithm basing on Markov chain will be used.
 #' If FALSE simulation provided by Zhong-Yuan Kan will be executed. Default to TRUE,
 #' as it fastens the calculation
-#' @return data.table
+#' @details To the results calculated by \code{\link[powerHDX]{get_iso_probs_deut}}
+#' is added a minimal exchange control - for time point \code{0} (directly after
+#' adding a buffer). The m/z values are obtained as a ratio of the
+#' \code{peptide_mass} magnified by proton mass and the peptide charge.
+#' The distribution of undeuterated peptide is the
+#' intensities vector.
+#'
+#' @seealso The algorithm that is used to simulate theoretical spectra is based on
+#' Zhong-Yuan Kan's implementation in Matlab. The original version of codes is
+#' located in the repository \url{https://github.com/kanzy/HX-MS-Simulations}
+#' (as at 29.06.2020). In the \code{powerHDX} package can be found the Kan's
+#' algorithm re-implemented in R (using Rcpp) and the accelerated implementation
+#' (that uses Markov chains' properties). Moreover, the package \code{powerHDX}
+#' allows the user to simulate spectra for more than one exposure time for both
+#' (Rcpp and Markov) approaches.
+#' @return a data table of variables:
+#'
+#' - \code{Exposure} - time point of a measurement,
+#'
+#'  - \code{Mz} - mass-to-charge ratio,
+#'
+#'  - \code{Intensity} - isotopic probabilities larger than \code{min_probability}
+#'  (the smaller ones are zeroes)
+#'
+#'  and the variables provided by user
+#'
+#'  - \code{Sequence},
+#'
+#'  - \code{PF},
+#'
+#'  - \code{Charge},
+#'
+#'  - \code{PH}.
 #' @export
 simulate_theoretical_spectra = function(sequence, charge = NULL, protection_factor = 1,
                                         times = c(60, 600), pH = 7.5,

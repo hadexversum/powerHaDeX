@@ -1,9 +1,11 @@
-#' Constants related to water, base and acid in cal/(K * mol)
+#' F constants
+#' @description Constants related to water, base and acid in cal/(K * mol)
 #' @param temp_kelvin temperature reaction in Kelvins
-#' @param gas_constant gas constant (1/(dT * R))
+#' @param gas_constant gas constant (1/(dT * R) = 1.9858775)
 #' @return list of constants \code{Fta} for acid, \code{Ftb} for base and
 #' \code{Ftw} for water.
 #' @keywords internal
+#' @export
 get_F_const = function(temp_kelvin, gas_constant) {
     # Unit: cal / mol
     Ea_A = 14000
@@ -17,9 +19,10 @@ get_F_const = function(temp_kelvin, gas_constant) {
 
 
 #' Constant related to...
-#' @param mol_type character, "poly" or "oligo".
+#' @param mol_type character, "poly" or "oligo". If "oligo" then the calculated constants
+#' are multiplied by c according to the considered condition (base, water or acid).
 #' @param exchange type of exchange - "HD" for hydrogen to deuterium,
-#' "DH" for deuterium to hydrogen (back-exchange). Default "HD.
+#' "DH" for deuterium to hydrogen (back-exchange). Default "HD".
 #' @return list of Ka,Kb and Kw corresponding to the chosen \code{mol_type} and acid, base or water.
 #' @keywords internal
 get_poly_const = function(mol_type, exchange = "HD") {
@@ -51,12 +54,18 @@ get_poly_const = function(mol_type, exchange = "HD") {
 }
 
 
-#' Constant related to...
-#' @description This function calculates supplementary constants for aspartic
-#' acid (Asp), glutamic acid (Glu) and histidine (His).
+#' Calculating pKc values
+#' @description calculates supplementary constants for aspartic acid (Asp), glutamic
+#' acid (Glu) and histidine (His). Values for mentioned amino acids are pH and
+#' temperature dependent, in contrary to the rest amino acids with fixed values.
 #' @inheritParams get_F_const
 #' @inheritParams get_poly_const
-#'
+#' @details Depending on provided \code{exchange} direction tabular values of
+#' exponents E_{const}$are assigned. For \code{Asp}, \code{Glu} and \code{His}
+#' the \code{pKc} constants are calculated based on the energies of activation
+#' for given amino acid and the chosen \code{exchange} direction.
+#' @return  The function returns a list of \code{asp}, \code{glu} and \code{his}
+#' (\code{pKc} values corresponding to amino acids).
 #' @keywords internal
 get_pkc = function(temp_kelvin, gas_constant, exchange = "HD") {
     # Unit: cal / mol
@@ -87,7 +96,7 @@ get_pkc = function(temp_kelvin, gas_constant, exchange = "HD") {
 #' @param pkc_consts constants calculated via \code{\link[powerHDX]{get_pkc}}
 #' @param k_consts constants calculated via \code{\link[powerHDX]{get_poly_const}}
 #' @return a matrix named \code{constants} of tabular and calculated constants
-#' (specifically for Asp, Glu, His, C−Term and NHMe)
+#' (specifically for \code{Asp}, \code{Glu}, \code{His}, \code{C−Term} and \code{NHMe})
 #' @keywords internal
 get_exchange_constants = function(pH, pkc_consts, k_consts) {
     constants = matrix(
@@ -145,14 +154,53 @@ get_exchange_constants = function(pH, pkc_consts, k_consts) {
 
 
 #' Hydrogen-deuterium or back-exchange exchange rates
+#' @description Calculate exchange rates that are required to obtain exchange
+#' probabilities.
 #' @param sequence peptide amino acid sequence as a character vector of amino acids
 #' @inheritParams get_poly_const
 #' @inheritParams get_exchange_constants
 #' @param temperature temperature of the reaction (Celsius). Default to 15.
-#' @param gas_constant gas constant
 #' @param if_corr pH correction indicator. Default value 0. The value of pH is equal to pD.
 #' If there is correction, the pD = pH + 0.4. (Conelly et al 1993)
-#' @return numeric vector of exchange rates according to the provided exchange direction.
+#'
+#' @details   The correction of \code{pH} is taken into account for calculation of \code{pD}:
+#' \deqn{pD = pH + 0.4 * if_corr}
+#' Next, the provided temperature is converted into K and the internal functions
+#' \code{\link[powerHDX]{get_F_const}}, \code{\link[powerHDX]{get_poly_const}} and
+#' \code{\link[powerHDX]{get_pkc}} are evaluated.
+#'
+#' Using the obtained matrix of constants and provided \code{sequence} \code{F_a}
+#' and \code{F_b} are calculated for each amino acid in the sequence, concerning
+#' the previous and next amino acid. For the amino acids in the middle of the sequence,
+#' the following formula is used:
+#'
+#' \deqn{F_x = 10^{ previous_x + current_x}}
+#'
+#' where \code{x} is either \code{a} or \code{b}, and \code{previous_x} is the
+#' acid/base factor for a previous amino acid in the sequence, and \code{current_x}
+#' for the amino acid it is calculated for. If the amino acid is next to the C- or
+#' N-term, the term-effect is taken into account.
+#'
+#' Finally, the exchange rate \code{k_c} for the amino acid is the sum of catalysis
+#' constants for acid, base and water (Conelly et al, 1993). Namely:
+#'
+#' \deqn{k_c = k_{acid} + k_{base} + k_{water}}
+#' where
+#' \deqn{k_{acid} = F_a * K_a + D * F_ta,}
+#' \deqn{k_{base} = F_b* K_b + OD * F_tb,}
+#' \deqn{k_{water} = F_b * K_w * F_tw}
+#'
+#' where \code{D} and \code{OD} indicates deuterium  and deuterium oxide
+#' concentration, \code{F_a} and \code{F_b} are values calculated specifically
+#' for given amino acid, as described before, \code{K_a} and \code{K_b} are values
+#' computed by \code{\link[powerHDX]{get_poly_const}} function, based on the mole
+#' type, \code{F_ta}, \code{F_tb} and \code{F_tw} are values computed by
+#' \code{\link[powerHDX]{get_F_const}} function.
+#'
+#' @return The obtained exchange rates are stored in vector \code{kcHD} or
+#' \code{kcDH} according to the exchange direction. They are used to calculate
+#' the exchange probabilities thus both \code{kcHD} and \code{kcDH} are necessary
+#'  as we take the possibility of back-exchange into account.
 #' @keywords internal
 #' @export
 get_exchange_rates = function(sequence, exchange = "HD", pH = 9, temperature = 15,

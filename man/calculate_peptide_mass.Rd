@@ -2,7 +2,7 @@
 % Please edit documentation in R/isotopic_distribution.R
 \name{calculate_peptide_mass}
 \alias{calculate_peptide_mass}
-\title{Calculate mass of undeuterated peptide}
+\title{Peptide mass}
 \usage{
 calculate_peptide_mass(sequence)
 }
@@ -11,5 +11,9 @@ calculate_peptide_mass(sequence)
 }
 \description{
 Calculate mass of undeuterated peptide
+}
+\details{
+Calculates peptide mass as a sum of amino acids' from \code{sequence}
+ masses and H2O mass (1.007825 * 2 + 15.994915 = 18.01056).
 }
 \keyword{internal}

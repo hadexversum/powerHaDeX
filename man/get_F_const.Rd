@@ -2,14 +2,14 @@
 % Please edit documentation in R/exchange_rates.R
 \name{get_F_const}
 \alias{get_F_const}
-\title{Constants related to water, base and acid in cal/(K * mol)}
+\title{F constants}
 \usage{
 get_F_const(temp_kelvin, gas_constant)
 }
 \arguments{
 \item{temp_kelvin}{temperature reaction in Kelvins}
 
-\item{gas_constant}{gas constant (1/(dT * R))}
+\item{gas_constant}{gas constant (1/(dT * R) = 1.9858775)}
 }
 \value{
 list of constants \code{Fta} for acid, \code{Ftb} for base and

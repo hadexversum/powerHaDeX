@@ -2,7 +2,7 @@
 % Please edit documentation in R/simulate_HD_exchange.R
 \name{get_exchange_probabilities}
 \alias{get_exchange_probabilities}
-\title{Get probability of an exchange (H->D and D->H)}
+\title{Get probability of an exchange (HD and DH)}
 \usage{
 get_exchange_probabilities(HD_rate, DH_rate, time_step, protection_factor)
 }
@@ -13,12 +13,31 @@ get_exchange_probabilities(HD_rate, DH_rate, time_step, protection_factor)
 
 \item{time_step}{size of a single time step of a simulation}
 
-\item{protection_factor}{protection factor}
+\item{protection_factor}{protection factor. If a single number of provided,
+same protection factor will be assumed for each amide. Default value: 1
+(indicates that the exchange rate is equal to the intristic exchange rate)}
 }
 \value{
-list
+a list of four vectors: vector \code{HD} for probabilities \eqn{P_i( H -> D )},
+vector \code{DH} for probabilities \eqn{P_i( D -> H )}, vector \code{HH} for
+probabilities \eqn{P_i( H -> H )} and vector \code{DD} for probabilities
+\eqn{P_i( D -> D)}.
 }
 \description{
-Get probability of an exchange (H->D and D->H)
+Calculate probabilities of exchanges that are required to s
+imulate the exchange process.
+}
+\details{
+he process is defined as a series of steps from the time sequence,
+and each step depends on the state in the previous one.  Therefore, the
+probabilities of changing the state are conditional probabilities - probabilities
+of particular state in k+1^th step given particular state in k^th step. For i^th
+amino acid probabilities are calculated as follows
+
+\deqn{ P_i( H -> D ) = 1 - exp((-kcHD_i * time_step)/protection_factor)}
+\deqn{ P_i( D -> H ) = 1 - exp((-kcDH_i * time_step)/protection_factor)}
+\deqn{ P_i( H -> H ) = 1 - P_i( H -> D )}
+\deqn{ P_i( D -> D ) = 1 - P_i( D -> H )}
+where the last two equations describe the probabilities of staying in the same state.
 }
 \keyword{internal}

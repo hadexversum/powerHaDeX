@@ -15,7 +15,7 @@ get_exchange_constants(pH, pkc_consts, k_consts)
 }
 \value{
 a matrix named \code{constants} of tabular and calculated constants
-(specifically for Asp, Glu, His, C−Term and NHMe)
+(specifically for \code{Asp}, \code{Glu}, \code{His}, \code{C−Term} and \code{NHMe})
 }
 \description{
 Exchange constant for Hydrogen-Deuterium Exchange.

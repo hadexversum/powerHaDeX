@@ -9,5 +9,5 @@
 words, words
 }
 \author{
-Michal Burdukiewicz, Piotr Sobczyk, Chris Lauber
+Michal Burdukiewicz
 }

@@ -7,10 +7,11 @@
 get_poly_const(mol_type, exchange = "HD")
 }
 \arguments{
-\item{mol_type}{character, "poly" or "oligo".}
+\item{mol_type}{character, "poly" or "oligo". If "oligo" then the calculated constants
+are multiplied by c according to the considered condition (base, water or acid).}
 
 \item{exchange}{type of exchange - "HD" for hydrogen to deuterium,
-"DH" for deuterium to hydrogen (back-exchange). Default "HD.}
+"DH" for deuterium to hydrogen (back-exchange). Default "HD".}
 }
 \value{
 list of Ka,Kb and Kw corresponding to the chosen \code{mol_type} and acid, base or water.

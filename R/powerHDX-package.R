@@ -10,6 +10,7 @@
 #' @importFrom Rcpp sourceCpp
 #' @importFrom utils combn setTxtProgressBar txtProgressBar
 #' @importFrom ggplot2 ggplot aes geom_segment ylab xlab theme_minimal theme element_text ggtitle
+#' @importFrom stats qt
 #' @author Michal Burdukiewicz
 #' @docType package
 #' @name biogram-package

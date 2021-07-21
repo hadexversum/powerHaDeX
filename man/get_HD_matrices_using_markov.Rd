@@ -2,7 +2,8 @@
 % Please edit documentation in R/simulate_HD_exchange.R
 \name{get_HD_matrices_using_markov}
 \alias{get_HD_matrices_using_markov}
-\title{Get a matrix of simulated exchanged hydrogens for each experiment time point using markov chains}
+\title{Get a matrix of simulated exchanged hydrogens for each experiment time point
+using markov chains}
 \usage{
 get_HD_matrices_using_markov(
   sequence,
@@ -14,7 +15,8 @@ get_HD_matrices_using_markov(
 \arguments{
 \item{sequence}{amino acid sequence of a peptide as a character vector}
 
-\item{transition_probs}{list of probabilities of exchange returned by the get_exchange_probabilities function}
+\item{transition_probs}{list of probabilities of exchange returned by the
+\code{\link[powerHDX]{get_exchange_probabilities function}}}
 
 \item{steps_between_time_points}{A vector containing sum of steps between
 times at which deuteration levels are measured.}
@@ -22,9 +24,21 @@ times at which deuteration levels are measured.}
 \item{n_molecules}{number of peptide molecules}
 }
 \value{
-list of matrices
+Matrices are stored in a list of matrices (\code{HD_matrices}) -
+each matrix for the respective time point of the measurement \code{times}.
+
+Using the distributions of process in given times of mesurements, states \code{H}
+or \code{D} are sampled for \code{m} peptide molecules (\code{n_molecules)}
+for each of \eqn{i = 1,..., n} amino acids and stored in a \code{m x n}
+dimensional matrix for each of the time points of the measurement given by \code{times}.
 }
 \description{
-Get a matrix of simulated exchanged hydrogens for each experiment time point using markov chains
+Calculate matrices of simulated exchange required for obtaining
+empirical distribution.
+}
+\details{
+The improvement is based on the observation that the considered process
+is a Markov chain with transition probabilities \eqn{P(H -> D)} and \eqn{P(D -> H)},
+and states \code{H} and \code{D}.
 }
 \keyword{internal}

@@ -15,7 +15,8 @@ get_HD_matrices(
 \arguments{
 \item{sequence}{amino acid sequence of a peptide as a character vector}
 
-\item{transition_probs}{list of probabilities of exchange returned by the get_exchange_probabilities function}
+\item{transition_probs}{list of probabilities of exchange returned by the
+\code{\link[powerHDX]{get_exchange_probabilities function}}}
 
 \item{experiment_times}{numeric vector of times at which exchange will happen}
 
@@ -24,9 +25,20 @@ get_HD_matrices(
 \item{n_molecules}{number of peptide molecules}
 }
 \value{
-list of matrices
+Matrices are stored in a list of matrices (\code{HD_matrices}) -
+each matrix for the respective time point of the measurement \code{times}.
 }
 \description{
-Get a matrix of simulated exchanged hydrogens for each experiment time point
+Calculate matrices of simulated exchange required for obtaining
+empirical distribution.
+}
+\details{
+At each time point in the time sequence:
+
+change \code{H} to \code{D} with probability \eqn{P(H -> D)} in each entry of
+the matrix from the previous iteration,
+
+change \code{D} to \code{H} with probability \eqn{P(D -> H)} in each entry of
+the matrix from the previous iteration.
 }
 \keyword{internal}

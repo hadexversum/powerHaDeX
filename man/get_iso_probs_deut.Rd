@@ -2,7 +2,7 @@
 % Please edit documentation in R/simulate_HD_exchange.R
 \name{get_iso_probs_deut}
 \alias{get_iso_probs_deut}
-\title{Get the isotopic probabilities for the deuterated peptide.}
+\title{Calculate isotopic probabilities (intensity) and mass-to-charge ratio (m/z).}
 \usage{
 get_iso_probs_deut(
   HD_matrices,
@@ -16,7 +16,9 @@ get_iso_probs_deut(
 )
 }
 \arguments{
-\item{HD_matrices}{list. Simulated matrices for every time point after hydrogen-deuterium-exchange}
+\item{HD_matrices}{list. Simulated matrices for every time point after hydrogen-deuterium-exchange.
+Calculated via \code{\link[powerHDX]{get_HD_matrices}} or
+\code{\link[powerHDX]{get_HD_matrices_using_markov}}}
 
 \item{maxD}{length of the sequence - amount of prolines}
 
@@ -33,8 +35,27 @@ from vector 2:6. Default NULL.}
 
 \item{pH}{pH of the reaction. Default to 7.5.}
 }
+\value{
+The output is a data frame with the variables:
+
+\code{Exposure} (time point of measurement consistent with given HD matrix),
+
+\code{Mz} - m/z values,
+
+\code{Intensity} - isotopic probabilities,
+
+\code{PH} - pH.
+}
 \description{
 Compute the isotopic probabilities for the deuterated peptide as a convolution
 of the isotopic distribution for the undeuterated peptide and the observed
-isotopic distribution after hydrogen-deuterium exchange computed by \code{get_observed_iso_dist}.
+isotopic distribution after hydrogen-deuterium exchange computed by
+\code{get_observed_iso_dist}.
+}
+\details{
+The m/z values for the deuterated peptide are calculated using the
+\code{peptide_mass}, \code{charge} and constants - deuteron mass (1.00628)
+and proton mass (1.007276). Starting from the m/z value for the monoisotopic
+peak, the difference between the mass of deuteron and proton divided by the
+charge of the peptide ion is added.
 }
