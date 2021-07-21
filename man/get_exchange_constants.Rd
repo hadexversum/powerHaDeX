@@ -9,9 +9,9 @@ get_exchange_constants(pH, pkc_consts, k_consts)
 \arguments{
 \item{pH}{reaction pH}
 
-\item{pkc_consts}{constants calculated via \code{\link[powerHDX]{get_pkc}}}
+\item{pkc_consts}{constants calculated via \code{\link[powerHaDeX]{get_pkc}}}
 
-\item{k_consts}{constants calculated via \code{\link[powerHDX]{get_poly_const}}}
+\item{k_consts}{constants calculated via \code{\link[powerHaDeX]{get_poly_const}}}
 }
 \value{
 a matrix named \code{constants} of tabular and calculated constants

@@ -1,4 +1,4 @@
-Package: powerHDX
+Package: powerHaDeX
 Type: Package
 Title: Efficient simulation of HDX-MS data
 Version: 1.0
@@ -14,7 +14,9 @@ Author: c(person("Krystyna", "Grzesiak",
           comment = c(ORCID = "0000-0001-8926-582X"),
           role = c("ctb"))
 Maintainer: Krystyna Grzesiak <krygrz11@gmail.com>
-Description: One paragraph description of what the package does as one or more full sentences.
+Description: The R-package powerHaDeX for simulating and analyzing data coming
+    from HDX-MS experiments along with the possibility of comparing the power of
+    the tests verifying differences in deuteration levels.
 License: GPL (>= 3)
 Encoding: UTF-8
 Imports: 

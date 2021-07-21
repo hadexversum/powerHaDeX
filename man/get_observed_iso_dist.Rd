@@ -22,8 +22,8 @@ Calculate isotopic probabilities (intensity).
 }
 \details{
 The exchangeable-hydrogen distribution describing the increase of
-the mass is obtained from the exchange matrix from \code{\link[powerHDX]{get_HD_matrices}}
-or \code{\link[powerHDX]{get_HD_matrices_using_markov}} and the number of exchangeable hydrogens
+the mass is obtained from the exchange matrix from \code{\link[powerHaDeX]{get_HD_matrices}}
+or \code{\link[powerHaDeX]{get_HD_matrices_using_markov}} and the number of exchangeable hydrogens
 \code{n_exchangeable}. First, the numbers of hydrogens exchanged in each molecule
 are calculated as sums of rows of the exchange matrix. Next, a  vector of the
 counts is built and stored in a vector of length \code{n_exchangeable} plus one

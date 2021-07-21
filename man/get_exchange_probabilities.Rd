@@ -7,9 +7,9 @@
 get_exchange_probabilities(HD_rate, DH_rate, time_step, protection_factor)
 }
 \arguments{
-\item{HD_rate}{rate of hydrogen-deuterium exchange calculated via \code{\link[powerHDX]{get_exchange_rates}}}
+\item{HD_rate}{rate of hydrogen-deuterium exchange calculated via \code{\link[powerHaDeX]{get_exchange_rates}}}
 
-\item{DH_rate}{rate of deuterium-hydrogen exchange (back-exchange) calculated via \code{\link[powerHDX]{get_exchange_rates}}}
+\item{DH_rate}{rate of deuterium-hydrogen exchange (back-exchange) calculated via \code{\link[powerHaDeX]{get_exchange_rates}}}
 
 \item{time_step}{size of a single time step of a simulation}
 

@@ -17,8 +17,8 @@ get_iso_probs_deut(
 }
 \arguments{
 \item{HD_matrices}{list. Simulated matrices for every time point after hydrogen-deuterium-exchange.
-Calculated via \code{\link[powerHDX]{get_HD_matrices}} or
-\code{\link[powerHDX]{get_HD_matrices_using_markov}}}
+Calculated via \code{\link[powerHaDeX]{get_HD_matrices}} or
+\code{\link[powerHaDeX]{get_HD_matrices_using_markov}}}
 
 \item{maxD}{length of the sequence - amount of prolines}
 

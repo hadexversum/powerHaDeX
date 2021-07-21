@@ -16,7 +16,7 @@ get_HD_matrices(
 \item{sequence}{amino acid sequence of a peptide as a character vector}
 
 \item{transition_probs}{list of probabilities of exchange returned by the
-\code{\link[powerHDX]{get_exchange_probabilities function}}}
+\code{\link[powerHaDeX]{get_exchange_probabilities function}}}
 
 \item{experiment_times}{numeric vector of times at which exchange will happen}
 

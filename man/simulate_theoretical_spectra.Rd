@@ -74,7 +74,7 @@ a data table of variables:
 Simulate theoretical spectra of a deuterated peptide over time
 }
 \details{
-To the results calculated by \code{\link[powerHDX]{get_iso_probs_deut}}
+To the results calculated by \code{\link[powerHaDeX]{get_iso_probs_deut}}
 is added a minimal exchange control - for time point \code{0} (directly after
 adding a buffer). The m/z values are obtained as a ratio of the
 \code{peptide_mass} magnified by proton mass and the peptide charge.
@@ -85,9 +85,9 @@ intensities vector.
 The algorithm that is used to simulate theoretical spectra is based on
 Zhong-Yuan Kan's implementation in Matlab. The original version of codes is
 located in the repository \url{https://github.com/kanzy/HX-MS-Simulations}
-(as at 29.06.2020). In the \code{powerHDX} package can be found the Kan's
+(as at 29.06.2020). In the \code{powerHaDeX} package can be found the Kan's
 algorithm re-implemented in R (using Rcpp) and the accelerated implementation
-(that uses Markov chains' properties). Moreover, the package \code{powerHDX}
+(that uses Markov chains' properties). Moreover, the package \code{powerHaDeX}
 allows the user to simulate spectra for more than one exposure time for both
 (Rcpp and Markov) approaches.
 }

@@ -7,7 +7,7 @@ using namespace Rcpp;
 
 // get_deuteration_single_timepoint
 NumericMatrix get_deuteration_single_timepoint(NumericMatrix initial_matrix, NumericVector time_sequence, NumericVector hd_probs, NumericVector dh_probs);
-RcppExport SEXP _powerHDX_get_deuteration_single_timepoint(SEXP initial_matrixSEXP, SEXP time_sequenceSEXP, SEXP hd_probsSEXP, SEXP dh_probsSEXP) {
+RcppExport SEXP _powerHaDeX_get_deuteration_single_timepoint(SEXP initial_matrixSEXP, SEXP time_sequenceSEXP, SEXP hd_probsSEXP, SEXP dh_probsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -21,11 +21,11 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_powerHDX_get_deuteration_single_timepoint", (DL_FUNC) &_powerHDX_get_deuteration_single_timepoint, 4},
+    {"_powerHaDeX_get_deuteration_single_timepoint", (DL_FUNC) &_powerHaDeX_get_deuteration_single_timepoint, 4},
     {NULL, NULL, 0}
 };
 
-RcppExport void R_init_powerHDX(DllInfo *dll) {
+RcppExport void R_init_powerHaDeX(DllInfo *dll) {
     R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
     R_useDynamicSymbols(dll, FALSE);
 }

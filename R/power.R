@@ -1,7 +1,7 @@
 #' Calculate power of statistical tests for HDX experiments
 #' @description This function estimates power of statistical tests for HDX experiments.
 #'
-#' @param deuteration_curves list returned by the \code{\link[powerHDX]{get_noisy_deuteration_curves}}
+#' @param deuteration_curves list returned by the \code{\link[powerHaDeX]{get_noisy_deuteration_curves}}
 #' @param tests lists of tests to perform. Each test function should take two parameters - data
 #' (data_table containing replicated curves) and \code{significance_level}, and have particular
 #' output - data frame of variables: \code{Test} (name of a test which should be displayed in

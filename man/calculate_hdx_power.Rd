@@ -12,7 +12,7 @@ calculate_hdx_power(
 )
 }
 \arguments{
-\item{deuteration_curves}{list returned by the \code{\link[powerHDX]{get_noisy_deuteration_curves}}}
+\item{deuteration_curves}{list returned by the \code{\link[powerHaDeX]{get_noisy_deuteration_curves}}}
 
 \item{tests}{lists of tests to perform. Each test function should take two parameters - data
 (data_table containing replicated curves) and \code{significance_level}, and have particular

@@ -1,8 +1,8 @@
 #' Get probability of an exchange (HD and DH)
 #' @description Calculate probabilities of exchanges that are required to s
 #' imulate the exchange process.
-#' @param HD_rate rate of hydrogen-deuterium exchange calculated via \code{\link[powerHDX]{get_exchange_rates}}
-#' @param DH_rate rate of deuterium-hydrogen exchange (back-exchange) calculated via \code{\link[powerHDX]{get_exchange_rates}}
+#' @param HD_rate rate of hydrogen-deuterium exchange calculated via \code{\link[powerHaDeX]{get_exchange_rates}}
+#' @param DH_rate rate of deuterium-hydrogen exchange (back-exchange) calculated via \code{\link[powerHaDeX]{get_exchange_rates}}
 #' @param time_step size of a single time step of a simulation
 #' @inheritParams simulate_theoretical_spectra
 #' @details he process is defined as a series of steps from the time sequence,
@@ -55,7 +55,7 @@ get_recording_times = function(exchange_times, experiment_times) {
 #' empirical distribution.
 #' @param sequence amino acid sequence of a peptide as a character vector
 #' @param transition_probs list of probabilities of exchange returned by the
-#' \code{\link[powerHDX]{get_exchange_probabilities function}}
+#' \code{\link[powerHaDeX]{get_exchange_probabilities function}}
 #' @param experiment_times numeric vector of times at which exchange will happen
 #' @param times_to_record numeric vector of times for which deuteration level measurement should be made
 #' @param n_molecules number of peptide molecules
@@ -71,7 +71,7 @@ get_recording_times = function(exchange_times, experiment_times) {
 #'
 #' @keywords internal
 #' @importFrom Rcpp evalCpp
-#' @useDynLib powerHDX, .registration = TRUE
+#' @useDynLib powerHaDeX, .registration = TRUE
 #' @export
 get_HD_matrices = function(sequence, transition_probs, experiment_times,
                            times_to_record, n_molecules = 100) {
@@ -146,8 +146,8 @@ get_HD_matrices_using_markov <- function(sequence, transition_probs,
 #' @param isotopic_distribution vector of isotopic probabilities of a peptide
 #' @inheritParams get_iso_probs_deut
 #' @details The exchangeable-hydrogen distribution describing the increase of
-#' the mass is obtained from the exchange matrix from \code{\link[powerHDX]{get_HD_matrices}}
-#' or \code{\link[powerHDX]{get_HD_matrices_using_markov}} and the number of exchangeable hydrogens
+#' the mass is obtained from the exchange matrix from \code{\link[powerHaDeX]{get_HD_matrices}}
+#' or \code{\link[powerHaDeX]{get_HD_matrices_using_markov}} and the number of exchangeable hydrogens
 #' \code{n_exchangeable}. First, the numbers of hydrogens exchanged in each molecule
 #' are calculated as sums of rows of the exchange matrix. Next, a  vector of the
 #' counts is built and stored in a vector of length \code{n_exchangeable} plus one
@@ -186,8 +186,8 @@ get_observed_iso_dist = function(HDmatrix, isotopic_distribution, maxD) {
 #' \code{get_observed_iso_dist}.
 #'
 #' @param HD_matrices list. Simulated matrices for every time point after hydrogen-deuterium-exchange.
-#' Calculated via \code{\link[powerHDX]{get_HD_matrices}} or
-#' \code{\link[powerHDX]{get_HD_matrices_using_markov}}
+#' Calculated via \code{\link[powerHaDeX]{get_HD_matrices}} or
+#' \code{\link[powerHaDeX]{get_HD_matrices_using_markov}}
 #' @param maxD length of the sequence - amount of prolines
 #' @param maxND length of the isotopic distribution - 1
 #' @param peptide_mass mass of the peptide + mass of H2O

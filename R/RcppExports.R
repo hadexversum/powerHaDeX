@@ -9,6 +9,6 @@
 #' @param dh_probs probabilities of transition DH
 #' @export
 get_deuteration_single_timepoint <- function(initial_matrix, time_sequence, hd_probs, dh_probs) {
-    .Call(`_powerHDX_get_deuteration_single_timepoint`, initial_matrix, time_sequence, hd_probs, dh_probs)
+    .Call(`_powerHaDeX_get_deuteration_single_timepoint`, initial_matrix, time_sequence, hd_probs, dh_probs)
 }
 

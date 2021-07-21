@@ -43,8 +43,8 @@ probabilities.
 The correction of \code{pH} is taken into account for calculation of \code{pD}:
 \deqn{pD = pH + 0.4 * if_corr}
 Next, the provided temperature is converted into K and the internal functions
-\code{\link[powerHDX]{get_F_const}}, \code{\link[powerHDX]{get_poly_const}} and
-\code{\link[powerHDX]{get_pkc}} are evaluated.
+\code{\link[powerHaDeX]{get_F_const}}, \code{\link[powerHaDeX]{get_poly_const}} and
+\code{\link[powerHaDeX]{get_pkc}} are evaluated.
 
 Using the obtained matrix of constants and provided \code{sequence} \code{F_a}
 and \code{F_b} are calculated for each amino acid in the sequence, concerning
@@ -70,8 +70,8 @@ where
 where \code{D} and \code{OD} indicates deuterium  and deuterium oxide
 concentration, \code{F_a} and \code{F_b} are values calculated specifically
 for given amino acid, as described before, \code{K_a} and \code{K_b} are values
-computed by \code{\link[powerHDX]{get_poly_const}} function, based on the mole
+computed by \code{\link[powerHaDeX]{get_poly_const}} function, based on the mole
 type, \code{F_ta}, \code{F_tb} and \code{F_tw} are values computed by
-\code{\link[powerHDX]{get_F_const}} function.
+\code{\link[powerHaDeX]{get_F_const}} function.
 }
 \keyword{internal}
