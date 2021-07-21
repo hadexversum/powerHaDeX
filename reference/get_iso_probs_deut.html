@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get the isotopic probabilities for the deuterated peptide. — get_iso_probs_deut • powerHDX</title>
+<title>Calculate isotopic probabilities (intensity) and mass-to-charge ratio (m/z). — get_iso_probs_deut • powerHDX</title>
 
 
 <!-- jquery -->
@@ -39,10 +39,11 @@
 
 
 
-<meta property="og:title" content="Get the isotopic probabilities for the deuterated peptide. — get_iso_probs_deut" />
+<meta property="og:title" content="Calculate isotopic probabilities (intensity) and mass-to-charge ratio (m/z). — get_iso_probs_deut" />
 <meta property="og:description" content="Compute the isotopic probabilities for the deuterated peptide as a convolution
 of the isotopic distribution for the undeuterated peptide and the observed
-isotopic distribution after hydrogen-deuterium exchange computed by get_observed_iso_dist." />
+isotopic distribution after hydrogen-deuterium exchange computed by
+get_observed_iso_dist." />
 
 
 
@@ -119,7 +120,7 @@ isotopic distribution after hydrogen-deuterium exchange computed by get_observed
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get the isotopic probabilities for the deuterated peptide.</h1>
+    <h1>Calculate isotopic probabilities (intensity) and mass-to-charge ratio (m/z).</h1>
     
     <div class="hidden name"><code>get_iso_probs_deut.Rd</code></div>
     </div>
@@ -127,7 +128,8 @@ isotopic distribution after hydrogen-deuterium exchange computed by get_observed
     <div class="ref-description">
     <p>Compute the isotopic probabilities for the deuterated peptide as a convolution
 of the isotopic distribution for the undeuterated peptide and the observed
-isotopic distribution after hydrogen-deuterium exchange computed by <code>get_observed_iso_dist</code>.</p>
+isotopic distribution after hydrogen-deuterium exchange computed by
+<code>get_observed_iso_dist</code>.</p>
     </div>
 
     <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>get_iso_probs_deut</span><span class='op'>(</span>
@@ -146,7 +148,9 @@ isotopic distribution after hydrogen-deuterium exchange computed by <code>get_ob
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>HD_matrices</th>
-      <td><p>list. Simulated matrices for every time point after hydrogen-deuterium-exchange</p></td>
+      <td><p>list. Simulated matrices for every time point after hydrogen-deuterium-exchange.
+Calculated via <code><a href='get_HD_matrices.html'>get_HD_matrices</a></code> or
+<code><a href='get_HD_matrices_using_markov.html'>get_HD_matrices_using_markov</a></code></p></td>
     </tr>
     <tr>
       <th>maxD</th>
@@ -179,6 +183,20 @@ from vector 2:6. Default NULL.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>The output is a data frame with the variables:</p>
+<p><code>Exposure</code> (time point of measurement consistent with given HD matrix),</p>
+<p><code>Mz</code> - m/z values,</p>
+<p><code>Intensity</code> - isotopic probabilities,</p>
+<p><code>PH</code> - pH.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The m/z values for the deuterated peptide are calculated using the
+<code>peptide_mass</code>, <code>charge</code> and constants - deuteron mass (1.00628)
+and proton mass (1.007276). Starting from the m/z value for the monoisotopic
+peak, the difference between the mass of deuteron and proton divided by the
+charge of the peptide ion is added.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

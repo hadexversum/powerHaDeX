@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>F constants — get_F_const • powerHDX</title>
+<title>Houde's test for deuteration curves — houde • powerHDX</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="F constants — get_F_const" />
-<meta property="og:description" content="Constants related to water, base and acid in cal/(K * mol)" />
+<meta property="og:title" content="Houde's test for deuteration curves — houde" />
+<meta property="og:description" content="Houde's test for deuteration curves" />
 
 
 
@@ -117,34 +117,30 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>F constants</h1>
+    <h1>Houde's test for deuteration curves</h1>
     
-    <div class="hidden name"><code>get_F_const.Rd</code></div>
+    <div class="hidden name"><code>houde.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Constants related to water, base and acid in cal/(K * mol)</p>
+    <p>Houde's test for deuteration curves</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>get_F_const</span><span class='op'>(</span><span class='va'>temp_kelvin</span>, <span class='va'>gas_constant</span><span class='op'>)</span></code></pre></div>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>houde</span><span class='op'>(</span><span class='va'>data</span>, significance_level <span class='op'>=</span> <span class='fl'>0.05</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>temp_kelvin</th>
-      <td><p>temperature reaction in Kelvins</p></td>
+      <th>data</th>
+      <td><p>data.table with deuteration curves</p></td>
     </tr>
     <tr>
-      <th>gas_constant</th>
-      <td><p>gas constant (1/(dT * R) = 1.9858775)</p></td>
+      <th>significance_level</th>
+      <td><p>significance level for tests</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>list of constants <code>Fta</code> for acid, <code>Ftb</code> for base and
-<code>Ftw</code> for water.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

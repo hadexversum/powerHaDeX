@@ -40,7 +40,8 @@
 
 
 <meta property="og:title" content="Hydrogen-deuterium or back-exchange exchange rates — get_exchange_rates" />
-<meta property="og:description" content="Hydrogen-deuterium or back-exchange exchange rates" />
+<meta property="og:description" content="Calculate exchange rates that are required to obtain exchange
+probabilities." />
 
 
 
@@ -123,7 +124,8 @@
     </div>
 
     <div class="ref-description">
-    <p>Hydrogen-deuterium or back-exchange exchange rates</p>
+    <p>Calculate exchange rates that are required to obtain exchange
+probabilities.</p>
     </div>
 
     <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>get_exchange_rates</span><span class='op'>(</span>
@@ -145,7 +147,7 @@
     <tr>
       <th>exchange</th>
       <td><p>type of exchange - "HD" for hydrogen to deuterium,
-"DH" for deuterium to hydrogen (back-exchange). Default "HD.</p></td>
+"DH" for deuterium to hydrogen (back-exchange). Default "HD".</p></td>
     </tr>
     <tr>
       <th>pH</th>
@@ -157,22 +159,51 @@
     </tr>
     <tr>
       <th>mol_type</th>
-      <td><p>character, "poly" or "oligo".</p></td>
+      <td><p>character, "poly" or "oligo". If "oligo" then the calculated constants
+are multiplied by c according to the considered condition (base, water or acid).</p></td>
     </tr>
     <tr>
       <th>if_corr</th>
       <td><p>pH correction indicator. Default value 0. The value of pH is equal to pD.
 If there is correction, the pD = pH + 0.4. (Conelly et al 1993)</p></td>
     </tr>
-    <tr>
-      <th>gas_constant</th>
-      <td><p>gas constant</p></td>
-    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>numeric vector of exchange rates according to the provided exchange direction.</p>
+    <p>The obtained exchange rates are stored in vector <code>kcHD</code> or
+<code>kcDH</code> according to the exchange direction. They are used to calculate
+the exchange probabilities thus both <code>kcHD</code> and <code>kcDH</code> are necessary
+ as we take the possibility of back-exchange into account.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The correction of <code>pH</code> is taken into account for calculation of <code>pD</code>:
+$$pD = pH + 0.4 * if_corr$$
+Next, the provided temperature is converted into K and the internal functions
+<code><a href='get_F_const.html'>get_F_const</a></code>, <code><a href='get_poly_const.html'>get_poly_const</a></code> and
+<code><a href='get_pkc.html'>get_pkc</a></code> are evaluated.</p>
+<p>Using the obtained matrix of constants and provided <code>sequence</code> <code>F_a</code>
+and <code>F_b</code> are calculated for each amino acid in the sequence, concerning
+the previous and next amino acid. For the amino acids in the middle of the sequence,
+the following formula is used:</p>
+<p>$$F_x = 10^{ previous_x + current_x}$$</p>
+<p>where <code>x</code> is either <code>a</code> or <code>b</code>, and <code>previous_x</code> is the
+acid/base factor for a previous amino acid in the sequence, and <code>current_x</code>
+for the amino acid it is calculated for. If the amino acid is next to the C- or
+N-term, the term-effect is taken into account.</p>
+<p>Finally, the exchange rate <code>k_c</code> for the amino acid is the sum of catalysis
+constants for acid, base and water (Conelly et al, 1993). Namely:</p>
+<p>$$k_c = k_{acid} + k_{base} + k_{water}$$
+where
+$$k_{acid} = F_a * K_a + D * F_ta,$$
+$$k_{base} = F_b* K_b + OD * F_tb,$$
+$$k_{water} = F_b * K_w * F_tw$$</p>
+<p>where <code>D</code> and <code>OD</code> indicates deuterium  and deuterium oxide
+concentration, <code>F_a</code> and <code>F_b</code> are values calculated specifically
+for given amino acid, as described before, <code>K_a</code> and <code>K_b</code> are values
+computed by <code><a href='get_poly_const.html'>get_poly_const</a></code> function, based on the mole
+type, <code>F_ta</code>, <code>F_tb</code> and <code>F_tw</code> are values computed by
+<code><a href='get_F_const.html'>get_F_const</a></code> function.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

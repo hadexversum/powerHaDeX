@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get probability of an exchange (H-&gt;D and D-&gt;H) — get_exchange_probabilities • powerHDX</title>
+<title>Get probability of an exchange (HD and DH) — get_exchange_probabilities • powerHDX</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,9 @@
 
 
 
-<meta property="og:title" content="Get probability of an exchange (H-&gt;D and D-&gt;H) — get_exchange_probabilities" />
-<meta property="og:description" content="Get probability of an exchange (H-&amp;gt;D and D-&amp;gt;H)" />
+<meta property="og:title" content="Get probability of an exchange (HD and DH) — get_exchange_probabilities" />
+<meta property="og:description" content="Calculate probabilities of exchanges that are required to s
+imulate the exchange process." />
 
 
 
@@ -117,13 +118,14 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get probability of an exchange (H-&gt;D and D-&gt;H)</h1>
+    <h1>Get probability of an exchange (HD and DH)</h1>
     
     <div class="hidden name"><code>get_exchange_probabilities.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Get probability of an exchange (H-&gt;D and D-&gt;H)</p>
+    <p>Calculate probabilities of exchanges that are required to s
+imulate the exchange process.</p>
     </div>
 
     <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>get_exchange_probabilities</span><span class='op'>(</span><span class='va'>HD_rate</span>, <span class='va'>DH_rate</span>, <span class='va'>time_step</span>, <span class='va'>protection_factor</span><span class='op'>)</span></code></pre></div>
@@ -145,13 +147,30 @@
     </tr>
     <tr>
       <th>protection_factor</th>
-      <td><p>protection factor</p></td>
+      <td><p>protection factor. If a single number of provided,
+same protection factor will be assumed for each amide. Default value: 1
+(indicates that the exchange rate is equal to the intristic exchange rate)</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>list</p>
+    <p>a list of four vectors: vector <code>HD</code> for probabilities \(P_i( H -&gt; D )\),
+vector <code>DH</code> for probabilities \(P_i( D -&gt; H )\), vector <code>HH</code> for
+probabilities \(P_i( H -&gt; H )\) and vector <code>DD</code> for probabilities
+\(P_i( D -&gt; D)\).</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>he process is defined as a series of steps from the time sequence,
+and each step depends on the state in the previous one.  Therefore, the
+probabilities of changing the state are conditional probabilities - probabilities
+of particular state in k+1^th step given particular state in k^th step. For i^th
+amino acid probabilities are calculated as follows</p>
+<p>$$ P_i( H -&gt; D ) = 1 - exp((-kcHD_i * time_step)/protection_factor)$$
+$$ P_i( D -&gt; H ) = 1 - exp((-kcDH_i * time_step)/protection_factor)$$
+$$ P_i( H -&gt; H ) = 1 - P_i( H -&gt; D )$$
+$$ P_i( D -&gt; D ) = 1 - P_i( D -&gt; H )$$
+where the last two equations describe the probabilities of staying in the same state.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Approximates isotopic distribution via sampling — get_approx_isotopic_distribution • powerHDX</title>
+<title>Approximates isotopic distribution — get_approx_isotopic_distribution • powerHDX</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,10 @@
 
 
 
-<meta property="og:title" content="Approximates isotopic distribution via sampling — get_approx_isotopic_distribution" />
-<meta property="og:description" content="Approximates isotopic distribution via sampling" />
+<meta property="og:title" content="Approximates isotopic distribution — get_approx_isotopic_distribution" />
+<meta property="og:description" content="Internal function used in the simulation of theoretical spectra.
+It calculates the isotopic distribution of an undeuterated peptide
+that is required to get an empirical distribution." />
 
 
 
@@ -117,13 +119,15 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Approximates isotopic distribution via sampling</h1>
+    <h1>Approximates isotopic distribution</h1>
     
     <div class="hidden name"><code>get_approx_isotopic_distribution.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Approximates isotopic distribution via sampling</p>
+    <p>Internal function used in the simulation of theoretical spectra.
+It calculates the isotopic distribution of an undeuterated peptide
+that is required to get an empirical distribution.</p>
     </div>
 
     <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>get_approx_isotopic_distribution</span><span class='op'>(</span><span class='va'>sequence</span>, min_probability <span class='op'>=</span> <span class='fl'>0.001</span><span class='op'>)</span></code></pre></div>
@@ -133,7 +137,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>sequence</th>
-      <td><p>amino acid sequence of a peptide</p></td>
+      <td><p>character vector of amino acid sequence of a peptide</p></td>
     </tr>
     <tr>
       <th>min_probability</th>
@@ -143,7 +147,29 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>list</p>
+    <p>list of elements: the mass of the peptide (<code>peptide_mass</code>),
+final distribution (<code>isotopic_distribution</code>) of the isotopes,
+number of significant probabilities minus one (<code>max_ND</code>) and
+number of exchangeable amino acids (<code>n_exchangeable</code>).</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Additional file <code>sysdata.RDA</code> contains the maximal possible occurrence
+of the isotopes C13, N15, O18, S34 (carbon, nitrogen, oxygen, and sulfur, respectively)
+in the respective amino acids, and their masses. Based on that, the maximal possible
+number of molecules of the isotopes in the sequence is calculated. Peptide mass is the
+sum of the masses of amino acids and H2O mass - as it includes the N terminal group
+(H) and C terminal group (OH).</p>
+<p>Next, the distributions of mentioned isotopes are calculated under the assumption
+that the occurrence of ith considered isotope has a binomial distribution B(n_i, p_i)
+ with parameters n_i (maximal possible occurrence in the sequence) and p_i
+ (natural richness - possibility of occurrence in the universe).  For the oxygen
+ molecules, we have to take into account that oxygen occurs in a diatomic molecule.
+ Calculation of the sulfur distribution takes into account its rare occurrence.</p>
+<p>The final isotopic distribution is computed as a convolution of obtained distributions
+ with probabilities greater than <code>min_probability</code>. It is a vector of probabilities
+ of possible monoisotopic masses. The number of exchangeable amides is computed as the
+ length of the sequence, reduced by the number of prolines located on the third of
+ further position.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

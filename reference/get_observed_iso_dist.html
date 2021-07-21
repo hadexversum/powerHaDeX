@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get observed isotopic distribution after hydrogen-deuterium exchange — get_observed_iso_dist • powerHDX</title>
+<title>Get observed distribution of ions — get_observed_iso_dist • powerHDX</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Get observed isotopic distribution after hydrogen-deuterium exchange — get_observed_iso_dist" />
-<meta property="og:description" content="Get observed isotopic distribution after hydrogen-deuterium exchange" />
+<meta property="og:title" content="Get observed distribution of ions — get_observed_iso_dist" />
+<meta property="og:description" content="Calculate isotopic probabilities (intensity)." />
 
 
 
@@ -117,13 +117,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get observed isotopic distribution after hydrogen-deuterium exchange</h1>
+    <h1>Get observed distribution of ions</h1>
     
     <div class="hidden name"><code>get_observed_iso_dist.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Get observed isotopic distribution after hydrogen-deuterium exchange</p>
+    <p>Calculate isotopic probabilities (intensity).</p>
     </div>
 
     <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>get_observed_iso_dist</span><span class='op'>(</span><span class='va'>HDmatrix</span>, <span class='va'>isotopic_distribution</span>, <span class='va'>maxD</span><span class='op'>)</span></code></pre></div>
@@ -145,6 +145,27 @@
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>a vector of observed isotopic distribution (<code>observed_dist</code>) and
+the observed peaks for mass spectrum (observed isotopic probabilities).</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The exchangeable-hydrogen distribution describing the increase of
+the mass is obtained from the exchange matrix from <code><a href='get_HD_matrices.html'>get_HD_matrices</a></code>
+or <code><a href='get_HD_matrices_using_markov.html'>get_HD_matrices_using_markov</a></code> and the number of exchangeable hydrogens
+<code>n_exchangeable</code>. First, the numbers of hydrogens exchanged in each molecule
+are calculated as sums of rows of the exchange matrix. Next, a  vector of the
+counts is built and stored in a vector of length <code>n_exchangeable</code> plus one
+(for the lack of exchange). To obtain fractions counts are averaged.</p>
+<p>The isotopic probabilities for the deuterated peptide are computed as the
+convolution of obtained distribution and the isotopic distribution for the
+undeuterated peptide (<code>isotopic_distribution</code>) as it is a sum of those
+variables (Claesen and Burzykowski 2017, Deconvolution-Based Approach). Namely
+$$M_delta = M_{mol} - M_{mon}$$
+where <code>M_mol</code> is the random variable describing molecular mass, <code>M_mon</code>
+is the random variable describing monoisotopic mass and <code>M_delta</code> is the
+random variable describing the increase in mass.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

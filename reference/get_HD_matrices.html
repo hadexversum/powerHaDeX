@@ -40,7 +40,8 @@
 
 
 <meta property="og:title" content="Get a matrix of simulated exchanged hydrogens for each experiment time point — get_HD_matrices" />
-<meta property="og:description" content="Get a matrix of simulated exchanged hydrogens for each experiment time point" />
+<meta property="og:description" content="Calculate matrices of simulated exchange required for obtaining
+empirical distribution." />
 
 
 
@@ -123,7 +124,8 @@
     </div>
 
     <div class="ref-description">
-    <p>Get a matrix of simulated exchanged hydrogens for each experiment time point</p>
+    <p>Calculate matrices of simulated exchange required for obtaining
+empirical distribution.</p>
     </div>
 
     <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>get_HD_matrices</span><span class='op'>(</span>
@@ -143,7 +145,8 @@
     </tr>
     <tr>
       <th>transition_probs</th>
-      <td><p>list of probabilities of exchange returned by the get_exchange_probabilities function</p></td>
+      <td><p>list of probabilities of exchange returned by the
+<code>get_exchange_probabilities function</code></p></td>
     </tr>
     <tr>
       <th>experiment_times</th>
@@ -161,7 +164,15 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>list of matrices</p>
+    <p>Matrices are stored in a list of matrices (<code>HD_matrices</code>) -
+each matrix for the respective time point of the measurement <code>times</code>.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>At each time point in the time sequence:</p>
+<p>change <code>H</code> to <code>D</code> with probability \(P(H -&gt; D)\) in each entry of
+the matrix from the previous iteration,</p>
+<p>change <code>D</code> to <code>H</code> with probability \(P(D -&gt; H)\) in each entry of
+the matrix from the previous iteration.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
