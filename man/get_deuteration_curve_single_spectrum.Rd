@@ -7,12 +7,21 @@
 get_deuteration_curve_single_spectrum(spectrum)
 }
 \arguments{
-\item{spectrum}{data.table with a spectrum}
+\item{spectrum}{data.table with a spectrum being an element of list created
+by \code{\link[powerHaDeX]{get_spectra_list}} and
+\code{\link[powerHaDeX]{add_noise_to_spectra}} functions.}
 }
 \value{
-data.table
+data.table containing one deuteriu uptake curve.
 }
 \description{
-Get a deuteration curve from a single spectrum
+This funtion calculates deuterium uptake from spectra.
+}
+\details{
+The centroid mass value from spectrum is calculated as a weighted mean
+from peaks based on the formulas
+\deqn{M = charge * (Mz - p_m)}
+and
+\deqn{m = 1/N \sum_{k = 1}^{N} I_k M_k.}
 }
 \keyword{internal}

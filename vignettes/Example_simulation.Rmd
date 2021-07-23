@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 
 
 ```{r setup}
-library(powerHDX)
+library(powerHaDeX)
 library(ggplot2)
 ```
 

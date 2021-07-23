@@ -7,7 +7,8 @@
 add_noise_to_intensities(spectrum, standard_deviations)
 }
 \arguments{
-\item{spectrum}{data.table with a single time point}
+\item{spectrum}{a single spectrum from the list obtained using
+\code{\link[powerHaDeX]{make_experimental_design}}.}
 
 \item{standard_deviations}{vector of standard deviations for the random noise}
 }
@@ -16,5 +17,10 @@ data.table
 }
 \description{
 Adds noise to a single time point in intensity domain
+}
+\details{
+if the \code{intensity_deviations} were provided, then noise is sampled
+from a normal distribution with mean \code{0} and standard deviation equal to
+those deviations and added to \code{Intensity}.
 }
 \keyword{internal}

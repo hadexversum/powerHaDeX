@@ -2,7 +2,7 @@
 % Please edit documentation in R/noisy_spectra.R
 \name{get_relative_mass}
 \alias{get_relative_mass}
-\title{Mass minus mass at zero}
+\title{Get relative mass}
 \usage{
 get_relative_mass(mass, time)
 }
@@ -12,6 +12,6 @@ get_relative_mass(mass, time)
 \item{time}{vector of time points}
 }
 \description{
-Mass minus mass at zero
+Mass minus mass at zero is calculated as a form of deuterium uptake.
 }
 \keyword{internal}

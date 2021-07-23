@@ -2,19 +2,22 @@
 % Please edit documentation in R/noisy_spectra.R
 \name{make_experimental_design}
 \alias{make_experimental_design}
-\title{Create a list of spectra with replicates from a a list of spectra}
+\title{Create a list of spectra with replicates from a list of spectra}
 \usage{
 make_experimental_design(spectra, n_runs)
 }
 \arguments{
-\item{spectra}{list created by the `get_spectra_list` function}
+\item{spectra}{list created by the \code{\link[powerHaDeX]{get_spectra_list}}
+function}
 
-\item{n_runs}{number of technical replicates in the experiment}
+\item{n_runs}{number of technical replicates to create}
 }
 \value{
 list of data.tables
 }
 \description{
-Create a list of spectra with replicates from a a list of spectra
+This function is used to prepare technical replicates from the
+provided spectra. It is a supplementary function used in
+\code{\link[powerHaDeX]{add_noise_to_spectra}}.
 }
 \keyword{internal}

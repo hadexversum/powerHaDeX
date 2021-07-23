@@ -31,7 +31,8 @@ from vector 2:6. Default NULL.}
 \item{mass_deviations}{mass deviation in parts per million. Either a single number
 (then the error at each time point will be the same) or a vector of the same length
 as number of unique time points in the experiment. The error will be sampled from
-normal distribution with standard deviation equal to `mass_deviations`*`undeuterated_mass`/1e6}
+normal distribution with standard deviation equal to
+\deqn{mass_deviations * undeuterated_mass/1e6}}
 
 \item{intensity_deviations}{optional, standard deviations of random noise that
 will be added to intensities. Either a single number (then the error at each

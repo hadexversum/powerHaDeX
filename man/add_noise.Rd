@@ -4,17 +4,20 @@
 \alias{add_noise}
 \title{Adds noise to mass domain}
 \usage{
-add_noise(curve, standard_deviations)
+add_noise(replicate_curve, standard_deviations)
 }
 \arguments{
-\item{curve}{`data.table`}
-
 \item{standard_deviations}{named vector of standard deviations}
 }
 \value{
-`data.table`
+`data.table` containing a single noisy curve (for one replication).
 }
 \description{
 Adds noise to mass domain
+}
+\details{
+The noise is sampled from normal distribution with mean \code{0}
+and standard deviation equal to \code{per_run_deviations} and added to the
+\code{Mass} values unless they are not zeroes (there is no noise at the time \code{0}).
 }
 \keyword{internal}

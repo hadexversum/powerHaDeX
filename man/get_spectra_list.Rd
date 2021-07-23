@@ -7,8 +7,8 @@
 get_spectra_list(theoretical_spectra, compare_pairs, reference)
 }
 \arguments{
-\item{theoretical_spectra}{data.table of spectra created by the
-`simulate_theoretical_spectra` function}
+\item{theoretical_spectra}{a data table or a list of data tables of theoretical
+spectra created by the function \code{\link[powerHaDeX]{simulate_theoretical_spectra}}.}
 
 \item{compare_pairs}{if FALSE, all groups (defined by the protection factor)
 will be considered jointly. If TRUE (default), each protection factor will be
@@ -17,11 +17,22 @@ considered together with the protection factor given by the `reference` paramete
 \item{reference}{protection factor that will be used for comparison to other
 protection factors in. The function accepts either \code{NA} (for comparing all
 protection factors), a number (for comparing with reference value of protection factor)
-or "all"(for pairwise comparisons of all the possible combinations). Default \code{NA}.}
+or "all" (for pairwise comparisons of all the possible combinations). Default \code{NA}.}
 }
 \value{
-list of data.tables
+list of data.tables containing spectra - for paired states or all states.
 }
 \description{
-Get a list of spectra
+Create a list of data tables of spectra for all states jointly
+ or paired states.
+}
+\details{
+If the parameter \code{compare_pairs} is \code{FALSE} then all the
+provided protection factors will be considered jointly. If \code{compare_pairs} is
+\code{TRUE}, then the parameter \code{reference} is necessary (a single number or
+\code{"all"}). Then the data is split via the supplementary function
+\code{\link[powerHaDeX]{get_paired_spectra}} into data tables of spectra with
+paired biological states (the reference protection factor and the protection
+factor of interest if provided, or all the possible pairs if \code{reference}
+equals "all").
 }
