@@ -40,7 +40,8 @@
 
 
 <meta property="og:title" content="Get a list of spectra — get_spectra_list" />
-<meta property="og:description" content="Get a list of spectra" />
+<meta property="og:description" content="Create a list of data tables of spectra for all states jointly
+ or paired states." />
 
 
 
@@ -123,7 +124,8 @@
     </div>
 
     <div class="ref-description">
-    <p>Get a list of spectra</p>
+    <p>Create a list of data tables of spectra for all states jointly
+ or paired states.</p>
     </div>
 
     <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>get_spectra_list</span><span class='op'>(</span><span class='va'>theoretical_spectra</span>, <span class='va'>compare_pairs</span>, <span class='va'>reference</span><span class='op'>)</span></code></pre></div>
@@ -133,8 +135,8 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>theoretical_spectra</th>
-      <td><p>data.table of spectra created by the
-`simulate_theoretical_spectra` function</p></td>
+      <td><p>a data table or a list of data tables of theoretical
+spectra created by the function <code><a href='simulate_theoretical_spectra.html'>simulate_theoretical_spectra</a></code>.</p></td>
     </tr>
     <tr>
       <th>compare_pairs</th>
@@ -147,13 +149,23 @@ considered together with the protection factor given by the `reference` paramete
       <td><p>protection factor that will be used for comparison to other
 protection factors in. The function accepts either <code>NA</code> (for comparing all
 protection factors), a number (for comparing with reference value of protection factor)
-or "all"(for pairwise comparisons of all the possible combinations). Default <code>NA</code>.</p></td>
+or "all" (for pairwise comparisons of all the possible combinations). Default <code>NA</code>.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>list of data.tables</p>
+    <p>list of data.tables containing spectra - for paired states or all states.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>If the parameter <code>compare_pairs</code> is <code>FALSE</code> then all the
+provided protection factors will be considered jointly. If <code>compare_pairs</code> is
+<code>TRUE</code>, then the parameter <code>reference</code> is necessary (a single number or
+<code>"all"</code>). Then the data is split via the supplementary function
+<code><a href='get_paired_spectra.html'>get_paired_spectra</a></code> into data tables of spectra with
+paired biological states (the reference protection factor and the protection
+factor of interest if provided, or all the possible pairs if <code>reference</code>
+equals "all").</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

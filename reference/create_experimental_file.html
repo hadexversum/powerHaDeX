@@ -167,7 +167,8 @@ from vector 2:6. Default NULL.</p></td>
       <td><p>mass deviation in parts per million. Either a single number
 (then the error at each time point will be the same) or a vector of the same length
 as number of unique time points in the experiment. The error will be sampled from
-normal distribution with standard deviation equal to `mass_deviations`*`undeuterated_mass`/1e6</p></td>
+normal distribution with standard deviation equal to
+$$mass_deviations * undeuterated_mass/1e6$$</p></td>
     </tr>
     <tr>
       <th>intensity_deviations</th>

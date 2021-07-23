@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create a list of spectra with replicates from a a list of spectra — make_experimental_design • powerHaDeX</title>
+<title>Create a list of spectra with replicates from a list of spectra — make_experimental_design • powerHaDeX</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,10 @@
 
 
 
-<meta property="og:title" content="Create a list of spectra with replicates from a a list of spectra — make_experimental_design" />
-<meta property="og:description" content="Create a list of spectra with replicates from a a list of spectra" />
+<meta property="og:title" content="Create a list of spectra with replicates from a list of spectra — make_experimental_design" />
+<meta property="og:description" content="This function is used to prepare technical replicates from the
+provided spectra. It is a supplementary function used in
+add_noise_to_spectra." />
 
 
 
@@ -117,13 +119,15 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create a list of spectra with replicates from a a list of spectra</h1>
+    <h1>Create a list of spectra with replicates from a list of spectra</h1>
     
     <div class="hidden name"><code>make_experimental_design.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Create a list of spectra with replicates from a a list of spectra</p>
+    <p>This function is used to prepare technical replicates from the
+provided spectra. It is a supplementary function used in
+<code><a href='add_noise_to_spectra.html'>add_noise_to_spectra</a></code>.</p>
     </div>
 
     <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>make_experimental_design</span><span class='op'>(</span><span class='va'>spectra</span>, <span class='va'>n_runs</span><span class='op'>)</span></code></pre></div>
@@ -133,11 +137,12 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>spectra</th>
-      <td><p>list created by the `get_spectra_list` function</p></td>
+      <td><p>list created by the <code><a href='get_spectra_list.html'>get_spectra_list</a></code>
+function</p></td>
     </tr>
     <tr>
       <th>n_runs</th>
-      <td><p>number of technical replicates in the experiment</p></td>
+      <td><p>number of technical replicates to create</p></td>
     </tr>
     </table>
 

@@ -133,7 +133,8 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>spectrum</th>
-      <td><p>data.table with a single time point</p></td>
+      <td><p>a single spectrum from the list obtained using
+<code><a href='make_experimental_design.html'>make_experimental_design</a></code>.</p></td>
     </tr>
     <tr>
       <th>standard_deviations</th>
@@ -144,6 +145,11 @@
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>data.table</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>the noise is sampled from a normal distribution with mean <code>0</code>
+and standard deviation equal to <code>standard_deviations</code> and added to <code>Mz</code>
+values for the time points (based on supplied parameters for time points).</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -140,7 +140,8 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>spectra</th>
-      <td><p>list of spectra created by the `get_spectra_list` function</p></td>
+      <td><p>list created by the <code><a href='get_spectra_list.html'>get_spectra_list</a></code>
+function</p></td>
     </tr>
     <tr>
       <th>n_runs</th>
@@ -151,15 +152,12 @@
       <td><p>number of replicates of a spectrum for power calculation</p></td>
     </tr>
     <tr>
-      <th>undeuterated_mass</th>
-      <td><p>undeuterated mass of a peptide</p></td>
-    </tr>
-    <tr>
       <th>mass_deviations</th>
       <td><p>mass deviation in parts per million. Either a single number
 (then the error at each time point will be the same) or a vector of the same length
 as number of unique time points in the experiment. The error will be sampled from
-normal distribution with standard deviation equal to `mass_deviations`*`undeuterated_mass`/1e6</p></td>
+normal distribution with standard deviation equal to
+$$mass_deviations * undeuterated_mass/1e6$$</p></td>
     </tr>
     <tr>
       <th>intensity_deviations</th>
@@ -174,6 +172,10 @@ with these standard deviations.</p></td>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>list of lists of data.tables</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>This function uses <code><a href='make_experimental_design.html'>make_experimental_design</a></code> and
+<code><a href='make_noisy_spectra.html'>make_noisy_spectra</a></code>.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

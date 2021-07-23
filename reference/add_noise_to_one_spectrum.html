@@ -40,7 +40,7 @@
 
 
 <meta property="og:title" content="Add noise to a single spectrum — add_noise_to_one_spectrum" />
-<meta property="og:description" content="Add noise to a single spectrum" />
+<meta property="og:description" content="This function adds noise to intensities and/or masses in a spectrum." />
 
 
 
@@ -123,7 +123,7 @@
     </div>
 
     <div class="ref-description">
-    <p>Add noise to a single spectrum</p>
+    <p>This function adds noise to intensities and/or masses in a spectrum.</p>
     </div>
 
     <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>add_noise_to_one_spectrum</span><span class='op'>(</span>
@@ -137,15 +137,17 @@
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>undeuterated_mass</th>
-      <td><p>undeuterated mass of a peptide</p></td>
+      <th>spectrum</th>
+      <td><p>a single spectrum from the list obtained using
+<code><a href='make_experimental_design.html'>make_experimental_design</a></code>.</p></td>
     </tr>
     <tr>
       <th>mass_deviations</th>
       <td><p>mass deviation in parts per million. Either a single number
 (then the error at each time point will be the same) or a vector of the same length
 as number of unique time points in the experiment. The error will be sampled from
-normal distribution with standard deviation equal to `mass_deviations`*`undeuterated_mass`/1e6</p></td>
+normal distribution with standard deviation equal to
+$$mass_deviations * undeuterated_mass/1e6$$</p></td>
     </tr>
     <tr>
       <th>intensity_deviations</th>
@@ -159,7 +161,13 @@ with these standard deviations.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>data.table</p>
+    <p>data.table containing a single noisy spectrum</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The deviations are calculated as follows
+$$sd = mass_deviations * undeuterated_mass/10^6$$.
+To add noise this function uses <code><a href='add_noise_to_one_timepoint.html'>add_noise_to_one_timepoint</a></code>
+and <code><a href='add_noise_to_intensities.html'>add_noise_to_intensities</a></code>.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

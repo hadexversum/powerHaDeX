@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create a list of lists of noisy deuteration curves from theoretical spectra — get_noisy_deuteration_curves • powerHaDeX</title>
+<title>Replicated deuterium uptake curves — get_noisy_deuteration_curves • powerHaDeX</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,9 @@
 
 
 
-<meta property="og:title" content="Create a list of lists of noisy deuteration curves from theoretical spectra — get_noisy_deuteration_curves" />
-<meta property="og:description" content="Create a list of lists of noisy deuteration curves from theoretical spectra" />
+<meta property="og:title" content="Replicated deuterium uptake curves — get_noisy_deuteration_curves" />
+<meta property="og:description" content="This function creates a list of lists of noisy deuteration curves
+based on theoretical spectra in order to imitate the data from the HDX experiments." />
 
 
 
@@ -117,13 +118,14 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create a list of lists of noisy deuteration curves from theoretical spectra</h1>
+    <h1>Replicated deuterium uptake curves</h1>
     
     <div class="hidden name"><code>get_noisy_deuteration_curves.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Create a list of lists of noisy deuteration curves from theoretical spectra</p>
+    <p>This function creates a list of lists of noisy deuteration curves
+based on theoretical spectra in order to imitate the data from the HDX experiments.</p>
     </div>
 
     <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>get_noisy_deuteration_curves</span><span class='op'>(</span>
@@ -143,8 +145,8 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>theoretical_spectra</th>
-      <td><p>data.table of spectra created by the
-`simulate_theoretical_spectra` function</p></td>
+      <td><p>a data table or a list of data tables of theoretical
+spectra created by the function <code><a href='simulate_theoretical_spectra.html'>simulate_theoretical_spectra</a></code>.</p></td>
     </tr>
     <tr>
       <th>compare_pairs</th>
@@ -157,7 +159,7 @@ considered together with the protection factor given by the `reference` paramete
       <td><p>protection factor that will be used for comparison to other
 protection factors in. The function accepts either <code>NA</code> (for comparing all
 protection factors), a number (for comparing with reference value of protection factor)
-or "all"(for pairwise comparisons of all the possible combinations). Default <code>NA</code>.</p></td>
+or "all" (for pairwise comparisons of all the possible combinations). Default <code>NA</code>.</p></td>
     </tr>
     <tr>
       <th>n_runs</th>
@@ -172,7 +174,8 @@ or "all"(for pairwise comparisons of all the possible combinations). Default <co
       <td><p>mass deviation in parts per million. Either a single number
 (then the error at each time point will be the same) or a vector of the same length
 as number of unique time points in the experiment. The error will be sampled from
-normal distribution with standard deviation equal to `mass_deviations`*`undeuterated_mass`/1e6</p></td>
+normal distribution with standard deviation equal to
+$$mass_deviations * undeuterated_mass/1e6$$</p></td>
     </tr>
     <tr>
       <th>intensity_deviations</th>
@@ -192,13 +195,24 @@ with these standard deviations.</p></td>
     </tr>
     <tr>
       <th>relative</th>
-      <td><p>logical, if TRUE (default), each deuteration curve will start at 0</p></td>
+      <td><p>logical, if TRUE (default), each deuteration curve will start at 0
+(relative mass will be returned). Default <code>TRUE</code>.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>list of lists of data.tables</p>
+    <p>a list (for paired states when <code>compare_pairs</code> is <code>TRUE</code>) of lists
+(repetitions of experiment for power calculations) of data tables of the variables:</p>
+<p>- <code>Sequence</code> - provided amino acid sequence</p>
+<p>- <code>Rep</code> - technical replication</p>
+<p>- <code>State</code> - provided protection factor (the theoretical - in practice unknown -
+state of the protein)</p>
+<p>- <code>Exposure</code> - exposure time</p>
+<p>- <code>Mass</code> - mass or deuterium uptake when <code>relative</code> is <code>TRUE</code>.</p>
+<p>- <code>Charge</code> - charge</p>
+<p>- <code>Experimental_state</code> - the biological state (from the viewpoint of the
+experimenter) provided in the case when <code>compare_pairs</code> is <code>TRUE</code>.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

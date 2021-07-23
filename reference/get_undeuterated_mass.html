@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get mass of an undeuterated peptide — get_undeuterated_mass • powerHaDeX</title>
+<title>Mass of an undeuterated peptide — get_undeuterated_mass • powerHaDeX</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Get mass of an undeuterated peptide — get_undeuterated_mass" />
-<meta property="og:description" content="Get mass of an undeuterated peptide" />
+<meta property="og:title" content="Mass of an undeuterated peptide — get_undeuterated_mass" />
+<meta property="og:description" content="This function gets mass of an undeuterated peptide based on its spectrum." />
 
 
 
@@ -117,13 +117,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get mass of an undeuterated peptide</h1>
+    <h1>Mass of an undeuterated peptide</h1>
     
     <div class="hidden name"><code>get_undeuterated_mass.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Get mass of an undeuterated peptide</p>
+    <p>This function gets mass of an undeuterated peptide based on its spectrum.</p>
     </div>
 
     <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>get_undeuterated_mass</span><span class='op'>(</span><span class='va'>theoretical_spectra</span><span class='op'>)</span></code></pre></div>
@@ -133,13 +133,20 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>theoretical_spectra</th>
-      <td><p>`data.table` returned by the `simulate_theoretical_spectra` function.</p></td>
+      <td><p>a data table or a list of data tables of theoretical
+spectra created by the function <code><a href='simulate_theoretical_spectra.html'>simulate_theoretical_spectra</a></code>.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>`data.table`</p>
+    <p>`data.table` of calculated mass value for the first peak (the smallest one)
+as it is usually the peak corresponding to the monoisotopic mass.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    
+
+
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

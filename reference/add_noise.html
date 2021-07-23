@@ -126,15 +126,11 @@
     <p>Adds noise to mass domain</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>add_noise</span><span class='op'>(</span><span class='va'>curve</span>, <span class='va'>standard_deviations</span><span class='op'>)</span></code></pre></div>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>add_noise</span><span class='op'>(</span><span class='va'>replicate_curve</span>, <span class='va'>standard_deviations</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>curve</th>
-      <td><p>`data.table`</p></td>
-    </tr>
     <tr>
       <th>standard_deviations</th>
       <td><p>named vector of standard deviations</p></td>
@@ -143,7 +139,12 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>`data.table`</p>
+    <p>`data.table` containing a single noisy curve (for one replication).</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The noise is sampled from normal distribution with mean <code>0</code>
+and standard deviation equal to <code>per_run_deviations</code> and added to the
+<code>Mass</code> values unless they are not zeroes (there is no noise at the time <code>0</code>).</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -40,7 +40,7 @@
 
 
 <meta property="og:title" content="Get a deuteration curve from a single spectrum — get_deuteration_curve_single_spectrum" />
-<meta property="og:description" content="Get a deuteration curve from a single spectrum" />
+<meta property="og:description" content="This funtion calculates deuterium uptake from spectra." />
 
 
 
@@ -123,7 +123,7 @@
     </div>
 
     <div class="ref-description">
-    <p>Get a deuteration curve from a single spectrum</p>
+    <p>This funtion calculates deuterium uptake from spectra.</p>
     </div>
 
     <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>get_deuteration_curve_single_spectrum</span><span class='op'>(</span><span class='va'>spectrum</span><span class='op'>)</span></code></pre></div>
@@ -133,13 +133,22 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>spectrum</th>
-      <td><p>data.table with a spectrum</p></td>
+      <td><p>data.table with a spectrum being an element of list created
+by <code><a href='get_spectra_list.html'>get_spectra_list</a></code> and
+<code><a href='add_noise_to_spectra.html'>add_noise_to_spectra</a></code> functions.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>data.table</p>
+    <p>data.table containing one deuteriu uptake curve.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The centroid mass value from spectrum is calculated as a weighted mean
+from peaks based on the formulas
+$$M = charge * (Mz - p_m)$$
+and
+$$m = 1/N \sum_{k = 1}^{N} I_k M_k.$$</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

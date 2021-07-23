@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get data.tables of spectra for pairs of protection factors — get_paired_spectra • powerHaDeX</title>
+<title>Get list of data.tables of spectra for pairs of protection factors — get_paired_spectra • powerHaDeX</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Get data.tables of spectra for pairs of protection factors — get_paired_spectra" />
-<meta property="og:description" content="Get data.tables of spectra for pairs of protection factors" />
+<meta property="og:title" content="Get list of data.tables of spectra for pairs of protection factors — get_paired_spectra" />
+<meta property="og:description" content="A supplementary function for get_spectra_list." />
 
 
 
@@ -117,13 +117,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get data.tables of spectra for pairs of protection factors</h1>
+    <h1>Get list of data.tables of spectra for pairs of protection factors</h1>
     
     <div class="hidden name"><code>get_paired_spectra.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Get data.tables of spectra for pairs of protection factors</p>
+    <p>A supplementary function for <code><a href='get_spectra_list.html'>get_spectra_list</a></code>.</p>
     </div>
 
     <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>get_paired_spectra</span><span class='op'>(</span><span class='va'>theoretical_spectra</span>, <span class='va'>reference</span><span class='op'>)</span></code></pre></div>
@@ -133,21 +133,24 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>theoretical_spectra</th>
-      <td><p>data.table of spectra created by the
-`simulate_theoretical_spectra` function</p></td>
+      <td><p>a data table or a list of data tables of theoretical
+spectra created by the function <code><a href='simulate_theoretical_spectra.html'>simulate_theoretical_spectra</a></code>.</p></td>
     </tr>
     <tr>
       <th>reference</th>
       <td><p>protection factor that will be used for comparison to other
 protection factors in. The function accepts either <code>NA</code> (for comparing all
 protection factors), a number (for comparing with reference value of protection factor)
-or "all"(for pairwise comparisons of all the possible combinations). Default <code>NA</code>.</p></td>
+or "all" (for pairwise comparisons of all the possible combinations). Default <code>NA</code>.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>list of data.tables</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>For more details see <code><a href='get_spectra_list.html'>get_spectra_list</a></code>.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

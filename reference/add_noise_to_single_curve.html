@@ -132,22 +132,28 @@
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>replicate_curve</th>
-      <td><p>`data.table` with technical replicates of a deuteration curve</p></td>
-    </tr>
-    <tr>
       <th>per_run_deviations</th>
-      <td><p>vector of standard deviations of random error</p></td>
+      <td><p>optional, standard deviations of random noise that
+will be added to deuteration curves. Either a single number (then the error at each
+time point will be the same) or a vector of the same length as number of unique
+time points in the experiment. The error will be sampled from normal distribution
+with these standard deviations.</p></td>
     </tr>
     <tr>
       <th>relative</th>
-      <td><p>if TRUE (default), each curve will start at 0</p></td>
+      <td><p>logical, if TRUE (default), each deuteration curve will start at 0
+(relative mass will be returned). Default <code>TRUE</code>.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>`data.table`</p>
+    <p>`data.table` containing noisy replicated deuteration curves.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    
+
+
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
