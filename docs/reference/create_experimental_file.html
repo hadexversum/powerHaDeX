@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Articles • powerHaDeX</title>
+<title>Create experimental file — create_experimental_file • powerHaDeX</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,9 @@
 
 
 
-<meta property="og:title" content="Articles" />
+<meta property="og:title" content="Create experimental file — create_experimental_file" />
+<meta property="og:description" content="This function generates replications of mass spectra that are
+consistent with common experimental data files" />
 
 
 
@@ -58,7 +60,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-article-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -114,18 +116,85 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Articles</h1>
+    <h1>Create experimental file</h1>
+    
+    <div class="hidden name"><code>create_experimental_file.Rd</code></div>
     </div>
 
-    <div class="section ">
-      <h3>All vignettes</h3>
-      <p class="section-desc"></p>
-
-      <dl>
-        <dt><a href="Example_simulation.html">Simulation - example usage</a></dt>
-        <dd></dt>
-      </dl>
+    <div class="ref-description">
+    <p>This function generates replications of mass spectra that are
+consistent with common experimental data files</p>
     </div>
+
+    <pre class="usage"><span class='fu'>create_experimental_file</span>(
+  <span class='no'>peptides</span>,
+  <span class='kw'>times</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.167</span>, <span class='fl'>1</span>, <span class='fl'>5</span>, <span class='fl'>25</span>, <span class='fl'>1440</span>),
+  <span class='no'>charge</span>,
+  <span class='kw'>n_runs</span> <span class='kw'>=</span> <span class='fl'>3</span>,
+  <span class='kw'>mass_deviations</span> <span class='kw'>=</span> <span class='fl'>50</span>,
+  <span class='kw'>intensity_deviations</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>file_type</span> <span class='kw'>=</span> <span class='st'>"DynamX"</span>
+)</pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>peptides</th>
+      <td><p>a data frame of sequences (<code>sequence</code>), <code>Protein</code>,
+and <code>Start</code>, <code>End</code> and parameters except <code>times</code>
+that can be used for simulating mass spectra.
+See <code><a href='https://rdrr.io/pkg/powerHDX/man/simulate_theoretical_spectra.html'>simulate_theoretical_spectra</a></code> for more details
+about the additional parameters.</p></td>
+    </tr>
+    <tr>
+      <th>times</th>
+      <td><p>a vector of times at which deuteration levels will be measured (seconds)</p></td>
+    </tr>
+    <tr>
+      <th>charge</th>
+      <td><p>vector of charges of the peptide ion. If NULL, one value is sampled
+from vector 2:6. Default NULL.</p></td>
+    </tr>
+    <tr>
+      <th>n_runs</th>
+      <td><p>number of technical replicates to create</p></td>
+    </tr>
+    <tr>
+      <th>mass_deviations</th>
+      <td><p>mass deviation in parts per million. Either a single number
+(then the error at each time point will be the same) or a vector of the same length
+as number of unique time points in the experiment. The error will be sampled from
+normal distribution with standard deviation equal to `mass_deviations`*`undeuterated_mass`/1e6</p></td>
+    </tr>
+    <tr>
+      <th>intensity_deviations</th>
+      <td><p>optional, standard deviations of random noise that
+will be added to intensities. Either a single number (then the error at each
+time point will be the same) or a vector of the same length as number of unique
+time points in the experiment. The error will be sampled from normal distribution
+with these standard deviations.</p></td>
+    </tr>
+    <tr>
+      <th>file_type</th>
+      <td><p>...</p></td>
+    </tr>
+    </table>
+
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    
+
+
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+}</div></pre>
+  </div>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 

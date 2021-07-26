@@ -8,8 +8,7 @@
 #' the final result), \code{State_1}, \code{State_2} (biological states of interest), \code{Test_statistic},
 #' \code{P_value}, \code{Significant_difference} (the same as \code{p_value <= significance_level}), \code{Time}
 #' (character, "continuous" or "categorical"), \code{Transformation} (character, transformation that is used
-#' for exposure), \code{AIC}, \code{logLik}.
-#'
+#' for exposure), \code{AIC}, \code{logLik}. For example see \code{\link[powerHaDeX]{houde}}.
 #' @param significance_level significance level that will be used for testing. See \code{tests}
 #' @param summarized logical. Indicates whether the power should be calculated. Default \code{TRUE}
 #' @return list of data.tables with test result, optionally summarized with power.

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Constant related to... — get_poly_const • powerHDX</title>
+<title>Constant related to... — get_poly_const • powerHaDeX</title>
 
 
 <!-- jquery -->
@@ -71,7 +71,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">powerHDX</a>
+        <a class="navbar-link" href="../index.html">powerHaDeX</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0</span>
       </span>
     </div>
@@ -131,18 +131,19 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>mol_type</th>
-      <td><p>TODO: fill this in</p></td>
+      <td><p>character, "poly" or "oligo". If "oligo" then the calculated constants
+are multiplied by c according to the considered condition (base, water or acid).</p></td>
     </tr>
     <tr>
       <th>exchange</th>
       <td><p>type of exchange - "HD" for hydrogen to deuterium,
-"DH" for deuterium to hydrogen (back-exchange).</p></td>
+"DH" for deuterium to hydrogen (back-exchange). Default "HD".</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>list</p>
+    <p>list of Ka,Kb and Kw corresponding to the chosen <code>mol_type</code> and acid, base or water.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

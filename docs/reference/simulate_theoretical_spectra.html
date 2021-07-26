@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Simulate theoretical spectra of a deuterated peptide over time — simulate_theoretical_spectra • powerHDX</title>
+<title>Simulate theoretical spectra of a deuterated peptide over time — simulate_theoretical_spectra • powerHaDeX</title>
 
 
 <!-- jquery -->
@@ -71,7 +71,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">powerHDX</a>
+        <a class="navbar-link" href="../index.html">powerHaDeX</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0</span>
       </span>
     </div>
@@ -143,24 +143,26 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>sequence</th>
-      <td><p>amino acid sequence of a petpide as a single string</p></td>
+      <td><p>amino acid sequence of a peptide as a single string</p></td>
     </tr>
     <tr>
       <th>charge</th>
-      <td><p>charge of the peptide ion.</p></td>
+      <td><p>vector of charges of the peptide ion. If NULL, one value is sampled
+from vector 2:6. Default NULL.</p></td>
     </tr>
     <tr>
       <th>protection_factor</th>
       <td><p>protection factor. If a single number of provided,
-same protection factor will be assumed for each amide.</p></td>
+same protection factor will be assumed for each amide. Default value: 1
+(indicates that the exchange rate is equal to the intristic exchange rate)</p></td>
     </tr>
     <tr>
       <th>times</th>
-      <td><p>times at which deuteration levels will be measured (seconds)</p></td>
+      <td><p>a vector of times at which deuteration levels will be measured (seconds)</p></td>
     </tr>
     <tr>
       <th>pH</th>
-      <td><p>pH of the reaction</p></td>
+      <td><p>pH of the reaction. Default to 7.5.</p></td>
     </tr>
     <tr>
       <th>temperature</th>
@@ -168,16 +170,19 @@ same protection factor will be assumed for each amide.</p></td>
     </tr>
     <tr>
       <th>n_molecules</th>
-      <td><p>number of peptide molecules</p></td>
+      <td><p>number of peptide molecules. Default to 100.</p></td>
     </tr>
     <tr>
       <th>time_step_const</th>
-      <td><p>constant that will be dived by a maximum exchange rate
-to obtain time step. Hydrogen-deuteration exchange may occur at each of these steps.</p></td>
+      <td><p>time step constant. Default value: $1$. Value that
+indicates the length of the time step of the simulation. The bigger the time
+step, the fewer time points are simulated (the fewer iterations in case of
+Zhong-Yuan Kan's approach).</p></td>
     </tr>
     <tr>
       <th>if_corr</th>
-      <td><p>correction factor for pH - 0 or 1</p></td>
+      <td><p>pH correction indicator. Default value 0. The value of pH is equal to pD.
+If there is correction, the pD = pH + 0.4. (Conelly et al 1993)</p></td>
     </tr>
     <tr>
       <th>min_probability</th>
@@ -186,13 +191,41 @@ to obtain time step. Hydrogen-deuteration exchange may occur at each of these st
     <tr>
       <th>use_markov</th>
       <td><p>logical. If TRUE algorithm basing on Markov chain will be used.
-If FALSE simulation from kanzy??? will be executed.</p></td>
+If FALSE simulation provided by Zhong-Yuan Kan will be executed. Default to TRUE,
+as it fastens the calculation</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>data.table</p>
+    <p>a data table of variables:</p>
+<p>- <code>Exposure</code> - time point of a measurement,</p>
+<p>- <code>Mz</code> - mass-to-charge ratio,</p>
+<p>- <code>Intensity</code> - isotopic probabilities larger than <code>min_probability</code>
+ (the smaller ones are zeroes)</p>
+<p>and the variables provided by user</p>
+<p>- <code>Sequence</code>,</p>
+<p>- <code>PF</code>,</p>
+<p>- <code>Charge</code>,</p>
+<p>- <code>PH</code>.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>To the results calculated by <code><a href='get_iso_probs_deut.html'>get_iso_probs_deut</a></code>
+is added a minimal exchange control - for time point <code>0</code> (directly after
+adding a buffer). The m/z values are obtained as a ratio of the
+<code>peptide_mass</code> magnified by proton mass and the peptide charge.
+The distribution of undeuterated peptide is the
+intensities vector.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>The algorithm that is used to simulate theoretical spectra is based on
+Zhong-Yuan Kan's implementation in Matlab. The original version of codes is
+located in the repository <a href='https://github.com/kanzy/HX-MS-Simulations'>https://github.com/kanzy/HX-MS-Simulations</a>
+(as at 29.06.2020). In the <code>powerHaDeX</code> package can be found the Kan's
+algorithm re-implemented in R (using Rcpp) and the accelerated implementation
+(that uses Markov chains' properties). Moreover, the package <code>powerHaDeX</code>
+allows the user to simulate spectra for more than one exposure time for both
+(Rcpp and Markov) approaches.</p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

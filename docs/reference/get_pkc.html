@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Constant related to... — get_pkc • powerHDX</title>
+<title>Calculating pKc values — get_pkc • powerHaDeX</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,10 @@
 
 
 
-<meta property="og:title" content="Constant related to... — get_pkc" />
-<meta property="og:description" content="Constant related to..." />
+<meta property="og:title" content="Calculating pKc values — get_pkc" />
+<meta property="og:description" content="calculates supplementary constants for aspartic acid (Asp), glutamic
+acid (Glu) and histidine (His). Values for mentioned amino acids are pH and
+temperature dependent, in contrary to the rest amino acids with fixed values." />
 
 
 
@@ -71,7 +73,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">powerHDX</a>
+        <a class="navbar-link" href="../index.html">powerHaDeX</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0</span>
       </span>
     </div>
@@ -115,13 +117,15 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Constant related to...</h1>
+    <h1>Calculating pKc values</h1>
     
     <div class="hidden name"><code>get_pkc.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Constant related to...</p>
+    <p>calculates supplementary constants for aspartic acid (Asp), glutamic
+acid (Glu) and histidine (His). Values for mentioned amino acids are pH and
+temperature dependent, in contrary to the rest amino acids with fixed values.</p>
     </div>
 
     <pre class="usage"><span class='fu'>get_pkc</span>(<span class='no'>temp_kelvin</span>, <span class='no'>gas_constant</span>, <span class='kw'>exchange</span> <span class='kw'>=</span> <span class='st'>"HD"</span>)</pre>
@@ -135,10 +139,25 @@
     </tr>
     <tr>
       <th>gas_constant</th>
-      <td><p>gas constant (1/(dT * R))</p></td>
+      <td><p>gas constant (1/(dT * R) = 1.9858775)</p></td>
+    </tr>
+    <tr>
+      <th>exchange</th>
+      <td><p>type of exchange - "HD" for hydrogen to deuterium,
+"DH" for deuterium to hydrogen (back-exchange). Default "HD".</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>The function returns a list of <code>asp</code>, <code>glu</code> and <code>his</code>
+(<code>pKc</code> values corresponding to amino acids).</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Depending on provided <code>exchange</code> direction tabular values of
+exponents E_const$are assigned. For <code>Asp</code>, <code>Glu</code> and <code>His</code>
+the <code>pKc</code> constants are calculated based on the energies of activation
+for given amino acid and the chosen <code>exchange</code> direction.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

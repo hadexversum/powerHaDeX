@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get data.tables of spectra for pairs of protection factors — get_paired_spectra • powerHDX</title>
+<title>Get data.tables of spectra for pairs of protection factors — get_paired_spectra • powerHaDeX</title>
 
 
 <!-- jquery -->
@@ -71,7 +71,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">powerHDX</a>
+        <a class="navbar-link" href="../index.html">powerHaDeX</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0</span>
       </span>
     </div>
@@ -137,7 +137,9 @@
     <tr>
       <th>reference</th>
       <td><p>protection factor that will be used for comparison to other
-protection factors in</p></td>
+protection factors in. The function accepts either <code>NA</code> (for comparing all
+protection factors), a number (for comparing with reference value of protection factor)
+or "all"(for pairwise comparisons of all the possible combinations). Default <code>NA</code>.</p></td>
     </tr>
     </table>
 

@@ -20,7 +20,7 @@ output - data frame of variables: \code{Test} (name of a test which should be di
 the final result), \code{State_1}, \code{State_2} (biological states of interest), \code{Test_statistic},
 \code{P_value}, \code{Significant_difference} (the same as \code{p_value <= significance_level}), \code{Time}
 (character, "continuous" or "categorical"), \code{Transformation} (character, transformation that is used
-for exposure), \code{AIC}, \code{logLik}.}
+for exposure), \code{AIC}, \code{logLik}. For example see \code{\link[powerHaDeX]{houde}}.}
 
 \item{significance_level}{significance level that will be used for testing. See \code{tests}}
 

@@ -6,7 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get a matrix of simulated exchanged hydrogens for each experiment time point using markov chains — get_HD_matrices_using_markov • powerHDX</title>
+<title>Get a matrix of simulated exchanged hydrogens for each experiment time point
+using markov chains — get_HD_matrices_using_markov • powerHaDeX</title>
 
 
 <!-- jquery -->
@@ -39,8 +40,10 @@
 
 
 
-<meta property="og:title" content="Get a matrix of simulated exchanged hydrogens for each experiment time point using markov chains — get_HD_matrices_using_markov" />
-<meta property="og:description" content="Get a matrix of simulated exchanged hydrogens for each experiment time point using markov chains" />
+<meta property="og:title" content="Get a matrix of simulated exchanged hydrogens for each experiment time point
+using markov chains — get_HD_matrices_using_markov" />
+<meta property="og:description" content="Calculate matrices of simulated exchange required for obtaining
+empirical distribution." />
 
 
 
@@ -71,7 +74,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">powerHDX</a>
+        <a class="navbar-link" href="../index.html">powerHaDeX</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0</span>
       </span>
     </div>
@@ -115,13 +118,15 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get a matrix of simulated exchanged hydrogens for each experiment time point using markov chains</h1>
+    <h1>Get a matrix of simulated exchanged hydrogens for each experiment time point
+using markov chains</h1>
     
     <div class="hidden name"><code>get_HD_matrices_using_markov.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Get a matrix of simulated exchanged hydrogens for each experiment time point using markov chains</p>
+    <p>Calculate matrices of simulated exchange required for obtaining
+empirical distribution.</p>
     </div>
 
     <pre class="usage"><span class='fu'>get_HD_matrices_using_markov</span>(
@@ -140,7 +145,8 @@
     </tr>
     <tr>
       <th>transition_probs</th>
-      <td><p>list of probabilities of exchange returned by the get_exchange_probabilities function</p></td>
+      <td><p>list of probabilities of exchange returned by the
+<code>get_exchange_probabilities function</code></p></td>
     </tr>
     <tr>
       <th>steps_between_time_points</th>
@@ -155,7 +161,17 @@ times at which deuteration levels are measured.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>list of matrices</p>
+    <p>Matrices are stored in a list of matrices (<code>HD_matrices</code>) -
+each matrix for the respective time point of the measurement <code>times</code>.</p>
+<p>Using the distributions of process in given times of mesurements, states <code>H</code>
+or <code>D</code> are sampled for <code>m</code> peptide molecules (<code>n_molecules)</code>
+for each of \(i = 1,..., n\) amino acids and stored in a <code>m x n</code>
+dimensional matrix for each of the time points of the measurement given by <code>times</code>.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The improvement is based on the observation that the considered process
+is a Markov chain with transition probabilities \(P(H -&gt; D)\) and \(P(D -&gt; H)\),
+and states <code>H</code> and <code>D</code>.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
