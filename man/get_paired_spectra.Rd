@@ -2,23 +2,26 @@
 % Please edit documentation in R/noisy_spectra.R
 \name{get_paired_spectra}
 \alias{get_paired_spectra}
-\title{Get data.tables of spectra for pairs of protection factors}
+\title{Get list of data.tables of spectra for pairs of protection factors}
 \usage{
 get_paired_spectra(theoretical_spectra, reference)
 }
 \arguments{
-\item{theoretical_spectra}{data.table of spectra created by the
-`simulate_theoretical_spectra` function}
+\item{theoretical_spectra}{a data table or a list of data tables of theoretical
+spectra created by the function \code{\link[powerHaDeX]{simulate_theoretical_spectra}}.}
 
 \item{reference}{protection factor that will be used for comparison to other
 protection factors in. The function accepts either \code{NA} (for comparing all
 protection factors), a number (for comparing with reference value of protection factor)
-or "all"(for pairwise comparisons of all the possible combinations). Default \code{NA}.}
+or "all" (for pairwise comparisons of all the possible combinations). Default \code{NA}.}
 }
 \value{
 list of data.tables
 }
 \description{
-Get data.tables of spectra for pairs of protection factors
+A supplementary function for \code{\link[powerHaDeX]{get_spectra_list}}.
+}
+\details{
+For more details see \code{\link[powerHaDeX]{get_spectra_list}}.
 }
 \keyword{internal}

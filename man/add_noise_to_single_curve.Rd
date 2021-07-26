@@ -7,16 +7,22 @@
 add_noise_to_single_curve(replicate_curve, per_run_deviations, relative)
 }
 \arguments{
-\item{replicate_curve}{`data.table` with technical replicates of a deuteration curve}
+\item{per_run_deviations}{optional, standard deviations of random noise that
+will be added to deuteration curves. Either a single number (then the error at each
+time point will be the same) or a vector of the same length as number of unique
+time points in the experiment. The error will be sampled from normal distribution
+with these standard deviations.}
 
-\item{per_run_deviations}{vector of standard deviations of random error}
-
-\item{relative}{if TRUE (default), each curve will start at 0}
+\item{relative}{logical, if TRUE (default), each deuteration curve will start at 0
+(relative mass will be returned). Default \code{TRUE}.}
 }
 \value{
-`data.table`
+`data.table` containing noisy replicated deuteration curves.
 }
 \description{
 Adds noise to a single deuteration curve
+}
+\details{
+
 }
 \keyword{internal}

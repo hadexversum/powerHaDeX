@@ -7,13 +7,18 @@
 get_deuteration_curves_from_spectra(spectra)
 }
 \arguments{
-\item{spectra}{list created by `get_spectra_list` and `add_noise_to_spectra`
-functions.}
+\item{spectra}{list created by \code{\link[powerHaDeX]{get_spectra_list}}
+and \code{\link[powerHaDeX]{add_noise_to_spectra}} functions.}
 }
 \value{
 list of lists of data.tables
 }
 \description{
 Create a list of deuteration curves from a list of spectra
+}
+\details{
+From each spectrum provided in the list \code{spectra} the deuterium
+uptake will be calculated. This function uses
+\code{\link[powerHaDeX]{get_deuteration_curve_single_spectrum}}.
 }
 \keyword{internal}

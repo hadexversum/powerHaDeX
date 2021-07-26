@@ -12,5 +12,7 @@ houde(data, significance_level = 0.05)
 \item{significance_level}{significance level for tests}
 }
 \description{
-Houde's test for deuteration curves
+This function performs Damian Houde's confidence intervals test
+for differences in deuteration levels. Its input and output are compatible with
+the function \code{\link[powerHaDeX]{calculate_hdx_power}}.
 }

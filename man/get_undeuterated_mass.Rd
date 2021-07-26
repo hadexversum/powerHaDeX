@@ -2,17 +2,22 @@
 % Please edit documentation in R/noisy_spectra.R
 \name{get_undeuterated_mass}
 \alias{get_undeuterated_mass}
-\title{Get mass of an undeuterated peptide}
+\title{Mass of an undeuterated peptide}
 \usage{
 get_undeuterated_mass(theoretical_spectra)
 }
 \arguments{
-\item{theoretical_spectra}{`data.table` returned by the `simulate_theoretical_spectra` function.}
+\item{theoretical_spectra}{a data table or a list of data tables of theoretical
+spectra created by the function \code{\link[powerHaDeX]{simulate_theoretical_spectra}}.}
 }
 \value{
-`data.table`
+`data.table` of calculated mass value for the first peak (the smallest one)
+as it is usually the peak corresponding to the monoisotopic mass.
 }
 \description{
-Get mass of an undeuterated peptide
+This function gets mass of an undeuterated peptide based on its spectrum.
+}
+\details{
+
 }
 \keyword{internal}

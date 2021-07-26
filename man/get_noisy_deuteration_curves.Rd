@@ -2,7 +2,7 @@
 % Please edit documentation in R/noisy_spectra.R
 \name{get_noisy_deuteration_curves}
 \alias{get_noisy_deuteration_curves}
-\title{Create a list of lists of noisy deuteration curves from theoretical spectra}
+\title{Replicated deuterium uptake curves}
 \usage{
 get_noisy_deuteration_curves(
   theoretical_spectra,
@@ -17,8 +17,8 @@ get_noisy_deuteration_curves(
 )
 }
 \arguments{
-\item{theoretical_spectra}{data.table of spectra created by the
-`simulate_theoretical_spectra` function}
+\item{theoretical_spectra}{a data table or a list of data tables of theoretical
+spectra created by the function \code{\link[powerHaDeX]{simulate_theoretical_spectra}}.}
 
 \item{compare_pairs}{if FALSE, all groups (defined by the protection factor)
 will be considered jointly. If TRUE (default), each protection factor will be
@@ -27,7 +27,7 @@ considered together with the protection factor given by the `reference` paramete
 \item{reference}{protection factor that will be used for comparison to other
 protection factors in. The function accepts either \code{NA} (for comparing all
 protection factors), a number (for comparing with reference value of protection factor)
-or "all"(for pairwise comparisons of all the possible combinations). Default \code{NA}.}
+or "all" (for pairwise comparisons of all the possible combinations). Default \code{NA}.}
 
 \item{n_runs}{number of technical replicates to create}
 
@@ -36,7 +36,8 @@ or "all"(for pairwise comparisons of all the possible combinations). Default \co
 \item{mass_deviations}{mass deviation in parts per million. Either a single number
 (then the error at each time point will be the same) or a vector of the same length
 as number of unique time points in the experiment. The error will be sampled from
-normal distribution with standard deviation equal to `mass_deviations`*`undeuterated_mass`/1e6}
+normal distribution with standard deviation equal to
+\deqn{mass_deviations * undeuterated_mass/1e6}}
 
 \item{intensity_deviations}{optional, standard deviations of random noise that
 will be added to intensities. Either a single number (then the error at each
@@ -50,11 +51,30 @@ time point will be the same) or a vector of the same length as number of unique
 time points in the experiment. The error will be sampled from normal distribution
 with these standard deviations.}
 
-\item{relative}{logical, if TRUE (default), each deuteration curve will start at 0}
+\item{relative}{logical, if TRUE (default), each deuteration curve will start at 0
+(relative mass will be returned). Default \code{TRUE}.}
 }
 \value{
-list of lists of data.tables
+a list (for paired states when \code{compare_pairs} is \code{TRUE}) of lists
+(repetitions of experiment for power calculations) of data tables of the variables:
+
+- \code{Sequence} - provided amino acid sequence
+
+- \code{Rep} - technical replication
+
+- \code{State} - provided protection factor (the theoretical - in practice unknown -
+state of the protein)
+
+- \code{Exposure} - exposure time
+
+- \code{Mass} - mass or deuterium uptake when \code{relative} is \code{TRUE}.
+
+- \code{Charge} - charge
+
+- \code{Experimental_state} - the biological state (from the viewpoint of the
+experimenter) provided in the case when \code{compare_pairs} is \code{TRUE}.
 }
 \description{
-Create a list of lists of noisy deuteration curves from theoretical spectra
+This function creates a list of lists of noisy deuteration curves
+based on theoretical spectra in order to imitate the data from the HDX experiments.
 }
