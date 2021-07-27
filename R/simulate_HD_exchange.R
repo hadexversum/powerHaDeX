@@ -55,7 +55,7 @@ get_recording_times = function(exchange_times, experiment_times) {
 #' empirical distribution.
 #' @param sequence amino acid sequence of a peptide as a character vector
 #' @param transition_probs list of probabilities of exchange returned by the
-#' \code{\link[powerHaDeX]{get_exchange_probabilities function}}
+#' \code{\link[powerHaDeX]{get_exchange_probabilities}} function
 #' @param experiment_times numeric vector of times at which exchange will happen
 #' @param times_to_record numeric vector of times for which deuteration level measurement should be made
 #' @param n_molecules number of peptide molecules

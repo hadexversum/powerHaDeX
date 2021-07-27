@@ -18,6 +18,9 @@ as it is usually the peak corresponding to the monoisotopic mass.
 This function gets mass of an undeuterated peptide based on its spectrum.
 }
 \details{
-
+For the calculations the formula below is used
+\deqn{undeuterated_mass = charge * Mz - p_m}
+where \code{Mz} is mass-to-charge ratio for the peaks from the provided theoretical
+spectrum and p_m is the mass of proton equal to 1.007276.
 }
 \keyword{internal}

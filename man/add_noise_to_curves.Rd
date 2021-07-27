@@ -7,6 +7,9 @@
 add_noise_to_curves(curves, per_run_deviations, relative)
 }
 \arguments{
+\item{curves}{list of lists of deuteration curves returned by
+\code{\link[powerHaDeX]{get_deuteration_curves_from_spectra}}.}
+
 \item{per_run_deviations}{optional, standard deviations of random noise that
 will be added to deuteration curves. Either a single number (then the error at each
 time point will be the same) or a vector of the same length as number of unique

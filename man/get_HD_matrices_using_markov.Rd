@@ -16,7 +16,7 @@ get_HD_matrices_using_markov(
 \item{sequence}{amino acid sequence of a peptide as a character vector}
 
 \item{transition_probs}{list of probabilities of exchange returned by the
-\code{\link[powerHaDeX]{get_exchange_probabilities function}}}
+\code{\link[powerHaDeX]{get_exchange_probabilities}} function}
 
 \item{steps_between_time_points}{A vector containing sum of steps between
 times at which deuteration levels are measured.}

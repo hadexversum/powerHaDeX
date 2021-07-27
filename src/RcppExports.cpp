@@ -5,11 +5,6 @@
 
 using namespace Rcpp;
 
-#ifdef RCPP_USE_GLOBAL_ROSTREAM
-Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
-Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
-#endif
-
 // get_deuteration_single_timepoint
 NumericMatrix get_deuteration_single_timepoint(NumericMatrix initial_matrix, NumericVector time_sequence, NumericVector hd_probs, NumericVector dh_probs);
 RcppExport SEXP _powerHaDeX_get_deuteration_single_timepoint(SEXP initial_matrixSEXP, SEXP time_sequenceSEXP, SEXP hd_probsSEXP, SEXP dh_probsSEXP) {

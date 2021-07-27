@@ -262,7 +262,7 @@ get_deuteration_curve_single_spectrum = function(spectrum) {
 #' Adds noise to deuteration curves
 #' @description This function makes noisy deuteration curves for power calculation purposes.
 #' @param curves list of lists of deuteration curves returned by
-#' \code{\link[powerHaDeX]{get_deuteration_curves_from_spectra}
+#' \code{\link[powerHaDeX]{get_deuteration_curves_from_spectra}}.
 #' @inheritParams get_noisy_deuteration_curves
 #' @return list of lists of data.tables
 #' @details This function uses \code{\link[powerHaDeX]{add_noise_to_single_curve}}
@@ -277,11 +277,11 @@ add_noise_to_curves = function(curves, per_run_deviations, relative) {
 }
 #' Adds noise to a single deuteration curve
 #' @param replicate_curve `data.table` with technical replicates of a deuteration curve
-#' (one element of a list obtained by \code{\link[powerHaDeX]{get_deuteration_curves_from_spectra})
+#' (one element of a list obtained by \code{\link[powerHaDeX]{get_deuteration_curves_from_spectra}})
 #' @inheritParams get_noisy_deuteration_curves
 #' @return `data.table` containing noisy replicated deuteration curves.
-#' @details This function uses \code{\link[powerHaDeX]{add_noise}) and
-#' \code{\link[powerHaDeX]{get_relative_mass}).
+#' @details This function uses \code{\link[powerHaDeX]{add_noise}} and
+#' \code{\link[powerHaDeX]{get_relative_mass}}.
 #' @keywords internal
 #' @export
 add_noise_to_single_curve = function(replicate_curve, per_run_deviations, relative) {
@@ -311,7 +311,7 @@ add_noise_to_single_curve = function(replicate_curve, per_run_deviations, relati
 #' @description This function gets mass of an undeuterated peptide based on its spectrum.
 #' @inheritParams get_noisy_deuteration_curves
 #' @details For the calculations the formula below is used
-#' \deqn{undeuterated_mass = charge * Mz - p_m
+#' \deqn{undeuterated_mass = charge * Mz - p_m}
 #' where \code{Mz} is mass-to-charge ratio for the peaks from the provided theoretical
 #' spectrum and p_m is the mass of proton equal to 1.007276.
 #' @return `data.table` of calculated mass value for the first peak (the smallest one)

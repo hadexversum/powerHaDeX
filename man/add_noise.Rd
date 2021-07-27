@@ -7,6 +7,9 @@
 add_noise(replicate_curve, standard_deviations)
 }
 \arguments{
+\item{replicate_curve}{`data.table` with technical replicates of a deuteration curve
+(one element of a list obtained by \code{\link[powerHaDeX]{get_deuteration_curves_from_spectra}})}
+
 \item{standard_deviations}{named vector of standard deviations}
 }
 \value{

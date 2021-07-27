@@ -116,28 +116,20 @@ The output of *get_F_const* is a list of $$Ft_X = \exp\lbrace-Q_7 \cdot Ea_X\rbr
 $$K_{Xpoly} = \dfrac{10^{K_{X_{exp}}}}{60}$$
 where $K_{X_{exp}}$ are tabular constants depending on the type of exchange. If *mol_type* is $oligo$, the constants are scaled accordingly:
 $$K_{Xoligo} = K_{Xpoly} \cdot c_X$$
-where $c_X$ are constants $2.34$, $1.35$ and $1.585$ for acid, base and water, respectively.
-
-The function returns a list of $Ka$, $Kb$ and $Kw$ corresponding to the chosen *mol_type*.\newline
+where $c_X$ are constants $2.34$, $1.35$ and $1.585$ for acid, base and water, respectively. The function returns a list of $Ka$, $Kb$ and $Kw$ corresponding to the chosen *mol_type*.\newline
 
 
 - *get_pkc* calculates supplementary constants for aspartic acid (Asp), glutamic acid (Glu) and histidine (His). Values for mentioned amino acids are pH and temperature dependent, in contrary to the rest amino acids with fixed values. This function needs  *temp_kelvin* value, *gas_constant* and the type of *exchange* (default: $HD$). 
 
-Depending on provided *exchange* direction tabular values of exponents $E_{const}$ are assigned. For Asp, Glu and His the $pKc$ constants are calculated based on the following formula:
-
-$$pKc = -\log_{10}\left(10^{E_{const}} \cdot \exp\Bigg\lbrace \dfrac{-E_a}{gas\_constant}\left( \dfrac{1}{temp\_kelvin} - \dfrac{1}{278}\right)\Bigg\rbrace\right)$$
-    
-where $E_a$ are energies off activation for given amino acid and the chosen *exchange* direction. The function returns a list of $asp$, $glu$ and $his$ ($pKc$ values corresponding to amino acids).
+    Depending on provided *exchange* direction tabular values of exponents $E_{const}$ are assigned. For Asp, Glu and His the $pKc$ constants are calculated based on the following formula: 
+$$pKc = -\log_{10}\left(10^{E_{const}} \cdot \exp\Bigg\lbrace \dfrac{-E_a}{gas\_constant}\left( \dfrac{1}{temp\_kelvin} - \dfrac{1}{278}\right)\Bigg\rbrace\right)$$ where $E_a$ are energies off activation for given amino acid and the chosen *exchange* direction. The function returns a list of $asp$, $glu$ and $his$ ($pKc$ values corresponding to amino acids).
 
 
 
 - *get_exchange_constants* uses the parameters *pH*, *pkc_consts* calculated by the function *get_pkc* and *k_consts*. The output of *get_exchange_constants* is a matrix named *constants* of tabular and calculated constants (specifically for $Asp$, $Glu$, $His$, $C-Term$ and $NHMe$) based on the equation:
-    
-$$const = \log_{10}\left( \dfrac{10^{c_1 - pH} + 10^{c_2 - pKc}}{10^{-pKc} + 10^{-pH}}\right)$$
-where $c_1$ and $c_2$ are constants for protonated or deprotonated amide and $pKc$ are constants obtained by the function *get_pkc* for respective acids.
+$$const = \log_{10}\left( \dfrac{10^{c_1 - pH} + 10^{c_2 - pKc}}{10^{-pKc} + 10^{-pH}}\right)$$ where $c_1$ and $c_2$ are constants for protonated or deprotonated amide and $pKc$ are constants obtained by the function *get_pkc* for respective acids.
 
-
-The function *get_exchange_rates* requires the parameters *sequence*, *exchange* (default: $HD$), *pH* (default: $9$), *temperature* (celcius, default: $15$), *mol_type* (default: $poly)$ and correction factor *if_corr* ($1$ or $0$, default: $0$).
+The function *get_exchange_rates* requires the parameters *sequence*, *exchange* (default: $HD$), *pH* (default: $9$), *temperature* (celcius, default: $15$), *mol_type* (default: $poly)$ and correction factor *if_corr* ($1$ or 0, default: 0).
 The correction of $pH$ is taken into account for calculation of $pD$:
 $$pD = pH + 0.4\cdot if\_corr.$$
     
@@ -167,7 +159,7 @@ where $k_{cHD}$ and $k_{cDH}$ are the vectors of exchange rates for each amino a
     
 $$\Delta t = \dfrac{time\_step\_constant}{k_{max}}.$$
     
-The time points of possible exchanges are arithmetic sequences from $0$ to chosen time points of measurement *times* by $\Delta t$. Let us note here for the first time that in the case when the obtained $\Delta t$ is very small, we encounter a problem with allocating a large vector of time sequence in R. The length of this sequence is the number of time points of possible exchanges. The vector of the number of steps between provided times of measurement is constructed for the Markov chain approach.
+The time points of possible exchanges are arithmetic sequences from 0 to chosen time points of measurement *times* by $\Delta t$. Let us note here for the first time that in the case when the obtained $\Delta t$ is very small, we encounter a problem with allocating a large vector of time sequence in R. The length of this sequence is the number of time points of possible exchanges. The vector of the number of steps between provided times of measurement is constructed for the Markov chain approach.
     
 #### Calculate probabilities of exchanges that are required to simulate the exchange process.
 
@@ -208,10 +200,16 @@ The initial state of the process is $\mu_i^T(0) = \begin{pmatrix} 1& 0\end{pmatr
 $$\mu_i^T(k) = \mu_i^T(0) \mathbb{P}_i^k = \begin{pmatrix} P_i(X_k = H)\\ P_i(X_k = D)\end{pmatrix} ^ T.$$
 Using obtained distribution, states $H$ or $D$ are sampled for $m$ peptide molecules (*n_molecules*) for each of $i = 1, \ldots, n$ amino acids and stored in a $m \times n$ dimensional matrix for each of the time points of the measurement given by *times*. 
     
-2. The standard version of simulation of the matrices uses *get_HD_matrices* function. The parameters are *sequence*, transition probabilities, time steps sequence (from $0$ to the largest value of *times* by $\Delta t$) and the time points of the measurement *times*. Since this version uses the vector of time steps, there occurs an error in case when $\Delta t$ is small (i.e. for long sequences or small *time_step_constant*). The provided time sequence is split into intervals between time points of the measurement (*times*) to make the simulation faster in case of more than one time point of the measurement. In such a situation, an exchange to the next time point is obtained as an exchange to the previous time point and its continuation. The simulation starts with the creation of a matrix of dimension $m \times n$, where $m$ denotes the number of peptide molecules (*n_molecules*) and $n$ denotes the number of amino acids. Each entry of this matrix corresponds to a single exchange site. Within the matrix, $0$ denotes hydrogen and $1$ denotes deuterium. The matrix is initialized with $0$s or $1$s, depending on the direction of the exchange. In our case, we initialize the matrix with zeroes, as a considered process it starts with hydrogens. At each time point in the time sequence:
-- change $1$ to $0$ with probability $P(H \rightarrow D)$ in each entry of the matrix from the previous iteration, 
-- change $1$ to $0$ with probability $P(D \rightarrow H)$ in each entry of the matrix from the previous iteration.
-Such a matrix is obtained for each of the time points of the measurement given by *times*.
+2. The standard version of simulation of the matrices uses *get_HD_matrices* function. The parameters are *sequence*, transition probabilities, time steps sequence (from 0 to the largest value of *times* by $\Delta t$) and the time points of the measurement *times*. Since this version uses the vector of time steps, there occurs an error in case when $\Delta t$ is small (i.e. for long sequences or small *time_step_constant*). 
+
+    The provided time sequence is split into intervals between time points of the measurement (*times*) to make the simulation faster in case of more than one time point of the measurement. In such a situation, an exchange to the next time point is obtained as an exchange to the previous time point and its continuation. The simulation starts with the creation of a matrix of dimension $m \times n$, where $m$ denotes the number of peptide molecules (*n_molecules*) and $n$ denotes the number of amino acids. Each entry of this matrix corresponds to a single exchange site. Within the matrix, 0 denotes hydrogen and $1$ denotes deuterium. The matrix is initialized with 0s or $1$s, depending on the direction of the exchange. 
+    
+    The matrix is initialized with zeroes, as a considered process it starts with hydrogens. At each time point in the time sequence:
+    
+    - change $1$ to 0 with probability $P(H \rightarrow D)$ in each entry of the matrix from the previous iteration, 
+    - change $1$ to 0 with probability $P(D \rightarrow H)$ in each entry of the matrix from the previous iteration.
+    
+    Such a matrix is obtained for each of the time points of the measurement given by *times*.
    
 Next, no matter which version of the simulation was chosen, the columns of the matrices respective to prolines or the first two amides are set to zeros (implying hydrogens). The exchange of the first two amino acids is not measurable due to the impact of back-exchange (Connelly et al. 1993) and proline does not have exchangeable hydrogen. Matrices are stored in a list of matrices (*HD_matrices*) - each matrix for the respective time point of the measurement *times*.
 
@@ -238,7 +236,7 @@ The output of the function *get_iso_probs_deut* is a data frame with the variabl
     
 #### Prepare the final result.
     
-To the calculated results is added a minimal exchange control - for time point $0$. The $m/z$ values are obtained as a ratio of the *peptide_mass* magnified by proton mass and the peptide charge. The distribution of undeuterated peptide from the previous section is the intensities vector.
+To the calculated results is added a minimal exchange control - for time point 0. The $m/z$ values are obtained as a ratio of the *peptide_mass* magnified by proton mass and the peptide charge. The distribution of undeuterated peptide from the previous section is the intensities vector.
     
 The output of the function *simulate_theoretical_spectra* is a data table of:
 
@@ -248,12 +246,21 @@ The output of the function *simulate_theoretical_spectra* is a data table of:
 
 and the variables provided by user
 
- - *sequence*,
+ - *Sequence*,
  - *PF*,
- - *charge*,
- - *pH*.
+ - *Charge*,
+ - *PH*.
  
-The data obtained by the procedure described above is called the theoretical spectrum. Such a spectrum is the first step of the simulation shown in the first diagram when simulated for two biological states and different time points.
+ As in the table below
+  
+```{r}
+spectrum1 <- simulate_theoretical_spectra("LVRKDLQN", protection_factor = 10, charge = 2, times = 60)
+head(spectrum1)
+```
+ 
+The data obtained by the procedure described above is called the theoretical spectrum. Let us note that a single spectrum is observed for a particular set of parameters such as  *Exposure*, *Sequence*, *PF*, *Charge*, *PH*. Thus, using the option of providing a vector of time points and/or charges, one obtains several spectra.
+ 
+Such a spectrum is the first step of the simulation shown in the first diagram when simulated for two biological states and different time points.
 
 ## 2. Add noise to the theoretical spectrum
 
@@ -271,13 +278,13 @@ To imitate the data from the HDX experiments one may use the function named *get
 - *n_replicates* - number of replicates of curves for power calculation.
 
 - *mass_deviations* - mass deviation in parts per million. Either a single number (then the error at each time point will be the same) or a vector of the same length as the number of unique time points in the experiment. The error will be sampled from normal distribution with standard deviation equal to
-$$\dfrac{mass\_deviations\cdot\texttt{undeuterated\_mass}}{10^6}$$
+$$\dfrac{mass\_deviations\cdot undeuterated\_mass}{10^6}$$
 
 - *intensity_deviations* - optional, standard deviations of random noise that will be added to intensities. Either a single number (then the error at each time point will be the same) or a vector of the same length as the number of unique time points in the experiment. The error will be simulated with these standard deviations. Default $NULL$.
 
 - *per_run_deviations* - optional, standard deviations of random noise that will be added to deuteration curves. Either a single number (then the error at each time point will be the same) or a vector of the same length as the number of unique time points in the experiment. The error will be sampled from a normal distribution with these standard deviations. Default $NULL$.
 
-- *relative* - logical, if TRUE (default), each deuteration curve will start at 0 (relative mass will be returned). Default $TRUE$.
+- *relative* - logical, if TRUE (default), each deuteration curve will start at 0 (relative mass will be returned). Default TRUE.
 
 
 The function *get_noisy_deuteration_curves* uses the following internal functions:
@@ -293,11 +300,11 @@ The procedure of adding noise is the continuation of the simulation algorithm wh
 
 #### Prepare parameters.
 
-Firstly, the undeuterated mass is obtained via *get_undeuterated_mass* function. The necessary parameter is the table of theoretical spectra created by the function*simulate_theoretical_spectra*. The following formula is used for the calculation:
+Firstly, the undeuterated mass is obtained via *get_undeuterated_mass* function. The necessary parameter is the table of theoretical spectra created by the function *simulate_theoretical_spectra*. The following formula is used for the calculation:
 $$undeuterated\_mass = charge \cdot (Mz - p_m)$$
 where *Mz* is mass-to-charge ratio for the peaks from the provided theoretical spectrum and $p_m$ is the mass of proton. The output of *get_undeuterated_mass* is the calculated mass value for the first peak (the smallest one) as it is usually the peak corresponding to the monoisotopic mass. 
 
-The parameters *theoretical_spectra* (produced by simulate theoretical spectra function), *compare_pairs* (as described before) and *reference* (protection factor, as described before) are passed to the *get_spectra_list* function. If the parameter *compare_pairs* is $FALSE$ then all the provided protection factors will be considered jointly. If *compare_pairs* is $TRUE$, then the parameter *reference* is necessary (a single number or *"all"*). Then the data is split via the supplementary function *get_paired_spectra* into data tables of spectra with paired biological states (the reference protection factor and the protection factor of interest if provided, or all the possible pairs if *reference* equals *"all"*). The function *get_spectra_list* returns a list of data tables containing spectra - for paired states or all states.
+The parameters *theoretical_spectra* (produced by simulate theoretical spectra function), *compare_pairs* (as described before) and *reference* (protection factor, as described before) are passed to the *get_spectra_list* function. If the parameter *compare_pairs* is FALSE then all the provided protection factors will be considered jointly. If *compare_pairs* is TRUE, then the parameter *reference* is necessary (a single number or *"all"*). Then the data is split via the supplementary function *get_paired_spectra* into data tables of spectra with paired biological states (the reference protection factor and the protection factor of interest if provided, or all the possible pairs if *reference* equals *"all"*). The function *get_spectra_list* returns a list of data tables containing spectra - for paired states or all states.
 
 #### Add noise to spectra.
 
@@ -309,28 +316,42 @@ $$sd = \dfrac{mass\_deviations \cdot undeuterated\_mass}{10^6}$$
 
 There are two functions that add calculated deviations to a spectrum: 
 
-- *add_noise_to_one_timepoint* - the noise is sampled from a normal distribution with mean $0$ and standard deviation equal to $sd$ and added to *Mz* values for the time points (based on supplied parameters for time points). 
+- *add_noise_to_one_timepoint* - the noise is sampled from a normal distribution with mean 0 and standard deviation equal to $sd$ and added to *Mz* values for the time points (based on supplied parameters for time points). 
     
-- *add_noise_to_intensities* - if the *intensity_deviations* were provided, then noise is sampled from a normal distribution with mean $0$ and standard deviation equal to those deviations and added to *Intensity*.
+- *add_noise_to_intensities* - if the *intensity_deviations* were provided, then noise is sampled from a normal distribution with mean 0 and standard deviation equal to those deviations and added to *Intensity*.
 
-Having noisy spectra, the noisy deuterium uptake curves for power estimation can be obtained. Firstly, deuteration curves are calculated from spectra. It is done by the function *get_deuteration_curves_from_spectra*. The function uses the *spectra* returned by the function *add_noise_to_spectra*. From each replicated spectrum one deuteration curve is obtained via *get_deuteration_curve_single_spectrum* function. The centroid mass value from spectrum is calculated as a weighted mean from peaks.
+Having noisy spectra, the noisy deuterium uptake curves for power estimation can be obtained. Firstly, deuteration curves are calculated from spectra. It is done by the function *get_deuteration_curves_from_spectra*. The function uses the *spectra* returned by the function *add_noise_to_spectra*. From each replicated spectrum one deuteration curve is obtained via *get_deuteration_curve_single_spectrum* function. The centroid mass value from spectrum is calculated as a weighted mean from peaks based on the formula 
 
-Next, the function *add_noise_to_curves* uses the supplementary function named *add_noise_to_single_curve* in order to make noisy deuteration curves (noise added to noisy uptake curves for power calculation purposes). It takes the parameters *curves* obtained from *get_deuteration_curves_from_spectra* and the parameters provided at the beginning of the simulation: *per_run_deviations* and *relative*. The noise is added by *add_noise* function. There, noise is sampled from normal distribution with mean $0$ and standard deviation equal to *per_run_deviations* and added to the *Mass* values unless they are not zeroes (there is no noise at the time $0$).
+$$m = \dfrac{1}{N}\sum_{k= 1}^N Intensity_k \cdot Charge \cdot  (Mz_k -p_m).$$
 
-When *relative* equals $TRUE$, the relative mass is returned in deuteration curves (as a form of uptake). It is calculated via the function *get_relative_mass*.
+Next, the function *add_noise_to_curves* uses the supplementary function named *add_noise_to_single_curve* in order to make noisy deuteration curves (noise added to noisy uptake curves for power calculation purposes). It takes the parameters *curves* obtained from *get_deuteration_curves_from_spectra* and the parameters provided at the beginning of the simulation: *per_run_deviations* and *relative*. The noise is added by *add_noise* function. There, noise is sampled from normal distribution with mean 0 and standard deviation equal to *per_run_deviations* and added to the *Mass* values unless they are not zeroes (there is no noise at the time 0).
 
-The function *get_noisy_deuteration_curves* returns a list (for paired states when *compare_pairs* is $TRUE$) of lists (repetitions of experiment for power calculations) of data tables of the variables:
+When *relative* equals TRUE, the relative mass is returned in deuteration curves (as a form of uptake). It is calculated via the function *get_relative_mass*.
+
+The function *get_noisy_deuteration_curves* returns a list (for paired states when *compare_pairs* is TRUE) of lists (repetitions of experiment for power calculations) of data tables of the variables:
 
 
 - *sequence* - provided amino acid sequence
 - *Rep* - technical replication
 - *State* - provided protection factor (the theoretical - in practice unknown - state of the protein)
 - *Exposure* 
-- *Mass* - mass or deuterium uptake when *relative* is $TRUE$.
+- *Mass* - mass or deuterium uptake when *relative* is TRUE.
 - *charge*
-- *Experimental_state* - the biological state (from the viewpoint of the experimenter) when *compare_pairs* is $TRUE$
+- *Experimental_state* - the biological state (from the viewpoint of the experimenter) when *compare_pairs* is TRUE
 
+as shown below 
 
+```{r}
+
+spectrum2 <- simulate_theoretical_spectra("LVRKDLQN", protection_factor = 1000, charge = 2, times = 60)
+paired_spectra <- rbind(spectrum1, spectrum2)
+
+get_noisy_deuteration_curves(paired_spectra, 
+                             n_runs = 4,
+                             n_replicates = 1,
+                             reference = "all")[[1]][[1]]
+
+```
 
 
 
