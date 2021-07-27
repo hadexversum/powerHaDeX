@@ -135,6 +135,11 @@
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
+      <th>replicate_curve</th>
+      <td><p>`data.table` with technical replicates of a deuteration curve
+(one element of a list obtained by <code><a href='get_deuteration_curves_from_spectra.html'>get_deuteration_curves_from_spectra</a></code>)</p></td>
+    </tr>
+    <tr>
       <th>per_run_deviations</th>
       <td><p>optional, standard deviations of random noise that
 will be added to deuteration curves. Either a single number (then the error at each
@@ -154,9 +159,8 @@ with these standard deviations.</p></td>
     <p>`data.table` containing noisy replicated deuteration curves.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    
-
-
+    <p>This function uses <code><a href='add_noise.html'>add_noise</a></code> and
+<code><a href='get_relative_mass.html'>get_relative_mass</a></code>.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
