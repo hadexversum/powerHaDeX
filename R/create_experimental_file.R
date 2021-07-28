@@ -9,7 +9,6 @@
 #' @inheritParams simulate_theoretical_spectra
 #' @inheritParams get_noisy_deuteration_curves
 #' @param file_type ...
-#' @return
 #' @examples
 #' \dontrun{
 # peptides <- data.frame(sequence = c("FPTTKTY", "LVRKDLQN"),
@@ -115,7 +114,6 @@ prepare_input_peptides <- function(peptides) {
 #' @param data a data frame of interest.
 #' @param col_name a character. Name of column that should be created if it does not exist
 #' @param value optional. A value to fill with.
-#' @return
 #' @examples
 #' \dontrun{
 #' add_column(mtcars, "mpg")

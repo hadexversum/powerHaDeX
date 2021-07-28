@@ -42,9 +42,6 @@ with these standard deviations.}
 
 \item{file_type}{...}
 }
-\value{
-
-}
 \description{
 This function generates replications of mass spectra that are
 consistent with common experimental data files

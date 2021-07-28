@@ -13,9 +13,6 @@ add_column(data, col_name, value = NULL)
 
 \item{value}{optional. A value to fill with.}
 }
-\value{
-
-}
 \description{
 This function adds column if does not exist and fill it with provided value.
 }
