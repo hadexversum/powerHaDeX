@@ -154,6 +154,12 @@
     <loc>/reference/prepare_input_peptides.html</loc>
   </url>
   <url>
+    <loc>/reference/semiparametric.html</loc>
+  </url>
+  <url>
     <loc>/reference/simulate_theoretical_spectra.html</loc>
+  </url>
+  <url>
+    <loc>/reference/truncated_lines.html</loc>
   </url>
 </urlset>
