@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Linear mixed effects model used in MEMHDX tools — memhdx_model • powerHaDeX</title>
+<title>MEMHDX model — memhdx_model • powerHaDeX</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,10 @@
 
 
 
-<meta property="og:title" content="Linear mixed effects model used in MEMHDX tools — memhdx_model" />
-<meta property="og:description" content="Linear mixed effects model used in MEMHDX tools" />
+<meta property="og:title" content="MEMHDX model — memhdx_model" />
+<meta property="og:description" content="This function performs the test based on a linear mixed effects
+model used in MEMHDX tools. Its input and output are compatible with the function
+calculate_hdx_power." />
 
 
 
@@ -120,13 +122,15 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Linear mixed effects model used in MEMHDX tools</h1>
+    <h1>MEMHDX model</h1>
     
     <div class="hidden name"><code>memhdx_model.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Linear mixed effects model used in MEMHDX tools</p>
+    <p>This function performs the test based on a linear mixed effects
+model used in MEMHDX tools. Its input and output are compatible with the function
+<code><a href='calculate_hdx_power.html'>calculate_hdx_power</a></code>.</p>
     </div>
 
     <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>memhdx_model</span><span class='op'>(</span><span class='va'>data</span>, significance_level <span class='op'>=</span> <span class='fl'>0.05</span><span class='op'>)</span></code></pre></div>
@@ -136,14 +140,23 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p>data.table of deuteration curves</p></td>
+      <td><p>data.table with deuteration curves</p></td>
     </tr>
     <tr>
       <th>significance_level</th>
-      <td><p>significance level for testing</p></td>
+      <td><p>significance level for tests</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>This function returns a data table compatible with the function
+<code><a href='calculate_hdx_power.html'>calculate_hdx_power</a></code>.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>Hourdel, Véronique et al. (July 2016). “MEMHDX: an interactive tool
+to expedite thestatistical validation and visualization of large HDX-MS data sets”.
+In:Bioinformatics32.22, pp. 3413–3419.issn: 1367-4803.</p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
