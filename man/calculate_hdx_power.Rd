@@ -32,3 +32,6 @@ list of data.tables with test result, optionally summarized with power.
 \description{
 This function estimates power of statistical tests for HDX experiments.
 }
+\seealso{
+\code{\link[powerHaDeX]{houde}}, \code{\link[powerHaDeX]{semiparametric}}, \code{\link[powerHaDeX]{get_noisy_deuteration_curves}}
+}

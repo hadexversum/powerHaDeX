@@ -12,6 +12,7 @@
 #' @param significance_level significance level that will be used for testing. See \code{tests}
 #' @param summarized logical. Indicates whether the power should be calculated. Default \code{TRUE}
 #' @return list of data.tables with test result, optionally summarized with power.
+#' @seealso \code{\link[powerHaDeX]{houde}}, \code{\link[powerHaDeX]{semiparametric}}, \code{\link[powerHaDeX]{get_noisy_deuteration_curves}}
 #' @importFrom data.table rbindlist uniqueN
 #' @export
 #'
