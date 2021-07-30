@@ -8,7 +8,7 @@ create_experimental_file(
   peptides,
   times = c(0.167, 1, 5, 25, 1440),
   charge,
-  n_runs = 3,
+  n_replicates = 3,
   mass_deviations = 50,
   intensity_deviations = NULL,
   file_type = "DynamX"
@@ -26,19 +26,20 @@ about the additional parameters.}
 \item{charge}{vector of charges of the peptide ion. If NULL, one value is sampled
 from vector 2:6. Default NULL.}
 
-\item{n_runs}{number of technical replicates to create}
+\item{n_replicates}{number of technical replicates to create}
 
 \item{mass_deviations}{mass deviation in parts per million. Either a single number
 (then the error at each time point will be the same) or a vector of the same length
 as number of unique time points in the experiment. The error will be sampled from
 normal distribution with standard deviation equal to
-\deqn{mass_deviations * undeuterated_mass/1e6}}
+\deqn{mass_deviations * undeuterated_mass/1e6}
+Default to 50.}
 
 \item{intensity_deviations}{optional, standard deviations of random noise that
 will be added to intensities. Either a single number (then the error at each
 time point will be the same) or a vector of the same length as number of unique
 time points in the experiment. The error will be sampled from normal distribution
-with these standard deviations.}
+with these standard deviations.Default \code{NULL}.}
 
 \item{file_type}{...}
 }

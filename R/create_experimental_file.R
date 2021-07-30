@@ -23,7 +23,7 @@
 create_experimental_file <- function(peptides,
                                      times = c(0.167, 1, 5, 25, 1440),
                                      charge,
-                                     n_runs = 3,
+                                     n_replicates = 3,
                                      mass_deviations = 50,
                                      intensity_deviations = NULL,
                                      file_type = "DynamX") {
@@ -55,8 +55,8 @@ create_experimental_file <- function(peptides,
                                        compare_pairs = FALSE,
                                        reference = NA)
             noisy_spectra = add_noise_to_spectra(spectra,
-                                                 n_runs = n_runs,
-                                                 n_replicates = 1,
+                                                 n_replicates = n_replicates,
+                                                 n_experiments = 1,
                                                  undeuterated_mass,
                                                  mass_deviations = mass_deviations,
                                                  intensity_deviations = intensity_deviations)

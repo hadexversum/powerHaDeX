@@ -4,7 +4,7 @@
 \alias{add_noise_to_curves}
 \title{Adds noise to deuteration curves}
 \usage{
-add_noise_to_curves(curves, per_run_deviations, relative)
+add_noise_to_curves(curves, per_run_deviations = NULL, relative = TRUE)
 }
 \arguments{
 \item{curves}{list of lists of deuteration curves returned by
@@ -14,7 +14,7 @@ add_noise_to_curves(curves, per_run_deviations, relative)
 will be added to deuteration curves. Either a single number (then the error at each
 time point will be the same) or a vector of the same length as number of unique
 time points in the experiment. The error will be sampled from normal distribution
-with these standard deviations.}
+with these standard deviations. Default \code{NULL}.}
 
 \item{relative}{logical, if TRUE (default), each deuteration curve will start at 0
 (relative mass will be returned). Default \code{TRUE}.}

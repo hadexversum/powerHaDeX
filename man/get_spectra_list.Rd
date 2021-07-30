@@ -4,7 +4,7 @@
 \alias{get_spectra_list}
 \title{Get a list of spectra}
 \usage{
-get_spectra_list(theoretical_spectra, compare_pairs, reference)
+get_spectra_list(theoretical_spectra, compare_pairs = FALSE, reference = NA)
 }
 \arguments{
 \item{theoretical_spectra}{a data table or a list of data tables of theoretical

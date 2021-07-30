@@ -4,13 +4,13 @@
 \alias{make_experimental_design}
 \title{Create a list of spectra with replicates from a list of spectra}
 \usage{
-make_experimental_design(spectra, n_runs)
+make_experimental_design(spectra, n_replicates = 4)
 }
 \arguments{
 \item{spectra}{list created by the \code{\link[powerHaDeX]{get_spectra_list}}
 function}
 
-\item{n_runs}{number of technical replicates to create}
+\item{n_replicates}{number of technical replicates to create}
 }
 \value{
 list of data.tables

@@ -7,25 +7,29 @@
 add_noise_to_one_spectrum(
   spectrum,
   undeuterated_mass,
-  mass_deviations,
-  intensity_deviations
+  mass_deviations = 50,
+  intensity_deviations = NULL
 )
 }
 \arguments{
 \item{spectrum}{a single spectrum from the list obtained using
 \code{\link[powerHaDeX]{make_experimental_design}}.}
 
+\item{undeuterated_mass}{the value of mass of an undeuterated peptide computed by
+\code{\link[powerHaDeX]{get_undeuterated_mass}}.}
+
 \item{mass_deviations}{mass deviation in parts per million. Either a single number
 (then the error at each time point will be the same) or a vector of the same length
 as number of unique time points in the experiment. The error will be sampled from
 normal distribution with standard deviation equal to
-\deqn{mass_deviations * undeuterated_mass/1e6}}
+\deqn{mass_deviations * undeuterated_mass/1e6}
+Default to 50.}
 
 \item{intensity_deviations}{optional, standard deviations of random noise that
 will be added to intensities. Either a single number (then the error at each
 time point will be the same) or a vector of the same length as number of unique
 time points in the experiment. The error will be sampled from normal distribution
-with these standard deviations.}
+with these standard deviations.Default \code{NULL}.}
 }
 \value{
 data.table containing a single noisy spectrum

@@ -8,8 +8,8 @@ get_noisy_deuteration_curves(
   theoretical_spectra,
   compare_pairs = TRUE,
   reference = NA,
-  n_runs = 4,
-  n_replicates = 100,
+  n_replicates = 4,
+  n_experiments = 100,
   mass_deviations = 50,
   intensity_deviations = NULL,
   per_run_deviations = NULL,
@@ -29,27 +29,28 @@ protection factors in. The function accepts either \code{NA} (for comparing all
 protection factors), a number (for comparing with reference value of protection factor)
 or "all" (for pairwise comparisons of all the possible combinations). Default \code{NA}.}
 
-\item{n_runs}{number of technical replicates to create}
+\item{n_replicates}{number of technical replicates to create}
 
-\item{n_replicates}{number of replicates of a spectrum for power calculation}
+\item{n_experiments}{number of replicates of an experiment for power calculation}
 
 \item{mass_deviations}{mass deviation in parts per million. Either a single number
 (then the error at each time point will be the same) or a vector of the same length
 as number of unique time points in the experiment. The error will be sampled from
 normal distribution with standard deviation equal to
-\deqn{mass_deviations * undeuterated_mass/1e6}}
+\deqn{mass_deviations * undeuterated_mass/1e6}
+Default to 50.}
 
 \item{intensity_deviations}{optional, standard deviations of random noise that
 will be added to intensities. Either a single number (then the error at each
 time point will be the same) or a vector of the same length as number of unique
 time points in the experiment. The error will be sampled from normal distribution
-with these standard deviations.}
+with these standard deviations.Default \code{NULL}.}
 
 \item{per_run_deviations}{optional, standard deviations of random noise that
 will be added to deuteration curves. Either a single number (then the error at each
 time point will be the same) or a vector of the same length as number of unique
 time points in the experiment. The error will be sampled from normal distribution
-with these standard deviations.}
+with these standard deviations. Default \code{NULL}.}
 
 \item{relative}{logical, if TRUE (default), each deuteration curve will start at 0
 (relative mass will be returned). Default \code{TRUE}.}

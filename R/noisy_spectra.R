@@ -11,23 +11,24 @@
 #' protection factors in. The function accepts either \code{NA} (for comparing all
 #' protection factors), a number (for comparing with reference value of protection factor)
 #' or "all" (for pairwise comparisons of all the possible combinations). Default \code{NA}.
-#' @param n_runs number of technical replicates to create
-#' @param n_replicates number of replicates of a spectrum for power calculation
+#' @param n_replicates number of technical replicates to create
+#' @param n_experiments number of replicates of an experiment for power calculation
 #' @param mass_deviations mass deviation in parts per million. Either a single number
 #' (then the error at each time point will be the same) or a vector of the same length
 #' as number of unique time points in the experiment. The error will be sampled from
 #' normal distribution with standard deviation equal to
 #' \deqn{mass_deviations * undeuterated_mass/1e6}
+#' Default to 50.
 #' @param intensity_deviations optional, standard deviations of random noise that
 #' will be added to intensities. Either a single number (then the error at each
 #' time point will be the same) or a vector of the same length as number of unique
 #' time points in the experiment. The error will be sampled from normal distribution
-#' with these standard deviations.
+#' with these standard deviations.Default \code{NULL}.
 #' @param per_run_deviations optional, standard deviations of random noise that
 #' will be added to deuteration curves. Either a single number (then the error at each
 #' time point will be the same) or a vector of the same length as number of unique
 #' time points in the experiment. The error will be sampled from normal distribution
-#' with these standard deviations.
+#' with these standard deviations. Default \code{NULL}.
 #' @param relative logical, if TRUE (default), each deuteration curve will start at 0
 #' (relative mass will be returned). Default \code{TRUE}.
 #'
@@ -53,15 +54,17 @@
 #' @export
 #'
 get_noisy_deuteration_curves = function(theoretical_spectra,
-                                        compare_pairs = TRUE, reference = NA,
-                                        n_runs = 4, n_replicates = 100,
+                                        compare_pairs = TRUE,
+                                        reference = NA,
+                                        n_replicates = 4,
+                                        n_experiments = 100,
                                         mass_deviations = 50,
                                         intensity_deviations = NULL,
                                         per_run_deviations = NULL,
                                         relative = TRUE) {
     undeuterated_mass = get_undeuterated_mass(theoretical_spectra)
     spectra = get_spectra_list(theoretical_spectra, compare_pairs, reference)
-    spectra = add_noise_to_spectra(spectra, n_runs, n_replicates, undeuterated_mass,
+    spectra = add_noise_to_spectra(spectra, n_replicates, n_experiments, undeuterated_mass,
                                    mass_deviations, intensity_deviations)
     curves = get_deuteration_curves_from_spectra(spectra)
     curves = add_noise_to_curves(curves, per_run_deviations, relative)
@@ -84,7 +87,9 @@ get_noisy_deuteration_curves = function(theoretical_spectra,
 #' equals "all").
 #' @return list of data.tables containing spectra - for paired states or all states.
 #' @export
-get_spectra_list = function(theoretical_spectra, compare_pairs, reference) {
+get_spectra_list = function(theoretical_spectra,
+                            compare_pairs = FALSE,
+                            reference = NA) {
     if (compare_pairs & (is.na(reference))) {
         stop("With pair comparisons, reference protection factor must be provided")
     }
@@ -102,7 +107,8 @@ get_spectra_list = function(theoretical_spectra, compare_pairs, reference) {
 #' @details For more details see \code{\link[powerHaDeX]{get_spectra_list}}.
 #' @return list of data.tables
 #' @keywords internal
-get_paired_spectra = function(theoretical_spectra, reference) {
+get_paired_spectra = function(theoretical_spectra,
+                              reference = NA) {
 
     if(reference == "all") {
         states = unique(theoretical_spectra[["PF"]])
@@ -142,9 +148,10 @@ get_paired_spectra = function(theoretical_spectra, reference) {
 #' @inheritParams get_noisy_deuteration_curves
 #' @return list of data.tables
 #' @keywords internal
-make_experimental_design = function(spectra, n_runs) {
+make_experimental_design = function(spectra,
+                                    n_replicates = 4) {
     lapply(spectra, function(spectrum) {
-        data.table::rbindlist(lapply(1:n_runs, function(i) {
+        data.table::rbindlist(lapply(1:n_replicates, function(i) {
             spectrum$Rep = as.character(i)
             spectrum
         }))
@@ -153,16 +160,22 @@ make_experimental_design = function(spectra, n_runs) {
 #' Creates spectra with technical replicates and noise
 #' @inheritParams get_noisy_deuteration_curves
 #' @inheritParams make_experimental_design
+#' @param undeuterated_mass the value of mass of an undeuterated peptide computed by
+#' \code{\link[powerHaDeX]{get_undeuterated_mass}}.
 #' @return list of lists of data.tables
 #' @details This function uses \code{\link[powerHaDeX]{make_experimental_design}} and
 #' \code{\link[powerHaDeX]{make_noisy_spectra}}.
 #' @keywords internal
 #' @export
 #'
-add_noise_to_spectra = function(spectra, n_runs, n_replicates, undeuterated_mass,
-                                mass_deviations, intensity_deviations) {
-    spectra = make_experimental_design(spectra, n_runs)
-    make_noisy_spectra(spectra, n_replicates, undeuterated_mass,
+add_noise_to_spectra = function(spectra,
+                                n_replicates = 4,
+                                n_experiments = 100,
+                                undeuterated_mass,
+                                mass_deviations = 50,
+                                intensity_deviations = NULL) {
+    spectra = make_experimental_design(spectra, n_replicates)
+    make_noisy_spectra(spectra, n_experiments, undeuterated_mass,
                        mass_deviations, intensity_deviations)
 }
 
@@ -174,10 +187,13 @@ add_noise_to_spectra = function(spectra, n_runs, n_replicates, undeuterated_mass
 #' @details This function uses  \code{\link[powerHaDeX]{add_noise_to_one_spectrum}}.
 #' @keywords internal
 #'
-make_noisy_spectra = function(spectra, n_replicates, undeuterated_mass,
-                              mass_deviations, intensity_deviations) {
+make_noisy_spectra = function(spectra,
+                              n_experiments = 100,
+                              undeuterated_mass,
+                              mass_deviations = 50,
+                              intensity_deviations = NULL) {
     lapply(spectra, function(spectrum) {
-        lapply(1:n_replicates, function(ith_replicate) {
+        lapply(1:n_experiments, function(ith_replicate) {
             add_noise_to_one_spectrum(spectrum, undeuterated_mass,
                                       mass_deviations, intensity_deviations)
         })
@@ -196,8 +212,10 @@ make_noisy_spectra = function(spectra, n_replicates, undeuterated_mass,
 #' and \code{\link[powerHaDeX]{add_noise_to_intensities}}.
 #' @return data.table containing a single noisy spectrum
 #' @keywords internal
-add_noise_to_one_spectrum = function(spectrum, undeuterated_mass,
-                                     mass_deviations, intensity_deviations) {
+add_noise_to_one_spectrum = function(spectrum,
+                                     undeuterated_mass,
+                                     mass_deviations = 50,
+                                     intensity_deviations = NULL) {
     if (length(mass_deviations) == 1) {
         mass_deviations = rep(mass_deviations, data.table::uniqueN(spectrum$Exposure))
     }
@@ -267,7 +285,9 @@ get_deuteration_curve_single_spectrum = function(spectrum) {
 #' @return list of lists of data.tables
 #' @details This function uses \code{\link[powerHaDeX]{add_noise_to_single_curve}}
 #' @keywords internal
-add_noise_to_curves = function(curves, per_run_deviations, relative) {
+add_noise_to_curves = function(curves,
+                               per_run_deviations = NULL,
+                               relative = TRUE) {
     lapply(curves, function(curve) {
         lapply(curve, function(replicate_curve) {
             add_noise_to_single_curve(replicate_curve, per_run_deviations,
@@ -284,7 +304,9 @@ add_noise_to_curves = function(curves, per_run_deviations, relative) {
 #' \code{\link[powerHaDeX]{get_relative_mass}}.
 #' @keywords internal
 #' @export
-add_noise_to_single_curve = function(replicate_curve, per_run_deviations, relative) {
+add_noise_to_single_curve = function(replicate_curve,
+                                     per_run_deviations = NULL,
+                                     relative = TRUE) {
     Exposure = Mass = Charge = NULL
     if (!is.null(per_run_deviations)) {
         if (length(per_run_deviations) == 1) {

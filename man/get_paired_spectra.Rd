@@ -4,7 +4,7 @@
 \alias{get_paired_spectra}
 \title{Get list of data.tables of spectra for pairs of protection factors}
 \usage{
-get_paired_spectra(theoretical_spectra, reference)
+get_paired_spectra(theoretical_spectra, reference = NA)
 }
 \arguments{
 \item{theoretical_spectra}{a data table or a list of data tables of theoretical
