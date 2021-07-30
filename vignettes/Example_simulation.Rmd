@@ -24,7 +24,7 @@ library(powerHaDeX)
 ```
 
 
-The package `powerHaDeX` is a tool for simulating and analyzing data coming from HDX-MS experiments along with the possibility of comparing the power of the tests verifying differences in deuteration levels. The functionality of the simulation involves generating theoretical spectrum along with its replications, replicating the deuterium uptake curves obtained from spectra and rejection rate estimation for comparison of the tests for differences in deuteration. Let us go through the process of simulation and all its features.
+The package `powerHaDeX` is a tool for simulating and analyzing data coming from HDX-MS experiments along with the possibility of comparing the power of the tests verifying differences in deuteration levels. The functionality of the simulation involves generating a theoretical spectrum along with its replications, replicating the deuterium uptake curves obtained from spectra, and rejection rate estimation for comparison of the tests for differences in deuteration. Let us go through the process of simulation and all its features.
 
 
 ## Data simulation
@@ -32,7 +32,7 @@ The package `powerHaDeX` is a tool for simulating and analyzing data coming from
 ### Theoretical spectra simulation
 
 
-The first step of the simulation is the generation of theoretical spectra of a deuterated peptide over time. To do so, the function `simulate_theoretical_spectra` is used. There is the possibility of simulation a mass spectrum for more than one point of time and more than one charge by specyfying the parameters `charge` and `times`. Providing vector of charges and/or vector of exposure times we obtain a `data table` of spectra consistent with assumed parameters.
+The first step of the simulation is the generation of theoretical spectra of a deuterated peptide over time. To do so, the function `simulate_theoretical_spectra` is used. There is the possibility of simulation a mass spectrum for more than one point of time and more than one charge by specifying the parameters `charge` and `times`. Providing vector of charges and/or vector of exposure times we obtain a `data table` of spectra consistent with assumed parameters.
 
 
 For example, a single spectrum can be simulated as below
@@ -53,7 +53,7 @@ theo_spectrum <- simulate_theoretical_spectra(sequence = "LVRKDLQN",
 theo_spectrum
 ```
 
-As we can see in the output - we obtain a spectrum for the given time of measurement 0.167 sec and control measurement measured directly after adding the buffer (conventionally at time equal to 0). Each row of the data is correspondent to single peak in the spectrum. Such a result for particular time can be visualized using `powerHaDeX` as shown below. 
+As we can see in the output - we obtain a spectrum for the given time of measurement 0.167 sec and control measurement measured directly after adding the buffer (conventionally at time equal to 0). Each row of the data is correspondent to a single peak in the spectrum. Such a result for a particular time can be visualized using `powerHaDeX` as shown below. 
 
 ```{r}
 plot_spectra(theo_spectrum)
@@ -99,7 +99,7 @@ plot_spectra(theo_spectra)
 
 #### one/all states
 
-To generate replications of the experiment of hydrogen-deuterium exchange the function `add_noise_to_spectra` can be used. We need to evaluate `get_undeuterated_mass` and `get_spectra_list` first as in the code below. By setting `compare_pairs = FALSE` we do not pair the spectra by protection factors (in case of our example we did not provide more than one value of protection factor yet).
+To generate replications of the experiment of hydrogen-deuterium exchange the function `add_noise_to_spectra` can be used. We need to evaluate `get_undeuterated_mass` and `get_spectra_list` first as in the code below. By setting `compare_pairs = FALSE` we do not pair the spectra by protection factors (in the case of our example we did not provide more than one value of protection factor yet).
 
 
 ```{r}
@@ -112,7 +112,7 @@ replicated_spectra
 ```
 
 
-The output of the function `add_noise_to_spectra` is adapted to the power calculations. Therefore, it is a list of two elements: the first one is correspondent to the pair of protection factors (in case when `compare_pairs = FALSE` we consider all protection factors jointly) and the second is correspondent to the repetitions of the whole experiment (used for the needs of power calculations). By setting the number of experiments `n_experiments = 2` we simulate two experiments, that is (by default) 4 replicates of measurements for given time points, duplicated. The mentioned replicates are defined in the column `Rep`. 
+The output of the function `add_noise_to_spectra` is adapted to the power calculations. Therefore, it is a list of two elements: the first one is correspondent to the pair of protection factors (in the case when `compare_pairs = FALSE` we consider all protection factors jointly) and the second is correspondent to the repetitions of the whole experiment (used for the needs of power calculations). By setting the number of experiments `n_experiments = 2` we simulate two experiments, that is (by default) 4 replicates of measurements for given time points, duplicated. The mentioned replicates are defined in the column `Rep`. 
 
 #### paired states
 
@@ -153,7 +153,7 @@ replicated_spectra_paired
 ```
 
 
-As we can see, we obtained the output adapted to the pairwise comparison - each element of a list is a list of data tables (according to the argument `n_experiments`) for paired states. In our example we get three pairs: 100 vs. 200 for power estimation and 100 vs. 100, 200 vs, 200 for type I error estimation.
+As we can see, we obtained the output adapted to the pairwise comparison - each element of a list is a list of data tables (according to the argument `n_experiments`) for paired states. In our example, we get three pairs: 100 vs. 200 for power estimation and 100 vs. 100, 200 vs, 200 for type I error estimation.
 
 #### deuteration curves from spectra
 
@@ -207,7 +207,7 @@ The tests available in the package are:
 - `memhdx_model` - MEMHDX model (Hourdel et al. 2016).
 
 
-We can use the function `calculate_hdx_power` to execute testing procedure on the data simulated by `get_noisy_deuteration_curves`. An example usage of the function is shown below
+We can use the function `calculate_hdx_power` to execute the testing procedure on the data simulated by `get_noisy_deuteration_curves`. Example usage of the function is shown below
 
 ```{r}
 calculate_hdx_power(deuteration_curves_paired_states,
