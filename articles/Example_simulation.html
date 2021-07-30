@@ -83,14 +83,14 @@
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">powerHaDeX</span><span class="op">)</span></code></pre></div>
-<p>The package <code>powerHaDeX</code> is a tool for simulating and analyzing data coming from HDX-MS experiments along with the possibility of comparing the power of the tests verifying differences in deuteration levels. The functionality of the simulation involves generating theoretical spectrum along with its replications, replicating the deuterium uptake curves obtained from spectra and rejection rate estimation for comparison of the tests for differences in deuteration. Let us go through the process of simulation and all its features.</p>
+<p>The package <code>powerHaDeX</code> is a tool for simulating and analyzing data coming from HDX-MS experiments along with the possibility of comparing the power of the tests verifying differences in deuteration levels. The functionality of the simulation involves generating a theoretical spectrum along with its replications, replicating the deuterium uptake curves obtained from spectra, and rejection rate estimation for comparison of the tests for differences in deuteration. Let us go through the process of simulation and all its features.</p>
 <div id="data-simulation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#data-simulation" class="anchor" aria-hidden="true"></a>Data simulation</h2>
 <div id="theoretical-spectra-simulation" class="section level3">
 <h3 class="hasAnchor">
 <a href="#theoretical-spectra-simulation" class="anchor" aria-hidden="true"></a>Theoretical spectra simulation</h3>
-<p>The first step of the simulation is the generation of theoretical spectra of a deuterated peptide over time. To do so, the function <code>simulate_theoretical_spectra</code> is used. There is the possibility of simulation a mass spectrum for more than one point of time and more than one charge by specyfying the parameters <code>charge</code> and <code>times</code>. Providing vector of charges and/or vector of exposure times we obtain a <code>data table</code> of spectra consistent with assumed parameters.</p>
+<p>The first step of the simulation is the generation of theoretical spectra of a deuterated peptide over time. To do so, the function <code>simulate_theoretical_spectra</code> is used. There is the possibility of simulation a mass spectrum for more than one point of time and more than one charge by specifying the parameters <code>charge</code> and <code>times</code>. Providing vector of charges and/or vector of exposure times we obtain a <code>data table</code> of spectra consistent with assumed parameters.</p>
 <p>For example, a single spectrum can be simulated as below</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">17</span><span class="op">)</span>
@@ -118,7 +118,7 @@
 <span class="co">#&gt; 10:    0.167 7.5 0.0220274042 247.9049      4 LVRKDLQN 100</span>
 <span class="co">#&gt; 11:    0.167 7.5 0.0040385691 248.1565      4 LVRKDLQN 100</span>
 <span class="co">#&gt; 12:    0.167 7.5 0.0006261540 248.4080      4 LVRKDLQN 100</span></code></pre></div>
-<p>As we can see in the output - we obtain a spectrum for the given time of measurement 0.167 sec and control measurement measured directly after adding the buffer (conventionally at time equal to 0). Each row of the data is correspondent to single peak in the spectrum. Such a result for particular time can be visualized using <code>powerHaDeX</code> as shown below.</p>
+<p>As we can see in the output - we obtain a spectrum for the given time of measurement 0.167 sec and control measurement measured directly after adding the buffer (conventionally at time equal to 0). Each row of the data is correspondent to a single peak in the spectrum. Such a result for a particular time can be visualized using <code>powerHaDeX</code> as shown below.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/plot_spectra.html">plot_spectra</a></span><span class="op">(</span><span class="va">theo_spectrum</span><span class="op">)</span></code></pre></div>
 <p><img src="Example_simulation_files/figure-html/unnamed-chunk-3-1.png" width="480" style="display: block; margin: auto;"></p>
@@ -159,7 +159,7 @@
 <div id="oneall-states" class="section level4">
 <h4 class="hasAnchor">
 <a href="#oneall-states" class="anchor" aria-hidden="true"></a>one/all states</h4>
-<p>To generate replications of the experiment of hydrogen-deuterium exchange the function <code>add_noise_to_spectra</code> can be used. We need to evaluate <code>get_undeuterated_mass</code> and <code>get_spectra_list</code> first as in the code below. By setting <code>compare_pairs = FALSE</code> we do not pair the spectra by protection factors (in case of our example we did not provide more than one value of protection factor yet).</p>
+<p>To generate replications of the experiment of hydrogen-deuterium exchange the function <code>add_noise_to_spectra</code> can be used. We need to evaluate <code>get_undeuterated_mass</code> and <code>get_spectra_list</code> first as in the code below. By setting <code>compare_pairs = FALSE</code> we do not pair the spectra by protection factors (in the case of our example we did not provide more than one value of protection factor yet).</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">undeuterated_mass</span> <span class="op">=</span> <span class="fu"><a href="../reference/get_undeuterated_mass.html">get_undeuterated_mass</a></span><span class="op">(</span><span class="va">theo_spectra</span><span class="op">)</span>
 <span class="va">spectra</span> <span class="op">=</span> <span class="fu"><a href="../reference/get_spectra_list.html">get_spectra_list</a></span><span class="op">(</span><span class="va">theo_spectra</span><span class="op">)</span>
@@ -195,7 +195,7 @@
 <span class="co">#&gt; 150:        5 7.5 0.0160770746 198.8372      5 LVRKDLQN 100   4</span>
 <span class="co">#&gt; 151:        5 7.5 0.0036482453 198.8897      5 LVRKDLQN 100   4</span>
 <span class="co">#&gt; 152:        5 7.5 0.0006591334 199.0758      5 LVRKDLQN 100   4</span></code></pre></div>
-<p>The output of the function <code>add_noise_to_spectra</code> is adapted to the power calculations. Therefore, it is a list of two elements: the first one is correspondent to the pair of protection factors (in case when <code>compare_pairs = FALSE</code> we consider all protection factors jointly) and the second is correspondent to the repetitions of the whole experiment (used for the needs of power calculations). By setting the number of experiments <code>n_experiments = 2</code> we simulate two experiments, that is (by default) 4 replicates of measurements for given time points, duplicated. The mentioned replicates are defined in the column <code>Rep</code>.</p>
+<p>The output of the function <code>add_noise_to_spectra</code> is adapted to the power calculations. Therefore, it is a list of two elements: the first one is correspondent to the pair of protection factors (in the case when <code>compare_pairs = FALSE</code> we consider all protection factors jointly) and the second is correspondent to the repetitions of the whole experiment (used for the needs of power calculations). By setting the number of experiments <code>n_experiments = 2</code> we simulate two experiments, that is (by default) 4 replicates of measurements for given time points, duplicated. The mentioned replicates are defined in the column <code>Rep</code>.</p>
 </div>
 <div id="paired-states" class="section level4">
 <h4 class="hasAnchor">
@@ -386,7 +386,7 @@
 <span class="co">#&gt; 302:   4</span>
 <span class="co">#&gt; 303:   4</span>
 <span class="co">#&gt; 304:   4</span></code></pre></div>
-<p>As we can see, we obtained the output adapted to the pairwise comparison - each element of a list is a list of data tables (according to the argument <code>n_experiments</code>) for paired states. In our example we get three pairs: 100 vs. 200 for power estimation and 100 vs. 100, 200 vs, 200 for type I error estimation.</p>
+<p>As we can see, we obtained the output adapted to the pairwise comparison - each element of a list is a list of data tables (according to the argument <code>n_experiments</code>) for paired states. In our example, we get three pairs: 100 vs. 200 for power estimation and 100 vs. 100, 200 vs, 200 for type I error estimation.</p>
 </div>
 <div id="deuteration-curves-from-spectra" class="section level4">
 <h4 class="hasAnchor">
@@ -856,7 +856,7 @@
 <li><p><code>hdx_analyzer</code> - HDX-Analyzer model (Liu et al. 2011),</p></li>
 <li><p><code>memhdx_model</code> - MEMHDX model (Hourdel et al. 2016).</p></li>
 </ul>
-<p>We can use the function <code>calculate_hdx_power</code> to execute testing procedure on the data simulated by <code>get_noisy_deuteration_curves</code>. An example usage of the function is shown below</p>
+<p>We can use the function <code>calculate_hdx_power</code> to execute the testing procedure on the data simulated by <code>get_noisy_deuteration_curves</code>. Example usage of the function is shown below</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/calculate_hdx_power.html">calculate_hdx_power</a></span><span class="op">(</span><span class="va">deuteration_curves_paired_states</span>,
                     tests <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">houde</span><span class="op">)</span>,
