@@ -129,7 +129,7 @@
     <p>This function makes noisy deuteration curves for power calculation purposes.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>add_noise_to_curves</span><span class='op'>(</span><span class='va'>curves</span>, <span class='va'>per_run_deviations</span>, <span class='va'>relative</span><span class='op'>)</span></code></pre></div>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>add_noise_to_curves</span><span class='op'>(</span><span class='va'>curves</span>, per_run_deviations <span class='op'>=</span> <span class='cn'>NULL</span>, relative <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -145,7 +145,7 @@
 will be added to deuteration curves. Either a single number (then the error at each
 time point will be the same) or a vector of the same length as number of unique
 time points in the experiment. The error will be sampled from normal distribution
-with these standard deviations.</p></td>
+with these standard deviations. Default <code>NULL</code>.</p></td>
     </tr>
     <tr>
       <th>relative</th>

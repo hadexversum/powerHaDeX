@@ -131,11 +131,11 @@
 
     <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>add_noise_to_spectra</span><span class='op'>(</span>
   <span class='va'>spectra</span>,
-  <span class='va'>n_runs</span>,
-  <span class='va'>n_replicates</span>,
+  n_replicates <span class='op'>=</span> <span class='fl'>4</span>,
+  n_experiments <span class='op'>=</span> <span class='fl'>100</span>,
   <span class='va'>undeuterated_mass</span>,
-  <span class='va'>mass_deviations</span>,
-  <span class='va'>intensity_deviations</span>
+  mass_deviations <span class='op'>=</span> <span class='fl'>50</span>,
+  intensity_deviations <span class='op'>=</span> <span class='cn'>NULL</span>
 <span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -147,12 +147,17 @@
 function</p></td>
     </tr>
     <tr>
-      <th>n_runs</th>
+      <th>n_replicates</th>
       <td><p>number of technical replicates to create</p></td>
     </tr>
     <tr>
-      <th>n_replicates</th>
-      <td><p>number of replicates of a spectrum for power calculation</p></td>
+      <th>n_experiments</th>
+      <td><p>number of replicates of an experiment for power calculation</p></td>
+    </tr>
+    <tr>
+      <th>undeuterated_mass</th>
+      <td><p>the value of mass of an undeuterated peptide computed by
+<code><a href='get_undeuterated_mass.html'>get_undeuterated_mass</a></code>.</p></td>
     </tr>
     <tr>
       <th>mass_deviations</th>
@@ -160,7 +165,8 @@ function</p></td>
 (then the error at each time point will be the same) or a vector of the same length
 as number of unique time points in the experiment. The error will be sampled from
 normal distribution with standard deviation equal to
-$$mass_deviations * undeuterated_mass/1e6$$</p></td>
+$$mass_deviations * undeuterated_mass/1e6$$
+Default to 50.</p></td>
     </tr>
     <tr>
       <th>intensity_deviations</th>
@@ -168,7 +174,7 @@ $$mass_deviations * undeuterated_mass/1e6$$</p></td>
 will be added to intensities. Either a single number (then the error at each
 time point will be the same) or a vector of the same length as number of unique
 time points in the experiment. The error will be sampled from normal distribution
-with these standard deviations.</p></td>
+with these standard deviations.Default <code>NULL</code>.</p></td>
     </tr>
     </table>
 
