@@ -18,7 +18,8 @@
 #'
 calculate_hdx_power = function(deuteration_curves, tests, significance_level = 0.05,
                                summarized = TRUE) {
-    Significant_difference = Sequence = Rep = State = Exposure = NULL
+    Significant_difference = Sequence = Rep = State = Exposure = Transformation =
+        Num_replicates = Num_states = Num_timepoints = State_2 = Time = State_1 = NULL
 
     test_results = lapply(
         deuteration_curves, function(curve) {
