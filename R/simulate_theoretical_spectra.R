@@ -80,8 +80,7 @@ simulate_theoretical_spectra = function(sequence, charge = NULL, protection_fact
     steps_between_time_points = ceiling(times/deltaT)
 
     if (floor(max(times)/deltaT) == 0) {
-        print("There is no deuteration before given time point. The measurement
-              in control time (conventionally 0) is returned.")
+        print("There is no deuteration before given time point. The measurement at the control time (conventionally 0) is returned.")
         isotope_dists = data.table::data.table()
     } else {
         tryCatch({
