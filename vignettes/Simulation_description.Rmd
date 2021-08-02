@@ -35,7 +35,9 @@ The simulation was created in such a way that it imitates the real experiment as
 
 The diagram of the simulation algorithm can be seen in the figure below:
 
-TODO: diagram here
+<center>
+![Simulation algorithm](sim.png){width=600px}
+</center>
 
 
 The parameters sequence, charge, state, and time point define, simplistically, a unique mass spectrum. Thus, as shown in the above figure, having two different biological states and $T$ different exposure times we obtain $(2 \times T)$ unique spectra. From now on such a set will identify one \textbf{replication}. This part of the simulation is described in detail in the section **Simulate theoretical spectrum**. The next step of the simulation is reproducing the number of replications. First, we add noise to the obtained spectra and transform each of them into deuterium uptake. The deuterium uptake at different time points forms the deuterium uptake curve. The set of replicated deuterium uptake curves for different states is the target of the simulation. The procedure is described in **Add noise to the theoretical spectrum**.
@@ -85,7 +87,9 @@ The simulation is run for a given peptide. The parameters are:
 
 The graphical illustration of the algorithm can be seen in the figure below.  As said, the procedure that we describe below is based on Kan's implementation.  However, the section of the simulation called **Calculate matrices of simulated empirical distribution** appears in this thesis in two versions. The second version is the standard approach of Zhong-Yuan Kan, additionally implemented in Rcpp (called when use_markov = FALSE), and the first version is the algorithm accelerated for the needs for this thesis.
 
-TODO:: diagram here
+<center>
+![Simulation algorithm](alg.png){width=500px}
+</center>
 
 #### Prepare essential parameters.
     
