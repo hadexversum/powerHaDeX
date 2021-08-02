@@ -30,15 +30,15 @@ calculate_hdx_power = function(deuteration_curves, tests, significance_level = 0
 
                     replicate_curve[["State"]] = paste0(replicate_curve[["State"]],
                                                         replicate_curve[["Experimental_state"]])
-                    info = replicate_curve[, list(Sequence = unique(Sequence),
+                    info = replicate_curve[, list(Sequence = as.character(unique(Sequence)),
                                                   Num_replicates = uniqueN(Rep),
-                                                  Num_states = 2,
+                                                  Num_states = 2L,
                                                   Num_timepoints = uniqueN(Exposure))]
                     type_one_err = TRUE
 
                 }else {
                     type_one_err = FALSE
-                    info = replicate_curve[, list(Sequence = unique(Sequence),
+                    info = replicate_curve[, list(Sequence = as.character(unique(Sequence)),
                                                   Num_replicates = uniqueN(Rep),
                                                   Num_states = uniqueN(State),
                                                   Num_timepoints = uniqueN(Exposure))]
