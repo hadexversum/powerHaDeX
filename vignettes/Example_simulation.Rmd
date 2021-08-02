@@ -216,6 +216,16 @@ calculate_hdx_power(deuteration_curves_paired_states,
 ```
 
 
+The summariyed result is following
+
+```{r}
+calculate_hdx_power(deuteration_curves_paired_states,
+                    tests = list(houde),
+                    summarized = TRUE)
+```
+
+
+
 
 
 There is a possibility of simulate the rejection rate of another test using an external implementation. Such a test function for pairwise testing should be of specific shape as below:
