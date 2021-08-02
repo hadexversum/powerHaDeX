@@ -80,8 +80,9 @@ simulate_theoretical_spectra = function(sequence, charge = NULL, protection_fact
     steps_between_time_points = ceiling(times/deltaT)
 
     if (floor(max(times)/deltaT) == 0) {
-        print("There is no deuteration before given time point.")
-        isotope_dists = data.frame()
+        print("There is no deuteration before given time point. The measurement
+              in control time (conventionally 0) is returned.")
+        isotope_dists = data.table::data.table()
     } else {
         tryCatch({
             transition_probs = get_exchange_probabilities(kcHD, kcDH, deltaT, protection_factor)
@@ -102,6 +103,15 @@ simulate_theoretical_spectra = function(sequence, charge = NULL, protection_fact
                                                times, charge, pH)
         })
     }
+    isotope_dists = rbind(merge(data.frame(Exposure = 0,
+                                           Intensity = isotopic_probs,
+                                           PH = pH),
+                                data.frame(Mz = peptide_mass / charge + 1.007276,
+                                           PH = pH,
+                                           Exposure = 0,
+                                           Charge = charge)),
+                          isotope_dists)
+
     isotope_dists[["Sequence"]] = paste0(sequence, collapse = "")
     if (length(unique(protection_factor)) == 1) {
         isotope_dists[["PF"]] = protection_factor[1]

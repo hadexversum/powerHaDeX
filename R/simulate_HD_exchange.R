@@ -231,14 +231,6 @@ get_iso_probs_deut <- function(HD_matrices, maxD, maxND, isotopic_probs, peptide
         }))
     })
     isotope_dists = data.table::rbindlist(isotope_dists)
-
-    rbind(merge(data.frame(Exposure = 0,
-                           Intensity = isotopic_probs,
-                           PH = pH),
-                data.frame(Mz = peptide_mass / charge + 1.007276,
-                           PH = pH,
-                           Exposure = 0,
-                           Charge = charge)),
-          isotope_dists)
+    isotope_dists
 }
 
