@@ -24,6 +24,8 @@ calculate_hdx_power = function(deuteration_curves, tests, significance_level = 0
         deuteration_curves, function(curve) {
             single_curve = lapply(curve, function(replicate_curve) {
 
+                if(uniqueN(replicate_curve[["State"]]) > 2) stop("The data table should contain at most 2 different states.")
+
                 if(uniqueN(replicate_curve[["State"]]) == 1 & uniqueN(replicate_curve[["Experimental_state"]]) == 2) {
 
                     replicate_curve[["State"]] = paste0(replicate_curve[["State"]],
