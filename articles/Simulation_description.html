@@ -99,7 +99,9 @@
 </li>
 </ol>
 <p>The diagram of the simulation algorithm can be seen in the figure below:</p>
-<p>TODO: diagram here</p>
+<center>
+<img src="sim.png" title="fig:" width="600" alt="Simulation algorithm">
+</center>
 <p>The parameters sequence, charge, state, and time point define, simplistically, a unique mass spectrum. Thus, as shown in the above figure, having two different biological states and <span class="math inline">\(T\)</span> different exposure times we obtain <span class="math inline">\((2 \times T)\)</span> unique spectra. From now on such a set will identify one . This part of the simulation is described in detail in the section <strong>Simulate theoretical spectrum</strong>. The next step of the simulation is reproducing the number of replications. First, we add noise to the obtained spectra and transform each of them into deuterium uptake. The deuterium uptake at different time points forms the deuterium uptake curve. The set of replicated deuterium uptake curves for different states is the target of the simulation. The procedure is described in <strong>Add noise to the theoretical spectrum</strong>.</p>
 <div id="simulate-theoretical-spectrum" class="section level2">
 <h2 class="hasAnchor">
@@ -137,7 +139,9 @@
 <h4 class="hasAnchor">
 <a href="#how-the-simulation-works" class="anchor" aria-hidden="true"></a>How the simulation works</h4>
 <p>The graphical illustration of the algorithm can be seen in the figure below. As said, the procedure that we describe below is based on Kan’s implementation. However, the section of the simulation called <strong>Calculate matrices of simulated empirical distribution</strong> appears in this thesis in two versions. The second version is the standard approach of Zhong-Yuan Kan, additionally implemented in Rcpp (called when use_markov = FALSE), and the first version is the algorithm accelerated for the needs for this thesis.</p>
-<p>TODO:: diagram here</p>
+<center>
+<img src="alg.png" title="fig:" width="500" alt="Simulation algorithm">
+</center>
 </div>
 <div id="prepare-essential-parameters-" class="section level4">
 <h4 class="hasAnchor">
@@ -339,21 +343,21 @@
                              reference <span class="op">=</span> <span class="st">"all"</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
 <span class="co">#&gt;     Sequence Rep State Exposure      Mass Charge Experimental_state</span>
 <span class="co">#&gt;  1: LVRKDLQN   1    10        0 0.0000000      2                  A</span>
-<span class="co">#&gt;  2: LVRKDLQN   1    10       60 1.4615565      2                  A</span>
+<span class="co">#&gt;  2: LVRKDLQN   1    10       60 1.5222435      2                  A</span>
 <span class="co">#&gt;  3: LVRKDLQN   1  1000        0 0.0000000      2                  B</span>
-<span class="co">#&gt;  4: LVRKDLQN   1  1000       60 0.9056551      2                  B</span>
+<span class="co">#&gt;  4: LVRKDLQN   1  1000       60 0.9963778      2                  B</span>
 <span class="co">#&gt;  5: LVRKDLQN   2    10        0 0.0000000      2                  A</span>
-<span class="co">#&gt;  6: LVRKDLQN   2    10       60 1.6170411      2                  A</span>
+<span class="co">#&gt;  6: LVRKDLQN   2    10       60 1.6915994      2                  A</span>
 <span class="co">#&gt;  7: LVRKDLQN   2  1000        0 0.0000000      2                  B</span>
-<span class="co">#&gt;  8: LVRKDLQN   2  1000       60 1.0018524      2                  B</span>
+<span class="co">#&gt;  8: LVRKDLQN   2  1000       60 0.9046850      2                  B</span>
 <span class="co">#&gt;  9: LVRKDLQN   3    10        0 0.0000000      2                  A</span>
-<span class="co">#&gt; 10: LVRKDLQN   3    10       60 1.5448802      2                  A</span>
+<span class="co">#&gt; 10: LVRKDLQN   3    10       60 1.7064866      2                  A</span>
 <span class="co">#&gt; 11: LVRKDLQN   3  1000        0 0.0000000      2                  B</span>
-<span class="co">#&gt; 12: LVRKDLQN   3  1000       60 1.1371218      2                  B</span>
+<span class="co">#&gt; 12: LVRKDLQN   3  1000       60 1.0033257      2                  B</span>
 <span class="co">#&gt; 13: LVRKDLQN   4    10        0 0.0000000      2                  A</span>
-<span class="co">#&gt; 14: LVRKDLQN   4    10       60 1.4910205      2                  A</span>
+<span class="co">#&gt; 14: LVRKDLQN   4    10       60 1.5290211      2                  A</span>
 <span class="co">#&gt; 15: LVRKDLQN   4  1000        0 0.0000000      2                  B</span>
-<span class="co">#&gt; 16: LVRKDLQN   4  1000       60 0.9942505      2                  B</span></code></pre></div>
+<span class="co">#&gt; 16: LVRKDLQN   4  1000       60 0.9113265      2                  B</span></code></pre></div>
 </div>
 </div>
 </div>
