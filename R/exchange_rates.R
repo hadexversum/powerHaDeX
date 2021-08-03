@@ -37,16 +37,16 @@ get_poly_const = function(mol_type, exchange = "HD") {
     }
     if (!(mol_type %in% c("poly", "oligo"))) stop("Mol type must be poly / oligo")
     Ka_poly = (10^(Ka_exponent)) / 60
-    Ka_oligo = Ka_poly * 2.34
     Kb_poly = (10^(Kb_exponent)) / 60
-    Kb_oligo = Kb_poly * 1.35
     Kw_poly = (10^(Kw_exponent)) / 60
-    Kw_oligo = Kw_poly * 1.585
     if (mol_type == "poly") {
         list(Ka = Ka_poly,
              Kb = Kb_poly,
              Kw = Kw_poly)
     } else {
+        Kb_oligo = Kb_poly * 1.35
+        Ka_oligo = Ka_poly * 2.34
+        Kw_oligo = Kw_poly * 1.585
         list(Ka = Ka_oligo,
              Kb = Kb_oligo,
              Kw = Kw_oligo)
