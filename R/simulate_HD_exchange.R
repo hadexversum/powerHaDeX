@@ -33,23 +33,6 @@ get_exchange_probabilities = function(HD_rate, DH_rate, time_step, protection_fa
 }
 
 
-#' Time times at which deuteration levels will be recorded
-#'
-#' For a sequence of exchange times (calculated based on exchange rates) and
-#' times at which measurements should be taken,
-#' get moments at which deuteration levels will be saved.
-#'
-#' @param exchange_times numeric vector of times at which exchange happens
-#' @param experiment_times numeric vector of times at which deuteration levels
-#' are be measured
-#' @return numeric vector
-#' @keywords internal
-#' @export
-get_recording_times = function(exchange_times, experiment_times) {
-    unique(exchange_times[findInterval(experiment_times, exchange_times)])
-}
-
-
 #' Get a matrix of simulated exchanged hydrogens for each experiment time point
 #' @description Calculate matrices of simulated exchange required for obtaining
 #' empirical distribution.
