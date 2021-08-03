@@ -212,7 +212,7 @@ get_exchange_rates = function(sequence, exchange = "HD", pH = 9, temperature = 1
                               mol_type = "poly", if_corr = 0) {
     match.arg(mol_type, c("poly", "oligo"))
     match.arg(exchange, c("HD", "DH"))
-    if(temperature = -273.15) stop("Temperature in C can not equal 273.15.")
+    if(temperature == -273.15) stop("Temperature in C can not equal -273.15.")
 
     if (exchange == "HD") {
         if (!(if_corr %in% c(0, 1))) stop("If_corr must be 1 or 0")
