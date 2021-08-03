@@ -26,6 +26,9 @@ get_F_const = function(temp_kelvin, gas_constant) {
 #' @return list of Ka,Kb and Kw corresponding to the chosen \code{mol_type} and acid, base or water.
 #' @keywords internal
 get_poly_const = function(mol_type, exchange = "HD") {
+    match.arg(mol_type, c("poly", "oligo"))
+    match.arg(exchange, c("HD", "DH"))
+
     if (exchange == "HD") {
         Ka_exponent = 1.62
         Kb_exponent = 10.05
@@ -35,7 +38,6 @@ get_poly_const = function(mol_type, exchange = "HD") {
         Kb_exponent = 9.87
         Kw_exponent = -1.6
     }
-    if (!(mol_type %in% c("poly", "oligo"))) stop("Mol type must be poly / oligo")
     Ka_poly = (10^(Ka_exponent)) / 60
     Kb_poly = (10^(Kb_exponent)) / 60
     Kw_poly = (10^(Kw_exponent)) / 60
