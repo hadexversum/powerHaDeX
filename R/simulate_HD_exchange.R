@@ -24,7 +24,7 @@
 #' @keywords internal
 #' @export
 get_exchange_probabilities = function(HD_rate, DH_rate, time_step, protection_factor) {
-
+    if(protection_factor == 0) stop("Protection factor can not be 0.")
     transition_probs <- list(HD = (1 - exp(-HD_rate * time_step / protection_factor)),
                              DH = (1 - exp(-DH_rate * time_step / protection_factor)))
     transition_probs[["HH"]] <- 1 - transition_probs[["HD"]]
