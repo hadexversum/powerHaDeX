@@ -81,7 +81,7 @@ test_that("get_poly_const works", {
     oligo_const = as.numeric(unlist(oligo_const))
 
     expect_equal(poly_const, c(0.6947823, 187003076, 0.0005270463))
-    expect_equal(poly_const, c(1.625791, 252454152, 0.0008353683))
+    expect_equal(oligo_const, c(1.625791, 252454152, 0.0008353683))
 
     #DH
     poly_const = get_poly_const("poly", "DH")
@@ -91,7 +91,7 @@ test_that("get_poly_const works", {
     oligo_const = as.numeric(unlist(oligo_const))
 
     expect_equal(poly_const, c(0.4186477, 123551707, 0.0004186477))
-    expect_equal(poly_const, c(0.9796357, 166794804, 0.0006635567))
+    expect_equal(oligo_const, c(0.9796357, 166794804, 0.0006635567))
 })
 
 
