@@ -81,7 +81,7 @@ test_that("Spectrum at time 0 is correct", {
                                             Mz = rep(peptide_mass / 1:3 + 1.007276, length(intensity)),
                                             Charge = 1:3,
                                             Sequence = "SPADKTNVKAAWGKVGA",
-                                            PF = 10)
+                                            PF = 100)
     expect_true(all.equal(spec1_time0, spec_expected))
 })
 
