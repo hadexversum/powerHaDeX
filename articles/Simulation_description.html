@@ -102,7 +102,7 @@
 <center>
 <img src="sim.png" title="fig:" width="600" alt="Simulation algorithm">
 </center>
-<p>The parameters sequence, charge, state, and time point define, simplistically, a unique mass spectrum. Thus, as shown in the above figure, having two different biological states and <span class="math inline">\(T\)</span> different exposure times we obtain <span class="math inline">\((2 \times T)\)</span> unique spectra. From now on such a set will identify one . This part of the simulation is described in detail in the section <strong>Simulate theoretical spectrum</strong>. The next step of the simulation is reproducing the number of replications. First, we add noise to the obtained spectra and transform each of them into deuterium uptake. The deuterium uptake at different time points forms the deuterium uptake curve. The set of replicated deuterium uptake curves for different states is the target of the simulation. The procedure is described in <strong>Add noise to the theoretical spectrum</strong>.</p>
+<p>The parameters sequence, charge, state, and time point define, simplistically, a unique mass spectrum. Thus, as shown in the above figure, having two different biological states and <span class="math inline">\(T\)</span> different exposure times we obtain <span class="math inline">\((2 \times T)\)</span> unique spectra. From now on such a set will identify one <strong>replication</strong>. This part of the simulation is described in detail in the section <strong>Simulate theoretical spectrum</strong>. The next step of the simulation is reproducing the number of replications. First, we add noise to the obtained spectra and transform each of them into deuterium uptake. The deuterium uptake at different time points forms the deuterium uptake curve. The set of replicated deuterium uptake curves for different states is the target of the simulation. The procedure is described in <strong>Add noise to the theoretical spectrum</strong>.</p>
 <div id="simulate-theoretical-spectrum" class="section level2">
 <h2 class="hasAnchor">
 <a href="#simulate-theoretical-spectrum" class="anchor" aria-hidden="true"></a>1. Simulate theoretical spectrum</h2>
@@ -341,23 +341,23 @@
                              n_replicates <span class="op">=</span> <span class="fl">4</span>,
                              n_experiments <span class="op">=</span> <span class="fl">1</span>,
                              reference <span class="op">=</span> <span class="st">"all"</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
-<span class="co">#&gt;     Sequence Rep State Exposure     Mass Charge Experimental_state</span>
-<span class="co">#&gt;  1: LVRKDLQN   1    10        0 0.000000      2                  A</span>
-<span class="co">#&gt;  2: LVRKDLQN   1    10       60 1.656240      2                  A</span>
-<span class="co">#&gt;  3: LVRKDLQN   1  1000        0 0.000000      2                  B</span>
-<span class="co">#&gt;  4: LVRKDLQN   1  1000       60 1.145865      2                  B</span>
-<span class="co">#&gt;  5: LVRKDLQN   2    10        0 0.000000      2                  A</span>
-<span class="co">#&gt;  6: LVRKDLQN   2    10       60 1.774210      2                  A</span>
-<span class="co">#&gt;  7: LVRKDLQN   2  1000        0 0.000000      2                  B</span>
-<span class="co">#&gt;  8: LVRKDLQN   2  1000       60 1.009221      2                  B</span>
-<span class="co">#&gt;  9: LVRKDLQN   3    10        0 0.000000      2                  A</span>
-<span class="co">#&gt; 10: LVRKDLQN   3    10       60 1.712195      2                  A</span>
-<span class="co">#&gt; 11: LVRKDLQN   3  1000        0 0.000000      2                  B</span>
-<span class="co">#&gt; 12: LVRKDLQN   3  1000       60 1.042323      2                  B</span>
-<span class="co">#&gt; 13: LVRKDLQN   4    10        0 0.000000      2                  A</span>
-<span class="co">#&gt; 14: LVRKDLQN   4    10       60 1.845342      2                  A</span>
-<span class="co">#&gt; 15: LVRKDLQN   4  1000        0 0.000000      2                  B</span>
-<span class="co">#&gt; 16: LVRKDLQN   4  1000       60 1.108922      2                  B</span></code></pre></div>
+<span class="co">#&gt;     Sequence Rep State Exposure      Mass Charge Experimental_state</span>
+<span class="co">#&gt;  1: LVRKDLQN   1    10        0 0.0000000      2                  A</span>
+<span class="co">#&gt;  2: LVRKDLQN   1    10       60 1.3334772      2                  A</span>
+<span class="co">#&gt;  3: LVRKDLQN   1  1000        0 0.0000000      2                  B</span>
+<span class="co">#&gt;  4: LVRKDLQN   1  1000       60 0.9728197      2                  B</span>
+<span class="co">#&gt;  5: LVRKDLQN   2    10        0 0.0000000      2                  A</span>
+<span class="co">#&gt;  6: LVRKDLQN   2    10       60 1.5881951      2                  A</span>
+<span class="co">#&gt;  7: LVRKDLQN   2  1000        0 0.0000000      2                  B</span>
+<span class="co">#&gt;  8: LVRKDLQN   2  1000       60 1.0354679      2                  B</span>
+<span class="co">#&gt;  9: LVRKDLQN   3    10        0 0.0000000      2                  A</span>
+<span class="co">#&gt; 10: LVRKDLQN   3    10       60 1.5191704      2                  A</span>
+<span class="co">#&gt; 11: LVRKDLQN   3  1000        0 0.0000000      2                  B</span>
+<span class="co">#&gt; 12: LVRKDLQN   3  1000       60 1.0064482      2                  B</span>
+<span class="co">#&gt; 13: LVRKDLQN   4    10        0 0.0000000      2                  A</span>
+<span class="co">#&gt; 14: LVRKDLQN   4    10       60 1.5459172      2                  A</span>
+<span class="co">#&gt; 15: LVRKDLQN   4  1000        0 0.0000000      2                  B</span>
+<span class="co">#&gt; 16: LVRKDLQN   4  1000       60 1.0095593      2                  B</span></code></pre></div>
 </div>
 </div>
 </div>
