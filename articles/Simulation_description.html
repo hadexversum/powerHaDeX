@@ -262,6 +262,8 @@
 <p>As in the table below</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">spectrum1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/simulate_theoretical_spectra.html">simulate_theoretical_spectra</a></span><span class="op">(</span><span class="st">"LVRKDLQN"</span>, protection_factor <span class="op">=</span> <span class="fl">10</span>, charge <span class="op">=</span> <span class="fl">2</span>, times <span class="op">=</span> <span class="fl">60</span><span class="op">)</span>
+<span class="co">#&gt; Warning in if (protection_factor == 0) stop("Protection factor can not be 0."):</span>
+<span class="co">#&gt; the condition has length &gt; 1 and only the first element will be used</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">spectrum1</span><span class="op">)</span>
 <span class="co">#&gt;    Exposure  PH    Intensity       Mz Charge Sequence PF</span>
 <span class="co">#&gt; 1:        0 7.5 0.5801405135 493.2931      2 LVRKDLQN 10</span>
@@ -335,6 +337,8 @@
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="va">spectrum2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/simulate_theoretical_spectra.html">simulate_theoretical_spectra</a></span><span class="op">(</span><span class="st">"LVRKDLQN"</span>, protection_factor <span class="op">=</span> <span class="fl">1000</span>, charge <span class="op">=</span> <span class="fl">2</span>, times <span class="op">=</span> <span class="fl">60</span><span class="op">)</span>
+<span class="co">#&gt; Warning in if (protection_factor == 0) stop("Protection factor can not be 0."):</span>
+<span class="co">#&gt; the condition has length &gt; 1 and only the first element will be used</span>
 <span class="va">paired_spectra</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">spectrum1</span>, <span class="va">spectrum2</span><span class="op">)</span>
 
 <span class="fu"><a href="../reference/get_noisy_deuteration_curves.html">get_noisy_deuteration_curves</a></span><span class="op">(</span><span class="va">paired_spectra</span>,
@@ -343,21 +347,21 @@
                              reference <span class="op">=</span> <span class="st">"all"</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
 <span class="co">#&gt;     Sequence Rep State Exposure      Mass Charge Experimental_state</span>
 <span class="co">#&gt;  1: LVRKDLQN   1    10        0 0.0000000      2                  A</span>
-<span class="co">#&gt;  2: LVRKDLQN   1    10       60 1.3334772      2                  A</span>
+<span class="co">#&gt;  2: LVRKDLQN   1    10       60 1.7110701      2                  A</span>
 <span class="co">#&gt;  3: LVRKDLQN   1  1000        0 0.0000000      2                  B</span>
-<span class="co">#&gt;  4: LVRKDLQN   1  1000       60 0.9728197      2                  B</span>
+<span class="co">#&gt;  4: LVRKDLQN   1  1000       60 1.0599663      2                  B</span>
 <span class="co">#&gt;  5: LVRKDLQN   2    10        0 0.0000000      2                  A</span>
-<span class="co">#&gt;  6: LVRKDLQN   2    10       60 1.5881951      2                  A</span>
+<span class="co">#&gt;  6: LVRKDLQN   2    10       60 1.6234563      2                  A</span>
 <span class="co">#&gt;  7: LVRKDLQN   2  1000        0 0.0000000      2                  B</span>
-<span class="co">#&gt;  8: LVRKDLQN   2  1000       60 1.0354679      2                  B</span>
+<span class="co">#&gt;  8: LVRKDLQN   2  1000       60 1.1128691      2                  B</span>
 <span class="co">#&gt;  9: LVRKDLQN   3    10        0 0.0000000      2                  A</span>
-<span class="co">#&gt; 10: LVRKDLQN   3    10       60 1.5191704      2                  A</span>
+<span class="co">#&gt; 10: LVRKDLQN   3    10       60 1.5982838      2                  A</span>
 <span class="co">#&gt; 11: LVRKDLQN   3  1000        0 0.0000000      2                  B</span>
-<span class="co">#&gt; 12: LVRKDLQN   3  1000       60 1.0064482      2                  B</span>
+<span class="co">#&gt; 12: LVRKDLQN   3  1000       60 1.1678730      2                  B</span>
 <span class="co">#&gt; 13: LVRKDLQN   4    10        0 0.0000000      2                  A</span>
-<span class="co">#&gt; 14: LVRKDLQN   4    10       60 1.5459172      2                  A</span>
+<span class="co">#&gt; 14: LVRKDLQN   4    10       60 1.7080211      2                  A</span>
 <span class="co">#&gt; 15: LVRKDLQN   4  1000        0 0.0000000      2                  B</span>
-<span class="co">#&gt; 16: LVRKDLQN   4  1000       60 1.0095593      2                  B</span></code></pre></div>
+<span class="co">#&gt; 16: LVRKDLQN   4  1000       60 0.8572395      2                  B</span></code></pre></div>
 </div>
 </div>
 </div>

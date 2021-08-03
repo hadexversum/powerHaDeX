@@ -104,6 +104,8 @@
                                               n_molecules <span class="op">=</span> <span class="fl">500</span>,
                                               time_step_const <span class="op">=</span> <span class="fl">1</span>,
                                               use_markov <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="co">#&gt; Warning in if (protection_factor == 0) stop("Protection factor can not be 0."):</span>
+<span class="co">#&gt; the condition has length &gt; 1 and only the first element will be used</span>
 <span class="va">theo_spectrum</span>
 <span class="co">#&gt;     Exposure  PH    Intensity       Mz Charge Sequence  PF</span>
 <span class="co">#&gt;  1:    0.000 7.5 0.5801405135 247.1502      4 LVRKDLQN 100</span>
@@ -139,6 +141,8 @@
                                              n_molecules <span class="op">=</span> <span class="fl">500</span>,
                                              time_step_const <span class="op">=</span> <span class="fl">1</span>,
                                              use_markov <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="co">#&gt; Warning in if (protection_factor == 0) stop("Protection factor can not be 0."):</span>
+<span class="co">#&gt; the condition has length &gt; 1 and only the first element will be used</span>
 
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">theo_spectra</span><span class="op">)</span>
 <span class="co">#&gt;    Exposure  PH  Intensity       Mz Charge Sequence  PF</span>
@@ -213,6 +217,8 @@
                                                     n_molecules <span class="op">=</span> <span class="fl">500</span>,
                                                     time_step_const <span class="op">=</span> <span class="fl">1</span>,
                                                     use_markov <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="co">#&gt; Warning in if (protection_factor == 0) stop("Protection factor can not be 0."):</span>
+<span class="co">#&gt; the condition has length &gt; 1 and only the first element will be used</span>
 
 <span class="va">theo_spectra_two_states</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">theo_spectra_pf_100</span>, <span class="va">theo_spectra_pf_200</span><span class="op">)</span></code></pre></div>
 <p>A data table of spectra at different states (<code>theo_spectra_two_states</code> here) can be used as the argument in the functions responsible for adding noise. As explained before, we use the functions <code>get_undeuterated_mass</code> and <code>get_spectra_list</code> first. We specify the need for the data grouped pairwise in the function <code>get_spectra_list</code> by setting <code>compare_pairs = TRUE</code> and <code>reference = "all"</code> as below</p>
