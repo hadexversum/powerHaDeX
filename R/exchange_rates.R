@@ -8,6 +8,7 @@
 #' @export
 get_F_const = function(temp_kelvin, gas_constant) {
     # Unit: cal / mol
+    if(temp_kelvin == 0) stop("Temperature in Kelvin can not be 0.")
     Ea_A = 14000
     Ea_B = 17000
     Ea_W = 19000
@@ -71,6 +72,7 @@ get_poly_const = function(mol_type, exchange = "HD") {
 #' @keywords internal
 get_pkc = function(temp_kelvin, gas_constant, exchange = "HD") {
     # Unit: cal / mol
+    if(temp_kelvin == 0) stop("Temperature in Kelvin can not be 0.")
     match.arg(exchange, c("HD", "DH"))
     if (exchange == "HD") {
         Ea_Asp = 1000
@@ -210,6 +212,8 @@ get_exchange_rates = function(sequence, exchange = "HD", pH = 9, temperature = 1
                               mol_type = "poly", if_corr = 0) {
     match.arg(mol_type, c("poly", "oligo"))
     match.arg(exchange, c("HD", "DH"))
+    if(temperature = -273.15) stop("Temperature in C can not equal 273.15.")
+
     if (exchange == "HD") {
         if (!(if_corr %in% c(0, 1))) stop("If_corr must be 1 or 0")
         pd = pH + 0.4 * if_corr
