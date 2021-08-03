@@ -71,6 +71,7 @@ get_poly_const = function(mol_type, exchange = "HD") {
 #' @keywords internal
 get_pkc = function(temp_kelvin, gas_constant, exchange = "HD") {
     # Unit: cal / mol
+    match.arg(exchange, c("HD", "DH"))
     if (exchange == "HD") {
         Ea_Asp = 1000
         Asp_exponent = -4.48
@@ -207,6 +208,8 @@ get_exchange_constants = function(pH, pkc_consts, k_consts) {
 #' @export
 get_exchange_rates = function(sequence, exchange = "HD", pH = 9, temperature = 15,
                               mol_type = "poly", if_corr = 0) {
+    match.arg(mol_type, c("poly", "oligo"))
+    match.arg(exchange, c("HD", "DH"))
     if (exchange == "HD") {
         if (!(if_corr %in% c(0, 1))) stop("If_corr must be 1 or 0")
         pd = pH + 0.4 * if_corr
