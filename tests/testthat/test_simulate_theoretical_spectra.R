@@ -28,6 +28,10 @@ test_that("Spectra for provided parameters are simulated", {
 
 
 test_that("Spectrum at time 0 is correct", {
+
+    expect_output(simulate_theoretical_spectra("PPAQHI", protection_factor = 10, charge = 1:3, times = 0),
+                  "There is no deuteration before given time point. The measurement at the control time (conventionally 0) is returned.",
+                  fixed = TRUE)
     #one time point
     set.seed(10)
     #returned
