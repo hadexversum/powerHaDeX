@@ -1,29 +1,15 @@
 
+
 test_that("number, names and types of columns of the returned data.table are correct", {
     set.seed(10)
     times = c(5, 30, 60, 100, 500, 900)
     spec1 <- simulate_theoretical_spectra("PPAQHI", protection_factor = 10, charge = 1:3, times = times)
-
-    expect_true(typeof(spec1) == "list")
-    expect_identical(unname(sapply(spec1, class)), c("numeric", "numeric", "numeric",
-                                                     "numeric", "integer", "character",
-                                                     "numeric"))
-
-    expect_identical(names(spec1), c("Exposure", "PH", "Intensity", "Mz", "Charge",
-                                     "Sequence", "PF"))
-    expect_equal(ncol(spec1), 7)
+    expect_equal(spec1, readRDS("spectrum.RDS"))
 
     #time 0
-    spec1 <- simulate_theoretical_spectra("PPAQHI", protection_factor = 10, charge = 1:3, times = 0)
-    expect_true(typeof(spec1) == "list")
-    expect_identical(unname(sapply(spec1, class)), c("numeric", "numeric", "numeric",
-                                                     "numeric", "integer", "character",
-                                                     "numeric"))
-    expect_identical(names(spec1), c("Exposure", "PH", "Intensity", "Mz", "Charge",
-                                     "Sequence", "PF"))
-    expect_equal(ncol(spec1), 7)
+    spec2 <- simulate_theoretical_spectra("PPAQHI", protection_factor = 10, charge = 1:3, times = 0)
+    expect_equal(spec2, readRDS("spectrum_0.RDS"))
 })
-
 
 
 
@@ -43,6 +29,7 @@ test_that("Spectra for provided parameters are simulated", {
 
 test_that("Spectrum at time 0 is correct", {
     #one time point
+    set.seed(10)
     #returned
     spec1 <- simulate_theoretical_spectra("PPAQHI", protection_factor = 10, charge = 1:3, times = 0)
 
@@ -58,8 +45,7 @@ test_that("Spectrum at time 0 is correct", {
                                             Charge = 1:3,
                                             Sequence = "PPAQHI",
                                             PF = 10)
-    expect_true(all.equal(spec1, spec_expected))
-
+    expect_equal(spec1, spec_expected)
 
     #more than one time point
     #returned
@@ -82,7 +68,7 @@ test_that("Spectrum at time 0 is correct", {
                                             Charge = 1:3,
                                             Sequence = "SPADKTNVKAAWGKVGA",
                                             PF = 100)
-    expect_true(all.equal(spec1_time0, spec_expected))
+    expect_equal(spec1_time0, spec_expected)
 })
 
 
