@@ -8,17 +8,18 @@
 #' the final result), \code{State_1}, \code{State_2} (biological states of interest), \code{Test_statistic},
 #' \code{P_value}, \code{Significant_difference} (the same as \code{p_value <= significance_level}), \code{Time}
 #' (character, "continuous" or "categorical"), \code{Transformation} (character, transformation that is used
-#' for exposure), \code{AIC}, \code{logLik}. For example see \code{\link[powerHaDeX]{houde}}.
+#' for exposure), \code{AIC}, \code{logLik}. For example see \code{\link[powerHaDeX]{test_houde}}.
 #' @param significance_level significance level that will be used for testing. See \code{tests}
 #' @param summarized logical. Indicates whether the power should be calculated. Default \code{TRUE}
 #' @return list of data.tables with test result, optionally summarized with power.
-#' @seealso \code{\link[powerHaDeX]{houde}}, \code{\link[powerHaDeX]{semiparametric}}, \code{\link[powerHaDeX]{get_noisy_deuteration_curves}}
+#' @seealso \code{\link[powerHaDeX]{test_houde}}, \code{\link[powerHaDeX]{test_semiparametric}},
+#' \code{\link[powerHaDeX]{test_hdx_analyzer}}, \code{\link[powerHaDeX]{test_memhdx_model}}
 #' @importFrom data.table rbindlist uniqueN
 #' @export
 #'
 calculate_hdx_power = function(deuteration_curves, tests, significance_level = 0.05,
                                summarized = TRUE) {
-    Significant_difference = Sequence = Rep = State = Exposure = Transformation =
+    Significant_difference = Sequence = Rep = State = Exposure = Transformation = Test =
         Num_replicates = Num_states = Num_timepoints = State_2 = Time = State_1 = NULL
 
     test_results = lapply(
