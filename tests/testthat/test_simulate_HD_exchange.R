@@ -39,7 +39,7 @@ test_that("get_HD_matrices works", {
     n_molecules = 100
     matrices = get_HD_matrices(sequence, transition_probs, experiment_times,
                                times_to_record, n_molecules = 100)
-    expect_equal(matrices, readRDS("tests/testthat/matrices.RDS"))
+    expect_equal(matrices, readRDS("matrices.RDS"))
 })
 
 
@@ -56,10 +56,9 @@ test_that("get_HD_matrices_using_markov returns proper output", {
     n_molecules = 100
     steps_between_time_points = ceiling(times_to_record/0.0001)
 
-
     matrices = get_HD_matrices_using_markov(sequence, transition_probs, steps_between_time_points,
                                             n_molecules)
-    expect_equal(matrices, readRDS("tests/testthat/matrices_markov.RDS"))
+    expect_equal(matrices, readRDS("matrices_markov.RDS"))
 })
 
 
