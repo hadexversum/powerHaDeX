@@ -64,13 +64,9 @@ get_approx_isotopic_distribution = function(sequence, min_probability = 1e-3) {
     distO = rep(0, 2*n_oxygen + 1)
     distO[seq(1, 2*n_oxygen + 1, 2)] = dist[1:(n_oxygen + 1)]
 
-    if (!is.na(n_sulfer)) {
-        dist = dbinom(seq(0, n_sulfer), n_sulfer, pS34)
-        distS = rep(0, 2 * n_sulfer + 1)
-        distS[seq(1, 2*n_sulfer + 1, 2)] = dist[1:(n_sulfer + 1)]
-    } else {
-        distS = 1
-    }
+    dist = dbinom(seq(0, n_sulfer), n_sulfer, pS34)
+    distS = rep(0, 2 * n_sulfer + 1)
+    distS[seq(1, 2*n_sulfer + 1, 2)] = dist[1:(n_sulfer + 1)]
 
     finalDist = sort(signal::conv(distS, signal::conv(distO, signal::conv(distC, distN))),
                      decreasing = TRUE)
