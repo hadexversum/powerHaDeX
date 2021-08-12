@@ -3,18 +3,26 @@ test_that("get_noisy_deuteration_curves works", {
     set.seed(10)
     times = c(5, 30, 60, 100, 500, 900)
 
+    #pairwise grouping
     spec1 <- simulate_theoretical_spectra("PPAQHI", protection_factor = 10, charge = 1:3, times = times)
     spec2 <- simulate_theoretical_spectra("PPAQHI", protection_factor = 20, charge = 1:3, times = times)
     spec3 <- simulate_theoretical_spectra("PPAQHI", protection_factor = 30, charge = 1:3, times = times)
-
     spectra <- rbind(spec1, spec2, spec3)
-
     curves <- get_noisy_deuteration_curves(spectra,
                                            compare_pairs = TRUE,
                                            reference = "all",
                                            n_replicates = 4,
                                            n_experiments = 10)
     expect_equal(curves, readRDS("noisy_curves.RDS"))
+
+    #all jointly
+    spectra <- rbind(spec1, spec2, spec3)
+    curves <- get_noisy_deuteration_curves(spectra,
+                                           compare_pairs = FALSE,
+                                           reference = NA,
+                                           n_replicates = 4,
+                                           n_experiments = 10)
+    expect_equal(curves, readRDS("get_noisy_deuteration_curves_jointly.RDS"))
 })
 
 
@@ -40,8 +48,16 @@ test_that("get_spectra_list returns error", {
 
 test_that("get_paired_spectra works", {
     spectra = readRDS("spectra_3_states.RDS")
+
+    #reference = 'all'
     expect_equal(get_paired_spectra(spectra, reference = 'all'),
                  readRDS("spectra_list1.RDS"))
+
+    #reference pf is provided
+    expect_error(get_paired_spectra(spectra, reference = 17),
+                 "Reference protection factor does not fit the data.")
+    expect_equal(get_paired_spectra(spectra, reference = 10),
+                 readRDS("paired_spectra_ref_10.RDS"))
 })
 
 test_that("add_noise_to_spectra works", {
@@ -82,8 +98,12 @@ test_that("add_noise_to_one_spectrum works", {
 
     spectra = add_noise_to_one_spectrum(spectra_exp_design, undeuterated_mass = 661.35474,
                                         mass_deviations = 50, intensity_deviations = NULL)
-
     expect_equal(spectra, readRDS("add_noise_to_one_spectrum.RDS"))
+
+    #intensity deviations provided
+    spectra = add_noise_to_one_spectrum(spectra_exp_design, undeuterated_mass = 661.35474,
+                                        mass_deviations = 50, intensity_deviations = 0.5)
+    expect_equal(spectra, readRDS("spectra_noisy_intensities.RDS"))
 })
 
 
@@ -113,9 +133,13 @@ test_that("add_noise_to_curves works", {
 
 test_that("add_noise_to_single_curve works", {
     set.seed(10)
-    curves = readRDS("get_deuteration_curves_from_spectra.RDS")[[1]][[1]]
-    curves = add_noise_to_single_curve(curves)
+    curves_data = readRDS("get_deuteration_curves_from_spectra.RDS")[[1]][[1]]
+    curves = add_noise_to_single_curve(curves_data)
     expect_equal(curves, readRDS("add_noise_to_single_curve.RDS"))
+
+    #provided per run deviations
+    curves = add_noise_to_single_curve(curves_data, per_run_deviations = 10)
+    expect_equal(curves, readRDS("curves_per_run.RDS"))
 })
 
 

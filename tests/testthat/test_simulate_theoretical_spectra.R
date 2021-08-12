@@ -1,14 +1,28 @@
 
 
-test_that("number, names and types of columns of the returned data.table are correct", {
+test_that("simulate_theoretical_spectra works", {
     set.seed(10)
     times = c(5, 30, 60, 100, 500, 900)
+
+    #classic
     spec1 <- simulate_theoretical_spectra("PPAQHI", protection_factor = 10, charge = 1:3, times = times)
     expect_equal(spec1, readRDS("spectrum.RDS"))
 
     #time 0
     spec2 <- simulate_theoretical_spectra("PPAQHI", protection_factor = 10, charge = 1:3, times = 0)
     expect_equal(spec2, readRDS("spectrum_0.RDS"))
+
+    #random charge
+    spec3 <- simulate_theoretical_spectra("PPAQHI", protection_factor = 10, charge = NULL, times = times)
+    expect_equal(spec3, readRDS("spectrum_rand_charge.RDS"))
+
+    #rcpp algorithm
+    spec4 <- simulate_theoretical_spectra("PPAQHI", protection_factor = 10, charge = NULL, times = times, use_markov = FALSE)
+    expect_equal(spec4, readRDS("spectrum_rcpp.RDS"))
+
+    #more than one PF
+    spec5 <- simulate_theoretical_spectra("PPAQHI", protection_factor = 2:7, charge = 1:3, times = times)
+    expect_equal(spec5, readRDS("spectrum_pfs.RDS"))
 })
 
 
@@ -74,8 +88,6 @@ test_that("Spectrum at time 0 is correct", {
                                             PF = 100)
     expect_equal(spec1_time0, spec_expected)
 })
-
-
 
 
 
