@@ -57,18 +57,18 @@ calculate_hdx_power = function(deuteration_curves, tests, significance_level = 0
                         print(e)
                         data.table::data.table()
                     })
-                    if(type_one_err) {
+                    if(type_one_err & nrow(test_for_replicate) != 0) {
 
                         test_for_replicate[["State_1"]] = substr(test_for_replicate[["State_1"]], 1 ,
-                                                                 nchar(test_for_replicate[["State_1"]]) - 1)
+                                                                        nchar(test_for_replicate[["State_1"]]) - 1)
                         test_for_replicate[["State_2"]] = substr(test_for_replicate[["State_2"]], 1 ,
-                                                                 nchar(test_for_replicate[["State_2"]]) - 1)
+                                                                        nchar(test_for_replicate[["State_2"]]) - 1)
                     }
-
                     cbind(info, test_for_replicate)
                 })
                 data.table::rbindlist(all_tests)
             })
+
             data.table::rbindlist(single_curve)
         }
     )

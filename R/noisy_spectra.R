@@ -378,8 +378,7 @@ add_noise_to_one_timepoint = function(spectrum, standard_deviations) {
 #' those deviations and added to \code{Intensity}.
 #' @keywords internal
 add_noise_to_intensities = function(spectrum, standard_deviations) {
-    sd = standard_deviations[as.character(unique(spectrum$Exposure))]
-    spectrum$Intensity = spectrum$Intensity + rnorm(nrow(spectrum), 0, sd)
+    spectrum$Intensity = spectrum$Intensity + rnorm(nrow(spectrum), 0, standard_deviations)
     spectrum[, !(colnames(spectrum) == "Exposure"), with = FALSE]
 }
 #' Get relative mass
