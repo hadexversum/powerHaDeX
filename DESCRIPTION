@@ -38,6 +38,7 @@ Suggests:
     testthat,
     spelling,
     knitr,
-    rmarkdown
+    rmarkdown,
+    covr
 Language: en-US
 VignetteBuilder: knitr

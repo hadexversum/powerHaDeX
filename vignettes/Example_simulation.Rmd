@@ -198,20 +198,20 @@ The package `powerHaDeX` provides a possibility of the estimation of rejection r
 
 The tests available in the package are:
 
-- `semiparametric` - Semiparametric test,
+- `test_semiparametric` - Semiparametric test,
 
-- `houde` - Damian Houde's confidence intervals test (Houde, Berkowitz, and Engen 2011),
+- `test_houde` - Damian Houde's confidence intervals test (Houde, Berkowitz, and Engen 2011),
 
-- `hdx_analyzer` - HDX-Analyzer model (Liu et al. 2011),
+- `test_hdx_analyzer` - HDX-Analyzer model (Liu et al. 2011),
 
-- `memhdx_model` - MEMHDX model (Hourdel et al. 2016).
+- `test_memhdx_model` - MEMHDX model (Hourdel et al. 2016).
 
 
 We can use the function `calculate_hdx_power` to execute the testing procedure on the data simulated by `get_noisy_deuteration_curves`. Example usage of the function is shown below
 
 ```{r}
 calculate_hdx_power(deuteration_curves_paired_states,
-                    tests = list(houde),
+                    tests = list(test_houde),
                     summarized = FALSE)
 ```
 
@@ -220,7 +220,7 @@ The summariyed result is following
 
 ```{r}
 calculate_hdx_power(deuteration_curves_paired_states,
-                    tests = list(houde),
+                    tests = list(test_houde),
                     summarized = TRUE)
 ```
 
