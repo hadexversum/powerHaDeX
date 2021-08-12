@@ -40,6 +40,14 @@ test_that("get_HD_matrices works", {
     matrices = get_HD_matrices(sequence, transition_probs, experiment_times,
                                times_to_record, n_molecules = 100)
     expect_equal(matrices, readRDS("matrices.RDS"))
+
+    #close times of measurements
+    experiment_times = seq(0, 30, 0.01)
+    times_to_record = c(10, 10.0001)
+    n_molecules = 100
+    matrices = get_HD_matrices(sequence, transition_probs, experiment_times,
+                               times_to_record, n_molecules = 100)
+    expect_equal(matrices, readRDS("matrices_close_times.RDS"))
 })
 
 

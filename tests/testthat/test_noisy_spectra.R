@@ -32,6 +32,12 @@ test_that("get_spectra_list works", {
                  readRDS("spectra_list1.RDS"))
 })
 
+test_that("get_spectra_list returns error", {
+    spectra = readRDS("spectra_3_states.RDS")
+    expect_error(get_spectra_list(spectra, compare_pairs = TRUE, reference = NA))
+})
+
+
 test_that("get_paired_spectra works", {
     spectra = readRDS("spectra_3_states.RDS")
     expect_equal(get_paired_spectra(spectra, reference = 'all'),
