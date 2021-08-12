@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>MEMHDX model — memhdx_model • powerHaDeX</title>
+<title>Semiparametric test for differences in deuteration levels — test_semiparametric • powerHaDeX</title>
 
 
 <!-- jquery -->
@@ -39,10 +39,10 @@
 
 
 
-<meta property="og:title" content="MEMHDX model — memhdx_model" />
-<meta property="og:description" content="This function performs the test based on a linear mixed effects
-model used in MEMHDX tools. Its input and output are compatible with the function
-calculate_hdx_power." />
+<meta property="og:title" content="Semiparametric test for differences in deuteration levels — test_semiparametric" />
+<meta property="og:description" content="This function performs the semiparametric test for differences
+in deuteration levels. Its input and output are compatible with
+the function calculate_hdx_power." />
 
 
 
@@ -122,18 +122,18 @@ calculate_hdx_power." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>MEMHDX model</h1>
+    <h1>Semiparametric test for differences in deuteration levels</h1>
     
-    <div class="hidden name"><code>memhdx_model.Rd</code></div>
+    <div class="hidden name"><code>test_semiparametric.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function performs the test based on a linear mixed effects
-model used in MEMHDX tools. Its input and output are compatible with the function
-<code><a href='calculate_hdx_power.html'>calculate_hdx_power</a></code>.</p>
+    <p>This function performs the semiparametric test for differences
+in deuteration levels. Its input and output are compatible with
+the function <code><a href='calculate_hdx_power.html'>calculate_hdx_power</a></code>.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>memhdx_model</span><span class='op'>(</span><span class='va'>data</span>, significance_level <span class='op'>=</span> <span class='fl'>0.05</span><span class='op'>)</span></code></pre></div>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>test_semiparametric</span><span class='op'>(</span><span class='va'>data</span>, significance_level <span class='op'>=</span> <span class='fl'>0.05</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -152,11 +152,10 @@ model used in MEMHDX tools. Its input and output are compatible with the functio
 
     <p>This function returns a data table compatible with the function
 <code><a href='calculate_hdx_power.html'>calculate_hdx_power</a></code>.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <div class='dont-index'><p>Hourdel, Véronique et al. (July 2016). “MEMHDX: an interactive tool
-to expedite thestatistical validation and visualization of large HDX-MS data sets”.
-In:Bioinformatics32.22, pp. 3413–3419.issn: 1367-4803.</p></div>
+    <p>This function uses <code><a href='truncated_lines.html'>truncated_lines</a></code>. The knots
+considered in the testing procedure are chosen using ridge regression.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

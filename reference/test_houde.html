@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Semiparametric test for differences in deuteration levels — semiparametric • powerHaDeX</title>
+<title>Houde's test for deuteration curves — test_houde • powerHaDeX</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,9 @@
 
 
 
-<meta property="og:title" content="Semiparametric test for differences in deuteration levels — semiparametric" />
-<meta property="og:description" content="This function performs the semiparametric test for differences
-in deuteration levels. Its input and output are compatible with
+<meta property="og:title" content="Houde's test for deuteration curves — test_houde" />
+<meta property="og:description" content="This function performs Damian Houde's confidence intervals test
+for differences in deuteration levels. Its input and output are compatible with
 the function calculate_hdx_power." />
 
 
@@ -122,18 +122,18 @@ the function calculate_hdx_power." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Semiparametric test for differences in deuteration levels</h1>
+    <h1>Houde's test for deuteration curves</h1>
     
-    <div class="hidden name"><code>semiparametric.Rd</code></div>
+    <div class="hidden name"><code>test_houde.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function performs the semiparametric test for differences
-in deuteration levels. Its input and output are compatible with
+    <p>This function performs Damian Houde's confidence intervals test
+for differences in deuteration levels. Its input and output are compatible with
 the function <code><a href='calculate_hdx_power.html'>calculate_hdx_power</a></code>.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>semiparametric</span><span class='op'>(</span><span class='va'>data</span>, significance_level <span class='op'>=</span> <span class='fl'>0.05</span><span class='op'>)</span></code></pre></div>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>test_houde</span><span class='op'>(</span><span class='va'>data</span>, significance_level <span class='op'>=</span> <span class='fl'>0.05</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -152,10 +152,15 @@ the function <code><a href='calculate_hdx_power.html'>calculate_hdx_power</a></c
 
     <p>This function returns a data table compatible with the function
 <code><a href='calculate_hdx_power.html'>calculate_hdx_power</a></code>.</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>This function uses <code><a href='truncated_lines.html'>truncated_lines</a></code>. The knots
-considered in the testing procedure are chosen using ridge regression.</p>
+    <p>Houde, Damian, Steven A Berkowitz, and John R Engen (2011).
+“The utility of hydrogen/deuterium exchange mass spectrometry in biopharmaceutical
+comparabilitystudies”. In:Journal of pharmaceutical sciences100.6, pp. 2071–2086.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='calculate_hdx_power.html'>calculate_hdx_power</a></code> for estimation of power
+of tests for differences in deuteration levels.</p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

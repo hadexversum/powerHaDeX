@@ -43,9 +43,6 @@
     <loc>/reference/add_noise_to_spectra.html</loc>
   </url>
   <url>
-    <loc>/reference/auc_test.html</loc>
-  </url>
-  <url>
     <loc>/reference/calculate_hdx_power.html</loc>
   </url>
   <url>
@@ -115,15 +112,6 @@
     <loc>/reference/get_undeuterated_mass.html</loc>
   </url>
   <url>
-    <loc>/reference/hdx_analyzer.html</loc>
-  </url>
-  <url>
-    <loc>/reference/hdx_anova.html</loc>
-  </url>
-  <url>
-    <loc>/reference/houde.html</loc>
-  </url>
-  <url>
     <loc>/reference/index.html</loc>
   </url>
   <url>
@@ -131,9 +119,6 @@
   </url>
   <url>
     <loc>/reference/make_noisy_spectra.html</loc>
-  </url>
-  <url>
-    <loc>/reference/memhdx_model.html</loc>
   </url>
   <url>
     <loc>/reference/plot_spectra.html</loc>
@@ -148,10 +133,22 @@
     <loc>/reference/prepare_input_peptides.html</loc>
   </url>
   <url>
-    <loc>/reference/semiparametric.html</loc>
+    <loc>/reference/simulate_theoretical_spectra.html</loc>
   </url>
   <url>
-    <loc>/reference/simulate_theoretical_spectra.html</loc>
+    <loc>/reference/test_auc_test.html</loc>
+  </url>
+  <url>
+    <loc>/reference/test_hdx_analyzer.html</loc>
+  </url>
+  <url>
+    <loc>/reference/test_houde.html</loc>
+  </url>
+  <url>
+    <loc>/reference/test_memhdx_model.html</loc>
+  </url>
+  <url>
+    <loc>/reference/test_semiparametric.html</loc>
   </url>
   <url>
     <loc>/reference/truncated_lines.html</loc>
