@@ -4,12 +4,12 @@
 \alias{truncated_lines}
 \title{Get truncated lines}
 \usage{
-truncated_lines(x, kappa)
+truncated_lines(x, knots)
 }
 \arguments{
 \item{x}{a vector. Variable which undergoes the truncating}
 
-\item{kappa}{a vector of knots in which the spline model will break}
+\item{knots}{a vector of knots in which the spline model will break}
 }
 \description{
 This function prepares the function space for semiparametric
