@@ -4,7 +4,7 @@
 # Power calculations for Hydrogen/Deuterium Exchange experiments 
 
 
-This R package implements methods for for
+This R package implements methods for
 
   - simulation of isotope distribution of deuterated peptides (theoretical spectra) based on the [code provided by Zhong-Yuan Kan](https://github.com/kanzy/HX-MS-Simulations),
   - creating deuteration curves based on theoretical spectra with multiple technical replicates and a given error structure,
