@@ -2,16 +2,16 @@
 % Please edit documentation in R/create_experimental_file.R
 \name{prepare_input_peptides}
 \alias{prepare_input_peptides}
-\title{Prepare input for \code{\link[powerHDX]{create_experimental_file}}}
+\title{Prepare input for \code{\link[powerHaDeX]{create_experimental_file}}}
 \usage{
 prepare_input_peptides(peptides)
 }
 \arguments{
-\item{peptides}{a data frame of parameters for which \code{\link[powerHDX]{simulate_theoretical_spectra}}
+\item{peptides}{a data frame of parameters for which \code{\link[powerHaDeX]{simulate_theoretical_spectra}}
 will be executed.}
 }
 \value{
-a data frame being a proper input for \code{\link[powerHDX]{create_experimental_file}}.
+a data frame being a proper input for \code{\link[powerHaDeX]{create_experimental_file}}.
 }
 \description{
 Supplementary function providing appropriate input.
