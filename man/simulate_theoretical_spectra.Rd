@@ -41,7 +41,7 @@ indicates the length of the time step of the simulation. The bigger the time
 step, the fewer time points are simulated (the fewer iterations in case of
 Zhong-Yuan Kan's approach).}
 
-\item{if_corr}{pH correction indicator. Default value 0. The value of pH is equal to pD.
+\item{if_corr}{pH correction indicator. Default value \code{FALSE}. The value of pH is equal to pD.
 If there is correction, the pD = pH + 0.4. (Conelly et al 1993)}
 
 \item{min_probability}{smallest isotopic probability to consider}

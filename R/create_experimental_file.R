@@ -4,7 +4,7 @@
 #' @param peptides a data frame of sequences (\code{sequence}), \code{Protein},
 #' and \code{Start}, \code{End} and parameters except \code{times}
 #' that can be used for simulating mass spectra.
-#' See \code{\link[powerHDX]{simulate_theoretical_spectra}} for more details
+#' See \code{\link[powerHaDeX]{simulate_theoretical_spectra}} for more details
 #' about the additional parameters.
 #' @inheritParams simulate_theoretical_spectra
 #' @inheritParams get_noisy_deuteration_curves
@@ -84,11 +84,11 @@ create_experimental_file <- function(peptides,
     data.table(noisy_spectra_data)
 }
 
-#' Prepare input for \code{\link[powerHDX]{create_experimental_file}}
+#' Prepare input for \code{\link[powerHaDeX]{create_experimental_file}}
 #' @description Supplementary function providing appropriate input.
-#' @param peptides a data frame of parameters for which \code{\link[powerHDX]{simulate_theoretical_spectra}}
+#' @param peptides a data frame of parameters for which \code{\link[powerHaDeX]{simulate_theoretical_spectra}}
 #' will be executed.
-#' @return a data frame being a proper input for \code{\link[powerHDX]{create_experimental_file}}.
+#' @return a data frame being a proper input for \code{\link[powerHaDeX]{create_experimental_file}}.
 #'
 
 prepare_input_peptides <- function(peptides) {

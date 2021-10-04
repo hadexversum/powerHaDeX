@@ -165,7 +165,7 @@ get_exchange_constants = function(pH, pkc_consts, k_consts) {
 #' @inheritParams get_poly_const
 #' @inheritParams get_exchange_constants
 #' @param temperature temperature of the reaction (Celsius). Default to 15.
-#' @param if_corr pH correction indicator. Default value 0. The value of pH is equal to pD.
+#' @param if_corr pH correction indicator. Default value \code{FALSE}. The value of pH is equal to pD.
 #' If there is correction, the pD = pH + 0.4. (Conelly et al 1993)
 #'
 #' @details   The correction of \code{pH} is taken into account for calculation of \code{pD}:
@@ -209,13 +209,13 @@ get_exchange_constants = function(pH, pkc_consts, k_consts) {
 #' @keywords internal
 #' @export
 get_exchange_rates = function(sequence, exchange = "HD", pH = 9, temperature = 15,
-                              mol_type = "poly", if_corr = 0) {
-    match.arg(mol_type, c("poly", "oligo"))
-    match.arg(exchange, c("HD", "DH"))
-    if(temperature == -273.15) stop("Temperature in C can not equal -273.15.")
+                              mol_type = "poly", if_corr = FALSE) {
+    assert(checkLogical(if_corr))
+    assert(checkChoice(mol_type, c("poly", "oligo")))
+    assert(checkChoice(exchange, c("HD", "DH")))
+    assert(checkFALSE(temperature == -273.15))
 
     if (exchange == "HD") {
-        if (!(if_corr %in% c(0, 1))) stop("If_corr must be 1 or 0")
         pd = pH + 0.4 * if_corr
         D = 10^(-pd) # [D + ]
         OD = 10^(pd - 15.05) # [OD - ]

@@ -109,7 +109,7 @@ test_that("get_exchange_rates returns proper output", {
     temperature = 15
     if_corr = 0
 
-    kcHD = get_exchange_rates(sequence, exchange = "HD", mol_type = "poly")
+    kcHD = get_exchange_rates(sequence, exchange = "HD", mol_type = "poly", if_corr = TRUE)
     expect_equal(kcHD, c(0, 0, 58.6518885939027, 117.025903012734, 142.605325751056,
                          0.441180572094274))
     kcDH = get_exchange_rates(sequence, exchange = "DH", mol_type = "poly")
@@ -140,7 +140,9 @@ test_that("get_exchange_rates returns error in the case of invalid input", {
                                     temperature = temperature),
                  "Temperature in C can not equal -273.15.")
     expect_error(get_exchange_rates(sequence, exchange = "blah", mol_type = "poly"))
-    expect_error(get_exchange_rates(sequence, exchange = "DH", mol_type = "blahblah"))
-    expect_error(get_exchange_rates(sequence, if_corr = 17), "If_corr must be 1 or 0")
+    expect_error(get_exchange_rates(sequence, exchange = "DH", mol_type = 'aaa',
+                                    "Assertion on 'mol_type' failed. Must be element of set {'poly','oligo'}, but is 'aaa'"))
+    expect_error(get_exchange_rates(sequence, if_corr = 17),
+                 "Assertion on 'if_corr' failed. Must be of type 'logical', not 'double'")
     expect_error(get_exchange_rates(sequence = c()), "Length of sequence must be greater than 0")
 })

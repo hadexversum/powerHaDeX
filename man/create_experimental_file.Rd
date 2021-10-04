@@ -18,7 +18,7 @@ create_experimental_file(
 \item{peptides}{a data frame of sequences (\code{sequence}), \code{Protein},
 and \code{Start}, \code{End} and parameters except \code{times}
 that can be used for simulating mass spectra.
-See \code{\link[powerHDX]{simulate_theoretical_spectra}} for more details
+See \code{\link[powerHaDeX]{simulate_theoretical_spectra}} for more details
 about the additional parameters.}
 
 \item{times}{a vector of times at which deuteration levels will be measured (seconds)}
