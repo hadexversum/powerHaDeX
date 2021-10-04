@@ -1,8 +1,8 @@
 
 #' Draw mass spectra
 #' @description Graphical visualization of mass spectra obtained using the function
-#' \code{\link[powerHDX]{simulate_theoretical_spectra}}.
-#' @param spectra data table. Result of \code{\link[powerHDX]{simulate_theoretical_spectra}}.
+#' \code{\link[powerHaDeX]{simulate_theoretical_spectra}}.
+#' @param spectra data table. Result of \code{\link[powerHaDeX]{simulate_theoretical_spectra}}.
 #' @param time_points vector of values of exposure times to be displayed on the plot.
 #' Default \code{unique(spectra[["Exposure"]])}.
 #' @param charges vector of charges to be displayed on the plot. Default \code{unique(spectra[["Charge"]])}.
@@ -11,7 +11,7 @@
 #' @param ... additional arguments passing to the \code{\link[ggplot2]{theme}}.
 #' @return ggplot object
 #' @details This function draws mass spectra from data obtained via
-#' \code{\link[powerHDX]{simulate_theoretical_spectra}}.
+#' \code{\link[powerHaDeX]{simulate_theoretical_spectra}}.
 #' @export
 
 
