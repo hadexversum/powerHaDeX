@@ -20,20 +20,21 @@ Description: The R-package powerHaDeX for simulating and analyzing data coming
 License: GPL (>= 3)
 Encoding: UTF-8
 Imports: 
-    expm,
-    methods,
+    checkmate,
     data.table,
-    lme4,
-    lmerTest,
-    nlme,
-    signal,
-    plyr,
-    Rcpp (>= 1.0.3),
+    expm,
     ggplot2,
     glmnet,
-Depends: R (>= 2.10)
+    lme4,
+    lmerTest,
+    methods,
+    nlme,
+    plyr,
+    Rcpp (>= 1.0.3),
+    signal,
+Depends: R (>= 3.5.0)
 LinkingTo: Rcpp
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Suggests: 
     testthat,
     spelling,
