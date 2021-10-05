@@ -75,7 +75,7 @@ get_poly_const = function(mol_type, exchange = "HD") {
 #' @inheritParams get_poly_const
 #'
 #' @details Depending on provided \code{exchange} direction tabular values of
-#' exponents E_{const}$are assigned. For \code{Asp}, \code{Glu} and \code{His}
+#' exponents E_{const} are assigned. For \code{Asp}, \code{Glu} and \code{His}
 #' the \code{pKc} constants are calculated based on the energies of activation
 #' for given amino acid and the chosen \code{exchange} direction.
 #'

@@ -62,7 +62,7 @@ test_houde <- function(data, significance_level = 0.05) {
 
     Sequence = State = Exposure = Rep = Experimental_state = Mass = err_avg_mass = avg_exp_mass = err_deut_uptake = deut_uptake = NULL
 
-    States = unique(data$State)
+    States = unique(data[["State"]])
     confidence_limit = 1 - significance_level
 
     alpha <- 1 - confidence_limit
@@ -87,7 +87,7 @@ test_houde <- function(data, significance_level = 0.05) {
 
 
 
-    avg_difference <- mean(calc_dat$diff_deut_uptake)
+    avg_difference <- mean(calc_dat[["diff_deut_uptake"]])
 
     x_threshold <- t_value * mean(calc_dat[["err_diff_deut_uptake"]], na.rm = TRUE)/sqrt(length(calc_dat))
 
@@ -163,7 +163,7 @@ test_houde <- function(data, significance_level = 0.05) {
 
 test_hdx_analyzer = function(data, significance_level = 0.05) {
 
-    States = unique(data$State)
+    States = unique(data[["State"]])
 
     Time = c("continuous", "categorical", "continuous")
     Transformation = c("identity", "identity", "log")
@@ -273,7 +273,7 @@ test_hdx_analyzer = function(data, significance_level = 0.05) {
 
 test_memhdx_model = function(data, significance_level = 0.05) {
 
-    States = unique(data$State)
+    States = unique(data[["State"]])
 
     Time = c("continuous", "categorical", "continuous")
     Transformation = c("identity", "identity", "log")
@@ -408,12 +408,12 @@ truncated_lines <- function(x, knots){
 
 test_semiparametric <- function(data, significance_level = 0.05) {
 
-    States = unique(data$State)
-    data[["id"]] <- paste0(data$Rep, data$Charge, data$Experimental_state)
+    States = unique(data[["State"]])
+    data[["id"]] <- paste0(data[["Rep"]], data[["Charge"]], data[["Experimental_state"]])
     Test = aic = loglik = Test_statistic = p_value = NA
 
-    knots <- unique(setdiff(data$Exposure, c(max(data$Exposure), min(data$Exposure))))
-    X <- truncated_lines(data$Exposure, knots)
+    knots <- unique(setdiff(data[["Exposure"]], c(max(data[["Exposure"]]), min(data[["Exposure"]]))))
+    X <- truncated_lines(data[["Exposure"]], knots)
 
     colnames(X) <- c(paste0("knot_", as.character(knots)))
 
@@ -465,35 +465,35 @@ test_semiparametric <- function(data, significance_level = 0.05) {
 #'
 
 test_auc_test = function(data, significance_level = 0.05) {
-    States = unique(data$State)
+    States = unique(data[["State"]])
     if (length(States) < 2) stop("More than one state must be chosen.")
 
-    state1_data = data[data$State == States[1], ]
-    state2_data = data[data$State == States[2], ]
+    state1_data = data[data[["State"]] == States[1], ]
+    state2_data = data[data[["State"]] == States[2], ]
 
-    states_exposure = setdiff(intersect(state1_data$Exposure, state2_data$Exposure), 0)
+    states_exposure = setdiff(intersect(state1_data[["Exposure"]], state2_data[["Exposure"]]), 0)
 
-    state1_data = state1_data[state1_data$Exposure %in% states_exposure, ]
-    state2_data = state2_data[state2_data$Exposure %in% states_exposure, ]
+    state1_data = state1_data[state1_data[["Exposure"]] %in% states_exposure, ]
+    state2_data = state2_data[state2_data[["Exposure"]] %in% states_exposure, ]
 
     t_n = max(states_exposure)
     t_1 = min(states_exposure)
-    times = length(data$Exposure)
-    state1_masses = (max(state1_data$Mass) - state1_data$Mass) / max(state1_data$Mass)
-    state2_masses = (max(state2_data$Mass) - state2_data$Mass) / max(state2_data$Mass)
+    times = length(data[["Exposure"]])
+    state1_masses = (max(state1_data[["Mass"]]) - state1_data[["Mass"]]) / max(state1_data[["Mass"]])
+    state2_masses = (max(state2_data[["Mass"]]) - state2_data[["Mass"]]) / max(state2_data[["Mass"]])
 
     y_a = aggregate(state1_masses,
-                    list(state1_data$Exposure), mean)$x
+                    list(state1_data[["Exposure"]]), mean)[["x"]]
     y_b = aggregate(state2_masses,
-                    list(state2_data$Exposure), mean)$x
+                    list(state2_data[["Exposure"]]), mean)[["x"]]
     s_a = aggregate(state1_masses,
-                    list(state1_data$Exposure), sd)$x
+                    list(state1_data[["Exposure"]]), sd)[["x"]]
     s_b = aggregate(state2_masses,
-                    list(state2_data$Exposure), sd)$x
+                    list(state2_data[["Exposure"]]), sd)[["x"]]
     S_a = sqrt(log(t_n / t_1) * mean(s_a^2))
     S_b = sqrt(log(t_n / t_1) * mean(s_b^2))
-    n_rep_a = length(unique(state1_data$Rep))
-    n_rep_b = length(unique(state2_data$Rep))
+    n_rep_a = length(unique(state1_data[["Rep"]]))
+    n_rep_b = length(unique(state2_data[["Rep"]]))
     S = sqrt(((n_rep_a - 1)*S_a^2 + (n_rep_b - 1)*S_b^2 ) / (n_rep_a + n_rep_b - 2))
     A_aver = log(t_n/t_1) * (1/times) * sum(y_a - y_b)
 

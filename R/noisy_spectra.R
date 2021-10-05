@@ -164,13 +164,13 @@ get_paired_spectra = function(theoretical_spectra,
             paired_spectra = rbind(spectrum, reference_spectrum)
         })
     }else {
-        if (!(as.integer(reference) %in% as.integer(unique(theoretical_spectra$PF)))) {
+        if (!(as.integer(reference) %in% as.integer(unique(theoretical_spectra[["PF"]])))) {
             stop("Reference protection factor does not fit the data.")
         }
         PF = NULL
         reference_spectrum = theoretical_spectra[abs(PF - reference) < 1e-9, ]
         theoretical_spectra = split(theoretical_spectra[abs(PF - reference) > 1e-9, ],
-                                    theoretical_spectra[abs(PF - reference) > 1e-9, ]$PF)
+                                    theoretical_spectra[abs(PF - reference) > 1e-9, "PF"])
         theoretical_spectra = lapply(theoretical_spectra,
                                      function(spectrum) {
                                          spectrum[["Experimental_state"]] = "A"
@@ -200,7 +200,7 @@ make_experimental_design = function(spectra,
                                     n_replicates = 4) {
     lapply(spectra, function(spectrum) {
         data.table::rbindlist(lapply(1:n_replicates, function(i) {
-            spectrum$Rep = as.character(i)
+            spectrum[["Rep"]] = as.character(i)
             spectrum
         }))
     })
@@ -280,10 +280,10 @@ add_noise_to_one_spectrum = function(spectrum,
                                      mass_deviations = 50,
                                      intensity_deviations = NULL) {
     if (length(mass_deviations) == 1) {
-        mass_deviations = rep(mass_deviations, data.table::uniqueN(spectrum$Exposure))
+        mass_deviations = rep(mass_deviations, data.table::uniqueN(spectrum[["Exposure"]]))
     }
     sds = mass_deviations * undeuterated_mass / 1e6
-    names(sds) = as.character(unique(spectrum$Exposure))
+    names(sds) = as.character(unique(spectrum[["Exposure"]]))
 
     spectrum = spectrum[, add_noise_to_one_timepoint(.SD, sds), by = "Exposure",
                         .SDcols = colnames(spectrum)]
@@ -291,7 +291,7 @@ add_noise_to_one_spectrum = function(spectrum,
     if (!is.null(intensity_deviations)) {
         if (length(intensity_deviations) == 1) {
             intensity_deviations = rep(intensity_deviations,
-                                       data.table::uniqueN(spectrum$Exposure))
+                                       data.table::uniqueN(spectrum[["Exposure"]]))
         }
         names(intensity_deviations) = names(sds)
         spectrum = spectrum[, add_noise_to_intensities(.SD, sds), by = "Exposure"]
@@ -400,9 +400,9 @@ add_noise_to_single_curve = function(replicate_curve,
     Exposure = Mass = Charge = NULL
     if (!is.null(per_run_deviations)) {
         if (length(per_run_deviations) == 1) {
-            per_run_deviations = rep(per_run_deviations, length(unique(replicate_curve$Rep)))
+            per_run_deviations = rep(per_run_deviations, length(unique(replicate_curve[["Rep"]])))
         }
-        names(per_run_deviations) = as.character(unique(replicate_curve$Rep))
+        names(per_run_deviations) = as.character(unique(replicate_curve[["Rep"]]))
 
         replicate_curve = replicate_curve[, add_noise(.SD, per_run_deviations),
                                           by = "Rep", .SDcols = colnames(replicate_curve)]
@@ -438,7 +438,7 @@ add_noise_to_single_curve = function(replicate_curve,
 #' @export
 #'
 get_undeuterated_mass = function(theoretical_spectra) {
-    unique(theoretical_spectra$Charge * (theoretical_spectra$Mz - 1.007276))[1]
+    unique(theoretical_spectra[["Charge"]] * (theoretical_spectra[["Mz"]] - 1.007276))[1]
 }
 
 #' Adds noise to mass domain
@@ -455,9 +455,9 @@ get_undeuterated_mass = function(theoretical_spectra) {
 #' @keywords internal
 #'
 add_noise = function(replicate_curve, standard_deviations) {
-    sd = standard_deviations[as.character(unique(replicate_curve$Rep))]
-    replicate_curve$Mass = ifelse(replicate_curve$Mass == 0, 0,
-                                  replicate_curve$Mass + rnorm(nrow(replicate_curve), 0, sd = sd))
+    sd = standard_deviations[as.character(unique(replicate_curve[["Rep"]]))]
+    replicate_curve[["Mass"]] = ifelse(replicate_curve[["Mass"]] == 0, 0,
+                                       replicate_curve[["Mass"]] + rnorm(nrow(replicate_curve), 0, sd = sd))
     replicate_curve
 }
 
@@ -475,8 +475,8 @@ add_noise = function(replicate_curve, standard_deviations) {
 #' @keywords internal
 #'
 add_noise_to_one_timepoint = function(spectrum, standard_deviations) {
-    sd = standard_deviations[as.character(unique(spectrum$Exposure))]
-    spectrum$Mz = spectrum$Mz + rnorm(nrow(spectrum), 0, sd)
+    sd = standard_deviations[as.character(unique(spectrum[["Exposure"]]))]
+    spectrum[["Mz"]] = spectrum[["Mz"]] + rnorm(nrow(spectrum), 0, sd)
     spectrum[, !(colnames(spectrum) == "Exposure"), with = FALSE]
 }
 
@@ -493,7 +493,7 @@ add_noise_to_one_timepoint = function(spectrum, standard_deviations) {
 #' @keywords internal
 #'
 add_noise_to_intensities = function(spectrum, standard_deviations) {
-    spectrum$Intensity = spectrum$Intensity + rnorm(nrow(spectrum), 0, standard_deviations)
+    spectrum[["Intensity"]] = spectrum[["Intensity"]] + rnorm(nrow(spectrum), 0, standard_deviations)
     spectrum[, !(colnames(spectrum) == "Exposure"), with = FALSE]
 }
 #' Get relative mass
