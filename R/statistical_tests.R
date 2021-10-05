@@ -51,7 +51,7 @@
 #' theo_spectra_two_states <- rbind(theo_spectra_pf_100, theo_spectra_pf_200)
 #'
 #' deuteration_curves_paired_states <- get_noisy_deuteration_curves(theo_spectra_two_states,
-#'                                                                  n_replicates = 1,
+#'                                                                  n_replicates = 4,
 #'                                                                  n_experiments = 1,
 #'                                                                  reference = 100)[[1]][[1]]
 #' test_houde(deuteration_curves_paired_states)
@@ -69,17 +69,17 @@ test_houde <- function(data, significance_level = 0.05) {
     t_value <- qt(c(alpha/2, 1 - alpha/2), df = 2)[2]
 
 
-    data_exp <- data[, .(avg_exp_mass = mean(Mass)),
+    data_exp <- data[, list(avg_exp_mass = mean(Mass)),
                      by = list(Sequence, State, Exposure, Rep, Experimental_state)]
 
-    data_exp <- data_exp[, .(deut_uptake = mean(avg_exp_mass), err_avg_mass = sd(avg_exp_mass)/sqrt(length(Rep))),
+    data_exp <- data_exp[, list(deut_uptake = mean(avg_exp_mass), err_avg_mass = sd(avg_exp_mass)/sqrt(length(Rep))),
                          by = list(State, Sequence, Exposure, Experimental_state)]
 
     data_exp[, err_deut_uptake := sqrt(err_avg_mass^2 + err_avg_mass[Exposure == 0]^2),
              by = list(State, Sequence, Experimental_state)]
 
 
-    calc_dat <- data_exp[, .(diff_deut_uptake = deut_uptake[Experimental_state == "A"] -
+    calc_dat <- data_exp[, list(diff_deut_uptake = deut_uptake[Experimental_state == "A"] -
                                  deut_uptake[Experimental_state == "B"],
                              err_diff_deut_uptake = sqrt(err_deut_uptake[Experimental_state == "A"]^2 +
                                                              err_deut_uptake[Experimental_state == "B"]^2)),
@@ -154,7 +154,7 @@ test_houde <- function(data, significance_level = 0.05) {
 #' theo_spectra_two_states <- rbind(theo_spectra_pf_100, theo_spectra_pf_200)
 #'
 #' deuteration_curves_paired_states <- get_noisy_deuteration_curves(theo_spectra_two_states,
-#'                                                                  n_replicates = 1,
+#'                                                                  n_replicates = 4,
 #'                                                                  n_experiments = 1,
 #'                                                                  reference = 100)[[1]][[1]]
 #' test_hdx_analyzer(deuteration_curves_paired_states)
@@ -264,7 +264,7 @@ test_hdx_analyzer = function(data, significance_level = 0.05) {
 #' theo_spectra_two_states <- rbind(theo_spectra_pf_100, theo_spectra_pf_200)
 #'
 #' deuteration_curves_paired_states <- get_noisy_deuteration_curves(theo_spectra_two_states,
-#'                                                                  n_replicates = 1,
+#'                                                                  n_replicates = 4,
 #'                                                                  n_experiments = 1,
 #'                                                                  reference = 100)[[1]][[1]]
 #' test_memhdx_model(deuteration_curves_paired_states)
@@ -380,7 +380,7 @@ truncated_lines <- function(x, knots){
 #' theo_spectra_pf_100 <- simulate_theoretical_spectra(sequence = "LVRKDLQN",
 #'                                                     charge = c(3, 5),
 #'                                                     protection_factor = 100,
-#'                                                     times = c(0.167, 5),
+#'                                                     times = c(0.167, 5, 10, 30),
 #'                                                     pH = 7.5,
 #'                                                     temperature = 15,
 #'                                                     n_molecules = 500,
@@ -389,7 +389,7 @@ truncated_lines <- function(x, knots){
 #' theo_spectra_pf_200 <- simulate_theoretical_spectra(sequence = "LVRKDLQN",
 #'                                                     charge = c(3, 5),
 #'                                                     protection_factor = 200,
-#'                                                     times = c(0.167, 5),
+#'                                                     times = c(0.167, 5, 10, 30),
 #'                                                     pH = 7.5,
 #'                                                     temperature = 15,
 #'                                                     n_molecules = 500,
@@ -399,7 +399,7 @@ truncated_lines <- function(x, knots){
 #' theo_spectra_two_states <- rbind(theo_spectra_pf_100, theo_spectra_pf_200)
 #'
 #' deuteration_curves_paired_states <- get_noisy_deuteration_curves(theo_spectra_two_states,
-#'                                                                  n_replicates = 1,
+#'                                                                  n_replicates = 4,
 #'                                                                  n_experiments = 1,
 #'                                                                  reference = 100)[[1]][[1]]
 #' test_semiparametric(deuteration_curves_paired_states)

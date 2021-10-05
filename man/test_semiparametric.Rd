@@ -28,7 +28,7 @@ considered in the testing procedure are chosen using ridge regression.
 theo_spectra_pf_100 <- simulate_theoretical_spectra(sequence = "LVRKDLQN",
                                                     charge = c(3, 5),
                                                     protection_factor = 100,
-                                                    times = c(0.167, 5),
+                                                    times = c(0.167, 5, 10, 30),
                                                     pH = 7.5,
                                                     temperature = 15,
                                                     n_molecules = 500,
@@ -37,7 +37,7 @@ theo_spectra_pf_100 <- simulate_theoretical_spectra(sequence = "LVRKDLQN",
 theo_spectra_pf_200 <- simulate_theoretical_spectra(sequence = "LVRKDLQN",
                                                     charge = c(3, 5),
                                                     protection_factor = 200,
-                                                    times = c(0.167, 5),
+                                                    times = c(0.167, 5, 10, 30),
                                                     pH = 7.5,
                                                     temperature = 15,
                                                     n_molecules = 500,
@@ -47,7 +47,7 @@ theo_spectra_pf_200 <- simulate_theoretical_spectra(sequence = "LVRKDLQN",
 theo_spectra_two_states <- rbind(theo_spectra_pf_100, theo_spectra_pf_200)
 
 deuteration_curves_paired_states <- get_noisy_deuteration_curves(theo_spectra_two_states,
-                                                                 n_replicates = 1,
+                                                                 n_replicates = 4,
                                                                  n_experiments = 1,
                                                                  reference = 100)[[1]][[1]]
 test_semiparametric(deuteration_curves_paired_states)

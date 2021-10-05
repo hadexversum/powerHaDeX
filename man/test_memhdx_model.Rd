@@ -43,7 +43,7 @@ theo_spectra_pf_200 <- simulate_theoretical_spectra(sequence = "LVRKDLQN",
 theo_spectra_two_states <- rbind(theo_spectra_pf_100, theo_spectra_pf_200)
 
 deuteration_curves_paired_states <- get_noisy_deuteration_curves(theo_spectra_two_states,
-                                                                 n_replicates = 1,
+                                                                 n_replicates = 4,
                                                                  n_experiments = 1,
                                                                  reference = 100)[[1]][[1]]
 test_memhdx_model(deuteration_curves_paired_states)
