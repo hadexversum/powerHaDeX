@@ -45,8 +45,6 @@
 
 
 
-
-
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -58,15 +56,9 @@
 
 
 
-  
-
-  
-
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    
-
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -80,13 +72,19 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">powerHaDeX</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
+  <a href="../index.html">
+    <span class="fas fa-home fa-lg"></span>
+     
+  </a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -129,7 +127,7 @@
     <p>Simulate theoretical spectra of a deuterated peptide over time</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>simulate_theoretical_spectra</span><span class='op'>(</span>
+    <pre class="usage"><span class='fu'>simulate_theoretical_spectra</span><span class='op'>(</span>
   <span class='va'>sequence</span>,
   charge <span class='op'>=</span> <span class='cn'>NULL</span>,
   protection_factor <span class='op'>=</span> <span class='fl'>1</span>,
@@ -141,7 +139,7 @@
   if_corr <span class='op'>=</span> <span class='cn'>FALSE</span>,
   min_probability <span class='op'>=</span> <span class='fl'>1e-04</span>,
   use_markov <span class='op'>=</span> <span class='cn'>TRUE</span>
-<span class='op'>)</span></code></pre></div>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -233,57 +231,56 @@ allows the user to simulate spectra for more than one exposure time for both
 (Rcpp and Markov) approaches.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'>simulate_theoretical_spectra</span><span class='op'>(</span>sequence <span class='op'>=</span> <span class='st'>"LVRKDLQN"</span>,</span>
-<span class='r-in'>                             charge <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>3</span>, <span class='fl'>5</span><span class='op'>)</span>,</span>
-<span class='r-in'>                             protection_factor <span class='op'>=</span> <span class='fl'>100</span>,</span>
-<span class='r-in'>                             times <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.167</span>, <span class='fl'>5</span><span class='op'>)</span>,</span>
-<span class='r-in'>                             pH <span class='op'>=</span> <span class='fl'>7.5</span>,</span>
-<span class='r-in'>                             temperature <span class='op'>=</span> <span class='fl'>15</span>,</span>
-<span class='r-in'>                             n_molecules <span class='op'>=</span> <span class='fl'>500</span>,</span>
-<span class='r-in'>                             time_step_const <span class='op'>=</span> <span class='fl'>1</span>,</span>
-<span class='r-in'>                             use_markov <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     Exposure  PH    Intensity       Mz Charge Sequence  PF</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  1:    0.000 7.5 0.5801405135 329.1978      3 LVRKDLQN 100</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  2:    0.000 7.5 0.5801405135 197.9216      5 LVRKDLQN 100</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  3:    0.000 7.5 0.3031692943 329.1978      3 LVRKDLQN 100</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  4:    0.000 7.5 0.3031692943 197.9216      5 LVRKDLQN 100</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  5:    0.000 7.5 0.0919265899 329.1978      3 LVRKDLQN 100</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  6:    0.000 7.5 0.0919265899 197.9216      5 LVRKDLQN 100</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  7:    0.000 7.5 0.0204531418 329.1978      3 LVRKDLQN 100</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  8:    0.000 7.5 0.0204531418 197.9216      5 LVRKDLQN 100</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  9:    0.000 7.5 0.0036689790 329.1978      3 LVRKDLQN 100</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 10:    0.000 7.5 0.0036689790 197.9216      5 LVRKDLQN 100</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 11:    0.000 7.5 0.0005576524 329.1978      3 LVRKDLQN 100</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 12:    0.000 7.5 0.0005576524 197.9216      5 LVRKDLQN 100</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 13:    0.167 7.5 0.5639438541 329.1978      3 LVRKDLQN 100</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 14:    0.167 7.5 0.3097901768 329.5332      3 LVRKDLQN 100</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 15:    0.167 7.5 0.0984035771 329.8687      3 LVRKDLQN 100</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 16:    0.167 7.5 0.0228788016 330.2041      3 LVRKDLQN 100</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 17:    0.167 7.5 0.0042822414 330.5395      3 LVRKDLQN 100</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 18:    0.167 7.5 0.0006783947 330.8749      3 LVRKDLQN 100</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 19:    0.167 7.5 0.5639438541 197.9216      5 LVRKDLQN 100</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 20:    0.167 7.5 0.3097901768 198.1229      5 LVRKDLQN 100</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 21:    0.167 7.5 0.0984035771 198.3241      5 LVRKDLQN 100</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 22:    0.167 7.5 0.0228788016 198.5254      5 LVRKDLQN 100</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 23:    0.167 7.5 0.0042822414 198.7266      5 LVRKDLQN 100</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 24:    0.167 7.5 0.0006783947 198.9279      5 LVRKDLQN 100</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 25:    5.000 7.5 0.3353493289 329.1978      3 LVRKDLQN 100</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 26:    5.000 7.5 0.3759919889 329.5332      3 LVRKDLQN 100</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 27:    5.000 7.5 0.1986566340 329.8687      3 LVRKDLQN 100</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 28:    5.000 7.5 0.0683369383 330.2041      3 LVRKDLQN 100</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 29:    5.000 7.5 0.0174527970 330.5395      3 LVRKDLQN 100</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 30:    5.000 7.5 0.0035753690 330.8749      3 LVRKDLQN 100</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 31:    5.000 7.5 0.0005725431 331.2104      3 LVRKDLQN 100</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 32:    5.000 7.5 0.3353493289 197.9216      5 LVRKDLQN 100</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 33:    5.000 7.5 0.3759919889 198.1229      5 LVRKDLQN 100</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 34:    5.000 7.5 0.1986566340 198.3241      5 LVRKDLQN 100</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 35:    5.000 7.5 0.0683369383 198.5254      5 LVRKDLQN 100</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 36:    5.000 7.5 0.0174527970 198.7266      5 LVRKDLQN 100</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 37:    5.000 7.5 0.0035753690 198.9279      5 LVRKDLQN 100</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 38:    5.000 7.5 0.0005725431 199.1291      5 LVRKDLQN 100</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     Exposure  PH    Intensity       Mz Charge Sequence  PF</span>
-<span class='r-in'></span>
-</code></pre></div>
+    <pre class="examples"><div class='input'><span class='fu'>simulate_theoretical_spectra</span><span class='op'>(</span>sequence <span class='op'>=</span> <span class='st'>"LVRKDLQN"</span>,
+                             charge <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>3</span>, <span class='fl'>5</span><span class='op'>)</span>,
+                             protection_factor <span class='op'>=</span> <span class='fl'>100</span>,
+                             times <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.167</span>, <span class='fl'>5</span><span class='op'>)</span>,
+                             pH <span class='op'>=</span> <span class='fl'>7.5</span>,
+                             temperature <span class='op'>=</span> <span class='fl'>15</span>,
+                             n_molecules <span class='op'>=</span> <span class='fl'>500</span>,
+                             time_step_const <span class='op'>=</span> <span class='fl'>1</span>,
+                             use_markov <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;     Exposure  PH    Intensity       Mz Charge Sequence  PF
+#&gt;  1:    0.000 7.5 0.5801405135 329.1978      3 LVRKDLQN 100
+#&gt;  2:    0.000 7.5 0.5801405135 197.9216      5 LVRKDLQN 100
+#&gt;  3:    0.000 7.5 0.3031692943 329.1978      3 LVRKDLQN 100
+#&gt;  4:    0.000 7.5 0.3031692943 197.9216      5 LVRKDLQN 100
+#&gt;  5:    0.000 7.5 0.0919265899 329.1978      3 LVRKDLQN 100
+#&gt;  6:    0.000 7.5 0.0919265899 197.9216      5 LVRKDLQN 100
+#&gt;  7:    0.000 7.5 0.0204531418 329.1978      3 LVRKDLQN 100
+#&gt;  8:    0.000 7.5 0.0204531418 197.9216      5 LVRKDLQN 100
+#&gt;  9:    0.000 7.5 0.0036689790 329.1978      3 LVRKDLQN 100
+#&gt; 10:    0.000 7.5 0.0036689790 197.9216      5 LVRKDLQN 100
+#&gt; 11:    0.000 7.5 0.0005576524 329.1978      3 LVRKDLQN 100
+#&gt; 12:    0.000 7.5 0.0005576524 197.9216      5 LVRKDLQN 100
+#&gt; 13:    0.167 7.5 0.5697457456 329.1978      3 LVRKDLQN 100
+#&gt; 14:    0.167 7.5 0.3081806108 329.5332      3 LVRKDLQN 100
+#&gt; 15:    0.167 7.5 0.0957369841 329.8687      3 LVRKDLQN 100
+#&gt; 16:    0.167 7.5 0.0217414864 330.2041      3 LVRKDLQN 100
+#&gt; 17:    0.167 7.5 0.0039714268 330.5395      3 LVRKDLQN 100
+#&gt; 18:    0.167 7.5 0.0006137077 330.8749      3 LVRKDLQN 100
+#&gt; 19:    0.167 7.5 0.5697457456 197.9216      5 LVRKDLQN 100
+#&gt; 20:    0.167 7.5 0.3081806108 198.1229      5 LVRKDLQN 100
+#&gt; 21:    0.167 7.5 0.0957369841 198.3241      5 LVRKDLQN 100
+#&gt; 22:    0.167 7.5 0.0217414864 198.5254      5 LVRKDLQN 100
+#&gt; 23:    0.167 7.5 0.0039714268 198.7266      5 LVRKDLQN 100
+#&gt; 24:    0.167 7.5 0.0006137077 198.9279      5 LVRKDLQN 100
+#&gt; 25:    5.000 7.5 0.3655191647 329.1978      3 LVRKDLQN 100
+#&gt; 26:    5.000 7.5 0.3673901695 329.5332      3 LVRKDLQN 100
+#&gt; 27:    5.000 7.5 0.1872219046 329.8687      3 LVRKDLQN 100
+#&gt; 28:    5.000 7.5 0.0613994256 330.2041      3 LVRKDLQN 100
+#&gt; 29:    5.000 7.5 0.0150201113 330.5395      3 LVRKDLQN 100
+#&gt; 30:    5.000 7.5 0.0029597930 330.8749      3 LVRKDLQN 100
+#&gt; 31:    5.000 7.5 0.0004452846 331.2104      3 LVRKDLQN 100
+#&gt; 32:    5.000 7.5 0.3655191647 197.9216      5 LVRKDLQN 100
+#&gt; 33:    5.000 7.5 0.3673901695 198.1229      5 LVRKDLQN 100
+#&gt; 34:    5.000 7.5 0.1872219046 198.3241      5 LVRKDLQN 100
+#&gt; 35:    5.000 7.5 0.0613994256 198.5254      5 LVRKDLQN 100
+#&gt; 36:    5.000 7.5 0.0150201113 198.7266      5 LVRKDLQN 100
+#&gt; 37:    5.000 7.5 0.0029597930 198.9279      5 LVRKDLQN 100
+#&gt; 38:    5.000 7.5 0.0004452846 199.1291      5 LVRKDLQN 100
+#&gt;     Exposure  PH    Intensity       Mz Charge Sequence  PF</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -295,11 +292,11 @@ allows the user to simulate spectra for more than one exposure time for both
 
       <footer>
       <div class="copyright">
-  <p><p>Developed by Krystyna Grzesiak.</p></p>
+  <p>Developed by Krystyna Grzesiak.</p>
 </div>
 
 <div class="pkgdown">
-  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p></p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
@@ -307,8 +304,6 @@ allows the user to simulate spectra for more than one exposure time for both
 
   
 
-
-  
 
   </body>
 </html>
