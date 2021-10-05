@@ -19,8 +19,6 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
-    
-
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -33,12 +31,18 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">powerHaDeX</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
+<li>
+  <a href="../index.html">
+    <span class="fas fa-home fa-lg"></span>
+     
+  </a>
+</li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
@@ -82,11 +86,11 @@
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">powerHaDeX</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">powerHaDeX</span><span class="op">)</span></code></pre></div>
 <p>The package <code>powerHaDeX</code> is a tool providing a solution for the need for simulation and analysis of the data coming from HDX-MS experiments. This article is dedicated to the detailed description of the simulation of HDX-MS data.</p>
 <div id="diagram-of-hdx-ms-curve-simulation-" class="section level1">
 <h1 class="hasAnchor">
-<a href="#diagram-of-hdx-ms-curve-simulation-" class="anchor" aria-hidden="true"></a>Diagram of HDX-MS curve simulation.</h1>
+<a href="#diagram-of-hdx-ms-curve-simulation-" class="anchor"></a>Diagram of HDX-MS curve simulation.</h1>
 <p>The simulation was created in such a way that it imitates the real experiment as much as it is possible. To obtain the deuterium uptake at a single time point, one has to compute a mass spectrum first. Thus, the simulation consists of two main parts. The first one concerns the biological section of calculations, that is simulation of theoretical spectra, and the second concerns calculating deuteration curves and multiplying the data for the need for power simulation.</p>
 <ol style="list-style-type: decimal">
 <li>Simulate theoretical spectrum</li>
@@ -105,11 +109,11 @@
 <p>The parameters sequence, charge, state, and time point define, simplistically, a unique mass spectrum. Thus, as shown in the above figure, having two different biological states and <span class="math inline">\(T\)</span> different exposure times we obtain <span class="math inline">\((2 \times T)\)</span> unique spectra. From now on such a set will identify one <strong>replication</strong>. This part of the simulation is described in detail in the section <strong>Simulate theoretical spectrum</strong>. The next step of the simulation is reproducing the number of replications. First, we add noise to the obtained spectra and transform each of them into deuterium uptake. The deuterium uptake at different time points forms the deuterium uptake curve. The set of replicated deuterium uptake curves for different states is the target of the simulation. The procedure is described in <strong>Add noise to the theoretical spectrum</strong>.</p>
 <div id="simulate-theoretical-spectrum" class="section level2">
 <h2 class="hasAnchor">
-<a href="#simulate-theoretical-spectrum" class="anchor" aria-hidden="true"></a>1. Simulate theoretical spectrum</h2>
-<p>The algorithm that is used to simulate theoretical spectra is based on Zhong-Yuan Kan’s implementation in MATLAB. The original version of codes is located in the repository <a href="https://github.com/kanzy/HX-MS-Simulations" class="external-link">HX-MS-Simulations</a> (as at 29.06.2020). In the <code>powerHaDeX</code> package can be found the Kan’s algorithm re-implemented in R (using Rcpp) and the accelerated implementation (that uses Markov chains’ properties). Moreover, the package <code>powerHaDeX</code> allows the user to simulate spectra for more than one exposure time for both (Rcpp and Markov) approaches.</p>
+<a href="#simulate-theoretical-spectrum" class="anchor"></a>1. Simulate theoretical spectrum</h2>
+<p>The algorithm that is used to simulate theoretical spectra is based on Zhong-Yuan Kan’s implementation in MATLAB. The original version of codes is located in the repository <a href="https://github.com/kanzy/HX-MS-Simulations">HX-MS-Simulations</a> (as at 29.06.2020). In the <code>powerHaDeX</code> package can be found the Kan’s algorithm re-implemented in R (using Rcpp) and the accelerated implementation (that uses Markov chains’ properties). Moreover, the package <code>powerHaDeX</code> allows the user to simulate spectra for more than one exposure time for both (Rcpp and Markov) approaches.</p>
 <div id="elements-of-the-code" class="section level3">
 <h3 class="hasAnchor">
-<a href="#elements-of-the-code" class="anchor" aria-hidden="true"></a>Elements of the code</h3>
+<a href="#elements-of-the-code" class="anchor"></a>Elements of the code</h3>
 <p>The simulation code is in <code>simulate_theoretical_spectra.R</code> file. It uses the following internal functions:</p>
 <ol style="list-style-type: decimal">
 <li>get_approx_isotopic_distribution (<code>isotopic_distribution.R</code>),</li>
@@ -119,7 +123,7 @@
 </ol>
 <div id="parameters-needed-to-run-the-simulation" class="section level4">
 <h4 class="hasAnchor">
-<a href="#parameters-needed-to-run-the-simulation" class="anchor" aria-hidden="true"></a>Parameters needed to run the simulation</h4>
+<a href="#parameters-needed-to-run-the-simulation" class="anchor"></a>Parameters needed to run the simulation</h4>
 <p>The simulation is run for a given peptide. The parameters are:</p>
 <ul>
 <li><p><code>sequence</code> - sequence of the peptide, single string. Necessary to run the simulation.</p></li>
@@ -137,7 +141,7 @@
 </div>
 <div id="how-the-simulation-works" class="section level4">
 <h4 class="hasAnchor">
-<a href="#how-the-simulation-works" class="anchor" aria-hidden="true"></a>How the simulation works</h4>
+<a href="#how-the-simulation-works" class="anchor"></a>How the simulation works</h4>
 <p>The graphical illustration of the algorithm can be seen in the figure below. As said, the procedure that we describe below is based on Kan’s implementation. However, the section of the simulation called <strong>Calculate matrices of simulated empirical distribution</strong> appears in this thesis in two versions. The second version is the standard approach of Zhong-Yuan Kan, additionally implemented in Rcpp (called when use_markov = FALSE), and the first version is the algorithm accelerated for the needs for this thesis.</p>
 <center>
 <img src="alg.png" title="fig:" width="500" alt="Simulation algorithm">
@@ -145,12 +149,12 @@
 </div>
 <div id="prepare-essential-parameters-" class="section level4">
 <h4 class="hasAnchor">
-<a href="#prepare-essential-parameters-" class="anchor" aria-hidden="true"></a>Prepare essential parameters.</h4>
+<a href="#prepare-essential-parameters-" class="anchor"></a>Prepare essential parameters.</h4>
 <p>Initially parameter <code>sequence</code> is split into a character vector. From now, <code>sequence</code> will indicate the vector of amino acids and n will denote its length. If a single value of <code>protection_factor</code> is provided, the vector of that value of the length of the <code>sequence</code> is created. If no value of <code>charge</code> is provided, it is assigned randomly from the range from 2 to 6.</p>
 </div>
 <div id="calculate-the-isotopic-distribution-of-an-undeuterated-peptide-that-is-required-to-get-an-empirical-distribution-" class="section level4">
 <h4 class="hasAnchor">
-<a href="#calculate-the-isotopic-distribution-of-an-undeuterated-peptide-that-is-required-to-get-an-empirical-distribution-" class="anchor" aria-hidden="true"></a>Calculate the isotopic distribution of an undeuterated peptide that is required to get an empirical distribution.</h4>
+<a href="#calculate-the-isotopic-distribution-of-an-undeuterated-peptide-that-is-required-to-get-an-empirical-distribution-" class="anchor"></a>Calculate the isotopic distribution of an undeuterated peptide that is required to get an empirical distribution.</h4>
 <p>The function <code>get_approx_isotopic_distribution</code> is responsible for calculation of approximate isotopic distribution. The function takes two arguments: <code>sequence</code> and <code>min_probability</code>.</p>
 <p>Additional file <code>sysdata.RDA</code> contains the maximal possible occurrence of the isotopes <span class="math inline">\(C_{13}\)</span>, <span class="math inline">\(N_{15}\)</span>, <span class="math inline">\(O_{18}\)</span>, <span class="math inline">\(S_{34}\)</span> (carbon, nitrogen, oxygen, and sulfur, respectively) in the respective amino acids, and their masses. Based on that, the maximal possible number of molecules of the isotopes in the sequence is calculated. Peptide mass is the sum of the masses of amino acids and <span class="math inline">\(H_2O\)</span> mass - as it includes the N terminal group (H) and C terminal group (OH).</p>
 <p>Next, the distributions of mentioned isotopes are calculated under the assumption that the occurrence of <span class="math inline">\(i^{th}\)</span> considered isotope has a binomial distribution <span class="math inline">\(B(n_i, p_i)\)</span> with parameters <span class="math inline">\(n_i\)</span> (maximal possible occurrence in the sequence) and <span class="math inline">\(p_i\)</span> (natural richness - possibility of occurrence in the universe). For the oxygen molecules, we have to take into account that oxygen occurs in a diatomic molecule. Calculation of the sulfur distribution takes into account its rare occurrence.</p>
@@ -159,7 +163,7 @@
 </div>
 <div id="calculate-exchange-rates-that-are-required-to-obtain-exchange-probabilities-" class="section level4">
 <h4 class="hasAnchor">
-<a href="#calculate-exchange-rates-that-are-required-to-obtain-exchange-probabilities-" class="anchor" aria-hidden="true"></a>Calculate exchange rates that are required to obtain exchange probabilities.</h4>
+<a href="#calculate-exchange-rates-that-are-required-to-obtain-exchange-probabilities-" class="anchor"></a>Calculate exchange rates that are required to obtain exchange probabilities.</h4>
 <p>Calculation of the exchange rates is one of the crucial parts of the simulation because the exchange rates (kinetic constants) affect the exchange probabilities. The calculations are done via <code>get_exchange_rates</code> function. The adjunctive calculations take place in the internal functions from <code>exchange_rates</code> file. Namely:</p>
 <ul>
 <li><p><code>get_F_const</code> uses two parameters: <code>temp_kelvin</code> (initial <code>temperature</code> parameter in celcius converted into temperature in kelvin) and <code>gas_constant</code> which is <span class="math inline">\(1.9858775\)</span>. The value <span class="math inline">\(Q_7\)</span> is a factor adjusted to the measured temperature and is calculated based on the equation below. <span class="math display">\[Q_7 = \dfrac{1}{gas\_constant}\left( \dfrac{1}{temp\_kelvin} - \dfrac{1}{293}\right)\]</span> The output of <code>get_F_const</code> is a list of <span class="math display">\[Ft_X = \exp\lbrace-Q_7 \cdot Ea_X\rbrace\]</span> where <span class="math inline">\(X \in \lbrace A, B, W\rbrace\)</span> (A - Acid, B - Base, W - Water) identifies the condition and <span class="math inline">\(Ea_A, Ea_B, Ea_W\)</span> are tabular values for energies of activation.</p></li>
@@ -178,7 +182,7 @@
 </div>
 <div id="prepare-time-points-of-possible-exchanges-" class="section level4">
 <h4 class="hasAnchor">
-<a href="#prepare-time-points-of-possible-exchanges-" class="anchor" aria-hidden="true"></a>Prepare time points of possible exchanges.</h4>
+<a href="#prepare-time-points-of-possible-exchanges-" class="anchor"></a>Prepare time points of possible exchanges.</h4>
 <p>To obtain time points (not to be confused with time points of the measurement) of possible exchanges, two parameters are necessary: <code>time_step_constant</code> and exchange rates computed by <code>get_exchange_rates</code> function (described before).</p>
 <p>To calculate the size of a single time step, the maximal possible exchange rate <span class="math inline">\(k_{max}\)</span> is needed:</p>
 <p><span class="math display">\[k_{max} = \max\lbrace\max\lbrace k_{cDH} \rbrace, \max\lbrace k_{cHD}\rbrace\rbrace\]</span> where <span class="math inline">\(k_{cHD}\)</span> and <span class="math inline">\(k_{cDH}\)</span> are the vectors of exchange rates for each amino acid from the sequence in the appropriate direction. The size of a time step is a quotient of <code>time_step_constant</code> and maximal exchange rate <span class="math inline">\(k_{max}\)</span></p>
@@ -187,7 +191,7 @@
 </div>
 <div id="calculate-probabilities-of-exchanges-that-are-required-to-simulate-the-exchange-process-" class="section level4">
 <h4 class="hasAnchor">
-<a href="#calculate-probabilities-of-exchanges-that-are-required-to-simulate-the-exchange-process-" class="anchor" aria-hidden="true"></a>Calculate probabilities of exchanges that are required to simulate the exchange process.</h4>
+<a href="#calculate-probabilities-of-exchanges-that-are-required-to-simulate-the-exchange-process-" class="anchor"></a>Calculate probabilities of exchanges that are required to simulate the exchange process.</h4>
 <p>Exchange probabilities are calculated via <code>get_exchange_probabilities</code> function. The essential parameters are <code>protection_factor</code>, exchange rates <span class="math inline">\(k_{cHD}\)</span> and <span class="math inline">\(k_{cDH}\)</span> and the size of a single time step <span class="math inline">\(\Delta t\)</span>. The process is defined as a series of steps from the time sequence, and each step depends on the state in the previous one. Therefore, the probabilities of changing the state are conditional probabilities - probabilities of particular state in <span class="math inline">\((k+1)^{th}\)</span> step given particular state in <span class="math inline">\(k^{th}\)</span> step. For simplification the following notation is used:</p>
 <p><span class="math display">\[P(X_{k+1} = H ~|~ X_{k} = H) = P\left( H \rightarrow H \right),\]</span> <span class="math display">\[P(X_{k+1} = D ~|~ X_{k} = H) = P\left( H \rightarrow D \right),\]</span> <span class="math display">\[P(X_{k+1} = H ~|~ X_{k} = D) = P\left( D \rightarrow H \right),\]</span> <span class="math display">\[P(X_{k+1} = D ~|~ X_{k} = D) = P\left( D \rightarrow D \right),\]</span></p>
 <p>where <span class="math inline">\(X_k\)</span> is the random variable describing the state of an isotope of a hydrogen (<span class="math inline">\(H\)</span> or <span class="math inline">\(D\)</span>) at the moment <span class="math inline">\(k\)</span> for any <span class="math inline">\(k\)</span> from the considered time sequence. The probabilities for the <span class="math inline">\(i^{th}\)</span> amino acid, <span class="math inline">\(i = 1, \ldots, n\)</span>, are calculated by equations below.</p>
@@ -198,7 +202,7 @@
 </div>
 <div id="calculate-matrices-of-simulated-exchange-required-for-obtaining-empirical-distribution-" class="section level4">
 <h4 class="hasAnchor">
-<a href="#calculate-matrices-of-simulated-exchange-required-for-obtaining-empirical-distribution-" class="anchor" aria-hidden="true"></a>Calculate matrices of simulated exchange required for obtaining empirical distribution.</h4>
+<a href="#calculate-matrices-of-simulated-exchange-required-for-obtaining-empirical-distribution-" class="anchor"></a>Calculate matrices of simulated exchange required for obtaining empirical distribution.</h4>
 <p>Matrices of simulated exchange can be obtained in two ways. The parameter <code>markov</code> indicates whether Markov chain or standard approach is used. Due to the evaluation time, the recommended method is the Markov chain approach. The following items <span class="math inline">\(1\)</span> and <span class="math inline">\(2\)</span> are the descriptions of the improved and the standard version, respectively. Each of them is an interchangeable part of the simulation.</p>
 <ol style="list-style-type: decimal">
 <li><p>The improved version of the simulation uses <code>get_HD_matrices_using_markov</code> function. It requires <code>sequence</code>, transition probabilities (described in the previous section), the vector of numbers of steps between given time points, and the number of peptide molecules <code>n_molecules</code>. The improvement is based on the observation that the considered process is a Markov chain with transition probabilities <span class="math inline">\(P(H \rightarrow D)\)</span> and <span class="math inline">\(P(D \rightarrow H)\)</span>, and states <span class="math inline">\(H\)</span> and <span class="math inline">\(D\)</span> (in the code denoted by <span class="math inline">\(0's\)</span> for hydrogens and <span class="math inline">\(1's\)</span> for deuters). Based on the notation provided before, the transition matrix for the <span class="math inline">\(i^{th}\)</span> amino acid, <span class="math inline">\(i = 1, \ldots, n\)</span>, is created as follows: <span class="math display">\[\mathbb{P}_i = \begin{pmatrix}
@@ -223,7 +227,7 @@
 </div>
 <div id="calculate-isotopic-probabilities-intensity-and-mass-to-charge-ratio-mz-" class="section level4">
 <h4 class="hasAnchor">
-<a href="#calculate-isotopic-probabilities-intensity-and-mass-to-charge-ratio-mz-" class="anchor" aria-hidden="true"></a>Calculate isotopic probabilities (intensity) and mass-to-charge ratio (<span class="math inline">\(m/z\)</span>).</h4>
+<a href="#calculate-isotopic-probabilities-intensity-and-mass-to-charge-ratio-mz-" class="anchor"></a>Calculate isotopic probabilities (intensity) and mass-to-charge ratio (<span class="math inline">\(m/z\)</span>).</h4>
 <p>Isotopic probabilities are calculated via <code>get_iso_probs_deut</code>. The function uses the parameters described before: <code>HD_matrices</code>, <code>n_exchangeable</code>, <code>isotopic_distribution</code>, <code>max_ND</code>, <code>peptide_mass</code> and the essential parameters: <code>charge</code>, <code>pH</code> and <code>times</code>.</p>
 <p>The following calculations are performed for each time point of the measurement from <code>times</code>.</p>
 <ul>
@@ -237,7 +241,7 @@
 </div>
 <div id="prepare-the-final-result-" class="section level4">
 <h4 class="hasAnchor">
-<a href="#prepare-the-final-result-" class="anchor" aria-hidden="true"></a>Prepare the final result.</h4>
+<a href="#prepare-the-final-result-" class="anchor"></a>Prepare the final result.</h4>
 <p>To the calculated results is added a minimal exchange control - for time point 0. The <span class="math inline">\(m/z\)</span> values are obtained as a ratio of the <code>peptide_mass</code> magnified by proton mass and the peptide charge. The distribution of undeuterated peptide from the previous section is the intensities vector.</p>
 <p>The output of the function <code>simulate_theoretical_spectra</code> is a data table of:</p>
 <ul>
@@ -262,7 +266,7 @@
 <p>As in the table below</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">spectrum1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/simulate_theoretical_spectra.html">simulate_theoretical_spectra</a></span><span class="op">(</span><span class="st">"LVRKDLQN"</span>, protection_factor <span class="op">=</span> <span class="fl">10</span>, charge <span class="op">=</span> <span class="fl">2</span>, times <span class="op">=</span> <span class="fl">60</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">spectrum1</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">spectrum1</span><span class="op">)</span>
 <span class="co">#&gt;    Exposure  PH    Intensity       Mz Charge Sequence PF</span>
 <span class="co">#&gt; 1:        0 7.5 0.5801405135 493.2931      2 LVRKDLQN 10</span>
 <span class="co">#&gt; 2:        0 7.5 0.3031692943 493.2931      2 LVRKDLQN 10</span>
@@ -277,10 +281,10 @@
 </div>
 <div id="add-noise-to-the-theoretical-spectrum" class="section level2">
 <h2 class="hasAnchor">
-<a href="#add-noise-to-the-theoretical-spectrum" class="anchor" aria-hidden="true"></a>2. Add noise to the theoretical spectrum</h2>
+<a href="#add-noise-to-the-theoretical-spectrum" class="anchor"></a>2. Add noise to the theoretical spectrum</h2>
 <div id="add-noise-to-the-theoretical-spectrum-1" class="section level4">
 <h4 class="hasAnchor">
-<a href="#add-noise-to-the-theoretical-spectrum-1" class="anchor" aria-hidden="true"></a>Add noise to the theoretical spectrum</h4>
+<a href="#add-noise-to-the-theoretical-spectrum-1" class="anchor"></a>Add noise to the theoretical spectrum</h4>
 <p>To imitate the data from the HDX experiments one may use the function named <code>get_noisy_deuteration_curves</code> from the file <code>noisy_spectra.R</code> that creates spectra with technical replicates and noise. The function takes the following parameters:</p>
 <ul>
 <li><p><code>theoretical_spectra</code> - a data table of theoretical spectra created by the function<code>simulate_theoretical_spectra</code> and grouped by <code>sequence</code>, <code>pH</code> and <code>PF</code>. See <strong>Simulate theoretical spectrum</strong> section.</p></li>
@@ -297,13 +301,13 @@
 </div>
 <div id="prepare-parameters-" class="section level4">
 <h4 class="hasAnchor">
-<a href="#prepare-parameters-" class="anchor" aria-hidden="true"></a>Prepare parameters.</h4>
+<a href="#prepare-parameters-" class="anchor"></a>Prepare parameters.</h4>
 <p>Firstly, the undeuterated mass is obtained via <code>get_undeuterated_mass</code> function. The necessary parameter is the table of theoretical spectra created by the function <code>simulate_theoretical_spectra</code>. The following formula is used for the calculation: <span class="math display">\[undeuterated\_mass = charge \cdot (Mz - p_m)\]</span> where <code>Mz</code> is mass-to-charge ratio for the peaks from the provided theoretical spectrum and <span class="math inline">\(p_m\)</span> is the mass of proton. The output of <code>get_undeuterated_mass</code> is the calculated mass value for the first peak (the smallest one) as it is usually the peak corresponding to the monoisotopic mass.</p>
 <p>The parameters <code>theoretical_spectra</code> (produced by simulate theoretical spectra function), <code>compare_pairs</code> (as described before) and <code>reference</code> (protection factor, as described before) are passed to the <code>get_spectra_list</code> function. If the parameter <code>compare_pairs</code> is FALSE then all the provided protection factors will be considered jointly. If <code>compare_pairs</code> is TRUE, then the parameter <code>reference</code> is necessary (a single number or <code>"all"</code>). Then the data is split via the supplementary function <code>get_paired_spectra</code> into data tables of spectra with paired biological states (the reference protection factor and the protection factor of interest if provided, or all the possible pairs if <code>reference</code> equals <code>"all"</code>). The function <code>get_spectra_list</code> returns a list of data tables containing spectra - for paired states or all states.</p>
 </div>
 <div id="add-noise-to-spectra-" class="section level4">
 <h4 class="hasAnchor">
-<a href="#add-noise-to-spectra-" class="anchor" aria-hidden="true"></a>Add noise to spectra.</h4>
+<a href="#add-noise-to-spectra-" class="anchor"></a>Add noise to spectra.</h4>
 <p>Noisy spectra are obtained from the function <code>add_noise_to_spectra</code>. It takes the parameters <code>spectra</code> (the output of <code>get_spectra_list</code>), <code>n_replicates</code>, <code>n_experiments</code>, <code>undeuterated_mass</code> (calculated by <code>get_undeuterated_mass</code>), <code>mass_deviations</code> and <code>intensity_deviations</code> (those parameters are described before).</p>
 <p>Firstly, an internal function <code>make_experimental_design</code> is used to prepare technical replicates from the provided spectra. Next, for each replicate the noise is added by the function <code>make_noisy_spectra</code>. It uses the supplementary function that adds the noise to a single replicate - <code>add_noise_to_one_spectrum</code>. Standard deviations are calculated by the formula:</p>
 <p><span class="math display">\[sd = \dfrac{mass\_deviations \cdot undeuterated\_mass}{10^6}\]</span></p>
@@ -335,7 +339,7 @@
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="va">spectrum2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/simulate_theoretical_spectra.html">simulate_theoretical_spectra</a></span><span class="op">(</span><span class="st">"LVRKDLQN"</span>, protection_factor <span class="op">=</span> <span class="fl">1000</span>, charge <span class="op">=</span> <span class="fl">2</span>, times <span class="op">=</span> <span class="fl">60</span><span class="op">)</span>
-<span class="va">paired_spectra</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">spectrum1</span>, <span class="va">spectrum2</span><span class="op">)</span>
+<span class="va">paired_spectra</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span><span class="va">spectrum1</span>, <span class="va">spectrum2</span><span class="op">)</span>
 
 <span class="fu"><a href="../reference/get_noisy_deuteration_curves.html">get_noisy_deuteration_curves</a></span><span class="op">(</span><span class="va">paired_spectra</span>,
                              n_replicates <span class="op">=</span> <span class="fl">4</span>,
@@ -343,21 +347,21 @@
                              reference <span class="op">=</span> <span class="st">"all"</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
 <span class="co">#&gt;     Sequence Rep State Exposure      Mass Charge Experimental_state</span>
 <span class="co">#&gt;  1: LVRKDLQN   1    10        0 0.0000000      2                  A</span>
-<span class="co">#&gt;  2: LVRKDLQN   1    10       60 1.5829502      2                  A</span>
+<span class="co">#&gt;  2: LVRKDLQN   1    10       60 1.5782432      2                  A</span>
 <span class="co">#&gt;  3: LVRKDLQN   1  1000        0 0.0000000      2                  B</span>
-<span class="co">#&gt;  4: LVRKDLQN   1  1000       60 0.9471589      2                  B</span>
+<span class="co">#&gt;  4: LVRKDLQN   1  1000       60 1.0130504      2                  B</span>
 <span class="co">#&gt;  5: LVRKDLQN   2    10        0 0.0000000      2                  A</span>
-<span class="co">#&gt;  6: LVRKDLQN   2    10       60 1.6880680      2                  A</span>
+<span class="co">#&gt;  6: LVRKDLQN   2    10       60 1.6656318      2                  A</span>
 <span class="co">#&gt;  7: LVRKDLQN   2  1000        0 0.0000000      2                  B</span>
-<span class="co">#&gt;  8: LVRKDLQN   2  1000       60 1.1075253      2                  B</span>
+<span class="co">#&gt;  8: LVRKDLQN   2  1000       60 0.9650871      2                  B</span>
 <span class="co">#&gt;  9: LVRKDLQN   3    10        0 0.0000000      2                  A</span>
-<span class="co">#&gt; 10: LVRKDLQN   3    10       60 1.5808816      2                  A</span>
+<span class="co">#&gt; 10: LVRKDLQN   3    10       60 1.6068163      2                  A</span>
 <span class="co">#&gt; 11: LVRKDLQN   3  1000        0 0.0000000      2                  B</span>
-<span class="co">#&gt; 12: LVRKDLQN   3  1000       60 1.1501016      2                  B</span>
+<span class="co">#&gt; 12: LVRKDLQN   3  1000       60 1.1077601      2                  B</span>
 <span class="co">#&gt; 13: LVRKDLQN   4    10        0 0.0000000      2                  A</span>
-<span class="co">#&gt; 14: LVRKDLQN   4    10       60 1.6020098      2                  A</span>
+<span class="co">#&gt; 14: LVRKDLQN   4    10       60 1.6831162      2                  A</span>
 <span class="co">#&gt; 15: LVRKDLQN   4  1000        0 0.0000000      2                  B</span>
-<span class="co">#&gt; 16: LVRKDLQN   4  1000       60 1.1073858      2                  B</span></code></pre></div>
+<span class="co">#&gt; 16: LVRKDLQN   4  1000       60 1.1176969      2                  B</span></code></pre></div>
 </div>
 </div>
 </div>
@@ -374,13 +378,11 @@
 
 
       <footer><div class="copyright">
-  <p></p>
-<p>Developed by Krystyna Grzesiak.</p>
+  <p>Developed by Krystyna Grzesiak.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.9000.9000.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
@@ -388,8 +390,6 @@
 
   
 
-
-  
 
   </body>
 </html>
