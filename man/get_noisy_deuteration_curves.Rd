@@ -79,3 +79,33 @@ experimenter) provided in the case when \code{compare_pairs} is \code{TRUE}.
 This function creates a list of lists of noisy deuteration curves
 based on theoretical spectra in order to imitate the data from the HDX experiments.
 }
+\examples{
+theo_spectra_pf_100 <- simulate_theoretical_spectra(sequence = "LVRKDLQN",
+                                                    charge = c(3, 5),
+                                                    protection_factor = 100,
+                                                    times = c(0.167, 5),
+                                                    pH = 7.5,
+                                                    temperature = 15,
+                                                    n_molecules = 500,
+                                                    time_step_const = 1,
+                                                    use_markov = TRUE)
+
+theo_spectra_pf_200 <- simulate_theoretical_spectra(sequence = "LVRKDLQN",
+                                                    charge = c(3, 5),
+                                                    protection_factor = 200,
+                                                    times = c(0.167, 5),
+                                                    pH = 7.5,
+                                                    temperature = 15,
+                                                    n_molecules = 500,
+                                                    time_step_const = 1,
+                                                    use_markov = TRUE)
+
+theo_spectra_two_states <- rbind(theo_spectra_pf_100, theo_spectra_pf_200)
+
+deuteration_curves_paired_states <- get_noisy_deuteration_curves(theo_spectra_two_states,
+                                                                 n_replicates = 4,
+                                                                 n_experiments = 2,
+                                                                 compare_pairs = TRUE,
+                                                                 reference = "all")
+
+}

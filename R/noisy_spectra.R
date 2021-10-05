@@ -2,6 +2,7 @@
 #'
 #' @description This function creates a list of lists of noisy deuteration curves
 #' based on theoretical spectra in order to imitate the data from the HDX experiments.
+#'
 #' @param theoretical_spectra a data table or a list of data tables of theoretical
 #' spectra created by the function \code{\link[powerHaDeX]{simulate_theoretical_spectra}}.
 #' @param compare_pairs if FALSE, all groups (defined by the protection factor)
@@ -32,7 +33,6 @@
 #' @param relative logical, if TRUE (default), each deuteration curve will start at 0
 #' (relative mass will be returned). Default \code{TRUE}.
 #'
-#' @import data.table
 #' @return a list (for paired states when \code{compare_pairs} is \code{TRUE}) of lists
 #' (repetitions of experiment for power calculations) of data tables of the variables:
 #'
@@ -51,6 +51,36 @@
 #'
 #' - \code{Experimental_state} - the biological state (from the viewpoint of the
 #' experimenter) provided in the case when \code{compare_pairs} is \code{TRUE}.
+#'
+#' @examples
+#' theo_spectra_pf_100 <- simulate_theoretical_spectra(sequence = "LVRKDLQN",
+#'                                                     charge = c(3, 5),
+#'                                                     protection_factor = 100,
+#'                                                     times = c(0.167, 5),
+#'                                                     pH = 7.5,
+#'                                                     temperature = 15,
+#'                                                     n_molecules = 500,
+#'                                                     time_step_const = 1,
+#'                                                     use_markov = TRUE)
+#'
+#' theo_spectra_pf_200 <- simulate_theoretical_spectra(sequence = "LVRKDLQN",
+#'                                                     charge = c(3, 5),
+#'                                                     protection_factor = 200,
+#'                                                     times = c(0.167, 5),
+#'                                                     pH = 7.5,
+#'                                                     temperature = 15,
+#'                                                     n_molecules = 500,
+#'                                                     time_step_const = 1,
+#'                                                     use_markov = TRUE)
+#'
+#' theo_spectra_two_states <- rbind(theo_spectra_pf_100, theo_spectra_pf_200)
+#'
+#' deuteration_curves_paired_states <- get_noisy_deuteration_curves(theo_spectra_two_states,
+#'                                                                  n_replicates = 4,
+#'                                                                  n_experiments = 2,
+#'                                                                  compare_pairs = TRUE,
+#'                                                                  reference = "all")
+#'
 #' @export
 #'
 get_noisy_deuteration_curves = function(theoretical_spectra,
@@ -74,9 +104,12 @@ get_noisy_deuteration_curves = function(theoretical_spectra,
 
 
 #' Get a list of spectra
+#'
 #' @description Create a list of data tables of spectra for all states jointly
 #'  or paired states.
+#'
 #' @inheritParams get_noisy_deuteration_curves
+#'
 #' @details If the parameter \code{compare_pairs} is \code{FALSE} then all the
 #' provided protection factors will be considered jointly. If \code{compare_pairs} is
 #' \code{TRUE}, then the parameter \code{reference} is necessary (a single number or
@@ -85,7 +118,9 @@ get_noisy_deuteration_curves = function(theoretical_spectra,
 #' paired biological states (the reference protection factor and the protection
 #' factor of interest if provided, or all the possible pairs if \code{reference}
 #' equals "all").
+#'
 #' @return list of data.tables containing spectra - for paired states or all states.
+#'
 #' @export
 get_spectra_list = function(theoretical_spectra,
                             compare_pairs = FALSE,
@@ -102,10 +137,15 @@ get_spectra_list = function(theoretical_spectra,
     unname(spectra_list)
 }
 #' Get list of data.tables of spectra for pairs of protection factors
+#'
 #' @description A supplementary function for \code{\link[powerHaDeX]{get_spectra_list}}.
+#'
 #' @inheritParams get_noisy_deuteration_curves
+#'
 #' @details For more details see \code{\link[powerHaDeX]{get_spectra_list}}.
+#'
 #' @return list of data.tables
+#'
 #' @keywords internal
 get_paired_spectra = function(theoretical_spectra,
                               reference = NA) {
@@ -144,13 +184,17 @@ get_paired_spectra = function(theoretical_spectra,
 # Add noise to spectra in mass and intensity domains ----
 
 #' Create a list of spectra with replicates from a list of spectra
+#'
 #' @description This function is used to prepare technical replicates from the
 #' provided spectra. It is a supplementary function used in
 #' \code{\link[powerHaDeX]{add_noise_to_spectra}}.
+#'
 #' @param spectra list created by the \code{\link[powerHaDeX]{get_spectra_list}}
 #'  function
 #' @inheritParams get_noisy_deuteration_curves
+#'
 #' @return list of data.tables
+#'
 #' @keywords internal
 make_experimental_design = function(spectra,
                                     n_replicates = 4) {
@@ -162,14 +206,19 @@ make_experimental_design = function(spectra,
     })
 }
 #' Creates spectra with technical replicates and noise
+#'
 #' @inheritParams get_noisy_deuteration_curves
 #' @inheritParams make_experimental_design
 #' @param undeuterated_mass the value of mass of an undeuterated peptide computed by
 #' \code{\link[powerHaDeX]{get_undeuterated_mass}}.
+#'
 #' @return list of lists of data.tables
+#'
 #' @details This function uses \code{\link[powerHaDeX]{make_experimental_design}} and
 #' \code{\link[powerHaDeX]{make_noisy_spectra}}.
+#'
 #' @keywords internal
+#'
 #' @export
 #'
 add_noise_to_spectra = function(spectra,
@@ -185,10 +234,14 @@ add_noise_to_spectra = function(spectra,
 
 
 #' Creates spectra with technical replicates and noise
+#'
 #' @param spectra a list of spectra obtained via \code{\link[powerHaDeX]{make_experimental_design}}.
 #' @inheritParams add_noise_to_spectra
+#'
 #' @return list of lists of data.tables
+#'
 #' @details This function uses  \code{\link[powerHaDeX]{add_noise_to_one_spectrum}}.
+#'
 #' @keywords internal
 #'
 make_noisy_spectra = function(spectra,
@@ -206,16 +259,22 @@ make_noisy_spectra = function(spectra,
 
 
 #' Add noise to a single spectrum
+#'
 #' @description This function adds noise to intensities and/or masses in a spectrum.
+#'
 #' @param spectrum a single spectrum from the list obtained using
 #'  \code{\link[powerHaDeX]{make_experimental_design}}.
 #' @inheritParams add_noise_to_spectra
+#'
 #' @details The deviations are calculated as follows
 #' \deqn{sd = mass_deviations * undeuterated_mass/10^6}.
 #' To add noise this function uses \code{\link[powerHaDeX]{add_noise_to_one_timepoint}}
 #' and \code{\link[powerHaDeX]{add_noise_to_intensities}}.
+#'
 #' @return data.table containing a single noisy spectrum
+#'
 #' @keywords internal
+#'
 add_noise_to_one_spectrum = function(spectrum,
                                      undeuterated_mass,
                                      mass_deviations = 50,
@@ -240,14 +299,22 @@ add_noise_to_one_spectrum = function(spectrum,
     spectrum
 }
 # Calculate deuteration curves ----
-#' Create a list of deuteration curves from a list of spectra
+
+#' Calculate deuteration curves
+#'
+#' @description Create a list of deuteration curves from a list of spectra
+#'
 #' @param spectra list created by \code{\link[powerHaDeX]{get_spectra_list}}
 #'  and \code{\link[powerHaDeX]{add_noise_to_spectra}} functions.
+#'
 #' @return list of lists of data.tables
+#'
 #' @details From each spectrum provided in the list \code{spectra} the deuterium
 #' uptake will be calculated. This function uses
 #' \code{\link[powerHaDeX]{get_deuteration_curve_single_spectrum}}.
+#'
 #' @keywords internal
+#'
 #' @export
 #'
 get_deuteration_curves_from_spectra = function(spectra) {
@@ -258,17 +325,23 @@ get_deuteration_curves_from_spectra = function(spectra) {
     })
 }
 #' Get a deuteration curve from a single spectrum
+#'
 #' @description This funtion calculates deuterium uptake from spectra.
+#'
 #' @param spectrum data.table with a spectrum being an element of list created
 #' by \code{\link[powerHaDeX]{get_spectra_list}} and
 #' \code{\link[powerHaDeX]{add_noise_to_spectra}} functions.
-#' @return data.table containing one deuteriu uptake curve.
+#'
+#' @return data.table containing one deuterium uptake curve.
+#'
 #' @details The centroid mass value from spectrum is calculated as a weighted mean
 #' from peaks based on the formulas
 #' \deqn{M = charge * (Mz - p_m)}
 #' and
 #' \deqn{m = 1/N \sum_{k = 1}^{N} I_k M_k.}
+#'
 #' @keywords internal
+#'
 #' @export
 #'
 get_deuteration_curve_single_spectrum = function(spectrum) {
@@ -281,14 +354,21 @@ get_deuteration_curve_single_spectrum = function(spectrum) {
     spectrum
 }
 # Noise for deuteration curves ----
+
 #' Adds noise to deuteration curves
+#'
 #' @description This function makes noisy deuteration curves for power calculation purposes.
+#'
 #' @param curves list of lists of deuteration curves returned by
 #' \code{\link[powerHaDeX]{get_deuteration_curves_from_spectra}}.
 #' @inheritParams get_noisy_deuteration_curves
+#'
 #' @return list of lists of data.tables
+#'
 #' @details This function uses \code{\link[powerHaDeX]{add_noise_to_single_curve}}
+#'
 #' @keywords internal
+#'
 add_noise_to_curves = function(curves,
                                per_run_deviations = NULL,
                                relative = TRUE) {
@@ -300,14 +380,20 @@ add_noise_to_curves = function(curves,
     })
 }
 #' Adds noise to a single deuteration curve
+#'
 #' @param replicate_curve `data.table` with technical replicates of a deuteration curve
 #' (one element of a list obtained by \code{\link[powerHaDeX]{get_deuteration_curves_from_spectra}})
 #' @inheritParams get_noisy_deuteration_curves
+#'
 #' @return `data.table` containing noisy replicated deuteration curves.
+#'
 #' @details This function uses \code{\link[powerHaDeX]{add_noise}} and
 #' \code{\link[powerHaDeX]{get_relative_mass}}.
+#'
 #' @keywords internal
+#'
 #' @export
+#'
 add_noise_to_single_curve = function(replicate_curve,
                                      per_run_deviations = NULL,
                                      relative = TRUE) {
@@ -334,67 +420,98 @@ add_noise_to_single_curve = function(replicate_curve,
 # Smaller utility functions ----
 
 #' Mass of an undeuterated peptide
+#'
 #' @description This function gets mass of an undeuterated peptide based on its spectrum.
+#'
 #' @inheritParams get_noisy_deuteration_curves
+#'
 #' @details For the calculations the formula below is used
 #' \deqn{undeuterated_mass = charge * Mz - p_m}
 #' where \code{Mz} is mass-to-charge ratio for the peaks from the provided theoretical
 #' spectrum and p_m is the mass of proton equal to 1.007276.
+#'
 #' @return `data.table` of calculated mass value for the first peak (the smallest one)
 #' as it is usually the peak corresponding to the monoisotopic mass.
+#'
 #' @keywords internal
+#'
 #' @export
+#'
 get_undeuterated_mass = function(theoretical_spectra) {
     unique(theoretical_spectra$Charge * (theoretical_spectra$Mz - 1.007276))[1]
 }
+
 #' Adds noise to mass domain
+#'
 #' @inheritParams add_noise_to_single_curve
 #' @param standard_deviations named vector of standard deviations
+#'
 #' @return `data.table` containing a single noisy curve (for one replication).
+#'
 #' @details  The noise is sampled from normal distribution with mean \code{0}
 #' and standard deviation equal to \code{per_run_deviations} and added to the
 #' \code{Mass} values unless they are not zeroes (there is no noise at the time \code{0}).
+#'
 #' @keywords internal
+#'
 add_noise = function(replicate_curve, standard_deviations) {
     sd = standard_deviations[as.character(unique(replicate_curve$Rep))]
     replicate_curve$Mass = ifelse(replicate_curve$Mass == 0, 0,
                                   replicate_curve$Mass + rnorm(nrow(replicate_curve), 0, sd = sd))
     replicate_curve
 }
+
 #' Adds noise to a single time point in mass domain
+#'
 #' @inheritParams add_noise_to_one_spectrum
 #' @param standard_deviations vector of standard deviations for the random noise
+#'
 #' @return data.table
+#'
 #' @details the noise is sampled from a normal distribution with mean \code{0}
 #' and standard deviation equal to \code{standard_deviations} and added to \code{Mz}
 #' values for the time points (based on supplied parameters for time points).
+#'
 #' @keywords internal
+#'
 add_noise_to_one_timepoint = function(spectrum, standard_deviations) {
     sd = standard_deviations[as.character(unique(spectrum$Exposure))]
     spectrum$Mz = spectrum$Mz + rnorm(nrow(spectrum), 0, sd)
     spectrum[, !(colnames(spectrum) == "Exposure"), with = FALSE]
 }
+
 #' Adds noise to a single time point in intensity domain
+#'
 #' @inheritParams add_noise_to_one_timepoint
+#'
 #' @return data.table
+#'
 #' @details if the \code{intensity_deviations} were provided, then noise is sampled
 #' from a normal distribution with mean \code{0} and standard deviation equal to
 #' those deviations and added to \code{Intensity}.
+#'
 #' @keywords internal
+#'
 add_noise_to_intensities = function(spectrum, standard_deviations) {
     spectrum$Intensity = spectrum$Intensity + rnorm(nrow(spectrum), 0, standard_deviations)
     spectrum[, !(colnames(spectrum) == "Exposure"), with = FALSE]
 }
 #' Get relative mass
+#'
 #' @description Mass minus mass at zero is calculated as a form of deuterium uptake.
+#'
 #' @param mass vector of masses
 #' @param time vector of time points
+#'
 #' @keywords internal
 get_relative_mass = function(mass, time) {
     mass - mass[time == 0]
 }
+
 #' Standardize column names and types
+#'
 #' @param curves list of lists of data.tables
+#'
 fix_columns_names_types = function(curves) {
     Sequence = Rep = PF = Exposure = Mass = Charge = Experimental_state =  NULL
     lapply(curves, function(curve) {

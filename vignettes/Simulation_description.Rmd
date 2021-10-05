@@ -67,7 +67,7 @@ The simulation is run for a given peptide. The parameters are:
 
 - `times` - vector of time points of the measurement. Default value: vector of 60 and 600 [seconds] 
 
-- `protection_factor` - protection factor - vector of values or one value for all amides. Default value: 1 (indicates that the exchange rate is equal to the intristic exchange rate)
+- `protection_factor` - protection factor - vector of values or one value for all amides. Default value: 1 (indicates that the exchange rate is equal to the intrinsic exchange rate)
 
 - `pH` - pH. Default value: 7.5 
 
@@ -180,7 +180,7 @@ where $X_k$ is the random variable describing the state of an isotope of a hydro
 $$P_i\left( H \rightarrow D \right) = 1 - \text{exp}\left(\dfrac{-kcHD_i \cdot \Delta t}{Pf}\right)$$,
     
 $$P_i\left( D \rightarrow H \right) = 1 - \text{exp}\left(\dfrac{-kcDH_i \cdot \Delta t}{Pf}\right)$$
-    where $Pf$ denotes the protection factor. Moreover, let us note that under the assumptions mentioned before, the following equalities are satisfied:
+    where $Pf$ denotes the protection factor. Moreover, let us note that under the assumptions mentioned before, the following equations are satisfied:
     $$P_i\left( H \rightarrow H \right) = 1 - P_i\left( H \rightarrow D \right),$$
 $$P_i\left( D \rightarrow D \right) = 1 - P_i\left( D \rightarrow H \right).$$
 

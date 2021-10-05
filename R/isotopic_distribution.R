@@ -1,11 +1,16 @@
 
 
 #' Peptide mass
+#'
 #' @description Calculate mass of undeuterated peptide
+#'
 #' @param sequence character vector of amino acid sequence of a peptide
+#'
 #' @details Calculates peptide mass as a sum of amino acids' from \code{sequence}
 #'  masses and H2O mass (1.007825 * 2 + 15.994915 = 18.01056).
+#'
 #' @keywords internal
+#'
 #' @export
 
 calculate_peptide_mass <- function(sequence) {
@@ -15,11 +20,16 @@ calculate_peptide_mass <- function(sequence) {
 
 
 #' Approximates isotopic distribution
+#'
+#' @importFrom signal conv
+#'
 #' @description Internal function used in the simulation of theoretical spectra.
 #' It calculates the isotopic distribution of an undeuterated peptide
 #' that is required to get an empirical distribution.
+#'
 #' @param sequence character vector of amino acid sequence of a peptide
 #' @param min_probability minimum isotopic probability that will be considered
+#'
 #' @details Additional file \code{sysdata.RDA} contains the maximal possible occurrence
 #' of the isotopes C13, N15, O18, S34 (carbon, nitrogen, oxygen, and sulfur, respectively)
 #' in the respective amino acids, and their masses. Based on that, the maximal possible
@@ -39,13 +49,16 @@ calculate_peptide_mass <- function(sequence) {
 #'  of possible monoisotopic masses. The number of exchangeable amides is computed as the
 #'  length of the sequence, reduced by the number of prolines located on the third of
 #'  further position.
-#' @importFrom signal conv
+
 #' @return list of elements: the mass of the peptide (\code{peptide_mass}),
 #' final distribution (\code{isotopic_distribution}) of the isotopes,
 #' number of significant probabilities minus one (\code{max_ND}) and
 #' number of exchangeable amino acids (\code{n_exchangeable}).
+#'
 #' @keywords internal
+#'
 #' @export
+
 get_approx_isotopic_distribution = function(sequence, min_probability = 1e-3) {
     pC13 = 0.0111
     pN15 = 0.00364

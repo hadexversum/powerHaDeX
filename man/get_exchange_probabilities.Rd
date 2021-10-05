@@ -24,8 +24,8 @@ probabilities \eqn{P_i( H -> H )} and vector \code{DD} for probabilities
 \eqn{P_i( D -> D)}.
 }
 \description{
-Calculate probabilities of exchanges that are required to s
-imulate the exchange process.
+Calculate probabilities of exchanges that are required to
+simulate the exchange process.
 }
 \details{
 he process is defined as a series of steps from the time sequence,

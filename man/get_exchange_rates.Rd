@@ -26,7 +26,7 @@ get_exchange_rates(
 \item{mol_type}{character, "poly" or "oligo". If "oligo" then the calculated constants
 are multiplied by c according to the considered condition (base, water or acid).}
 
-\item{if_corr}{pH correction indicator. Default value \code{FALSE}. The value of pH is equal to pD.
+\item{if_corr}{logical. PH correction indicator. Default value \code{FALSE}. The value of pH is equal to pD.
 If there is correction, the pD = pH + 0.4. (Conelly et al 1993)}
 }
 \value{

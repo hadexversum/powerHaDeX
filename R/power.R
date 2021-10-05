@@ -1,4 +1,7 @@
 #' Calculate power of statistical tests for HDX experiments
+#'
+#' @importFrom data.table rbindlist uniqueN
+#'
 #' @description This function estimates power of statistical tests for HDX experiments.
 #'
 #' @param deuteration_curves list returned by the \code{\link[powerHaDeX]{get_noisy_deuteration_curves}}
@@ -10,11 +13,46 @@
 #' (character, "continuous" or "categorical"), \code{Transformation} (character, transformation that is used
 #' for exposure), \code{AIC}, \code{logLik}. For example see \code{\link[powerHaDeX]{test_houde}}.
 #' @param significance_level significance level that will be used for testing. See \code{tests}
-#' @param summarized logical. Indicates whether the power should be calculated. Default \code{TRUE}
+#' @param summarized logical. Indicates whether the power should be calculated. Default \code{TRUE}.
+#'
 #' @return list of data.tables with test result, optionally summarized with power.
+#'
 #' @seealso \code{\link[powerHaDeX]{test_houde}}, \code{\link[powerHaDeX]{test_semiparametric}},
 #' \code{\link[powerHaDeX]{test_hdx_analyzer}}, \code{\link[powerHaDeX]{test_memhdx_model}}
-#' @importFrom data.table rbindlist uniqueN
+#'
+#' @examples
+#'
+#' theo_spectra_pf_100 <- simulate_theoretical_spectra(sequence = "LVRKDLQN",
+#'                                                     charge = c(3, 5),
+#'                                                     protection_factor = 100,
+#'                                                     times = c(0.167, 5),
+#'                                                     pH = 7.5,
+#'                                                     temperature = 15,
+#'                                                     n_molecules = 500,
+#'                                                     time_step_const = 1,
+#'                                                     use_markov = TRUE)
+#'
+#' theo_spectra_pf_200 <- simulate_theoretical_spectra(sequence = "LVRKDLQN",
+#'                                                     charge = c(3, 5),
+#'                                                     protection_factor = 200,
+#'                                                     times = c(0.167, 5),
+#'                                                     pH = 7.5,
+#'                                                     temperature = 15,
+#'                                                     n_molecules = 500,
+#'                                                     time_step_const = 1,
+#'                                                     use_markov = TRUE)
+#'
+#' theo_spectra_two_states <- rbind(theo_spectra_pf_100, theo_spectra_pf_200)
+#'
+#' deuteration_curves_paired_states <- get_noisy_deuteration_curves(theo_spectra_two_states,
+#'                                                                  n_replicates = 4,
+#'                                                                  n_experiments = 2,
+#'                                                                  compare_pairs = TRUE,
+#'                                                                  reference = "all")
+#' calculate_hdx_power(deuteration_curves_paired_states,
+#'                     tests = list(test_houde),
+#'                     summarized = TRUE)
+#'
 #' @export
 #'
 calculate_hdx_power = function(deuteration_curves, tests, significance_level = 0.05,

@@ -1,10 +1,13 @@
 #' Get probability of an exchange (HD and DH)
-#' @description Calculate probabilities of exchanges that are required to s
-#' imulate the exchange process.
+#'
+#' @description Calculate probabilities of exchanges that are required to
+#' simulate the exchange process.
+#'
 #' @param HD_rate rate of hydrogen-deuterium exchange calculated via \code{\link[powerHaDeX]{get_exchange_rates}}
 #' @param DH_rate rate of deuterium-hydrogen exchange (back-exchange) calculated via \code{\link[powerHaDeX]{get_exchange_rates}}
 #' @param time_step size of a single time step of a simulation
 #' @inheritParams simulate_theoretical_spectra
+#'
 #' @details he process is defined as a series of steps from the time sequence,
 #' and each step depends on the state in the previous one.  Therefore, the
 #' probabilities of changing the state are conditional probabilities - probabilities
@@ -21,7 +24,9 @@
 #' vector \code{DH} for probabilities \eqn{P_i( D -> H )}, vector \code{HH} for
 #' probabilities \eqn{P_i( H -> H )} and vector \code{DD} for probabilities
 #' \eqn{P_i( D -> D)}.
+#'
 #' @keywords internal
+#'
 #' @export
 get_exchange_probabilities = function(HD_rate, DH_rate, time_step, protection_factor) {
     if(any(protection_factor == 0)) stop("Protection factor can not be 0.")
@@ -34,16 +39,22 @@ get_exchange_probabilities = function(HD_rate, DH_rate, time_step, protection_fa
 
 
 #' Get a matrix of simulated exchanged hydrogens for each experiment time point
+#'
+#' @importFrom Rcpp evalCpp
+#'
 #' @description Calculate matrices of simulated exchange required for obtaining
 #' empirical distribution.
+#'
 #' @param sequence amino acid sequence of a peptide as a character vector
 #' @param transition_probs list of probabilities of exchange returned by the
 #' \code{\link[powerHaDeX]{get_exchange_probabilities}} function
 #' @param experiment_times numeric vector of times at which exchange will happen
 #' @param times_to_record numeric vector of times for which deuteration level measurement should be made
 #' @param n_molecules number of peptide molecules
+#'
 #' @return  Matrices are stored in a list of matrices (\code{HD_matrices}) -
 #' each matrix for the respective time point of the measurement \code{times}.
+#'
 #' @details  At each time point in the time sequence:
 #'
 #' change \code{H} to \code{D} with probability \eqn{P(H -> D)} in each entry of
@@ -53,8 +64,9 @@ get_exchange_probabilities = function(HD_rate, DH_rate, time_step, protection_fa
 #' the matrix from the previous iteration.
 #'
 #' @keywords internal
-#' @importFrom Rcpp evalCpp
+#'
 #' @useDynLib powerHaDeX, .registration = TRUE
+#'
 #' @export
 get_HD_matrices = function(sequence, transition_probs, experiment_times,
                            times_to_record, n_molecules = 100) {
@@ -81,14 +93,18 @@ get_HD_matrices = function(sequence, transition_probs, experiment_times,
 
 #' Get a matrix of simulated exchanged hydrogens for each experiment time point
 #' using markov chains
+#'
 #' @description Calculate matrices of simulated exchange required for obtaining
 #' empirical distribution.
+#'
 #' @param steps_between_time_points A vector containing sum of steps between
 #' times at which deuteration levels are measured.
 #' @inheritParams get_HD_matrices
+#'
 #' @details The improvement is based on the observation that the considered process
 #' is a Markov chain with transition probabilities \eqn{P(H -> D)} and \eqn{P(D -> H)},
 #' and states \code{H} and \code{D}.
+#'
 #' @return  Matrices are stored in a list of matrices (\code{HD_matrices}) -
 #' each matrix for the respective time point of the measurement \code{times}.
 #'
@@ -98,6 +114,7 @@ get_HD_matrices = function(sequence, transition_probs, experiment_times,
 #' dimensional matrix for each of the time points of the measurement given by \code{times}.
 #'
 #' @keywords internal
+#'
 #' @export
 get_HD_matrices_using_markov <- function(sequence, transition_probs,
                                          steps_between_time_points,
@@ -124,10 +141,15 @@ get_HD_matrices_using_markov <- function(sequence, transition_probs,
 
 
 #' Get observed distribution of ions
+#'
+#' @importFrom signal conv
+#'
 #' @description Calculate isotopic probabilities (intensity).
+#'
 #' @param HDmatrix simulated matrix after hydrogen-deuterium-exchange
 #' @param isotopic_distribution vector of isotopic probabilities of a peptide
 #' @inheritParams get_iso_probs_deut
+#'
 #' @details The exchangeable-hydrogen distribution describing the increase of
 #' the mass is obtained from the exchange matrix from \code{\link[powerHaDeX]{get_HD_matrices}}
 #' or \code{\link[powerHaDeX]{get_HD_matrices_using_markov}} and the number of exchangeable hydrogens
@@ -147,8 +169,8 @@ get_HD_matrices_using_markov <- function(sequence, transition_probs,
 #' @return a vector of observed isotopic distribution (\code{observed_dist}) and
 #' the observed peaks for mass spectrum (observed isotopic probabilities).
 #'
-#' @importFrom signal conv
 #' @keywords internal
+#'
 #' @export
 get_observed_iso_dist = function(HDmatrix, isotopic_distribution, maxD) {
     Distr = rep(0, maxD + 1)
@@ -163,7 +185,7 @@ get_observed_iso_dist = function(HDmatrix, isotopic_distribution, maxD) {
 
 #' Calculate isotopic probabilities (intensity) and mass-to-charge ratio (m/z).
 #'
-#' Compute the isotopic probabilities for the deuterated peptide as a convolution
+#' @description Compute the isotopic probabilities for the deuterated peptide as a convolution
 #' of the isotopic distribution for the undeuterated peptide and the observed
 #' isotopic distribution after hydrogen-deuterium exchange computed by
 #' \code{get_observed_iso_dist}.
@@ -176,11 +198,13 @@ get_observed_iso_dist = function(HDmatrix, isotopic_distribution, maxD) {
 #' @param peptide_mass mass of the peptide + mass of H2O
 #' @param isotopic_probs the isotopic distribution for the undeuterated peptide.
 #' @inheritParams simulate_theoretical_spectra
+#'
 #' @details  The m/z values for the deuterated peptide are calculated using the
 #' \code{peptide_mass}, \code{charge} and constants - deuteron mass (1.00628)
 #' and proton mass (1.007276). Starting from the m/z value for the monoisotopic
 #' peak, the difference between the mass of deuteron and proton divided by the
 #' charge of the peptide ion is added.
+#'
 #' @return The output is a data frame with the variables:
 #'
 #' \code{Exposure} (time point of measurement consistent with given HD matrix),
@@ -190,6 +214,7 @@ get_observed_iso_dist = function(HDmatrix, isotopic_distribution, maxD) {
 #' \code{Intensity} - isotopic probabilities,
 #'
 #' \code{PH} - pH.
+#'
 #' @export
 
 get_iso_probs_deut <- function(HD_matrices, maxD, maxND, isotopic_probs, peptide_mass, times, charge, pH) {

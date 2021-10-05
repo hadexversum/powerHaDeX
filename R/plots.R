@@ -1,7 +1,9 @@
 
 #' Draw mass spectra
+#'
 #' @description Graphical visualization of mass spectra obtained using the function
 #' \code{\link[powerHaDeX]{simulate_theoretical_spectra}}.
+#'
 #' @param spectra data table. Result of \code{\link[powerHaDeX]{simulate_theoretical_spectra}}.
 #' @param time_points vector of values of exposure times to be displayed on the plot.
 #' Default \code{unique(spectra[["Exposure"]])}.
@@ -9,9 +11,26 @@
 #' @param control_time logical. Indicates whether the spectrum at the control time
 #' (conventionally equal to 0) should be drawn.
 #' @param ... additional arguments passing to the \code{\link[ggplot2]{theme}}.
+#'
 #' @return ggplot object
+#'
 #' @details This function draws mass spectra from data obtained via
 #' \code{\link[powerHaDeX]{simulate_theoretical_spectra}}.
+#'
+#' @examples
+#'
+#' theo_spectra <- simulate_theoretical_spectra(sequence = "LVRKDLQN",
+#'                                              charge = c(3, 5),
+#'                                              protection_factor = 100,
+#'                                              times = c(0.167, 5),
+#'                                              pH = 7.5,
+#'                                              temperature = 15,
+#'                                              n_molecules = 500,
+#'                                              time_step_const = 1,
+#'                                              use_markov = TRUE)
+#'
+#' plot_spectra(theo_spectra)
+#'
 #' @export
 
 

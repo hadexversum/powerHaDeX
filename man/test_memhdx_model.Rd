@@ -51,7 +51,7 @@ test_memhdx_model(deuteration_curves_paired_states)
 }
 \references{
 Hourdel, Véronique et al. (July 2016). “MEMHDX: an interactive tool
-to expedite thestatistical validation and visualization of large HDX-MS data sets”.
+to expedite the statistical validation and visualization of large HDX-MS data sets”.
 In:Bioinformatics32.22, pp. 3413–3419.issn: 1367-4803.
 }
 \seealso{

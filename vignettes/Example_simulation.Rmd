@@ -216,7 +216,7 @@ calculate_hdx_power(deuteration_curves_paired_states,
 ```
 
 
-The summariyed result is following
+The summarized result is following
 
 ```{r}
 calculate_hdx_power(deuteration_curves_paired_states,

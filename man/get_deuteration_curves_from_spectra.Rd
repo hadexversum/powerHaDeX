@@ -2,7 +2,7 @@
 % Please edit documentation in R/noisy_spectra.R
 \name{get_deuteration_curves_from_spectra}
 \alias{get_deuteration_curves_from_spectra}
-\title{Create a list of deuteration curves from a list of spectra}
+\title{Calculate deuteration curves}
 \usage{
 get_deuteration_curves_from_spectra(spectra)
 }

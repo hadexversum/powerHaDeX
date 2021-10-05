@@ -1,4 +1,5 @@
 #' Simulate theoretical spectra of a deuterated peptide over time
+#'
 #' @param sequence amino acid sequence of a peptide as a single string
 #' @param charge vector of charges of the peptide ion. If NULL, one value is sampled
 #' from vector 2:6. Default NULL.
@@ -13,11 +14,12 @@
 #' indicates the length of the time step of the simulation. The bigger the time
 #' step, the fewer time points are simulated (the fewer iterations in case of
 #' Zhong-Yuan Kan's approach).
-#' @inheritParams get_exchange_rates
 #' @param min_probability smallest isotopic probability to consider
 #' @param use_markov logical. If TRUE algorithm basing on Markov chain will be used.
 #' If FALSE simulation provided by Zhong-Yuan Kan will be executed. Default to TRUE,
 #' as it fastens the calculation
+#' @inheritParams get_exchange_rates
+#'
 #' @details To the results calculated by \code{\link[powerHaDeX]{get_iso_probs_deut}}
 #' is added a minimal exchange control - for time point \code{0} (directly after
 #' adding a buffer). The m/z values are obtained as a ratio of the
@@ -25,14 +27,6 @@
 #' The distribution of undeuterated peptide is the
 #' intensities vector.
 #'
-#' @seealso The algorithm that is used to simulate theoretical spectra is based on
-#' Zhong-Yuan Kan's implementation in Matlab. The original version of codes is
-#' located in the repository \url{https://github.com/kanzy/HX-MS-Simulations}
-#' (as at 29.06.2020). In the \code{powerHaDeX} package can be found the Kan's
-#' algorithm re-implemented in R (using Rcpp) and the accelerated implementation
-#' (that uses Markov chains' properties). Moreover, the package \code{powerHaDeX}
-#' allows the user to simulate spectra for more than one exposure time for both
-#' (Rcpp and Markov) approaches.
 #' @return a data table of variables:
 #'
 #' - \code{Exposure} - time point of a measurement,
@@ -51,6 +45,27 @@
 #'  - \code{Charge},
 #'
 #'  - \code{PH}.
+#'
+#' @seealso The algorithm that is used to simulate theoretical spectra is based on
+#' Zhong-Yuan Kan's implementation in Matlab. The original version of codes is
+#' located in the repository \url{https://github.com/kanzy/HX-MS-Simulations}
+#' (as at 29.06.2020). In the \code{powerHaDeX} package can be found the Kan's
+#' algorithm re-implemented in R (using Rcpp) and the accelerated implementation
+#' (that uses Markov chains' properties). Moreover, the package \code{powerHaDeX}
+#' allows the user to simulate spectra for more than one exposure time for both
+#' (Rcpp and Markov) approaches.
+#'
+#' @examples
+#' simulate_theoretical_spectra(sequence = "LVRKDLQN",
+#'                              charge = c(3, 5),
+#'                              protection_factor = 100,
+#'                              times = c(0.167, 5),
+#'                              pH = 7.5,
+#'                              temperature = 15,
+#'                              n_molecules = 500,
+#'                              time_step_const = 1,
+#'                              use_markov = TRUE)
+#'
 #' @export
 simulate_theoretical_spectra = function(sequence, charge = NULL, protection_factor = 1,
                                         times = c(60, 600), pH = 7.5,

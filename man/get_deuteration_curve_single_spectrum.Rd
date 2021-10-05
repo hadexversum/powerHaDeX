@@ -12,7 +12,7 @@ by \code{\link[powerHaDeX]{get_spectra_list}} and
 \code{\link[powerHaDeX]{add_noise_to_spectra}} functions.}
 }
 \value{
-data.table containing one deuteriu uptake curve.
+data.table containing one deuterium uptake curve.
 }
 \description{
 This funtion calculates deuterium uptake from spectra.

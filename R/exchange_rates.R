@@ -1,10 +1,15 @@
 #' F constants
+#'
 #' @description Constants related to water, base and acid in cal/(K * mol)
+#'
 #' @param temp_kelvin temperature reaction in Kelvins
 #' @param gas_constant gas constant (1/(dT * R) = 1.9858775)
+#'
 #' @return list of constants \code{Fta} for acid, \code{Ftb} for base and
 #' \code{Ftw} for water.
+#'
 #' @keywords internal
+#'
 #' @export
 get_F_const = function(temp_kelvin, gas_constant) {
     # Unit: cal / mol
@@ -20,11 +25,14 @@ get_F_const = function(temp_kelvin, gas_constant) {
 
 
 #' Constant related to...
+#'
 #' @param mol_type character, "poly" or "oligo". If "oligo" then the calculated constants
 #' are multiplied by c according to the considered condition (base, water or acid).
 #' @param exchange type of exchange - "HD" for hydrogen to deuterium,
 #' "DH" for deuterium to hydrogen (back-exchange). Default "HD".
+#'
 #' @return list of Ka,Kb and Kw corresponding to the chosen \code{mol_type} and acid, base or water.
+#'
 #' @keywords internal
 get_poly_const = function(mol_type, exchange = "HD") {
     match.arg(mol_type, c("poly", "oligo"))
@@ -58,17 +66,22 @@ get_poly_const = function(mol_type, exchange = "HD") {
 
 
 #' Calculating pKc values
+#'
 #' @description calculates supplementary constants for aspartic acid (Asp), glutamic
 #' acid (Glu) and histidine (His). Values for mentioned amino acids are pH and
 #' temperature dependent, in contrary to the rest amino acids with fixed values.
+#'
 #' @inheritParams get_F_const
 #' @inheritParams get_poly_const
+#'
 #' @details Depending on provided \code{exchange} direction tabular values of
 #' exponents E_{const}$are assigned. For \code{Asp}, \code{Glu} and \code{His}
 #' the \code{pKc} constants are calculated based on the energies of activation
 #' for given amino acid and the chosen \code{exchange} direction.
+#'
 #' @return  The function returns a list of \code{asp}, \code{glu} and \code{his}
 #' (\code{pKc} values corresponding to amino acids).
+#'
 #' @keywords internal
 get_pkc = function(temp_kelvin, gas_constant, exchange = "HD") {
     # Unit: cal / mol
@@ -97,11 +110,14 @@ get_pkc = function(temp_kelvin, gas_constant, exchange = "HD") {
 
 
 #' Exchange constant for Hydrogen-Deuterium Exchange.
+#'
 #' @param pH reaction pH
 #' @param pkc_consts constants calculated via \code{\link[powerHaDeX]{get_pkc}}
 #' @param k_consts constants calculated via \code{\link[powerHaDeX]{get_poly_const}}
+#'
 #' @return a matrix named \code{constants} of tabular and calculated constants
 #' (specifically for \code{Asp}, \code{Glu}, \code{His}, \code{C−Term} and \code{NHMe})
+#'
 #' @keywords internal
 get_exchange_constants = function(pH, pkc_consts, k_consts) {
     constants = matrix(
@@ -159,14 +175,16 @@ get_exchange_constants = function(pH, pkc_consts, k_consts) {
 
 
 #' Hydrogen-deuterium or back-exchange exchange rates
+#'
 #' @description Calculate exchange rates that are required to obtain exchange
 #' probabilities.
+#'
 #' @param sequence peptide amino acid sequence as a character vector of amino acids
+#' @param temperature temperature of the reaction (Celsius). Default to 15.
+#' @param if_corr logical. PH correction indicator. Default value \code{FALSE}. The value of pH is equal to pD.
+#' If there is correction, the pD = pH + 0.4. (Conelly et al 1993)
 #' @inheritParams get_poly_const
 #' @inheritParams get_exchange_constants
-#' @param temperature temperature of the reaction (Celsius). Default to 15.
-#' @param if_corr pH correction indicator. Default value \code{FALSE}. The value of pH is equal to pD.
-#' If there is correction, the pD = pH + 0.4. (Conelly et al 1993)
 #'
 #' @details   The correction of \code{pH} is taken into account for calculation of \code{pD}:
 #' \deqn{pD = pH + 0.4 * if_corr}
@@ -206,7 +224,9 @@ get_exchange_constants = function(pH, pkc_consts, k_consts) {
 #' \code{kcDH} according to the exchange direction. They are used to calculate
 #' the exchange probabilities thus both \code{kcHD} and \code{kcDH} are necessary
 #'  as we take the possibility of back-exchange into account.
+#'
 #' @keywords internal
+#'
 #' @export
 get_exchange_rates = function(sequence, exchange = "HD", pH = 9, temperature = 15,
                               mol_type = "poly", if_corr = FALSE) {

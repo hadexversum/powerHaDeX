@@ -4,6 +4,7 @@
 #' from HDX-MS experiments along with the possibility of comparing the power of
 #' the tests verifying differences in deuteration levels.
 #'
+#' @import data.table
 #' @importFrom stats AIC aggregate anova dbinom lm
 #' logLik pt rnorm sd weighted.mean coefficients
 #' @importFrom nlme corCompSymm corAR1

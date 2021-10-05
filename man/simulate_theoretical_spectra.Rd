@@ -41,7 +41,7 @@ indicates the length of the time step of the simulation. The bigger the time
 step, the fewer time points are simulated (the fewer iterations in case of
 Zhong-Yuan Kan's approach).}
 
-\item{if_corr}{pH correction indicator. Default value \code{FALSE}. The value of pH is equal to pD.
+\item{if_corr}{logical. PH correction indicator. Default value \code{FALSE}. The value of pH is equal to pD.
 If there is correction, the pD = pH + 0.4. (Conelly et al 1993)}
 
 \item{min_probability}{smallest isotopic probability to consider}
@@ -80,6 +80,18 @@ adding a buffer). The m/z values are obtained as a ratio of the
 \code{peptide_mass} magnified by proton mass and the peptide charge.
 The distribution of undeuterated peptide is the
 intensities vector.
+}
+\examples{
+simulate_theoretical_spectra(sequence = "LVRKDLQN",
+                             charge = c(3, 5),
+                             protection_factor = 100,
+                             times = c(0.167, 5),
+                             pH = 7.5,
+                             temperature = 15,
+                             n_molecules = 500,
+                             time_step_const = 1,
+                             use_markov = TRUE)
+
 }
 \seealso{
 The algorithm that is used to simulate theoretical spectra is based on
