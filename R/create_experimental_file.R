@@ -123,8 +123,10 @@ prepare_input_peptides <- function(peptides) {
 #' @param value optional. A value to fill with.
 #'
 #' @examples
+#' \dontrun{
 #' add_column(mtcars, "mpg")
 #' add_column(mtcars, c("column1", "column2"))
+#' }
 #'
 
 add_column <- function(data, col_name, value = NULL) {

@@ -17,7 +17,9 @@ add_column(data, col_name, value = NULL)
 This function adds column if does not exist and fill it with provided value.
 }
 \examples{
+\dontrun{
 add_column(mtcars, "mpg")
 add_column(mtcars, c("column1", "column2"))
+}
 
 }
