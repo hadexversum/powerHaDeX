@@ -2,7 +2,7 @@ Package: powerHaDeX
 Type: Package
 Title: Efficient simulation of HDX-MS data
 Version: 1.0
-Date: 2020-08-17
+Date: 2021-10-04
 Author: c(person("Krystyna", "Grzesiak", 
           email = "krygrz11@gmail.com",
           role = c("cre", "aut")),
