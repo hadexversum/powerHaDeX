@@ -13,7 +13,7 @@ simulate_theoretical_spectra(
   temperature = 15,
   n_molecules = 100,
   time_step_const = 1,
-  if_corr = 0,
+  if_corr = FALSE,
   min_probability = 1e-04,
   use_markov = TRUE
 )

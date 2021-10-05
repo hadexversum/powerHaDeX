@@ -55,7 +55,7 @@
 simulate_theoretical_spectra = function(sequence, charge = NULL, protection_factor = 1,
                                         times = c(60, 600), pH = 7.5,
                                         temperature = 15, n_molecules = 100,
-                                        time_step_const = 1, if_corr = 0,
+                                        time_step_const = 1, if_corr = FALSE,
                                         min_probability = 1e-4,
                                         use_markov = TRUE) {
 

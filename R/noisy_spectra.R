@@ -132,7 +132,11 @@ get_paired_spectra = function(theoretical_spectra,
         theoretical_spectra = split(theoretical_spectra[abs(PF - reference) > 1e-9, ],
                                     theoretical_spectra[abs(PF - reference) > 1e-9, ]$PF)
         theoretical_spectra = lapply(theoretical_spectra,
-                                     function(spectrum) rbind(spectrum, reference_spectrum))
+                                     function(spectrum) {
+                                         spectrum[["Experimental_state"]] = "A"
+                                         reference_spectrum[["Experimental_state"]] = "B"
+                                         rbind(spectrum, reference_spectrum)
+                                     })
         unname(theoretical_spectra)
     }
 }
