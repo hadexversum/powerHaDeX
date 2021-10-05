@@ -20,8 +20,49 @@ This function performs the test based on a linear mixed effects
 model used in MEMHDX tools. Its input and output are compatible with the function
 \code{\link[powerHaDeX]{calculate_hdx_power}}.
 }
-\seealso{
+\examples{
+theo_spectra_pf_100 <- simulate_theoretical_spectra(sequence = "LVRKDLQN",
+                                                    charge = c(3, 5),
+                                                    protection_factor = 100,
+                                                    times = c(0.167, 5),
+                                                    pH = 7.5,
+                                                    temperature = 15,
+                                                    n_molecules = 500,
+                                                    time_step_const = 1,
+                                                    use_markov = TRUE)
+theo_spectra_pf_200 <- simulate_theoretical_spectra(sequence = "LVRKDLQN",
+                                                    charge = c(3, 5),
+                                                    protection_factor = 200,
+                                                    times = c(0.167, 5),
+                                                    pH = 7.5,
+                                                    temperature = 15,
+                                                    n_molecules = 500,
+                                                    time_step_const = 1,
+                                                    use_markov = TRUE)
+
+theo_spectra_two_states <- rbind(theo_spectra_pf_100, theo_spectra_pf_200)
+
+deuteration_curves_paired_states <- get_noisy_deuteration_curves(theo_spectra_two_states,
+                                                                 n_replicates = 1,
+                                                                 n_experiments = 1,
+                                                                 reference = 100)[[1]][[1]]
+test_memhdx_model(deuteration_curves_paired_states)
+
+}
+\references{
 Hourdel, Véronique et al. (July 2016). “MEMHDX: an interactive tool
 to expedite thestatistical validation and visualization of large HDX-MS data sets”.
 In:Bioinformatics32.22, pp. 3413–3419.issn: 1367-4803.
+}
+\seealso{
+Other tests:
+
+- \code{\link[powerHaDeX]{test_houde}}
+
+- \code{\link[powerHaDeX]{test_hdx_analyzer}}
+
+-\code{\link[powerHaDeX]{test_semiparametric}}
+
+Or \code{\link[powerHaDeX]{calculate_hdx_power}} for estimation of power
+of tests for differences in deuteration levels.
 }

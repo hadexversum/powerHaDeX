@@ -1,17 +1,61 @@
 #' Houde's test for deuteration curves
+#'
+#' @importFrom data.table data.table
+#'
 #' @description This function performs Damian Houde's confidence intervals test
 #' for differences in deuteration levels. Its input and output are compatible with
 #' the function \code{\link[powerHaDeX]{calculate_hdx_power}}.
+#'
 #' @param data data.table with deuteration curves
 #' @param significance_level significance level for tests
+#'
 #' @returns This function returns a data table compatible with the function
 #' \code{\link[powerHaDeX]{calculate_hdx_power}}.
+#'
 #' @references Houde, Damian, Steven A Berkowitz, and John R Engen (2011).
 #' “The utility of hydrogen/deuterium exchange mass spectrometry in biopharmaceutical
 #' comparabilitystudies”. In:Journal of pharmaceutical sciences100.6, pp. 2071–2086.
-#' @seealso \code{\link[powerHaDeX]{calculate_hdx_power}} for estimation of power
+#'
+#' @seealso
+#' Other tests:
+#'
+#' - \code{\link[powerHaDeX]{test_hdx_analyzer}}
+#'
+#' - \code{\link[powerHaDeX]{test_memhdx_model}}
+#'
+#' -\code{\link[powerHaDeX]{test_semiparametric}}
+#'
+#' Or \code{\link[powerHaDeX]{calculate_hdx_power}} for estimation of power
 #' of tests for differences in deuteration levels.
-#' @importFrom data.table data.table
+#'
+#' @examples
+#' theo_spectra_pf_100 <- simulate_theoretical_spectra(sequence = "LVRKDLQN",
+#'                                                     charge = c(3, 5),
+#'                                                     protection_factor = 100,
+#'                                                     times = c(0.167, 5),
+#'                                                     pH = 7.5,
+#'                                                     temperature = 15,
+#'                                                     n_molecules = 500,
+#'                                                     time_step_const = 1,
+#'                                                     use_markov = TRUE)
+#' theo_spectra_pf_200 <- simulate_theoretical_spectra(sequence = "LVRKDLQN",
+#'                                                     charge = c(3, 5),
+#'                                                     protection_factor = 200,
+#'                                                     times = c(0.167, 5),
+#'                                                     pH = 7.5,
+#'                                                     temperature = 15,
+#'                                                     n_molecules = 500,
+#'                                                     time_step_const = 1,
+#'                                                     use_markov = TRUE)
+#'
+#' theo_spectra_two_states <- rbind(theo_spectra_pf_100, theo_spectra_pf_200)
+#'
+#' deuteration_curves_paired_states <- get_noisy_deuteration_curves(theo_spectra_two_states,
+#'                                                                  n_replicates = 1,
+#'                                                                  n_experiments = 1,
+#'                                                                  reference = 100)[[1]][[1]]
+#' test_houde(deuteration_curves_paired_states)
+#'
 #' @export
 
 test_houde <- function(data, significance_level = 0.05) {
@@ -62,15 +106,59 @@ test_houde <- function(data, significance_level = 0.05) {
 
 
 #' HDX-Analyzer model
+#'
 #' @description This function performs the test based on the simplest linear models for deuteration
 #' curves containing time, state of the protein and the interaction term. Its input
 #' and output are compatible with the function \code{\link[powerHaDeX]{calculate_hdx_power}}.
+#'
 #' @inheritParams test_houde
+#'
 #' @returns This function returns a data table compatible with the function
 #' \code{\link[powerHaDeX]{calculate_hdx_power}}.
-#' @seealso Liu, Sanmin et al. (2011). “HDX-analyzer: a novel package for statistical
+#'
+#' @references  Liu, Sanmin et al. (2011). “HDX-analyzer: a novel package for statistical
 #' analysis of protein structure dynamics”. In:BMC bioinformatics12.1, pp. 1–10.
-#' @importFrom data.table data.table
+#'
+#' @seealso
+#' Other tests:
+#'
+#' - \code{\link[powerHaDeX]{test_houde}}
+#'
+#' - \code{\link[powerHaDeX]{test_memhdx_model}}
+#'
+#' -\code{\link[powerHaDeX]{test_semiparametric}}
+#'
+#' Or \code{\link[powerHaDeX]{calculate_hdx_power}} for estimation of power
+#' of tests for differences in deuteration levels.
+#'
+#' @examples
+#' theo_spectra_pf_100 <- simulate_theoretical_spectra(sequence = "LVRKDLQN",
+#'                                                     charge = c(3, 5),
+#'                                                     protection_factor = 100,
+#'                                                     times = c(0.167, 5),
+#'                                                     pH = 7.5,
+#'                                                     temperature = 15,
+#'                                                     n_molecules = 500,
+#'                                                     time_step_const = 1,
+#'                                                     use_markov = TRUE)
+#' theo_spectra_pf_200 <- simulate_theoretical_spectra(sequence = "LVRKDLQN",
+#'                                                     charge = c(3, 5),
+#'                                                     protection_factor = 200,
+#'                                                     times = c(0.167, 5),
+#'                                                     pH = 7.5,
+#'                                                     temperature = 15,
+#'                                                     n_molecules = 500,
+#'                                                     time_step_const = 1,
+#'                                                     use_markov = TRUE)
+#'
+#' theo_spectra_two_states <- rbind(theo_spectra_pf_100, theo_spectra_pf_200)
+#'
+#' deuteration_curves_paired_states <- get_noisy_deuteration_curves(theo_spectra_two_states,
+#'                                                                  n_replicates = 1,
+#'                                                                  n_experiments = 1,
+#'                                                                  reference = 100)[[1]][[1]]
+#' test_hdx_analyzer(deuteration_curves_paired_states)
+#'
 #' @export
 
 test_hdx_analyzer = function(data, significance_level = 0.05) {
@@ -125,16 +213,62 @@ test_hdx_analyzer = function(data, significance_level = 0.05) {
 }
 
 #' MEMHDX model
+#'
+#' @importFrom lmerTest lmer
+#'
 #' @description This function performs the test based on a linear mixed effects
 #' model used in MEMHDX tools. Its input and output are compatible with the function
 #' \code{\link[powerHaDeX]{calculate_hdx_power}}.
+#'
 #' @inheritParams test_houde
+#'
 #' @returns This function returns a data table compatible with the function
 #' \code{\link[powerHaDeX]{calculate_hdx_power}}.
-#' @seealso Hourdel, Véronique et al. (July 2016). “MEMHDX: an interactive tool
+#'
+#' @references  Hourdel, Véronique et al. (July 2016). “MEMHDX: an interactive tool
 #' to expedite thestatistical validation and visualization of large HDX-MS data sets”.
 #' In:Bioinformatics32.22, pp. 3413–3419.issn: 1367-4803.
-#' @import lmerTest
+#'
+#' @seealso
+#' Other tests:
+#'
+#' - \code{\link[powerHaDeX]{test_houde}}
+#'
+#' - \code{\link[powerHaDeX]{test_hdx_analyzer}}
+#'
+#' -\code{\link[powerHaDeX]{test_semiparametric}}
+#'
+#' Or \code{\link[powerHaDeX]{calculate_hdx_power}} for estimation of power
+#' of tests for differences in deuteration levels.
+#'
+#' @examples
+#' theo_spectra_pf_100 <- simulate_theoretical_spectra(sequence = "LVRKDLQN",
+#'                                                     charge = c(3, 5),
+#'                                                     protection_factor = 100,
+#'                                                     times = c(0.167, 5),
+#'                                                     pH = 7.5,
+#'                                                     temperature = 15,
+#'                                                     n_molecules = 500,
+#'                                                     time_step_const = 1,
+#'                                                     use_markov = TRUE)
+#' theo_spectra_pf_200 <- simulate_theoretical_spectra(sequence = "LVRKDLQN",
+#'                                                     charge = c(3, 5),
+#'                                                     protection_factor = 200,
+#'                                                     times = c(0.167, 5),
+#'                                                     pH = 7.5,
+#'                                                     temperature = 15,
+#'                                                     n_molecules = 500,
+#'                                                     time_step_const = 1,
+#'                                                     use_markov = TRUE)
+#'
+#' theo_spectra_two_states <- rbind(theo_spectra_pf_100, theo_spectra_pf_200)
+#'
+#' deuteration_curves_paired_states <- get_noisy_deuteration_curves(theo_spectra_two_states,
+#'                                                                  n_replicates = 1,
+#'                                                                  n_experiments = 1,
+#'                                                                  reference = 100)[[1]][[1]]
+#' test_memhdx_model(deuteration_curves_paired_states)
+#'
 #' @export
 
 test_memhdx_model = function(data, significance_level = 0.05) {
@@ -150,10 +284,10 @@ test_memhdx_model = function(data, significance_level = 0.05) {
     p_value = rep(NA, 3)
 
     # continuous, identity
-    model = lmerTest::lmer(Mass ~ Exposure*State + (1|Rep),
+    model = lmer(Mass ~ Exposure*State + (1|Rep),
                            data = data,
                            REML = FALSE)
-    model_reduced = lmerTest::lmer(Mass ~ Exposure + (1|Rep),
+    model_reduced = lmer(Mass ~ Exposure + (1|Rep),
                                    data = data,
                                    REML = FALSE)
     result = anova(model, model_reduced)
@@ -164,10 +298,10 @@ test_memhdx_model = function(data, significance_level = 0.05) {
 
 
     # categorical, identity
-    model = lmerTest::lmer(Mass ~ factor(Exposure)*State + (1|Rep),
+    model = lmer(Mass ~ factor(Exposure)*State + (1|Rep),
                            data = data,
                            REML = FALSE)
-    model_reduced = lmerTest::lmer(Mass ~ factor(Exposure) + (1|Rep),
+    model_reduced = lmer(Mass ~ factor(Exposure) + (1|Rep),
                                    data = data,
                                    REML = FALSE)
     result = anova(model, model_reduced)
@@ -177,10 +311,10 @@ test_memhdx_model = function(data, significance_level = 0.05) {
     p_value[2] = result$`Pr(>Chisq)`[2]
 
     # continuous, log
-    model = lmerTest::lmer(Mass ~ log(Exposure + 1)*State + (1|Rep),
+    model = lmer(Mass ~ log(Exposure + 1)*State + (1|Rep),
                            data = data,
                            REML = FALSE)
-    model_reduced = lmerTest::lmer(Mass ~ log(Exposure+1) + (1|Rep),
+    model_reduced = lmer(Mass ~ log(Exposure+1) + (1|Rep),
                                    data = data,
                                    REML = FALSE)
     result = anova(model, model_reduced)
@@ -215,16 +349,61 @@ truncated_lines <- function(x, knots){
 }
 
 #' Semiparametric test for differences in deuteration levels
+#'
+#' @importFrom glmnet glmnet
+#'
 #' @description This function performs the semiparametric test for differences
 #' in deuteration levels. Its input and output are compatible with
 #' the function \code{\link[powerHaDeX]{calculate_hdx_power}}.
+#'
 #' @inheritParams test_houde
+#'
 #' @details This function uses \code{\link[powerHaDeX]{truncated_lines}}. The knots
 #' considered in the testing procedure are chosen using ridge regression.
+#'
 #' @returns This function returns a data table compatible with the function
 #' \code{\link[powerHaDeX]{calculate_hdx_power}}.
-#' @importFrom data.table data.table
-#' @importFrom glmnet glmnet
+#'
+#' @seealso
+#' Other tests:
+#'
+#' - \code{\link[powerHaDeX]{test_houde}}
+#'
+#' - \code{\link[powerHaDeX]{test_hdx_analyzer}}
+#'
+#' -\code{\link[powerHaDeX]{test_memhdx_model}}
+#'
+#' Or \code{\link[powerHaDeX]{calculate_hdx_power}} for estimation of power
+#' of tests for differences in deuteration levels.
+#'
+#' @examples
+#' theo_spectra_pf_100 <- simulate_theoretical_spectra(sequence = "LVRKDLQN",
+#'                                                     charge = c(3, 5),
+#'                                                     protection_factor = 100,
+#'                                                     times = c(0.167, 5),
+#'                                                     pH = 7.5,
+#'                                                     temperature = 15,
+#'                                                     n_molecules = 500,
+#'                                                     time_step_const = 1,
+#'                                                     use_markov = TRUE)
+#' theo_spectra_pf_200 <- simulate_theoretical_spectra(sequence = "LVRKDLQN",
+#'                                                     charge = c(3, 5),
+#'                                                     protection_factor = 200,
+#'                                                     times = c(0.167, 5),
+#'                                                     pH = 7.5,
+#'                                                     temperature = 15,
+#'                                                     n_molecules = 500,
+#'                                                     time_step_const = 1,
+#'                                                     use_markov = TRUE)
+#'
+#' theo_spectra_two_states <- rbind(theo_spectra_pf_100, theo_spectra_pf_200)
+#'
+#' deuteration_curves_paired_states <- get_noisy_deuteration_curves(theo_spectra_two_states,
+#'                                                                  n_replicates = 1,
+#'                                                                  n_experiments = 1,
+#'                                                                  reference = 100)[[1]][[1]]
+#' test_semiparametric(deuteration_curves_paired_states)
+#'
 #' @export
 
 test_semiparametric <- function(data, significance_level = 0.05) {
@@ -243,10 +422,10 @@ test_semiparametric <- function(data, significance_level = 0.05) {
     X_reduced <- cbind(intercept = 1, X)[, which(as.logical(abs(coefs) >= 2*10^(-5)))]
 
 
-    model = lmerTest::lmer(Mass ~ Exposure*State + (1|id) + (1|Exposure) + X_reduced,
+    model = lmer(Mass ~ Exposure*State + (1|id) + (1|Exposure) + X_reduced,
                            data = data,
                            REML = FALSE)
-    model_reduced = lmerTest::lmer(Mass ~ Exposure + (1|id) + (1|Exposure) + X_reduced,
+    model_reduced = lmer(Mass ~ Exposure + (1|id) + (1|Exposure) + X_reduced,
                                    data = data,
                                    REML = FALSE)
     result = anova(model, model_reduced)
@@ -273,15 +452,18 @@ test_semiparametric <- function(data, significance_level = 0.05) {
 
 
 #' Test based on area under the deuteration curve for differences in deuteration levels
+#'
 #' @inheritParams test_houde
+#'
 #' @returns This function returns a data table compatible with the function
 #' \code{\link[powerHaDeX]{calculate_hdx_power}}.
+#'
 #' @seealso Mazur, Sharlyn J and Daniel P Weber (2017). “The area between exchange
 #' curves as a measure of conformational differences in hydrogen-deuterium exchange
 #' mass spectrometry studies”. In:Journal of the American Society for Mass Spectrometry
 #' 28.5, pp. 978–981.
-#' @importFrom data.table data.table
-#' @export
+#'
+
 test_auc_test = function(data, significance_level = 0.05) {
     States = unique(data$State)
     if (length(States) < 2) stop("More than one state must be chosen.")

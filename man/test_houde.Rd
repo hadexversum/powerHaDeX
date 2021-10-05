@@ -20,12 +20,49 @@ This function performs Damian Houde's confidence intervals test
 for differences in deuteration levels. Its input and output are compatible with
 the function \code{\link[powerHaDeX]{calculate_hdx_power}}.
 }
+\examples{
+theo_spectra_pf_100 <- simulate_theoretical_spectra(sequence = "LVRKDLQN",
+                                                    charge = c(3, 5),
+                                                    protection_factor = 100,
+                                                    times = c(0.167, 5),
+                                                    pH = 7.5,
+                                                    temperature = 15,
+                                                    n_molecules = 500,
+                                                    time_step_const = 1,
+                                                    use_markov = TRUE)
+theo_spectra_pf_200 <- simulate_theoretical_spectra(sequence = "LVRKDLQN",
+                                                    charge = c(3, 5),
+                                                    protection_factor = 200,
+                                                    times = c(0.167, 5),
+                                                    pH = 7.5,
+                                                    temperature = 15,
+                                                    n_molecules = 500,
+                                                    time_step_const = 1,
+                                                    use_markov = TRUE)
+
+theo_spectra_two_states <- rbind(theo_spectra_pf_100, theo_spectra_pf_200)
+
+deuteration_curves_paired_states <- get_noisy_deuteration_curves(theo_spectra_two_states,
+                                                                 n_replicates = 1,
+                                                                 n_experiments = 1,
+                                                                 reference = 100)[[1]][[1]]
+test_houde(deuteration_curves_paired_states)
+
+}
 \references{
 Houde, Damian, Steven A Berkowitz, and John R Engen (2011).
 “The utility of hydrogen/deuterium exchange mass spectrometry in biopharmaceutical
 comparabilitystudies”. In:Journal of pharmaceutical sciences100.6, pp. 2071–2086.
 }
 \seealso{
-\code{\link[powerHaDeX]{calculate_hdx_power}} for estimation of power
+Other tests:
+
+- \code{\link[powerHaDeX]{test_hdx_analyzer}}
+
+- \code{\link[powerHaDeX]{test_memhdx_model}}
+
+-\code{\link[powerHaDeX]{test_semiparametric}}
+
+Or \code{\link[powerHaDeX]{calculate_hdx_power}} for estimation of power
 of tests for differences in deuteration levels.
 }
