@@ -60,10 +60,10 @@
 
 test_houde <- function(data, significance_level = 0.05) {
 
-    Sequence = State = Exposure = Rep = Experimental_state = Mass = err_avg_mass = avg_exp_mass = err_deut_uptake = deut_uptake = NULL
+    Sequence <- State <- Exposure <- Rep <- Experimental_state <- Mass <- err_avg_mass <- avg_exp_mass <- err_deut_uptake <- deut_uptake <- NULL
 
-    States = unique(data[["State"]])
-    confidence_limit = 1 - significance_level
+    States <- unique(data[["State"]])
+    confidence_limit <- 1 - significance_level
 
     alpha <- 1 - confidence_limit
     t_value <- qt(c(alpha/2, 1 - alpha/2), df = 2)[2]
@@ -80,9 +80,9 @@ test_houde <- function(data, significance_level = 0.05) {
 
 
     calc_dat <- data_exp[, list(diff_deut_uptake = deut_uptake[Experimental_state == "A"] -
-                                 deut_uptake[Experimental_state == "B"],
-                             err_diff_deut_uptake = sqrt(err_deut_uptake[Experimental_state == "A"]^2 +
-                                                             err_deut_uptake[Experimental_state == "B"]^2)),
+                                    deut_uptake[Experimental_state == "B"],
+                                err_diff_deut_uptake = sqrt(err_deut_uptake[Experimental_state == "A"]^2 +
+                                                                err_deut_uptake[Experimental_state == "B"]^2)),
                          by = list(Sequence, Exposure)]
 
 
@@ -161,55 +161,55 @@ test_houde <- function(data, significance_level = 0.05) {
 #'
 #' @export
 
-test_hdx_analyzer = function(data, significance_level = 0.05) {
+test_hdx_analyzer <- function(data, significance_level = 0.05) {
 
-    States = unique(data[["State"]])
+    States <- unique(data[["State"]])
 
-    Time = c("continuous", "categorical", "continuous")
-    Transformation = c("identity", "identity", "log")
+    Time <- c("continuous", "categorical", "continuous")
+    Transformation <- c("identity", "identity", "log")
 
-    aic = rep(NA, 3)
-    loglik = rep(NA, 3)
-    F_statistic = rep(NA, 3)
-    p_value = rep(NA, 3)
+    aic <- rep(NA, 3)
+    loglik <- rep(NA, 3)
+    F_statistic <- rep(NA, 3)
+    p_value <- rep(NA, 3)
 
     # continuous, identity
-    model = lm(Mass ~ Exposure*State, data = data)
-    model_reduced = lm(Mass ~ Exposure, data = data)
-    result = anova(model, model_reduced)
-    aic[1] = AIC(model)
-    loglik[1] = logLik(model)
-    F_statistic[1] = result$`F`[2]
-    p_value[1] = result$`Pr(>F)`[2]
+    model <- lm(Mass ~ Exposure*State, data = data)
+    model_reduced <- lm(Mass ~ Exposure, data = data)
+    result <- anova(model, model_reduced)
+    aic[1] <- AIC(model)
+    loglik[1] <- logLik(model)
+    F_statistic[1] <- result$`F`[2]
+    p_value[1] <- result$`Pr(>F)`[2]
 
     # categorical, identity
-    model = lm(Mass ~ factor(Exposure)*State, data = data)
-    model_reduced = lm(Mass ~ factor(Exposure), data = data)
-    result = anova(model, model_reduced)
-    aic[2] = AIC(model)
-    loglik[2] = logLik(model)
-    F_statistic[2] = result$`F`[2]
-    p_value[2] = result$`Pr(>F)`[2]
+    model <- lm(Mass ~ factor(Exposure)*State, data = data)
+    model_reduced <- lm(Mass ~ factor(Exposure), data = data)
+    result <- anova(model, model_reduced)
+    aic[2] <- AIC(model)
+    loglik[2] <- logLik(model)
+    F_statistic[2] <- result$`F`[2]
+    p_value[2] <- result$`Pr(>F)`[2]
 
     # continuous, log
-    model = lm(Mass ~ log(Exposure + 1)*State, data = data)
-    model_reduced = lm(Mass ~ log(Exposure + 1), data = data)
-    result = anova(model, model_reduced)
-    aic[3] = AIC(model)
-    loglik[3] = logLik(model)
-    F_statistic[3] = result$`F`[2]
-    p_value[3] = result$`Pr(>F)`[2]
+    model <- lm(Mass ~ log(Exposure + 1)*State, data = data)
+    model_reduced <- lm(Mass ~ log(Exposure + 1), data = data)
+    result <- anova(model, model_reduced)
+    aic[3] <- AIC(model)
+    loglik[3] <- logLik(model)
+    F_statistic[3] <- result$`F`[2]
+    p_value[3] <- result$`Pr(>F)`[2]
 
-    data.table::data.table(Test = "Deuteros lm",
-                           State_1 = States[1],
-                           State_2 = States[2],
-                           Test_statistic = F_statistic,
-                           P_value = p_value,
-                           Significant_difference = (p_value <= significance_level),
-                           Time = Time,
-                           Transformation = Transformation,
-                           AIC = aic,
-                           logLik = loglik)
+    data.table(Test = "Deuteros lm",
+               State_1 = States[1],
+               State_2 = States[2],
+               Test_statistic = F_statistic,
+               P_value = p_value,
+               Significant_difference = (p_value <= significance_level),
+               Time = Time,
+               Transformation = Transformation,
+               AIC = aic,
+               logLik = loglik)
 }
 
 #' MEMHDX model
@@ -271,57 +271,57 @@ test_hdx_analyzer = function(data, significance_level = 0.05) {
 #'
 #' @export
 
-test_memhdx_model = function(data, significance_level = 0.05) {
+test_memhdx_model <- function(data, significance_level = 0.05) {
 
-    States = unique(data[["State"]])
+    States <- unique(data[["State"]])
 
-    Time = c("continuous", "categorical", "continuous")
-    Transformation = c("identity", "identity", "log")
+    Time <- c("continuous", "categorical", "continuous")
+    Transformation <- c("identity", "identity", "log")
 
-    aic = rep(NA, 3)
-    loglik = rep(NA, 3)
-    Test_statistic = rep(NA, 3)
-    p_value = rep(NA, 3)
+    aic <- rep(NA, 3)
+    loglik <- rep(NA, 3)
+    Test_statistic <- rep(NA, 3)
+    p_value <- rep(NA, 3)
 
     # continuous, identity
-    model = lmer(Mass ~ Exposure*State + (1|Rep),
-                           data = data,
-                           REML = FALSE)
-    model_reduced = lmer(Mass ~ Exposure + (1|Rep),
-                                   data = data,
-                                   REML = FALSE)
-    result = anova(model, model_reduced)
-    aic[1] = AIC(model)
-    loglik[1] = logLik(model)
-    Test_statistic[1] = result$Chisq[2]
-    p_value[1] = result$`Pr(>Chisq)`[2]
+    model <- lmer(Mass ~ Exposure*State + (1|Rep),
+                  data = data,
+                  REML = FALSE)
+    model_reduced <- lmer(Mass ~ Exposure + (1|Rep),
+                          data = data,
+                          REML = FALSE)
+    result <- anova(model, model_reduced)
+    aic[1] <- AIC(model)
+    loglik[1] <- logLik(model)
+    Test_statistic[1] <- result$Chisq[2]
+    p_value[1] <- result$`Pr(>Chisq)`[2]
 
 
     # categorical, identity
-    model = lmer(Mass ~ factor(Exposure)*State + (1|Rep),
-                           data = data,
-                           REML = FALSE)
-    model_reduced = lmer(Mass ~ factor(Exposure) + (1|Rep),
-                                   data = data,
-                                   REML = FALSE)
-    result = anova(model, model_reduced)
-    aic[2] = AIC(model)
-    loglik[2] = logLik(model)
-    Test_statistic[2] = result$Chisq[2]
-    p_value[2] = result$`Pr(>Chisq)`[2]
+    model <- lmer(Mass ~ factor(Exposure)*State + (1|Rep),
+                  data = data,
+                  REML = FALSE)
+    model_reduced <- lmer(Mass ~ factor(Exposure) + (1|Rep),
+                          data = data,
+                          REML = FALSE)
+    result <- anova(model, model_reduced)
+    aic[2] <- AIC(model)
+    loglik[2] <- logLik(model)
+    Test_statistic[2] <- result$Chisq[2]
+    p_value[2] <- result$`Pr(>Chisq)`[2]
 
     # continuous, log
-    model = lmer(Mass ~ log(Exposure + 1)*State + (1|Rep),
-                           data = data,
-                           REML = FALSE)
-    model_reduced = lmer(Mass ~ log(Exposure+1) + (1|Rep),
-                                   data = data,
-                                   REML = FALSE)
-    result = anova(model, model_reduced)
-    aic[3] = AIC(model)
-    loglik[3] = logLik(model)
-    Test_statistic[3] = result$Chisq[2]
-    p_value[3] = result$`Pr(>Chisq)`[2]
+    model <- lmer(Mass ~ log(Exposure + 1)*State + (1|Rep),
+                  data = data,
+                  REML = FALSE)
+    model_reduced <- lmer(Mass ~ log(Exposure+1) + (1|Rep),
+                          data = data,
+                          REML = FALSE)
+    result <- anova(model, model_reduced)
+    aic[3] <- AIC(model)
+    loglik[3] <- logLik(model)
+    Test_statistic[3] <- result$Chisq[2]
+    p_value[3] <- result$`Pr(>Chisq)`[2]
 
     data.table(Test = "MEMHDX lmm",
                State_1 = States[1],
@@ -408,9 +408,9 @@ truncated_lines <- function(x, knots){
 
 test_semiparametric <- function(data, significance_level = 0.05) {
 
-    States = unique(data[["State"]])
+    States <- unique(data[["State"]])
     data[["id"]] <- paste0(data[["Rep"]], data[["Charge"]], data[["Experimental_state"]])
-    Test = aic = loglik = Test_statistic = p_value = NA
+    Test <- aic <- loglik <- Test_statistic <- p_value <- NA
 
     knots <- unique(setdiff(data[["Exposure"]], c(max(data[["Exposure"]]), min(data[["Exposure"]]))))
     X <- truncated_lines(data[["Exposure"]], knots)
@@ -422,30 +422,30 @@ test_semiparametric <- function(data, significance_level = 0.05) {
     X_reduced <- cbind(intercept = 1, X)[, which(as.logical(abs(coefs) >= 2*10^(-5)))]
 
 
-    model = lmer(Mass ~ Exposure*State + (1|id) + (1|Exposure) + X_reduced,
-                           data = data,
-                           REML = FALSE)
-    model_reduced = lmer(Mass ~ Exposure + (1|id) + (1|Exposure) + X_reduced,
-                                   data = data,
-                                   REML = FALSE)
-    result = anova(model, model_reduced)
-    aic = AIC(model)
-    loglik = as.numeric(logLik(model))
-    Test_statistic = result$Chisq[2]
-    p_value = result$`Pr(>Chisq)`[2]
+    model <- lmer(Mass ~ Exposure*State + (1|id) + (1|Exposure) + X_reduced,
+                  data = data,
+                  REML = FALSE)
+    model_reduced <- lmer(Mass ~ Exposure + (1|id) + (1|Exposure) + X_reduced,
+                          data = data,
+                          REML = FALSE)
+    result <- anova(model, model_reduced)
+    aic <- AIC(model)
+    loglik <- as.numeric(logLik(model))
+    Test_statistic <- result$Chisq[2]
+    p_value <- result$`Pr(>Chisq)`[2]
 
-    Test = "RIDGE_knots_random_intercept_id_exposure"
+    Test <- "RIDGE_knots_random_intercept_id_exposure"
 
-    data.table::data.table(Test = Test,
-                           State_1 = States[1],
-                           State_2 = States[2],
-                           Test_statistic = Test_statistic,
-                           P_value = p_value,
-                           Significant_difference = (p_value <= significance_level),
-                           Time = NA,
-                           Transformation = "identity",
-                           AIC = aic,
-                           logLik = loglik)
+    data.table(Test = Test,
+               State_1 = States[1],
+               State_2 = States[2],
+               Test_statistic = Test_statistic,
+               P_value = p_value,
+               Significant_difference = (p_value <= significance_level),
+               Time = NA,
+               Transformation = "identity",
+               AIC = aic,
+               logLik = loglik)
 }
 
 
@@ -464,49 +464,49 @@ test_semiparametric <- function(data, significance_level = 0.05) {
 #' 28.5, pp. 978–981.
 #'
 
-test_auc_test = function(data, significance_level = 0.05) {
-    States = unique(data[["State"]])
+test_auc_test <- function(data, significance_level = 0.05) {
+    States <- unique(data[["State"]])
     if (length(States) < 2) stop("More than one state must be chosen.")
 
-    state1_data = data[data[["State"]] == States[1], ]
-    state2_data = data[data[["State"]] == States[2], ]
+    state1_data <- data[data[["State"]] == States[1], ]
+    state2_data <- data[data[["State"]] == States[2], ]
 
-    states_exposure = setdiff(intersect(state1_data[["Exposure"]], state2_data[["Exposure"]]), 0)
+    states_exposure <- setdiff(intersect(state1_data[["Exposure"]], state2_data[["Exposure"]]), 0)
 
-    state1_data = state1_data[state1_data[["Exposure"]] %in% states_exposure, ]
-    state2_data = state2_data[state2_data[["Exposure"]] %in% states_exposure, ]
+    state1_data <- state1_data[state1_data[["Exposure"]] %in% states_exposure, ]
+    state2_data <- state2_data[state2_data[["Exposure"]] %in% states_exposure, ]
 
-    t_n = max(states_exposure)
-    t_1 = min(states_exposure)
-    times = length(data[["Exposure"]])
-    state1_masses = (max(state1_data[["Mass"]]) - state1_data[["Mass"]]) / max(state1_data[["Mass"]])
-    state2_masses = (max(state2_data[["Mass"]]) - state2_data[["Mass"]]) / max(state2_data[["Mass"]])
+    t_n <- max(states_exposure)
+    t_1 <- min(states_exposure)
+    times <- length(data[["Exposure"]])
+    state1_masses <- (max(state1_data[["Mass"]]) - state1_data[["Mass"]]) / max(state1_data[["Mass"]])
+    state2_masses <- (max(state2_data[["Mass"]]) - state2_data[["Mass"]]) / max(state2_data[["Mass"]])
 
-    y_a = aggregate(state1_masses,
-                    list(state1_data[["Exposure"]]), mean)[["x"]]
-    y_b = aggregate(state2_masses,
-                    list(state2_data[["Exposure"]]), mean)[["x"]]
-    s_a = aggregate(state1_masses,
-                    list(state1_data[["Exposure"]]), sd)[["x"]]
-    s_b = aggregate(state2_masses,
-                    list(state2_data[["Exposure"]]), sd)[["x"]]
-    S_a = sqrt(log(t_n / t_1) * mean(s_a^2))
-    S_b = sqrt(log(t_n / t_1) * mean(s_b^2))
-    n_rep_a = length(unique(state1_data[["Rep"]]))
-    n_rep_b = length(unique(state2_data[["Rep"]]))
-    S = sqrt(((n_rep_a - 1)*S_a^2 + (n_rep_b - 1)*S_b^2 ) / (n_rep_a + n_rep_b - 2))
-    A_aver = log(t_n/t_1) * (1/times) * sum(y_a - y_b)
+    y_a <- aggregate(state1_masses,
+                     list(state1_data[["Exposure"]]), mean)[["x"]]
+    y_b <- aggregate(state2_masses,
+                     list(state2_data[["Exposure"]]), mean)[["x"]]
+    s_a <- aggregate(state1_masses,
+                     list(state1_data[["Exposure"]]), sd)[["x"]]
+    s_b <- aggregate(state2_masses,
+                     list(state2_data[["Exposure"]]), sd)[["x"]]
+    S_a <- sqrt(log(t_n / t_1) * mean(s_a^2))
+    S_b <- sqrt(log(t_n / t_1) * mean(s_b^2))
+    n_rep_a <- length(unique(state1_data[["Rep"]]))
+    n_rep_b <- length(unique(state2_data[["Rep"]]))
+    S <- sqrt(((n_rep_a - 1)*S_a^2 + (n_rep_b - 1)*S_b^2 ) / (n_rep_a + n_rep_b - 2))
+    A_aver <- log(t_n/t_1) * (1/times) * sum(y_a - y_b)
 
-    Test_statistic = A_aver / (S * sqrt(1/n_rep_a + 1/n_rep_b))
+    Test_statistic <- A_aver / (S * sqrt(1/n_rep_a + 1/n_rep_b))
 
     if (length(state1_data) > 1 & length(state2_data) > 1) {
-        P_value = pt(abs(Test_statistic), df = (n_rep_a + n_rep_b - 2))
+        P_value <- pt(abs(Test_statistic), df <- (n_rep_a + n_rep_b - 2))
     } else {
-        P_value = NA
+        P_value <- NA
         warning("Sample size must be greater than 1.")
     }
 
-    data.table::data.table(
+    data.table(
         Test = "AUC test",
         State_1 = as.character(States[1]),
         State_2 = as.character(States[2]),
