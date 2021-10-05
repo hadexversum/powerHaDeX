@@ -1,6 +1,8 @@
 #' Create experimental file
+#'
 #' @description This function generates replications of mass spectra that are
 #' consistent with common experimental data files
+#'
 #' @param peptides a data frame of sequences (\code{sequence}), \code{Protein},
 #' and \code{Start}, \code{End} and parameters except \code{times}
 #' that can be used for simulating mass spectra.
@@ -9,12 +11,13 @@
 #' @inheritParams simulate_theoretical_spectra
 #' @inheritParams get_noisy_deuteration_curves
 #' @param file_type ...
+#'
 #' @examples
 #' \dontrun{
-# peptides <- data.frame(sequence = c("FPTTKTY", "LVRKDLQN"),
-#                        protection_factor = c(10, 100))
-# create_experimental_file(peptides, charge = 1:3)
-#
+#' peptides <- data.frame(sequence = c("FPTTKTY", "LVRKDLQN"),
+#'                        protection_factor = c(10, 100))
+#' create_experimental_file(peptides, charge = 1:3)
+#'
 #' }
 #'
 #' @export
@@ -47,7 +50,7 @@ create_experimental_file <- function(peptides,
                              error = function(e) {
                                  print(e)
                                  data.frame()})
-        spectra_by_charge <- split(spectrum, f = spectrum$Charge)
+        spectra_by_charge <- split(spectrum, f = spectrum[["Charge"]])
 
         rbindlist(lapply(spectra_by_charge, function(one_charge_spectrum) {
             undeuterated_mass = get_undeuterated_mass(one_charge_spectrum)
@@ -85,9 +88,11 @@ create_experimental_file <- function(peptides,
 }
 
 #' Prepare input for \code{\link[powerHaDeX]{create_experimental_file}}
+#'
 #' @description Supplementary function providing appropriate input.
 #' @param peptides a data frame of parameters for which \code{\link[powerHaDeX]{simulate_theoretical_spectra}}
 #' will be executed.
+#'
 #' @return a data frame being a proper input for \code{\link[powerHaDeX]{create_experimental_file}}.
 #'
 
@@ -110,15 +115,16 @@ prepare_input_peptides <- function(peptides) {
 
 
 #' Complete data frame with columns
+#'
 #' @description This function adds column if does not exist and fill it with provided value.
+#'
 #' @param data a data frame of interest.
 #' @param col_name a character. Name of column that should be created if it does not exist
 #' @param value optional. A value to fill with.
+#'
 #' @examples
-#' \dontrun{
 #' add_column(mtcars, "mpg")
 #' add_column(mtcars, c("column1", "column2"))
-#' }
 #'
 
 add_column <- function(data, col_name, value = NULL) {

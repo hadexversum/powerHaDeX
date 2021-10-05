@@ -49,6 +49,10 @@ consistent with common experimental data files
 }
 \examples{
 \dontrun{
+peptides <- data.frame(sequence = c("FPTTKTY", "LVRKDLQN"),
+                       protection_factor = c(10, 100))
+create_experimental_file(peptides, charge = 1:3)
+
 }
 
 }
