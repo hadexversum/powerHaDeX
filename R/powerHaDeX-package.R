@@ -7,7 +7,6 @@
 #' @importFrom stats AIC aggregate anova dbinom lm
 #' logLik pt rnorm sd weighted.mean coefficients
 #' @importFrom nlme corCompSymm corAR1
-#' @importFrom plyr .
 #' @importFrom expm %^%
 #' @importFrom Rcpp sourceCpp
 #' @importFrom utils combn setTxtProgressBar txtProgressBar

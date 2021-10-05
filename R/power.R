@@ -75,7 +75,7 @@ calculate_hdx_power = function(deuteration_curves, tests, significance_level = 0
 
     if (summarized) {
         test_results = lapply(test_results, function(test_result) {
-            test_result[, .(Power = mean(Significant_difference)),
+            test_result[, list(Power = mean(Significant_difference)),
                         by = list(Sequence, Num_replicates, Num_states, Num_timepoints,
                                   Test, Transformation, Time, State_1, State_2)]
         })
