@@ -47,6 +47,8 @@ the function calculate_hdx_power." />
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -58,9 +60,15 @@ the function calculate_hdx_power." />
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -74,19 +82,13 @@ the function calculate_hdx_power." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">powerHaDeX</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -131,7 +133,7 @@ in deuteration levels. Its input and output are compatible with
 the function <code><a href='calculate_hdx_power.html'>calculate_hdx_power</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>test_semiparametric</span><span class='op'>(</span><span class='va'>data</span>, significance_level <span class='op'>=</span> <span class='fl'>0.05</span><span class='op'>)</span></pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>test_semiparametric</span><span class='op'>(</span><span class='va'>data</span>, significance_level <span class='op'>=</span> <span class='fl'>0.05</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -164,37 +166,42 @@ considered in the testing procedure are chosen using ridge regression.</p>
 of tests for differences in deuteration levels.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>theo_spectra_pf_100</span> <span class='op'>&lt;-</span> <span class='fu'><a href='simulate_theoretical_spectra.html'>simulate_theoretical_spectra</a></span><span class='op'>(</span>sequence <span class='op'>=</span> <span class='st'>"LVRKDLQN"</span>,
-                                                    charge <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>3</span>, <span class='fl'>5</span><span class='op'>)</span>,
-                                                    protection_factor <span class='op'>=</span> <span class='fl'>100</span>,
-                                                    times <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.167</span>, <span class='fl'>5</span>, <span class='fl'>10</span>, <span class='fl'>30</span><span class='op'>)</span>,
-                                                    pH <span class='op'>=</span> <span class='fl'>7.5</span>,
-                                                    temperature <span class='op'>=</span> <span class='fl'>15</span>,
-                                                    n_molecules <span class='op'>=</span> <span class='fl'>500</span>,
-                                                    time_step_const <span class='op'>=</span> <span class='fl'>1</span>,
-                                                    use_markov <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-<span class='va'>theo_spectra_pf_200</span> <span class='op'>&lt;-</span> <span class='fu'><a href='simulate_theoretical_spectra.html'>simulate_theoretical_spectra</a></span><span class='op'>(</span>sequence <span class='op'>=</span> <span class='st'>"LVRKDLQN"</span>,
-                                                    charge <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>3</span>, <span class='fl'>5</span><span class='op'>)</span>,
-                                                    protection_factor <span class='op'>=</span> <span class='fl'>200</span>,
-                                                    times <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.167</span>, <span class='fl'>5</span>, <span class='fl'>10</span>, <span class='fl'>30</span><span class='op'>)</span>,
-                                                    pH <span class='op'>=</span> <span class='fl'>7.5</span>,
-                                                    temperature <span class='op'>=</span> <span class='fl'>15</span>,
-                                                    n_molecules <span class='op'>=</span> <span class='fl'>500</span>,
-                                                    time_step_const <span class='op'>=</span> <span class='fl'>1</span>,
-                                                    use_markov <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-
-<span class='va'>theo_spectra_two_states</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>rbind</a></span><span class='op'>(</span><span class='va'>theo_spectra_pf_100</span>, <span class='va'>theo_spectra_pf_200</span><span class='op'>)</span>
-
-<span class='va'>deuteration_curves_paired_states</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_noisy_deuteration_curves.html'>get_noisy_deuteration_curves</a></span><span class='op'>(</span><span class='va'>theo_spectra_two_states</span>,
-                                                                 n_replicates <span class='op'>=</span> <span class='fl'>4</span>,
-                                                                 n_experiments <span class='op'>=</span> <span class='fl'>1</span>,
-                                                                 reference <span class='op'>=</span> <span class='fl'>100</span><span class='op'>)</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
-<span class='fu'>test_semiparametric</span><span class='op'>(</span><span class='va'>deuteration_curves_paired_states</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>fixed-effect model matrix is rank deficient so dropping 1 column / coefficient</span></div><div class='output co'>#&gt; <span class='message'>boundary (singular) fit: see ?isSingular</span></div><div class='output co'>#&gt; <span class='message'>fixed-effect model matrix is rank deficient so dropping 1 column / coefficient</span></div><div class='output co'>#&gt; <span class='message'>boundary (singular) fit: see ?isSingular</span></div><div class='output co'>#&gt;                                        Test State_1 State_2 Test_statistic
-#&gt; 1: RIDGE_knots_random_intercept_id_exposure     200     100       5.820557
-#&gt;       P_value Significant_difference Time Transformation       AIC   logLik
-#&gt; 1: 0.05446056                  FALSE   NA       identity -79.53788 49.76894</div><div class='input'>
-</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='va'>theo_spectra_pf_100</span> <span class='op'>&lt;-</span> <span class='fu'><a href='simulate_theoretical_spectra.html'>simulate_theoretical_spectra</a></span><span class='op'>(</span>sequence <span class='op'>=</span> <span class='st'>"LVRKDLQN"</span>,</span>
+<span class='r-in'>                                                    charge <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>3</span>, <span class='fl'>5</span><span class='op'>)</span>,</span>
+<span class='r-in'>                                                    protection_factor <span class='op'>=</span> <span class='fl'>100</span>,</span>
+<span class='r-in'>                                                    times <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.167</span>, <span class='fl'>5</span>, <span class='fl'>10</span>, <span class='fl'>30</span><span class='op'>)</span>,</span>
+<span class='r-in'>                                                    pH <span class='op'>=</span> <span class='fl'>7.5</span>,</span>
+<span class='r-in'>                                                    temperature <span class='op'>=</span> <span class='fl'>15</span>,</span>
+<span class='r-in'>                                                    n_molecules <span class='op'>=</span> <span class='fl'>500</span>,</span>
+<span class='r-in'>                                                    time_step_const <span class='op'>=</span> <span class='fl'>1</span>,</span>
+<span class='r-in'>                                                    use_markov <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>theo_spectra_pf_200</span> <span class='op'>&lt;-</span> <span class='fu'><a href='simulate_theoretical_spectra.html'>simulate_theoretical_spectra</a></span><span class='op'>(</span>sequence <span class='op'>=</span> <span class='st'>"LVRKDLQN"</span>,</span>
+<span class='r-in'>                                                    charge <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>3</span>, <span class='fl'>5</span><span class='op'>)</span>,</span>
+<span class='r-in'>                                                    protection_factor <span class='op'>=</span> <span class='fl'>200</span>,</span>
+<span class='r-in'>                                                    times <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.167</span>, <span class='fl'>5</span>, <span class='fl'>10</span>, <span class='fl'>30</span><span class='op'>)</span>,</span>
+<span class='r-in'>                                                    pH <span class='op'>=</span> <span class='fl'>7.5</span>,</span>
+<span class='r-in'>                                                    temperature <span class='op'>=</span> <span class='fl'>15</span>,</span>
+<span class='r-in'>                                                    n_molecules <span class='op'>=</span> <span class='fl'>500</span>,</span>
+<span class='r-in'>                                                    time_step_const <span class='op'>=</span> <span class='fl'>1</span>,</span>
+<span class='r-in'>                                                    use_markov <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>theo_spectra_two_states</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>rbind</a></span><span class='op'>(</span><span class='va'>theo_spectra_pf_100</span>, <span class='va'>theo_spectra_pf_200</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>deuteration_curves_paired_states</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_noisy_deuteration_curves.html'>get_noisy_deuteration_curves</a></span><span class='op'>(</span><span class='va'>theo_spectra_two_states</span>,</span>
+<span class='r-in'>                                                                 n_replicates <span class='op'>=</span> <span class='fl'>4</span>,</span>
+<span class='r-in'>                                                                 n_experiments <span class='op'>=</span> <span class='fl'>1</span>,</span>
+<span class='r-in'>                                                                 reference <span class='op'>=</span> <span class='fl'>100</span><span class='op'>)</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span></span>
+<span class='r-in'><span class='fu'>test_semiparametric</span><span class='op'>(</span><span class='va'>deuteration_curves_paired_states</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> fixed-effect model matrix is rank deficient so dropping 1 column / coefficient</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> boundary (singular) fit: see ?isSingular</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> fixed-effect model matrix is rank deficient so dropping 1 column / coefficient</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> boundary (singular) fit: see ?isSingular</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                                        Test State_1 State_2 Test_statistic</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1: RIDGE_knots_random_intercept_id_exposure     200     100        8.97051</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>       P_value Significant_difference Time Transformation       AIC   logLik</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1: 0.01127401                   TRUE   NA       identity -72.04243 46.02121</span>
+<span class='r-in'></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -206,11 +213,11 @@ of tests for differences in deuteration levels.</p></div>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Krystyna Grzesiak.</p>
+  <p><p>Developed by Krystyna Grzesiak.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p></p>
 </div>
 
       </footer>
@@ -218,6 +225,8 @@ of tests for differences in deuteration levels.</p></div>
 
   
 
+
+  
 
   </body>
 </html>
