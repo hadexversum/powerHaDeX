@@ -193,14 +193,18 @@ of tests for differences in deuteration levels.</p></div>
 <span class='r-in'>                                                                 n_experiments <span class='op'>=</span> <span class='fl'>1</span>,</span>
 <span class='r-in'>                                                                 reference <span class='op'>=</span> <span class='fl'>100</span><span class='op'>)</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span></span>
 <span class='r-in'><span class='fu'>test_memhdx_model</span><span class='op'>(</span><span class='va'>deuteration_curves_paired_states</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>          Test State_1 State_2 Test_statistic    P_value Significant_difference</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 1: MEMHDX lmm     200     100       2.713269 0.25752599                  FALSE</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 2: MEMHDX lmm     200     100       9.160593 0.02723018                   TRUE</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 3: MEMHDX lmm     200     100       2.950767 0.22869102                  FALSE</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>           Time Transformation        AIC    logLik</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 1:  continuous       identity  12.954632 -0.477316</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 2: categorical       identity -36.931137 26.465568</span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> 3:  continuous            log   8.006632  1.996684</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> boundary (singular) fit: see ?isSingular</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> boundary (singular) fit: see ?isSingular</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> boundary (singular) fit: see ?isSingular</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> boundary (singular) fit: see ?isSingular</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>          Test State_1 State_2 Test_statistic   P_value Significant_difference</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1: MEMHDX lmm     200     100      0.2197863 0.8959299                  FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2: MEMHDX lmm     200     100      1.0677932 0.7848541                  FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3: MEMHDX lmm     200     100      0.2269604 0.8927219                  FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>           Time Transformation       AIC    logLik</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1:  continuous       identity  26.36914 -7.184569</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2: categorical       identity -30.03391 23.016955</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3:  continuous            log  21.79990 -4.899952</span>
 <span class='r-in'></span>
 </code></pre></div>
   </div>
