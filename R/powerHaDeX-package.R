@@ -14,7 +14,7 @@
 #' @importFrom ggplot2 ggplot aes geom_segment ylab xlab theme_minimal theme element_text ggtitle facet_wrap
 #' @importFrom stats qt
 #' @importFrom glmnet glmnet
-#' @importFrom checkmate assert
+#' @importFrom checkmate assert checkLogical checkChoice checkFALSE
 #' @author Michal Burdukiewicz, Krystyna Grzesiak, Mateusz Staniak
 #' @docType package
 #' @name powerHaDeX
