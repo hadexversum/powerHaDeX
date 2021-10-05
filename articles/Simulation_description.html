@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">powerHaDeX</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0</span>
       </span>
     </div>
 
@@ -125,7 +125,7 @@
 <li><p><code>sequence</code> - sequence of the peptide, single string. Necessary to run the simulation.</p></li>
 <li><p><code>charge</code> - a vector of charges of the peptide ion. If NULL, one value is sampled from vector 2:6. Default value: NULL.</p></li>
 <li><p><code>times</code> - vector of time points of the measurement. Default value: vector of 60 and 600 [seconds]</p></li>
-<li><p><code>protection_factor</code> - protection factor - vector of values or one value for all amides. Default value: 1 (indicates that the exchange rate is equal to the intristic exchange rate)</p></li>
+<li><p><code>protection_factor</code> - protection factor - vector of values or one value for all amides. Default value: 1 (indicates that the exchange rate is equal to the intrinsic exchange rate)</p></li>
 <li><p><code>pH</code> - pH. Default value: 7.5</p></li>
 <li><p><code>temperature</code> - temperature. Default value: 15 [Celcius]</p></li>
 <li><p><code>n_molecules</code> - number of peptide molecules. Default value: 100</p></li>
@@ -192,7 +192,7 @@
 <p><span class="math display">\[P(X_{k+1} = H ~|~ X_{k} = H) = P\left( H \rightarrow H \right),\]</span> <span class="math display">\[P(X_{k+1} = D ~|~ X_{k} = H) = P\left( H \rightarrow D \right),\]</span> <span class="math display">\[P(X_{k+1} = H ~|~ X_{k} = D) = P\left( D \rightarrow H \right),\]</span> <span class="math display">\[P(X_{k+1} = D ~|~ X_{k} = D) = P\left( D \rightarrow D \right),\]</span></p>
 <p>where <span class="math inline">\(X_k\)</span> is the random variable describing the state of an isotope of a hydrogen (<span class="math inline">\(H\)</span> or <span class="math inline">\(D\)</span>) at the moment <span class="math inline">\(k\)</span> for any <span class="math inline">\(k\)</span> from the considered time sequence. The probabilities for the <span class="math inline">\(i^{th}\)</span> amino acid, <span class="math inline">\(i = 1, \ldots, n\)</span>, are calculated by equations below.</p>
 <p><span class="math display">\[P_i\left( H \rightarrow D \right) = 1 - \text{exp}\left(\dfrac{-kcHD_i \cdot \Delta t}{Pf}\right)\]</span>,</p>
-<p><span class="math display">\[P_i\left( D \rightarrow H \right) = 1 - \text{exp}\left(\dfrac{-kcDH_i \cdot \Delta t}{Pf}\right)\]</span> where <span class="math inline">\(Pf\)</span> denotes the protection factor. Moreover, let us note that under the assumptions mentioned before, the following equalities are satisfied: <span class="math display">\[P_i\left( H \rightarrow H \right) = 1 - P_i\left( H \rightarrow D \right),\]</span> <span class="math display">\[P_i\left( D \rightarrow D \right) = 1 - P_i\left( D \rightarrow H \right).\]</span></p>
+<p><span class="math display">\[P_i\left( D \rightarrow H \right) = 1 - \text{exp}\left(\dfrac{-kcDH_i \cdot \Delta t}{Pf}\right)\]</span> where <span class="math inline">\(Pf\)</span> denotes the protection factor. Moreover, let us note that under the assumptions mentioned before, the following equations are satisfied: <span class="math display">\[P_i\left( H \rightarrow H \right) = 1 - P_i\left( H \rightarrow D \right),\]</span> <span class="math display">\[P_i\left( D \rightarrow D \right) = 1 - P_i\left( D \rightarrow H \right).\]</span></p>
 <p>The last two equations describe the probabilities of staying in the same state.</p>
 <p>The output of <code>get_exchange_probabilities</code> function is a list of four vectors: vector <code>HD</code> for probabilities <span class="math inline">\(P_i\left( H \rightarrow D \right)\)</span>, vector <code>DH</code> for probabilities <span class="math inline">\(P_i\left( D \rightarrow H \right)\)</span>, vector <code>HH</code> for probabilities <span class="math inline">\(P_i\left( H \rightarrow H \right)\)</span> and vector <code>DD</code> for probabilities <span class="math inline">\(P_i\left( D \rightarrow D \right)\)</span>.</p>
 </div>
@@ -341,23 +341,23 @@
                              n_replicates <span class="op">=</span> <span class="fl">4</span>,
                              n_experiments <span class="op">=</span> <span class="fl">1</span>,
                              reference <span class="op">=</span> <span class="st">"all"</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
-<span class="co">#&gt;     Sequence Rep State Exposure     Mass Charge Experimental_state</span>
-<span class="co">#&gt;  1: LVRKDLQN   1    10        0 0.000000      2                  A</span>
-<span class="co">#&gt;  2: LVRKDLQN   1    10       60 1.668560      2                  A</span>
-<span class="co">#&gt;  3: LVRKDLQN   1  1000        0 0.000000      2                  B</span>
-<span class="co">#&gt;  4: LVRKDLQN   1  1000       60 1.108989      2                  B</span>
-<span class="co">#&gt;  5: LVRKDLQN   2    10        0 0.000000      2                  A</span>
-<span class="co">#&gt;  6: LVRKDLQN   2    10       60 1.639282      2                  A</span>
-<span class="co">#&gt;  7: LVRKDLQN   2  1000        0 0.000000      2                  B</span>
-<span class="co">#&gt;  8: LVRKDLQN   2  1000       60 1.221916      2                  B</span>
-<span class="co">#&gt;  9: LVRKDLQN   3    10        0 0.000000      2                  A</span>
-<span class="co">#&gt; 10: LVRKDLQN   3    10       60 1.848479      2                  A</span>
-<span class="co">#&gt; 11: LVRKDLQN   3  1000        0 0.000000      2                  B</span>
-<span class="co">#&gt; 12: LVRKDLQN   3  1000       60 1.102601      2                  B</span>
-<span class="co">#&gt; 13: LVRKDLQN   4    10        0 0.000000      2                  A</span>
-<span class="co">#&gt; 14: LVRKDLQN   4    10       60 1.668583      2                  A</span>
-<span class="co">#&gt; 15: LVRKDLQN   4  1000        0 0.000000      2                  B</span>
-<span class="co">#&gt; 16: LVRKDLQN   4  1000       60 1.223776      2                  B</span></code></pre></div>
+<span class="co">#&gt;     Sequence Rep State Exposure      Mass Charge Experimental_state</span>
+<span class="co">#&gt;  1: LVRKDLQN   1    10        0 0.0000000      2                  A</span>
+<span class="co">#&gt;  2: LVRKDLQN   1    10       60 1.5623212      2                  A</span>
+<span class="co">#&gt;  3: LVRKDLQN   1  1000        0 0.0000000      2                  B</span>
+<span class="co">#&gt;  4: LVRKDLQN   1  1000       60 1.0802050      2                  B</span>
+<span class="co">#&gt;  5: LVRKDLQN   2    10        0 0.0000000      2                  A</span>
+<span class="co">#&gt;  6: LVRKDLQN   2    10       60 1.5089727      2                  A</span>
+<span class="co">#&gt;  7: LVRKDLQN   2  1000        0 0.0000000      2                  B</span>
+<span class="co">#&gt;  8: LVRKDLQN   2  1000       60 1.0759375      2                  B</span>
+<span class="co">#&gt;  9: LVRKDLQN   3    10        0 0.0000000      2                  A</span>
+<span class="co">#&gt; 10: LVRKDLQN   3    10       60 1.5988665      2                  A</span>
+<span class="co">#&gt; 11: LVRKDLQN   3  1000        0 0.0000000      2                  B</span>
+<span class="co">#&gt; 12: LVRKDLQN   3  1000       60 0.9311223      2                  B</span>
+<span class="co">#&gt; 13: LVRKDLQN   4    10        0 0.0000000      2                  A</span>
+<span class="co">#&gt; 14: LVRKDLQN   4    10       60 1.5912336      2                  A</span>
+<span class="co">#&gt; 15: LVRKDLQN   4  1000        0 0.0000000      2                  B</span>
+<span class="co">#&gt; 16: LVRKDLQN   4  1000       60 1.0998413      2                  B</span></code></pre></div>
 </div>
 </div>
 </div>
@@ -380,7 +380,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.6.1.9001.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.9000.9000.9000.</p>
 </div>
 
       </footer>

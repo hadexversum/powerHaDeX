@@ -82,7 +82,7 @@ the function calculate_hdx_power." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">powerHaDeX</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0</span>
       </span>
     </div>
 
@@ -159,9 +159,46 @@ the function <code><a href='calculate_hdx_power.html'>calculate_hdx_power</a></c
 comparabilitystudies”. In:Journal of pharmaceutical sciences100.6, pp. 2071–2086.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='calculate_hdx_power.html'>calculate_hdx_power</a></code> for estimation of power
+    <div class='dont-index'><p>Other tests:</p>
+<p>- <code><a href='test_hdx_analyzer.html'>test_hdx_analyzer</a></code></p>
+<p>- <code><a href='test_memhdx_model.html'>test_memhdx_model</a></code></p>
+<p>-<code><a href='test_semiparametric.html'>test_semiparametric</a></code></p>
+<p>Or <code><a href='calculate_hdx_power.html'>calculate_hdx_power</a></code> for estimation of power
 of tests for differences in deuteration levels.</p></div>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='va'>theo_spectra_pf_100</span> <span class='op'>&lt;-</span> <span class='fu'><a href='simulate_theoretical_spectra.html'>simulate_theoretical_spectra</a></span><span class='op'>(</span>sequence <span class='op'>=</span> <span class='st'>"LVRKDLQN"</span>,</span>
+<span class='r-in'>                                                    charge <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>3</span>, <span class='fl'>5</span><span class='op'>)</span>,</span>
+<span class='r-in'>                                                    protection_factor <span class='op'>=</span> <span class='fl'>100</span>,</span>
+<span class='r-in'>                                                    times <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.167</span>, <span class='fl'>5</span><span class='op'>)</span>,</span>
+<span class='r-in'>                                                    pH <span class='op'>=</span> <span class='fl'>7.5</span>,</span>
+<span class='r-in'>                                                    temperature <span class='op'>=</span> <span class='fl'>15</span>,</span>
+<span class='r-in'>                                                    n_molecules <span class='op'>=</span> <span class='fl'>500</span>,</span>
+<span class='r-in'>                                                    time_step_const <span class='op'>=</span> <span class='fl'>1</span>,</span>
+<span class='r-in'>                                                    use_markov <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>theo_spectra_pf_200</span> <span class='op'>&lt;-</span> <span class='fu'><a href='simulate_theoretical_spectra.html'>simulate_theoretical_spectra</a></span><span class='op'>(</span>sequence <span class='op'>=</span> <span class='st'>"LVRKDLQN"</span>,</span>
+<span class='r-in'>                                                    charge <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>3</span>, <span class='fl'>5</span><span class='op'>)</span>,</span>
+<span class='r-in'>                                                    protection_factor <span class='op'>=</span> <span class='fl'>200</span>,</span>
+<span class='r-in'>                                                    times <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.167</span>, <span class='fl'>5</span><span class='op'>)</span>,</span>
+<span class='r-in'>                                                    pH <span class='op'>=</span> <span class='fl'>7.5</span>,</span>
+<span class='r-in'>                                                    temperature <span class='op'>=</span> <span class='fl'>15</span>,</span>
+<span class='r-in'>                                                    n_molecules <span class='op'>=</span> <span class='fl'>500</span>,</span>
+<span class='r-in'>                                                    time_step_const <span class='op'>=</span> <span class='fl'>1</span>,</span>
+<span class='r-in'>                                                    use_markov <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>theo_spectra_two_states</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>rbind</a></span><span class='op'>(</span><span class='va'>theo_spectra_pf_100</span>, <span class='va'>theo_spectra_pf_200</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>deuteration_curves_paired_states</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_noisy_deuteration_curves.html'>get_noisy_deuteration_curves</a></span><span class='op'>(</span><span class='va'>theo_spectra_two_states</span>,</span>
+<span class='r-in'>                                                                 n_replicates <span class='op'>=</span> <span class='fl'>4</span>,</span>
+<span class='r-in'>                                                                 n_experiments <span class='op'>=</span> <span class='fl'>1</span>,</span>
+<span class='r-in'>                                                                 reference <span class='op'>=</span> <span class='fl'>100</span><span class='op'>)</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span></span>
+<span class='r-in'><span class='fu'>test_houde</span><span class='op'>(</span><span class='va'>deuteration_curves_paired_states</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     Test State_1 State_2 Test_statistic P_value Significant_difference Time</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1: Houde     200     100             NA      NA                  FALSE   NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    Transformation AIC logLik</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1:             NA  NA     NA</span>
+<span class='r-in'></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -177,7 +214,7 @@ of tests for differences in deuteration levels.</p></div>
 </div>
 
 <div class="pkgdown">
-  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p></p>
 </div>
 
       </footer>

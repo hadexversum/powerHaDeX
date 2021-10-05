@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">powerHaDeX</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0</span>
       </span>
     </div>
 
@@ -138,7 +138,7 @@
   temperature <span class='op'>=</span> <span class='fl'>15</span>,
   n_molecules <span class='op'>=</span> <span class='fl'>100</span>,
   time_step_const <span class='op'>=</span> <span class='fl'>1</span>,
-  if_corr <span class='op'>=</span> <span class='fl'>0</span>,
+  if_corr <span class='op'>=</span> <span class='cn'>FALSE</span>,
   min_probability <span class='op'>=</span> <span class='fl'>1e-04</span>,
   use_markov <span class='op'>=</span> <span class='cn'>TRUE</span>
 <span class='op'>)</span></code></pre></div>
@@ -186,7 +186,7 @@ Zhong-Yuan Kan's approach).</p></td>
     </tr>
     <tr>
       <th>if_corr</th>
-      <td><p>pH correction indicator. Default value 0. The value of pH is equal to pD.
+      <td><p>logical. PH correction indicator. Default value <code>FALSE</code>. The value of pH is equal to pD.
 If there is correction, the pD = pH + 0.4. (Conelly et al 1993)</p></td>
     </tr>
     <tr>
@@ -232,6 +232,58 @@ algorithm re-implemented in R (using Rcpp) and the accelerated implementation
 allows the user to simulate spectra for more than one exposure time for both
 (Rcpp and Markov) approaches.</p></div>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'>simulate_theoretical_spectra</span><span class='op'>(</span>sequence <span class='op'>=</span> <span class='st'>"LVRKDLQN"</span>,</span>
+<span class='r-in'>                             charge <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>3</span>, <span class='fl'>5</span><span class='op'>)</span>,</span>
+<span class='r-in'>                             protection_factor <span class='op'>=</span> <span class='fl'>100</span>,</span>
+<span class='r-in'>                             times <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.167</span>, <span class='fl'>5</span><span class='op'>)</span>,</span>
+<span class='r-in'>                             pH <span class='op'>=</span> <span class='fl'>7.5</span>,</span>
+<span class='r-in'>                             temperature <span class='op'>=</span> <span class='fl'>15</span>,</span>
+<span class='r-in'>                             n_molecules <span class='op'>=</span> <span class='fl'>500</span>,</span>
+<span class='r-in'>                             time_step_const <span class='op'>=</span> <span class='fl'>1</span>,</span>
+<span class='r-in'>                             use_markov <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     Exposure  PH    Intensity       Mz Charge Sequence  PF</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  1:    0.000 7.5 0.5801405135 329.1978      3 LVRKDLQN 100</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  2:    0.000 7.5 0.5801405135 197.9216      5 LVRKDLQN 100</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  3:    0.000 7.5 0.3031692943 329.1978      3 LVRKDLQN 100</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  4:    0.000 7.5 0.3031692943 197.9216      5 LVRKDLQN 100</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  5:    0.000 7.5 0.0919265899 329.1978      3 LVRKDLQN 100</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  6:    0.000 7.5 0.0919265899 197.9216      5 LVRKDLQN 100</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  7:    0.000 7.5 0.0204531418 329.1978      3 LVRKDLQN 100</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  8:    0.000 7.5 0.0204531418 197.9216      5 LVRKDLQN 100</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  9:    0.000 7.5 0.0036689790 329.1978      3 LVRKDLQN 100</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 10:    0.000 7.5 0.0036689790 197.9216      5 LVRKDLQN 100</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 11:    0.000 7.5 0.0005576524 329.1978      3 LVRKDLQN 100</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 12:    0.000 7.5 0.0005576524 197.9216      5 LVRKDLQN 100</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 13:    0.167 7.5 0.5685853673 329.1978      3 LVRKDLQN 100</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 14:    0.167 7.5 0.3087345996 329.5332      3 LVRKDLQN 100</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 15:    0.167 7.5 0.0961595050 329.8687      3 LVRKDLQN 100</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 16:    0.167 7.5 0.0218844453 330.2041      3 LVRKDLQN 100</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 17:    0.167 7.5 0.0040049980 330.5395      3 LVRKDLQN 100</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 18:    0.167 7.5 0.0006199309 330.8749      3 LVRKDLQN 100</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 19:    0.167 7.5 0.5685853673 197.9216      5 LVRKDLQN 100</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 20:    0.167 7.5 0.3087345996 198.1229      5 LVRKDLQN 100</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 21:    0.167 7.5 0.0961595050 198.3241      5 LVRKDLQN 100</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 22:    0.167 7.5 0.0218844453 198.5254      5 LVRKDLQN 100</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 23:    0.167 7.5 0.0040049980 198.7266      5 LVRKDLQN 100</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 24:    0.167 7.5 0.0006199309 198.9279      5 LVRKDLQN 100</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 25:    5.000 7.5 0.3933682439 329.1978      3 LVRKDLQN 100</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 26:    5.000 7.5 0.3575755713 329.5332      3 LVRKDLQN 100</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 27:    5.000 7.5 0.1719383032 329.8687      3 LVRKDLQN 100</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 28:    5.000 7.5 0.0583628166 330.2041      3 LVRKDLQN 100</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 29:    5.000 7.5 0.0150530898 330.5395      3 LVRKDLQN 100</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 30:    5.000 7.5 0.0031386000 330.8749      3 LVRKDLQN 100</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 31:    5.000 7.5 0.0005005589 331.2104      3 LVRKDLQN 100</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 32:    5.000 7.5 0.3933682439 197.9216      5 LVRKDLQN 100</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 33:    5.000 7.5 0.3575755713 198.1229      5 LVRKDLQN 100</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 34:    5.000 7.5 0.1719383032 198.3241      5 LVRKDLQN 100</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 35:    5.000 7.5 0.0583628166 198.5254      5 LVRKDLQN 100</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 36:    5.000 7.5 0.0150530898 198.7266      5 LVRKDLQN 100</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 37:    5.000 7.5 0.0031386000 198.9279      5 LVRKDLQN 100</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 38:    5.000 7.5 0.0005005589 199.1291      5 LVRKDLQN 100</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     Exposure  PH    Intensity       Mz Charge Sequence  PF</span>
+<span class='r-in'></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -247,7 +299,7 @@ allows the user to simulate spectra for more than one exposure time for both
 </div>
 
 <div class="pkgdown">
-  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p></p>
 </div>
 
       </footer>
