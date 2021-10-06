@@ -84,19 +84,19 @@
 #' @export
 #'
 get_noisy_deuteration_curves <- function(theoretical_spectra,
-                                        compare_pairs = TRUE,
-                                        reference = NA,
-                                        n_replicates = 4,
-                                        n_experiments = 100,
-                                        mass_deviations = 50,
-                                        intensity_deviations = NULL,
-                                        per_run_deviations = NULL,
-                                        relative = TRUE) {
+                                         compare_pairs = TRUE,
+                                         reference = NA,
+                                         n_replicates = 4,
+                                         n_experiments = 100,
+                                         mass_deviations = 50,
+                                         intensity_deviations = NULL,
+                                         per_run_deviations = NULL,
+                                         relative = TRUE) {
 
     undeuterated_mass <- get_undeuterated_mass(theoretical_spectra)
     spectra <- get_spectra_list(theoretical_spectra, compare_pairs, reference)
     spectra <- add_noise_to_spectra(spectra, n_replicates, n_experiments, undeuterated_mass,
-                                   mass_deviations, intensity_deviations)
+                                    mass_deviations, intensity_deviations)
     curves <- get_deuteration_curves_from_spectra(spectra)
     curves <- add_noise_to_curves(curves, per_run_deviations, relative)
     curves <- fix_columns_names_types(curves)
@@ -126,8 +126,8 @@ get_noisy_deuteration_curves <- function(theoretical_spectra,
 #'
 #' @export
 get_spectra_list <- function(theoretical_spectra,
-                            compare_pairs = FALSE,
-                            reference = NA) {
+                             compare_pairs = FALSE,
+                             reference = NA) {
 
     if (compare_pairs & (is.na(reference))) stop("With pair comparisons, reference protection factor must be provided")
 
@@ -153,7 +153,7 @@ get_spectra_list <- function(theoretical_spectra,
 #'
 #' @keywords internal
 get_paired_spectra <- function(theoretical_spectra,
-                              reference = NA) {
+                               reference = NA) {
 
     if(reference == "all") {
 
@@ -180,13 +180,13 @@ get_paired_spectra <- function(theoretical_spectra,
         PF <- NULL
         reference_spectrum <- theoretical_spectra[abs(PF - reference) < 1e-9, ]
         theoretical_spectra <- split(theoretical_spectra[abs(PF - reference) > 1e-9, ],
-                                    theoretical_spectra[abs(PF - reference) > 1e-9, "PF"])
+                                     theoretical_spectra[abs(PF - reference) > 1e-9, "PF"])
         theoretical_spectra <- lapply(theoretical_spectra,
-                                     function(spectrum) {
-                                         spectrum[["Experimental_state"]] <- "A"
-                                         reference_spectrum[["Experimental_state"]] <- "B"
-                                         rbind(spectrum, reference_spectrum)
-                                     })
+                                      function(spectrum) {
+                                          spectrum[["Experimental_state"]] <- "A"
+                                          reference_spectrum[["Experimental_state"]] <- "B"
+                                          rbind(spectrum, reference_spectrum)
+                                      })
 
         unname(theoretical_spectra)
     }
@@ -208,7 +208,7 @@ get_paired_spectra <- function(theoretical_spectra,
 #'
 #' @keywords internal
 make_experimental_design <- function(spectra,
-                                    n_replicates = 4) {
+                                     n_replicates = 4) {
 
     lapply(spectra, function(spectrum) {
 
@@ -237,11 +237,11 @@ make_experimental_design <- function(spectra,
 #' @export
 #'
 add_noise_to_spectra <- function(spectra,
-                                n_replicates = 4,
-                                n_experiments = 100,
-                                undeuterated_mass,
-                                mass_deviations = 50,
-                                intensity_deviations = NULL) {
+                                 n_replicates = 4,
+                                 n_experiments = 100,
+                                 undeuterated_mass,
+                                 mass_deviations = 50,
+                                 intensity_deviations = NULL) {
 
     spectra <- make_experimental_design(spectra, n_replicates)
     make_noisy_spectra(spectra, n_experiments, undeuterated_mass,
@@ -262,10 +262,10 @@ add_noise_to_spectra <- function(spectra,
 #' @keywords internal
 #'
 make_noisy_spectra <- function(spectra,
-                              n_experiments = 100,
-                              undeuterated_mass,
-                              mass_deviations = 50,
-                              intensity_deviations = NULL) {
+                               n_experiments = 100,
+                               undeuterated_mass,
+                               mass_deviations = 50,
+                               intensity_deviations = NULL) {
 
     lapply(spectra, function(spectrum) {
 
@@ -297,9 +297,9 @@ make_noisy_spectra <- function(spectra,
 #' @keywords internal
 #'
 add_noise_to_one_spectrum <- function(spectrum,
-                                     undeuterated_mass,
-                                     mass_deviations = 50,
-                                     intensity_deviations = NULL) {
+                                      undeuterated_mass,
+                                      mass_deviations = 50,
+                                      intensity_deviations = NULL) {
 
     if (length(mass_deviations) == 1) {
         mass_deviations <- rep(mass_deviations, data.table::uniqueN(spectrum[["Exposure"]]))
@@ -309,14 +309,14 @@ add_noise_to_one_spectrum <- function(spectrum,
     names(sds) <- as.character(unique(spectrum[["Exposure"]]))
 
     spectrum <- spectrum[, add_noise_to_one_timepoint(.SD, sds), by <- "Exposure",
-                        .SDcols = colnames(spectrum)]
+                         .SDcols = colnames(spectrum)]
 
     if (!is.null(intensity_deviations)) {
 
         if (length(intensity_deviations) == 1) {
 
             intensity_deviations <- rep(intensity_deviations,
-                                       data.table::uniqueN(spectrum[["Exposure"]]))
+                                        data.table::uniqueN(spectrum[["Exposure"]]))
         }
 
         names(intensity_deviations) <- names(sds)
@@ -382,8 +382,8 @@ get_deuteration_curve_single_spectrum <- function(spectrum) {
 
     grouping_columns <- setdiff(colnames(spectrum), c("Mz", "Intensity"))
     spectrum <- spectrum[, list(Mass = weighted.mean(Charge * (Mz - 1.007276),
-                                                    Intensity)),
-                        by = grouping_columns]
+                                                     Intensity)),
+                         by = grouping_columns]
 
     spectrum
 
@@ -405,8 +405,8 @@ get_deuteration_curve_single_spectrum <- function(spectrum) {
 #' @keywords internal
 #'
 add_noise_to_curves <- function(curves,
-                               per_run_deviations = NULL,
-                               relative = TRUE) {
+                                per_run_deviations = NULL,
+                                relative = TRUE) {
 
     lapply(curves, function(curve) {
 
@@ -433,8 +433,8 @@ add_noise_to_curves <- function(curves,
 #' @export
 #'
 add_noise_to_single_curve <- function(replicate_curve,
-                                     per_run_deviations = NULL,
-                                     relative = TRUE) {
+                                      per_run_deviations = NULL,
+                                      relative = TRUE) {
     Exposure <- Mass <- Charge <- NULL
 
     if (!is.null(per_run_deviations)) {
@@ -446,16 +446,16 @@ add_noise_to_single_curve <- function(replicate_curve,
         names(per_run_deviations) <- as.character(unique(replicate_curve[["Rep"]]))
 
         replicate_curve <- replicate_curve[, add_noise(.SD, per_run_deviations),
-                                          by = "Rep", .SDcols = colnames(replicate_curve)]
+                                           by = "Rep", .SDcols = colnames(replicate_curve)]
         replicate_curve <- replicate_curve[, -1, with = FALSE]
     }
 
     if (relative) {
 
         grouping_columns <- setdiff(colnames(replicate_curve),
-                                   c("Mass", "Charge", "Exposure"))
+                                    c("Mass", "Charge", "Exposure"))
         replicate_curve <- replicate_curve[, list(Exposure, Charge, Mass = get_relative_mass(Mass, Exposure)),
-                                          by = grouping_columns]
+                                           by = grouping_columns]
     }
 
     replicate_curve
@@ -505,7 +505,7 @@ add_noise <- function(replicate_curve, standard_deviations) {
 
     sd <- standard_deviations[as.character(unique(replicate_curve[["Rep"]]))]
     replicate_curve[["Mass"]] <- ifelse(replicate_curve[["Mass"]] == 0, 0,
-                                       replicate_curve[["Mass"]] + rnorm(nrow(replicate_curve), 0, sd = sd))
+                                        replicate_curve[["Mass"]] + rnorm(nrow(replicate_curve), 0, sd = sd))
     replicate_curve
 }
 

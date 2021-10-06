@@ -87,8 +87,8 @@ calculate_hdx_power <- function(deuteration_curves, tests, significance_level = 
             }
 
             replicate_curve[["id"]] <- as.numeric(paste0(replicate_curve[["Rep"]],
-                                                        replicate_curve[["Charge"]],
-                                                        match(replicate_curve[["Experimental_state"]], LETTERS)))
+                                                         replicate_curve[["Charge"]],
+                                                         match(replicate_curve[["Experimental_state"]], LETTERS)))
 
             all_tests <- lapply(tests, function(test) {
                 test_for_replicate <- tryCatch({suppressMessages(suppressWarnings(
@@ -101,9 +101,9 @@ calculate_hdx_power <- function(deuteration_curves, tests, significance_level = 
                 if(type_one_err & nrow(test_for_replicate) != 0) {
 
                     test_for_replicate[["State_1"]] <- substr(test_for_replicate[["State_1"]], 1 ,
-                                                             nchar(test_for_replicate[["State_1"]]) - 1)
+                                                              nchar(test_for_replicate[["State_1"]]) - 1)
                     test_for_replicate[["State_2"]] <- substr(test_for_replicate[["State_2"]], 1 ,
-                                                             nchar(test_for_replicate[["State_2"]]) - 1)
+                                                              nchar(test_for_replicate[["State_2"]]) - 1)
                 }
                 cbind(info, test_for_replicate)
             })
