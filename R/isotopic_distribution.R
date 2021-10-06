@@ -14,8 +14,11 @@
 #' @export
 
 calculate_peptide_mass <- function(sequence) {
-    h2_o_mass = 18.01056
+
+    h2_o_mass <- 18.01056
+
     sum(AAmonoMass[sequence]) + h2_o_mass
+
 }
 
 
@@ -60,37 +63,38 @@ calculate_peptide_mass <- function(sequence) {
 #' @export
 
 get_approx_isotopic_distribution = function(sequence, min_probability = 1e-3) {
-    pC13 = 0.0111
-    pN15 = 0.00364
-    pO18 = 0.00205
-    pS34 = 0.04293
 
-    peptide_mass = calculate_peptide_mass(sequence)
-    n_carbon = sum(AAcarbonNum[sequence])
-    n_nitrogen = sum(AAnitrogenNum[sequence])
-    n_oxygen = sum(AAoxygenNum[sequence])
-    n_sulfer = sum(AAsulferNum[sequence])
+    pC13 <- 0.0111
+    pN15 <- 0.00364
+    pO18 <- 0.00205
+    pS34 <- 0.04293
 
-    distC = dbinom(seq(0, n_carbon), n_carbon, pC13)
-    distN = dbinom(seq(0, n_nitrogen), n_nitrogen, pN15)
-    dist = dbinom(seq(0, n_oxygen), n_oxygen, pO18)
-    distO = rep(0, 2*n_oxygen + 1)
-    distO[seq(1, 2*n_oxygen + 1, 2)] = dist[1:(n_oxygen + 1)]
+    peptide_mass <- calculate_peptide_mass(sequence)
+    n_carbon <- sum(AAcarbonNum[sequence])
+    n_nitrogen <- sum(AAnitrogenNum[sequence])
+    n_oxygen <- sum(AAoxygenNum[sequence])
+    n_sulfer <- sum(AAsulferNum[sequence])
 
-    dist = dbinom(seq(0, n_sulfer), n_sulfer, pS34)
-    distS = rep(0, 2 * n_sulfer + 1)
-    distS[seq(1, 2*n_sulfer + 1, 2)] = dist[1:(n_sulfer + 1)]
+    distC <- dbinom(seq(0, n_carbon), n_carbon, pC13)
+    distN <- dbinom(seq(0, n_nitrogen), n_nitrogen, pN15)
+    dist <- dbinom(seq(0, n_oxygen), n_oxygen, pO18)
+    distO <- rep(0, 2*n_oxygen + 1)
+    distO[seq(1, 2*n_oxygen + 1, 2)] <- dist[1:(n_oxygen + 1)]
 
-    finalDist = sort(signal::conv(distS, signal::conv(distO, signal::conv(distC, distN))),
-                     decreasing = TRUE)
+    dist <- dbinom(seq(0, n_sulfer), n_sulfer, pS34)
+    distS <- rep(0, 2 * n_sulfer + 1)
+    distS[seq(1, 2*n_sulfer + 1, 2)] <- dist[1:(n_sulfer + 1)]
 
-    maxND = sum(finalDist >= min_probability)
-    distND = finalDist[1:maxND]
+    finalDist <- sort(signal::conv(distS, signal::conv(distO, signal::conv(distC, distN))),
+                      decreasing = TRUE)
 
-    maxD = length(sequence)- sum(sequence[3:length(sequence)] == 'P')
+    maxND <- sum(finalDist >= min_probability)
+    distND <- finalDist[1:maxND]
 
-    return(list(mass = peptide_mass,
-                isotopic_distribution = distND,
-                max_ND = maxND - 1,
-                n_exchangeable = maxD))
+    maxD <- length(sequence)- sum(sequence[3:length(sequence)] == 'P')
+
+    list(mass = peptide_mass,
+         isotopic_distribution = distND,
+         max_ND = maxND - 1,
+         n_exchangeable = maxD)
 }
