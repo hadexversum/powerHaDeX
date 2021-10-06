@@ -308,7 +308,7 @@ add_noise_to_one_spectrum <- function(spectrum,
     sds <- mass_deviations * undeuterated_mass / 1e6
     names(sds) <- as.character(unique(spectrum[["Exposure"]]))
 
-    spectrum <- spectrum[, add_noise_to_one_timepoint(.SD, sds), by <- "Exposure",
+    spectrum <- spectrum[, add_noise_to_one_timepoint(.SD, sds), by = "Exposure",
                          .SDcols = colnames(spectrum)]
 
     if (!is.null(intensity_deviations)) {
