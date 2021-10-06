@@ -75,10 +75,13 @@ simulate_theoretical_spectra <- function(sequence, charge = NULL, protection_fac
                                          use_markov = TRUE) {
 
     sequence <- strsplit(sequence, "")[[1]]
+
     if (length(protection_factor) == 1L) {
+
         protection_factor <- rep(protection_factor, length(sequence))
     }
     if (is.null(charge)) {
+
         charge <- sample(2:6, 1)
     }
 
@@ -95,6 +98,7 @@ simulate_theoretical_spectra <- function(sequence, charge = NULL, protection_fac
     steps_between_time_points <- ceiling(times/deltaT)
 
     if (floor(max(times)/deltaT) == 0) {
+
         print("There is no deuteration before given time point. The measurement at the control time (conventionally 0) is returned.")
         isotope_dists <- data.table::data.table()
     } else {
@@ -117,6 +121,7 @@ simulate_theoretical_spectra <- function(sequence, charge = NULL, protection_fac
                                                 times, charge, pH)
         })
     }
+
     isotope_dists <- rbind(merge(data.frame(Exposure = 0,
                                             Intensity = isotopic_probs,
                                             PH = pH),
@@ -126,13 +131,16 @@ simulate_theoretical_spectra <- function(sequence, charge = NULL, protection_fac
                                             Charge = charge)),
                            isotope_dists)
 
-    isotope_dists[["Sequence"]] <- paste0(sequence, collapse <- "")
+    isotope_dists[["Sequence"]] <- paste0(sequence, collapse = "")
+
     if (length(unique(protection_factor)) == 1) {
         isotope_dists[["PF"]] <- protection_factor[1]
     } else {
         isotope_dists[["PF"]] <- paste(protection_factor,
                                        sep = ",", collapse = ",")
     }
+
     isotope_dists <- isotope_dists[isotope_dists[["Intensity"]] > min_probability, ]
+
     data.table::as.data.table(isotope_dists)
 }
