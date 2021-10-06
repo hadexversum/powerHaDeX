@@ -83,7 +83,7 @@
 #'
 #' @export
 #'
-get_noisy_deuteration_curves = function(theoretical_spectra,
+get_noisy_deuteration_curves <- function(theoretical_spectra,
                                         compare_pairs = TRUE,
                                         reference = NA,
                                         n_replicates = 4,
@@ -92,14 +92,17 @@ get_noisy_deuteration_curves = function(theoretical_spectra,
                                         intensity_deviations = NULL,
                                         per_run_deviations = NULL,
                                         relative = TRUE) {
-    undeuterated_mass = get_undeuterated_mass(theoretical_spectra)
-    spectra = get_spectra_list(theoretical_spectra, compare_pairs, reference)
-    spectra = add_noise_to_spectra(spectra, n_replicates, n_experiments, undeuterated_mass,
+
+    undeuterated_mass <- get_undeuterated_mass(theoretical_spectra)
+    spectra <- get_spectra_list(theoretical_spectra, compare_pairs, reference)
+    spectra <- add_noise_to_spectra(spectra, n_replicates, n_experiments, undeuterated_mass,
                                    mass_deviations, intensity_deviations)
-    curves = get_deuteration_curves_from_spectra(spectra)
-    curves = add_noise_to_curves(curves, per_run_deviations, relative)
-    curves = fix_columns_names_types(curves)
+    curves <- get_deuteration_curves_from_spectra(spectra)
+    curves <- add_noise_to_curves(curves, per_run_deviations, relative)
+    curves <- fix_columns_names_types(curves)
+
     curves
+
 }
 
 
@@ -122,18 +125,20 @@ get_noisy_deuteration_curves = function(theoretical_spectra,
 #' @return list of data.tables containing spectra - for paired states or all states.
 #'
 #' @export
-get_spectra_list = function(theoretical_spectra,
+get_spectra_list <- function(theoretical_spectra,
                             compare_pairs = FALSE,
                             reference = NA) {
-    if (compare_pairs & (is.na(reference))) {
-        stop("With pair comparisons, reference protection factor must be provided")
-    }
+
+    if (compare_pairs & (is.na(reference))) stop("With pair comparisons, reference protection factor must be provided")
 
     if (compare_pairs) {
-        spectra_list = get_paired_spectra(theoretical_spectra, reference)
+
+        spectra_list <- get_paired_spectra(theoretical_spectra, reference)
     } else {
-        spectra_list = list(theoretical_spectra)
+
+        spectra_list <- list(theoretical_spectra)
     }
+
     unname(spectra_list)
 }
 #' Get list of data.tables of spectra for pairs of protection factors
@@ -147,36 +152,42 @@ get_spectra_list = function(theoretical_spectra,
 #' @return list of data.tables
 #'
 #' @keywords internal
-get_paired_spectra = function(theoretical_spectra,
+get_paired_spectra <- function(theoretical_spectra,
                               reference = NA) {
 
     if(reference == "all") {
-        states = unique(theoretical_spectra[["PF"]])
-        pairs = rbind(t(combn(states, 2)), cbind(states, states))
-        split_spectra = split(theoretical_spectra, theoretical_spectra[["PF"]])
+
+        states <- unique(theoretical_spectra[["PF"]])
+        pairs <- rbind(t(combn(states, 2)), cbind(states, states))
+        split_spectra <- split(theoretical_spectra, theoretical_spectra[["PF"]])
 
         lapply(1:nrow(pairs), function(i) {
-            spectrum = split_spectra[[as.character(pairs[i, 1])]]
-            reference_spectrum = split_spectra[[as.character(pairs[i, 2])]]
 
-            spectrum[["Experimental_state"]] = "A"
-            reference_spectrum[["Experimental_state"]] = "B"
-            paired_spectra = rbind(spectrum, reference_spectrum)
+            spectrum <- split_spectra[[as.character(pairs[i, 1])]]
+            reference_spectrum <- split_spectra[[as.character(pairs[i, 2])]]
+
+            spectrum[["Experimental_state"]] <- "A"
+            reference_spectrum[["Experimental_state"]] <- "B"
+            paired_spectra <- rbind(spectrum, reference_spectrum)
         })
+
     }else {
+
         if (!(as.integer(reference) %in% as.integer(unique(theoretical_spectra[["PF"]])))) {
             stop("Reference protection factor does not fit the data.")
         }
-        PF = NULL
-        reference_spectrum = theoretical_spectra[abs(PF - reference) < 1e-9, ]
-        theoretical_spectra = split(theoretical_spectra[abs(PF - reference) > 1e-9, ],
+
+        PF <- NULL
+        reference_spectrum <- theoretical_spectra[abs(PF - reference) < 1e-9, ]
+        theoretical_spectra <- split(theoretical_spectra[abs(PF - reference) > 1e-9, ],
                                     theoretical_spectra[abs(PF - reference) > 1e-9, "PF"])
-        theoretical_spectra = lapply(theoretical_spectra,
+        theoretical_spectra <- lapply(theoretical_spectra,
                                      function(spectrum) {
-                                         spectrum[["Experimental_state"]] = "A"
-                                         reference_spectrum[["Experimental_state"]] = "B"
+                                         spectrum[["Experimental_state"]] <- "A"
+                                         reference_spectrum[["Experimental_state"]] <- "B"
                                          rbind(spectrum, reference_spectrum)
                                      })
+
         unname(theoretical_spectra)
     }
 }
@@ -196,12 +207,16 @@ get_paired_spectra = function(theoretical_spectra,
 #' @return list of data.tables
 #'
 #' @keywords internal
-make_experimental_design = function(spectra,
+make_experimental_design <- function(spectra,
                                     n_replicates = 4) {
+
     lapply(spectra, function(spectrum) {
+
         data.table::rbindlist(lapply(1:n_replicates, function(i) {
-            spectrum[["Rep"]] = as.character(i)
+
+            spectrum[["Rep"]] <- as.character(i)
             spectrum
+
         }))
     })
 }
@@ -221,15 +236,17 @@ make_experimental_design = function(spectra,
 #'
 #' @export
 #'
-add_noise_to_spectra = function(spectra,
+add_noise_to_spectra <- function(spectra,
                                 n_replicates = 4,
                                 n_experiments = 100,
                                 undeuterated_mass,
                                 mass_deviations = 50,
                                 intensity_deviations = NULL) {
-    spectra = make_experimental_design(spectra, n_replicates)
+
+    spectra <- make_experimental_design(spectra, n_replicates)
     make_noisy_spectra(spectra, n_experiments, undeuterated_mass,
                        mass_deviations, intensity_deviations)
+
 }
 
 
@@ -244,15 +261,19 @@ add_noise_to_spectra = function(spectra,
 #'
 #' @keywords internal
 #'
-make_noisy_spectra = function(spectra,
+make_noisy_spectra <- function(spectra,
                               n_experiments = 100,
                               undeuterated_mass,
                               mass_deviations = 50,
                               intensity_deviations = NULL) {
+
     lapply(spectra, function(spectrum) {
+
         lapply(1:n_experiments, function(ith_replicate) {
+
             add_noise_to_one_spectrum(spectrum, undeuterated_mass,
                                       mass_deviations, intensity_deviations)
+
         })
     })
 }
@@ -275,28 +296,35 @@ make_noisy_spectra = function(spectra,
 #'
 #' @keywords internal
 #'
-add_noise_to_one_spectrum = function(spectrum,
+add_noise_to_one_spectrum <- function(spectrum,
                                      undeuterated_mass,
                                      mass_deviations = 50,
                                      intensity_deviations = NULL) {
-    if (length(mass_deviations) == 1) {
-        mass_deviations = rep(mass_deviations, data.table::uniqueN(spectrum[["Exposure"]]))
-    }
-    sds = mass_deviations * undeuterated_mass / 1e6
-    names(sds) = as.character(unique(spectrum[["Exposure"]]))
 
-    spectrum = spectrum[, add_noise_to_one_timepoint(.SD, sds), by = "Exposure",
+    if (length(mass_deviations) == 1) {
+        mass_deviations <- rep(mass_deviations, data.table::uniqueN(spectrum[["Exposure"]]))
+    }
+
+    sds <- mass_deviations * undeuterated_mass / 1e6
+    names(sds) <- as.character(unique(spectrum[["Exposure"]]))
+
+    spectrum <- spectrum[, add_noise_to_one_timepoint(.SD, sds), by <- "Exposure",
                         .SDcols = colnames(spectrum)]
 
     if (!is.null(intensity_deviations)) {
+
         if (length(intensity_deviations) == 1) {
-            intensity_deviations = rep(intensity_deviations,
+
+            intensity_deviations <- rep(intensity_deviations,
                                        data.table::uniqueN(spectrum[["Exposure"]]))
         }
-        names(intensity_deviations) = names(sds)
-        spectrum = spectrum[, add_noise_to_intensities(.SD, sds), by = "Exposure"]
+
+        names(intensity_deviations) <- names(sds)
+        spectrum <- spectrum[, add_noise_to_intensities(.SD, sds), by = "Exposure"]
     }
+
     spectrum
+
 }
 # Calculate deuteration curves ----
 
@@ -317,10 +345,14 @@ add_noise_to_one_spectrum = function(spectrum,
 #'
 #' @export
 #'
-get_deuteration_curves_from_spectra = function(spectra) {
+get_deuteration_curves_from_spectra <- function(spectra) {
+
     lapply(spectra, function(spectrum) {
+
         lapply(spectrum, function(replicate) {
+
             get_deuteration_curve_single_spectrum(replicate)
+
         })
     })
 }
@@ -344,14 +376,17 @@ get_deuteration_curves_from_spectra = function(spectra) {
 #'
 #' @export
 #'
-get_deuteration_curve_single_spectrum = function(spectrum) {
-    Mz = Intensity = Charge = NULL
+get_deuteration_curve_single_spectrum <- function(spectrum) {
 
-    grouping_columns = setdiff(colnames(spectrum), c("Mz", "Intensity"))
-    spectrum = spectrum[, list(Mass = weighted.mean(Charge * (Mz - 1.007276),
+    Mz <- Intensity <- Charge <- NULL
+
+    grouping_columns <- setdiff(colnames(spectrum), c("Mz", "Intensity"))
+    spectrum <- spectrum[, list(Mass = weighted.mean(Charge * (Mz - 1.007276),
                                                     Intensity)),
                         by = grouping_columns]
+
     spectrum
+
 }
 # Noise for deuteration curves ----
 
@@ -369,13 +404,16 @@ get_deuteration_curve_single_spectrum = function(spectrum) {
 #'
 #' @keywords internal
 #'
-add_noise_to_curves = function(curves,
+add_noise_to_curves <- function(curves,
                                per_run_deviations = NULL,
                                relative = TRUE) {
+
     lapply(curves, function(curve) {
+
         lapply(curve, function(replicate_curve) {
-            add_noise_to_single_curve(replicate_curve, per_run_deviations,
-                                      relative)
+
+            add_noise_to_single_curve(replicate_curve, per_run_deviations, relative)
+
         })
     })
 }
@@ -394,27 +432,34 @@ add_noise_to_curves = function(curves,
 #'
 #' @export
 #'
-add_noise_to_single_curve = function(replicate_curve,
+add_noise_to_single_curve <- function(replicate_curve,
                                      per_run_deviations = NULL,
                                      relative = TRUE) {
-    Exposure = Mass = Charge = NULL
-    if (!is.null(per_run_deviations)) {
-        if (length(per_run_deviations) == 1) {
-            per_run_deviations = rep(per_run_deviations, length(unique(replicate_curve[["Rep"]])))
-        }
-        names(per_run_deviations) = as.character(unique(replicate_curve[["Rep"]]))
+    Exposure <- Mass <- Charge <- NULL
 
-        replicate_curve = replicate_curve[, add_noise(.SD, per_run_deviations),
+    if (!is.null(per_run_deviations)) {
+
+        if (length(per_run_deviations) == 1) {
+
+            per_run_deviations <- rep(per_run_deviations, length(unique(replicate_curve[["Rep"]])))
+        }
+        names(per_run_deviations) <- as.character(unique(replicate_curve[["Rep"]]))
+
+        replicate_curve <- replicate_curve[, add_noise(.SD, per_run_deviations),
                                           by = "Rep", .SDcols = colnames(replicate_curve)]
-        replicate_curve = replicate_curve[, -1, with = FALSE]
+        replicate_curve <- replicate_curve[, -1, with = FALSE]
     }
+
     if (relative) {
-        grouping_columns = setdiff(colnames(replicate_curve),
+
+        grouping_columns <- setdiff(colnames(replicate_curve),
                                    c("Mass", "Charge", "Exposure"))
-        replicate_curve = replicate_curve[, list(Exposure, Charge, Mass = get_relative_mass(Mass, Exposure)),
+        replicate_curve <- replicate_curve[, list(Exposure, Charge, Mass = get_relative_mass(Mass, Exposure)),
                                           by = grouping_columns]
     }
+
     replicate_curve
+
 }
 
 # Smaller utility functions ----
@@ -437,8 +482,10 @@ add_noise_to_single_curve = function(replicate_curve,
 #'
 #' @export
 #'
-get_undeuterated_mass = function(theoretical_spectra) {
+get_undeuterated_mass <- function(theoretical_spectra) {
+
     unique(theoretical_spectra[["Charge"]] * (theoretical_spectra[["Mz"]] - 1.007276))[1]
+
 }
 
 #' Adds noise to mass domain
@@ -454,9 +501,10 @@ get_undeuterated_mass = function(theoretical_spectra) {
 #'
 #' @keywords internal
 #'
-add_noise = function(replicate_curve, standard_deviations) {
-    sd = standard_deviations[as.character(unique(replicate_curve[["Rep"]]))]
-    replicate_curve[["Mass"]] = ifelse(replicate_curve[["Mass"]] == 0, 0,
+add_noise <- function(replicate_curve, standard_deviations) {
+
+    sd <- standard_deviations[as.character(unique(replicate_curve[["Rep"]]))]
+    replicate_curve[["Mass"]] <- ifelse(replicate_curve[["Mass"]] == 0, 0,
                                        replicate_curve[["Mass"]] + rnorm(nrow(replicate_curve), 0, sd = sd))
     replicate_curve
 }
@@ -474,10 +522,12 @@ add_noise = function(replicate_curve, standard_deviations) {
 #'
 #' @keywords internal
 #'
-add_noise_to_one_timepoint = function(spectrum, standard_deviations) {
-    sd = standard_deviations[as.character(unique(spectrum[["Exposure"]]))]
-    spectrum[["Mz"]] = spectrum[["Mz"]] + rnorm(nrow(spectrum), 0, sd)
+add_noise_to_one_timepoint <- function(spectrum, standard_deviations) {
+
+    sd <- standard_deviations[as.character(unique(spectrum[["Exposure"]]))]
+    spectrum[["Mz"]] <- spectrum[["Mz"]] + rnorm(nrow(spectrum), 0, sd)
     spectrum[, !(colnames(spectrum) == "Exposure"), with = FALSE]
+
 }
 
 #' Adds noise to a single time point in intensity domain
@@ -492,9 +542,11 @@ add_noise_to_one_timepoint = function(spectrum, standard_deviations) {
 #'
 #' @keywords internal
 #'
-add_noise_to_intensities = function(spectrum, standard_deviations) {
-    spectrum[["Intensity"]] = spectrum[["Intensity"]] + rnorm(nrow(spectrum), 0, standard_deviations)
+add_noise_to_intensities <- function(spectrum, standard_deviations) {
+
+    spectrum[["Intensity"]] <- spectrum[["Intensity"]] + rnorm(nrow(spectrum), 0, standard_deviations)
     spectrum[, !(colnames(spectrum) == "Exposure"), with = FALSE]
+
 }
 #' Get relative mass
 #'
@@ -504,22 +556,29 @@ add_noise_to_intensities = function(spectrum, standard_deviations) {
 #' @param time vector of time points
 #'
 #' @keywords internal
-get_relative_mass = function(mass, time) {
+get_relative_mass <- function(mass, time) {
+
     mass - mass[time == 0]
+
 }
 
 #' Standardize column names and types
 #'
 #' @param curves list of lists of data.tables
 #'
-fix_columns_names_types = function(curves) {
-    Sequence = Rep = PF = Exposure = Mass = Charge = Experimental_state =  NULL
+fix_columns_names_types <- function(curves) {
+
+    Sequence <- Rep <- PF <- Exposure <- Mass <- Charge <- Experimental_state <-  NULL
+
     lapply(curves, function(curve) {
+
         lapply(curve, function(replicate_curve) {
+
             replicate_curve[, list(Sequence = as.factor(Sequence),
                                    Rep = as.factor(as.character(Rep)),
                                    State = as.factor(as.character(PF)),
                                    Exposure, Mass, Charge, Experimental_state)]
+
         })
     })
 }
