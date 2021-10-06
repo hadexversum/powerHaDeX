@@ -55,68 +55,74 @@
 #'
 #' @export
 #'
-calculate_hdx_power = function(deuteration_curves, tests, significance_level = 0.05,
-                               summarized = TRUE) {
-    Significant_difference = Sequence = Rep = State = Exposure = Transformation = Test =
-        Num_replicates = Num_states = Num_timepoints = State_2 = Time = State_1 = NULL
+calculate_hdx_power <- function(deuteration_curves, tests, significance_level = 0.05,
+                                summarized = TRUE) {
 
-    test_results = lapply(
-        deuteration_curves, function(curve) {
-            single_curve = lapply(curve, function(replicate_curve) {
+    Significant_difference <- Sequence <- Rep <- State <- Exposure <- Transformation <- Test =
+        Num_replicates <- Num_states <- Num_timepoints <- State_2 <- Time <- State_1 <- NULL
 
-                if(uniqueN(replicate_curve[["State"]]) > 2) stop("The data table should contain at most 2 different states.")
+    test_results <- lapply( deuteration_curves, function(curve) {
 
-                if(uniqueN(replicate_curve[["State"]]) == 1 & uniqueN(replicate_curve[["Experimental_state"]]) == 2) {
+        single_curve <- lapply(curve, function(replicate_curve) {
 
-                    replicate_curve[["State"]] = paste0(replicate_curve[["State"]],
-                                                        replicate_curve[["Experimental_state"]])
-                    info = replicate_curve[, list(Sequence = as.character(unique(Sequence)),
-                                                  Num_replicates = uniqueN(Rep),
-                                                  Num_states = 2L,
-                                                  Num_timepoints = uniqueN(Exposure))]
-                    type_one_err = TRUE
+            if(uniqueN(replicate_curve[["State"]]) > 2) stop("The data table should contain at most 2 different states.")
 
-                }else {
-                    type_one_err = FALSE
-                    info = replicate_curve[, list(Sequence = as.character(unique(Sequence)),
-                                                  Num_replicates = uniqueN(Rep),
-                                                  Num_states = uniqueN(State),
-                                                  Num_timepoints = uniqueN(Exposure))]
-                }
-                replicate_curve[["id"]] = as.numeric(paste0(replicate_curve[["Rep"]],
-                                                            replicate_curve[["Charge"]],
-                                                            match(replicate_curve[["Experimental_state"]], LETTERS)))
+            if(uniqueN(replicate_curve[["State"]]) == 1 & uniqueN(replicate_curve[["Experimental_state"]]) == 2) {
 
-                all_tests = lapply(tests, function(test) {
-                    test_for_replicate = tryCatch({suppressMessages(suppressWarnings(
-                        test(replicate_curve,
-                             significance_level = 0.05)
-                    ))}, error = function(e) {
-                        print(e)
-                        data.table::data.table()
-                    })
-                    if(type_one_err & nrow(test_for_replicate) != 0) {
+                replicate_curve[["State"]] <- paste0(replicate_curve[["State"]],
+                                                     replicate_curve[["Experimental_state"]])
+                info <- replicate_curve[, list(Sequence <- as.character(unique(Sequence)),
+                                               Num_replicates = uniqueN(Rep),
+                                               Num_states = 2L,
+                                               Num_timepoints = uniqueN(Exposure))]
+                type_one_err = TRUE
 
-                        test_for_replicate[["State_1"]] = substr(test_for_replicate[["State_1"]], 1 ,
-                                                                        nchar(test_for_replicate[["State_1"]]) - 1)
-                        test_for_replicate[["State_2"]] = substr(test_for_replicate[["State_2"]], 1 ,
-                                                                        nchar(test_for_replicate[["State_2"]]) - 1)
-                    }
-                    cbind(info, test_for_replicate)
+            }else {
+
+                type_one_err = FALSE
+                info = replicate_curve[, list(Sequence = as.character(unique(Sequence)),
+                                              Num_replicates = uniqueN(Rep),
+                                              Num_states = uniqueN(State),
+                                              Num_timepoints = uniqueN(Exposure))]
+            }
+
+            replicate_curve[["id"]] <- as.numeric(paste0(replicate_curve[["Rep"]],
+                                                        replicate_curve[["Charge"]],
+                                                        match(replicate_curve[["Experimental_state"]], LETTERS)))
+
+            all_tests <- lapply(tests, function(test) {
+                test_for_replicate <- tryCatch({suppressMessages(suppressWarnings(
+                    test(replicate_curve,
+                         significance_level = 0.05)
+                ))}, error = function(e) {
+                    print(e)
+                    data.table::data.table()
                 })
-                data.table::rbindlist(all_tests)
-            })
+                if(type_one_err & nrow(test_for_replicate) != 0) {
 
-            data.table::rbindlist(single_curve)
-        }
-    )
+                    test_for_replicate[["State_1"]] <- substr(test_for_replicate[["State_1"]], 1 ,
+                                                             nchar(test_for_replicate[["State_1"]]) - 1)
+                    test_for_replicate[["State_2"]] <- substr(test_for_replicate[["State_2"]], 1 ,
+                                                             nchar(test_for_replicate[["State_2"]]) - 1)
+                }
+                cbind(info, test_for_replicate)
+            })
+            data.table::rbindlist(all_tests)
+        })
+
+        data.table::rbindlist(single_curve)
+    })
 
     if (summarized) {
-        test_results = lapply(test_results, function(test_result) {
+
+        test_results <- lapply(test_results, function(test_result) {
+
             test_result[, list(Power = mean(Significant_difference)),
                         by = list(Sequence, Num_replicates, Num_states, Num_timepoints,
                                   Test, Transformation, Time, State_1, State_2)]
         })
     }
+
     rbindlist(test_results)
+
 }
