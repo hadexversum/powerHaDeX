@@ -30,13 +30,15 @@ create_experimental_file <- function(peptides,
                                      mass_deviations = 50,
                                      intensity_deviations = NULL,
                                      file_type = "DynamX") {
-    Modification = MaxUptake = Fragment = Sequence = RT = NULL
+
+    Modification <- MaxUptake <- Fragment <- Sequence <- RT <- NULL
 
     if (is.null(peptides[["sequence"]])) stop("You must provide at least one sequence to simulate spectra.
                                               See simulate_theoretical_spectra for more details.")
     all_params <- prepare_input_peptides(peptides)
 
     noisy_spectra_data <- rbindlist(lapply(1:nrow(all_params), function(ith_row) {
+
         print(paste("Simulation row:", ith_row))
         spectrum <- tryCatch(simulate_theoretical_spectra(sequence = all_params[ith_row, "sequence"],
                                                           charge = charge,
@@ -50,20 +52,22 @@ create_experimental_file <- function(peptides,
                              error = function(e) {
                                  print(e)
                                  data.frame()})
+
         spectra_by_charge <- split(spectrum, f = spectrum[["Charge"]])
 
         rbindlist(lapply(spectra_by_charge, function(one_charge_spectrum) {
-            undeuterated_mass = get_undeuterated_mass(one_charge_spectrum)
-            spectra = get_spectra_list(one_charge_spectrum,
-                                       compare_pairs = FALSE,
-                                       reference = NA)
-            noisy_spectra = add_noise_to_spectra(spectra,
-                                                 n_replicates = n_replicates,
-                                                 n_experiments = 1,
-                                                 undeuterated_mass,
-                                                 mass_deviations = mass_deviations,
-                                                 intensity_deviations = intensity_deviations)
-            noisy_spectra[[1]][[1]][["MHP"]] = calculate_peptide_mass(strsplit(all_params[ith_row, "sequence"], "")[[1]])
+
+            undeuterated_mass <- get_undeuterated_mass(one_charge_spectrum)
+            spectra <- get_spectra_list(one_charge_spectrum,
+                                        compare_pairs = FALSE,
+                                        reference = NA)
+            noisy_spectra <- add_noise_to_spectra(spectra,
+                                                  n_replicates = n_replicates,
+                                                  n_experiments = 1,
+                                                  undeuterated_mass,
+                                                  mass_deviations = mass_deviations,
+                                                  intensity_deviations = intensity_deviations)
+            noisy_spectra[[1]][[1]][["MHP"]] <- calculate_peptide_mass(strsplit(all_params[ith_row, "sequence"], "")[[1]])
             noisy_spectra_center <- get_deuteration_curve_single_spectrum(noisy_spectra[[1]][[1]])
             noisy_spectra_center[["Protein"]] <- all_params[ith_row, "Protein"]
             noisy_spectra_center[["Start"]] <- all_params[ith_row, "Start"]
@@ -74,6 +78,7 @@ create_experimental_file <- function(peptides,
                                                 "Protein", "Start", "End")
             noisy_spectra_center[["State"]] <- paste0("PF_", noisy_spectra_center[["State"]])
             noisy_spectra_center
+
         }))
     }))
 
@@ -84,7 +89,9 @@ create_experimental_file <- function(peptides,
     DynamX_order <- c("Protein", "Start", "End", "Sequence", "Modification", "Fragment", "MaxUptake",
                       "MHP", "State", "Exposure", "File", "z", "RT", "Center")
     setcolorder(noisy_spectra_data, DynamX_order)
+
     data.table(noisy_spectra_data)
+
 }
 
 #' Prepare input for \code{\link[powerHaDeX]{create_experimental_file}}
@@ -97,6 +104,7 @@ create_experimental_file <- function(peptides,
 #'
 
 prepare_input_peptides <- function(peptides) {
+
     peptides <- add_column(peptides, "protection_factor", 1)
     peptides <- add_column(peptides, "pH",  7.5)
     peptides <- add_column(peptides, "temperature", 15)
@@ -108,7 +116,9 @@ prepare_input_peptides <- function(peptides) {
     peptides <- add_column(peptides, "Start", "")
     peptides <- add_column(peptides, "End", "")
     peptides <- add_column(peptides, "Protein", "Protein")
+
     peptides
+
 }
 
 
@@ -130,11 +140,16 @@ prepare_input_peptides <- function(peptides) {
 #'
 
 add_column <- function(data, col_name, value = NULL) {
+
     missing_column <- col_name[!col_name%in%names(data)]
+
     if(length(missing_column)!= 0){
+
         data[[missing_column]] <- value
     }
+
     data
+
 }
 
 
