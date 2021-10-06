@@ -83,26 +83,32 @@ get_poly_const = function(mol_type, exchange = "HD") {
 #' (\code{pKc} values corresponding to amino acids).
 #'
 #' @keywords internal
-get_pkc = function(temp_kelvin, gas_constant, exchange = "HD") {
+
+get_pkc <- function(temp_kelvin, gas_constant, exchange = "HD") {
+
     # Unit: cal / mol
     if(temp_kelvin == 0) stop("Temperature in Kelvin can not be 0.")
     match.arg(exchange, c("HD", "DH"))
+
     if (exchange == "HD") {
-        Ea_Asp = 1000
-        Asp_exponent = -4.48
-        Glu_exponent = -4.93
-        His_exponent = -7.42
+
+        Ea_Asp <- 1000
+        Asp_exponent <- -4.48
+        Glu_exponent <- -4.93
+        His_exponent <- -7.42
     } else {
-        Ea_Asp = 960
-        Asp_exponent = -3.87
-        Glu_exponent = -4.33
-        His_exponent = -7
+
+        Ea_Asp <- 960
+        Asp_exponent <- -3.87
+        Glu_exponent <- -4.33
+        His_exponent <- -7
     }
-    Ea_Glu = 1083
-    Ea_His = 7500
-    pKc_Asp = -log10(10^(Asp_exponent) * exp(-1 * Ea_Asp * ((1 / temp_kelvin - 1 / 278) / gas_constant)))
-    pKc_Glu = -log10(10^(Glu_exponent) * exp(-1 * Ea_Glu * ((1 / temp_kelvin - 1 / 278) / gas_constant)))
-    pKc_His = -log10(10^(His_exponent) * exp(-1 * Ea_His * ((1 / temp_kelvin - 1 / 278) / gas_constant)))
+
+    Ea_Glu <- 1083
+    Ea_His <- 7500
+    pKc_Asp <- -log10(10^(Asp_exponent) * exp(-1 * Ea_Asp * ((1 / temp_kelvin - 1 / 278) / gas_constant)))
+    pKc_Glu <- -log10(10^(Glu_exponent) * exp(-1 * Ea_Glu * ((1 / temp_kelvin - 1 / 278) / gas_constant)))
+    pKc_His <- -log10(10^(His_exponent) * exp(-1 * Ea_His * ((1 / temp_kelvin - 1 / 278) / gas_constant)))
     list(asp = pKc_Asp,
          glu = pKc_Glu,
          his = pKc_His)
@@ -119,8 +125,10 @@ get_pkc = function(temp_kelvin, gas_constant, exchange = "HD") {
 #' (specifically for \code{Asp}, \code{Glu}, \code{His}, \code{C−Term} and \code{NHMe})
 #'
 #' @keywords internal
-get_exchange_constants = function(pH, pkc_consts, k_consts) {
-    constants = matrix(
+
+get_exchange_constants <- function(pH, pkc_consts, k_consts) {
+
+    constants <- matrix(
         c(0, 0, 0, 0,
           -0.59, -0.32, 0.0767122542818456, 0.22,
           0, 0, 0, 0, # Asp
@@ -151,26 +159,28 @@ get_exchange_constants = function(pH, pkc_consts, k_consts) {
           0, 0.293, 0, -0.197
         ), ncol = 4, byrow = TRUE)
 
-    constants[3,1] = log10(10^(-0.9 - pH) / (10^(-pkc_consts[["asp"]]) + 10^(-pH)) + 10^(0.9 - pkc_consts[["asp"]]) / (10^(-pkc_consts[["asp"]]) + 10^(-pH)))
-    constants[3,2] = log10(10^(-0.12 - pH) / (10^(-pkc_consts[["asp"]]) + 10^(-pH)) + 10^(0.58 - pkc_consts[["asp"]]) / (10^(-pkc_consts[["asp"]]) + 10^(-pH)))
-    constants[3,3] = log10(10^(0.69 - pH) / (10^(-pkc_consts[["asp"]]) + 10^(-pH)) + 10^(-0.3 - pkc_consts[["asp"]]) / (10^(-pkc_consts[["asp"]]) + 10^(-pH)))
-    constants[3,4] = log10(10^(0.6 - pH) / (10^(-pkc_consts[["asp"]]) + 10^(-pH)) + 10^(-0.18 - pkc_consts[["asp"]]) / (10^(-pkc_consts[["asp"]]) + 10^(-pH)))
+    constants[3,1] <- log10(10^(-0.9 - pH) / (10^(-pkc_consts[["asp"]]) + 10^(-pH)) + 10^(0.9 - pkc_consts[["asp"]]) / (10^(-pkc_consts[["asp"]]) + 10^(-pH)))
+    constants[3,2] <- log10(10^(-0.12 - pH) / (10^(-pkc_consts[["asp"]]) + 10^(-pH)) + 10^(0.58 - pkc_consts[["asp"]]) / (10^(-pkc_consts[["asp"]]) + 10^(-pH)))
+    constants[3,3] <- log10(10^(0.69 - pH) / (10^(-pkc_consts[["asp"]]) + 10^(-pH)) + 10^(-0.3 - pkc_consts[["asp"]]) / (10^(-pkc_consts[["asp"]]) + 10^(-pH)))
+    constants[3,4] <- log10(10^(0.6 - pH) / (10^(-pkc_consts[["asp"]]) + 10^(-pH)) + 10^(-0.18 - pkc_consts[["asp"]]) / (10^(-pkc_consts[["asp"]]) + 10^(-pH)))
 
-    constants[9,1] = log10(10^(-0.6 - pH) / (10^(-pkc_consts[["glu"]]) + 10^(-pH)) + 10^(-0.9 - pkc_consts[["glu"]]) / (10^(-pkc_consts[["glu"]]) + 10^(-pH)))
-    constants[9,2] = log10(10^(-0.27 - pH) / (10^(-pkc_consts[["glu"]]) + 10^(-pH)) + 10^(0.31 - pkc_consts[["glu"]]) / (10^(-pkc_consts[["glu"]]) + 10^(-pH)))
-    constants[9,3] = log10(10^(0.24 - pH) / (10^(-pkc_consts[["glu"]]) + 10^(-pH)) + 10^(-0.51 - pkc_consts[["glu"]]) / (10^(-pkc_consts[["glu"]]) + 10^(-pH)))
-    constants[9,4] = log10(10^(0.39 - pH) / (10^(-pkc_consts[["glu"]]) + 10^(-pH)) + 10^(-0.15 - pkc_consts[["glu"]]) / (10^(-pkc_consts[["glu"]]) + 10^(-pH)))
+    constants[9,1] <- log10(10^(-0.6 - pH) / (10^(-pkc_consts[["glu"]]) + 10^(-pH)) + 10^(-0.9 - pkc_consts[["glu"]]) / (10^(-pkc_consts[["glu"]]) + 10^(-pH)))
+    constants[9,2] <- log10(10^(-0.27 - pH) / (10^(-pkc_consts[["glu"]]) + 10^(-pH)) + 10^(0.31 - pkc_consts[["glu"]]) / (10^(-pkc_consts[["glu"]]) + 10^(-pH)))
+    constants[9,3] <- log10(10^(0.24 - pH) / (10^(-pkc_consts[["glu"]]) + 10^(-pH)) + 10^(-0.51 - pkc_consts[["glu"]]) / (10^(-pkc_consts[["glu"]]) + 10^(-pH)))
+    constants[9,4] <- log10(10^(0.39 - pH) / (10^(-pkc_consts[["glu"]]) + 10^(-pH)) + 10^(-0.15 - pkc_consts[["glu"]]) / (10^(-pkc_consts[["glu"]]) + 10^(-pH)))
 
-    constants[12,1] = log10(10^(-0.8 - pH) / (10^(-pkc_consts[["his"]]) + 10^(-pH)) + 10^(-pkc_consts[["his"]]) / (10^(-pkc_consts[["his"]]) + 10^(-pH)))
-    constants[12,2] = log10(10^(-0.51 - pH) / (10^(-pkc_consts[["his"]]) + 10^(-pH)) + 10^(-pkc_consts[["his"]]) / (10^(-pkc_consts[["his"]]) + 10^(-pH)))
-    constants[12,3] = log10(10^(0.8 - pH) / (10^(-pkc_consts[["his"]]) + 10^(-pH)) + 10^(-0.1 - pkc_consts[["his"]]) / (10^(-pkc_consts[["his"]]) + 10^(-pH)))
-    constants[12,4] = log10(10^(0.83 - pH) / (10^(-pkc_consts[["his"]]) + 10^(-pH)) + 10^(0.14 - pkc_consts[["his"]]) / (10^(-pkc_consts[["his"]]) + 10^(-pH)))
+    constants[12,1] <- log10(10^(-0.8 - pH) / (10^(-pkc_consts[["his"]]) + 10^(-pH)) + 10^(-pkc_consts[["his"]]) / (10^(-pkc_consts[["his"]]) + 10^(-pH)))
+    constants[12,2] <- log10(10^(-0.51 - pH) / (10^(-pkc_consts[["his"]]) + 10^(-pH)) + 10^(-pkc_consts[["his"]]) / (10^(-pkc_consts[["his"]]) + 10^(-pH)))
+    constants[12,3] <- log10(10^(0.8 - pH) / (10^(-pkc_consts[["his"]]) + 10^(-pH)) + 10^(-0.1 - pkc_consts[["his"]]) / (10^(-pkc_consts[["his"]]) + 10^(-pH)))
+    constants[12,4] <- log10(10^(0.83 - pH) / (10^(-pkc_consts[["his"]]) + 10^(-pH)) + 10^(0.14 - pkc_consts[["his"]]) / (10^(-pkc_consts[["his"]]) + 10^(-pH)))
 
-    constants[26,1] = log10(10^(0.05 - pH) / (10^(-pkc_consts[["glu"]]) + 10^(-pH)) + 10^(0.96 - pkc_consts[["glu"]]) / (10^(-pkc_consts[["glu"]]) + 10^(-pH)))
+    constants[26,1] <- log10(10^(0.05 - pH) / (10^(-pkc_consts[["glu"]]) + 10^(-pH)) + 10^(0.96 - pkc_consts[["glu"]]) / (10^(-pkc_consts[["glu"]]) + 10^(-pH)))
 
-    constants[27,1] = log10(135.5 / (k_consts[["Ka"]] * 60))
-    constants[27,3] = log10(2970000000 / (k_consts[["Kb"]] * 60))
+    constants[27,1] <- log10(135.5 / (k_consts[["Ka"]] * 60))
+    constants[27,3] <- log10(2970000000 / (k_consts[["Kb"]] * 60))
+
     constants
+
 }
 
 
@@ -228,64 +238,78 @@ get_exchange_constants = function(pH, pkc_consts, k_consts) {
 #' @keywords internal
 #'
 #' @export
-get_exchange_rates = function(sequence, exchange = "HD", pH = 9, temperature = 15,
-                              mol_type = "poly", if_corr = FALSE) {
+
+get_exchange_rates <- function(sequence, exchange = "HD", pH = 9, temperature = 15,
+                               mol_type = "poly", if_corr = FALSE) {
     assert(checkLogical(if_corr))
     assert(checkChoice(mol_type, c("poly", "oligo")))
     assert(checkChoice(exchange, c("HD", "DH")))
     assert(checkFALSE(temperature == -273.15))
 
     if (exchange == "HD") {
-        pd = pH + 0.4 * if_corr
-        D = 10^(-pd) # [D + ]
-        OD = 10^(pd - 15.05) # [OD - ]
+        pd <- pH + 0.4 * if_corr
+        D <- 10^(-pd) # [D + ]
+        OD <- 10^(pd - 15.05) # [OD - ]
     } else {
-        D = 10 ^ (-pH) # [D + ]
-        OD = 10 ^ (pH - 14.17) # [OD - ]
+        D <- 10 ^ (-pH) # [D + ]
+        OD <- 10 ^ (pH - 14.17) # [OD - ]
     }
 
-    gas_constant = 1.9858775
-    temp_kelvin = temperature + 273.15
-    F_consts = get_F_const(temp_kelvin, gas_constant)
-    poly_consts = get_poly_const(mol_type, exchange)
-    pkc_consts = get_pkc(temp_kelvin, gas_constant, exchange)
+    gas_constant <- 1.9858775
+    temp_kelvin <- temperature + 273.15
+    F_consts <- get_F_const(temp_kelvin, gas_constant)
+    poly_consts <- get_poly_const(mol_type, exchange)
+    pkc_consts <- get_pkc(temp_kelvin, gas_constant, exchange)
 
-    AAs = strsplit('ARDdNCsGEeQHILKMFPpSTWYVncma', "")[[1]]
-    constants = get_exchange_constants(pH, pkc_consts, poly_consts)
-    sequence = c("n", sequence, "c")
-    N = length(sequence)
+    AAs <- strsplit('ARDdNCsGEeQHILKMFPpSTWYVncma', "")[[1]]
+    constants <- get_exchange_constants(pH, pkc_consts, poly_consts)
+    sequence <- c("n", sequence, "c")
+    N <- length(sequence)
+
     if (N <= 2) stop("Length of sequence must be greater than 0")
+
     kcDH = rep(0, N)
 
     for (i in 1:N) {
+
         if (i == 1 || sequence[i] == 'P' || sequence[i] == 'p' || sequence[i] == 'a') {
+
             next()
         } else {
+
             if (i %in% c(1, 2, N) || sequence[i] %in% c("P", "a", "p")) {
-                Fa = 0
-                Fb = 0
+
+                Fa <- 0
+                Fb <- 0
             } else {
-                j = which(AAs == sequence[i])
-                k = which(AAs == sequence[i - 1])
+
+                j <- which(AAs == sequence[i])
+                k <- which(AAs == sequence[i - 1])
                 if (i - 2 <= 1 && i + 1 == N && sequence[i - 1] != "a" && sequence[i] != "m") {
-                    Fa = 10 ^ (constants[j, 1] + constants[k, 2] + constants[25, 2] + constants[26, 1])
-                    Fb = 10 ^ (constants[j, 3] + constants[k, 4] + constants[25, 4] + constants[26, 3])
+
+                    Fa <- 10 ^ (constants[j, 1] + constants[k, 2] + constants[25, 2] + constants[26, 1])
+                    Fb <- 10 ^ (constants[j, 3] + constants[k, 4] + constants[25, 4] + constants[26, 3])
                 } else {
+
                     if (i - 2 <= 1 && sequence[i - 1] != "a") {
-                        Fa = 10 ^ (constants[j, 1] + constants[k, 2] + constants[25, 2])
-                        Fb = 10 ^ (constants[j, 3] + constants[k, 4] + constants[25, 4])
+
+                        Fa <- 10 ^ (constants[j, 1] + constants[k, 2] + constants[25, 2])
+                        Fb <- 10 ^ (constants[j, 3] + constants[k, 4] + constants[25, 4])
                     } else {
+
                         if (i + 1 == N && sequence[i] != "m") {
-                            Fa = 10 ^ (constants[j, 1] + constants[k, 2] + constants[26, 1])
-                            Fb = 10 ^ (constants[j, 3] + constants[k, 4] + constants[26, 3])
+
+                            Fa <- 10 ^ (constants[j, 1] + constants[k, 2] + constants[26, 1])
+                            Fb <- 10 ^ (constants[j, 3] + constants[k, 4] + constants[26, 3])
                         } else {
-                            Fa = 10^(constants[j, 1] + constants[k, 2])
-                            Fb = 10^(constants[j, 3] + constants[k, 4])
+
+                            Fa <- 10^(constants[j, 1] + constants[k, 2])
+                            Fb <- 10^(constants[j, 3] + constants[k, 4])
                         }
                     }
                 }
             }
-            kcDH[i] = Fa * poly_consts[["Ka"]] * D * F_consts[["Fta"]] +
+            kcDH[i] <- Fa * poly_consts[["Ka"]] * D * F_consts[["Fta"]] +
                 Fb * poly_consts[["Kb"]] * OD * F_consts[["Ftb"]] +
                 Fb * poly_consts[["Kw"]] * F_consts[["Ftw"]]
         }
