@@ -58,7 +58,7 @@
 calculate_hdx_power <- function(deuteration_curves, tests, significance_level = 0.05,
                                 summarized = TRUE) {
 
-    Significant_difference <- Sequence <- Rep <- State <- Exposure <- Transformation <- Test =
+    Significant_difference <- Sequence <- Rep <- State <- Exposure <- Transformation <- Test <-
         Num_replicates <- Num_states <- Num_timepoints <- State_2 <- Time <- State_1 <- NULL
 
     test_results <- lapply( deuteration_curves, function(curve) {
@@ -71,7 +71,7 @@ calculate_hdx_power <- function(deuteration_curves, tests, significance_level = 
 
                 replicate_curve[["State"]] <- paste0(replicate_curve[["State"]],
                                                      replicate_curve[["Experimental_state"]])
-                info <- replicate_curve[, list(Sequence <- as.character(unique(Sequence)),
+                info <- replicate_curve[, list(Sequence = as.character(unique(Sequence)),
                                                Num_replicates = uniqueN(Rep),
                                                Num_states = 2L,
                                                Num_timepoints = uniqueN(Exposure))]
