@@ -103,11 +103,14 @@ test_that("get_pkc returns proper output", {
 
 
 #get_exchange_rates
-test_that("get_exchange_rates returns proper output", {
+
+pH = 9
+temperature = 15
+if_corr = 0
+
+
+test_that("get_exchange_rates returns proper output for sequence PPAQHI", {
     sequence = c("P", "P", "A", "Q", "H", "I")
-    pH = 9
-    temperature = 15
-    if_corr = 0
 
     kcHD = get_exchange_rates(sequence, exchange = "HD", mol_type = "poly", if_corr = TRUE)
     expect_equal(kcHD, c(0, 0, 147.326618489, 293.955249864, 358.207739345,
@@ -115,18 +118,32 @@ test_that("get_exchange_rates returns proper output", {
     kcDH = get_exchange_rates(sequence, exchange = "DH", mol_type = "poly")
     expect_equal(kcDH, c(0, 0, 293.955039643536, 586.51741289567, 670.603937240368,
                          2.13099882731867))
+})
 
-    sequence = c("D", "P", "E", "N", "F", "R", "L", "L", "G", "N", "V", "L", "V", "C", "V", "L", "A")
+test_that("get_exchange_rates returns proper output for sequence DDENFRLLGNVLVCVLA", {
+    sequence = c("D", "D", "E", "N", "F", "R", "L", "L", "G", "N", "V", "L", "V", "C", "V", "L", "A")
+
     kcHD = get_exchange_rates(sequence, exchange = "HD", mol_type = "poly")
-    expect_equal(kcHD, c(0, 0, 18.1318221455155, 223.031960198571, 123.715050549506,
+    expect_equal(kcHD, c(0, 1407.51087654392, 20.8210814563502, 223.031960198571, 123.715050549506,
                          140.645500183317, 44.8775638262605, 16.673595957583, 116.287643601167,
                          465.88851129825, 42.3006964408419, 19.5897671225677, 12.4838205631068,
                          307.809486916701, 71.8368892252938, 19.5897671225677, 0.996051978222705))
     kcDH = get_exchange_rates(sequence, exchange = "DH", mol_type = "poly")
-    expect_equal(kcDH, c(0, 0, 90.8491712737586, 1117.6409076194, 620.042482190375,
+    expect_equal(kcDH, c(0, 7052.16868210585, 104.31246014817, 1117.6409076194, 620.042482190375,
                          704.895521242294, 224.920055772394, 83.5657244499878, 582.817360266318,
                          2334.96787728227, 212.005157844969, 98.1811653330133, 62.5671577933202,
                          1542.69797782856, 360.036413599322, 98.1811653330133, 4.99207280372255))
+})
+
+
+test_that("get_exchange_rates returns proper output for sequence HA", {
+    sequence = c("H", "A")
+
+    kcHD = get_exchange_rates(sequence, exchange = "HD", mol_type = "poly", if_corr = TRUE)
+    expect_equal(kcHD, c(0, 248.093621605602))
+
+    kcDH = get_exchange_rates(sequence, exchange = "DH", mol_type = "poly")
+    expect_equal(kcDH, c(0, 477.071212028545))
 })
 
 
@@ -146,3 +163,4 @@ test_that("get_exchange_rates returns error in the case of invalid input", {
                  "Assertion on 'if_corr' failed.")
     expect_error(get_exchange_rates(sequence = c()), "Length of sequence must be greater than 0")
 })
+
