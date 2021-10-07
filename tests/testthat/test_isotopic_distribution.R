@@ -1,14 +1,14 @@
 
 test_that(("calculate_peptide_mass works"), {
-    sequence = c("P", "P", "A", "Q", "H", "I")
+    sequence <- c("P", "P", "A", "Q", "H", "I")
     pep_mass <- calculate_peptide_mass(sequence)
     expect_equal(pep_mass, 661.35474)
 })
 
 
 test_that("get_approx_isotopic_distribution works", {
-    sequence = c("P", "P", "A", "Q", "H", "I")
-    min_probability = 1e-3
+    sequence <- c("P", "P", "A", "Q", "H", "I")
+    min_probability <- 1e-3
     iso_dist <- get_approx_isotopic_distribution(sequence, min_probability)
     expect_equal(iso_dist, list(mass = 661.35474,
                                 isotopic_distribution = c(0.682463359996824,

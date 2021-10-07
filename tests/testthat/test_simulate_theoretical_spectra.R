@@ -2,7 +2,7 @@
 
 test_that("simulate_theoretical_spectra works", {
     set.seed(10)
-    times = c(5, 30, 60, 100, 500, 900)
+    times <- c(5, 30, 60, 100, 500, 900)
 
     #classic
     spec1 <- simulate_theoretical_spectra("PPAQHI", protection_factor = 10, charge = 1:3, times = times)
@@ -29,7 +29,7 @@ test_that("simulate_theoretical_spectra works", {
 
 test_that("Spectra for provided parameters are simulated", {
     set.seed(10)
-    times = c(5, 30, 60, 100, 500, 900)
+    times <- c(5, 30, 60, 100, 500, 900)
     spec1 <- simulate_theoretical_spectra("PPAQHI", protection_factor = 10, charge = 1:3, times = times)
 
     expect_identical(unique(spec1[["Exposure"]]), c(0, times)) #time points
@@ -88,6 +88,21 @@ test_that("Spectrum at time 0 is correct", {
                                             PF = 100)
     expect_equal(spec1_time0, spec_expected)
 })
+
+
+test_that("Sequence validation works.", {
+    set.seed(10)
+    times <- c(5, 30, 60, 100, 500, 900)
+
+    expect_error(simulate_theoretical_spectra("ILOVETOTOIV",
+                                              protection_factor = 10,
+                                              charge = 1:3,
+                                              times = times),
+                 "The sequence is invalid. There is no interpretation for: O.")
+})
+
+
+
 
 
 
