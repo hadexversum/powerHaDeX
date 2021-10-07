@@ -76,6 +76,11 @@ simulate_theoretical_spectra <- function(sequence, charge = NULL, protection_fac
 
     sequence <- strsplit(sequence, "")[[1]]
 
+    if(!all(sequence %in% strsplit("ARDNCGEQHILKMFPSTWYV", "")[[1]])) {
+        stop(paste0("The sequence is invalid. There is no interpretation for: ",
+                   paste0(unique(sequence[which(!(sequence %in% strsplit("ARDNCGEQHILKMFPSTWYV", "")[[1]]))]), collapse = ", " ), "."))
+    }
+
     if (length(protection_factor) == 1L) {
 
         protection_factor <- rep(protection_factor, length(sequence))
