@@ -97,6 +97,3 @@ test_that("truncated_lines works", {
 })
 
 
-
-
-
