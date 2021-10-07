@@ -56,7 +56,7 @@ test_that("test_memhdx_model works", {
 test_that("test_semiparametric works", {
     set.seed(10)
     curves <- readRDS("noisy_curves.RDS")[[1]][[1]]
-    expect_equal(test_semiparametric(curves), structure(list(Test = "RIDGE_knots_random_intercept_id_exposure",
+    expect_equal(test_semiparametric(curves), structure(list(Test = "Semiparametric model",
                                                              State_1 = structure(1L, .Label = c("10", "20"), class = "factor"),
                                                              State_2 = structure(2L, .Label = c("10", "20"), class = "factor"),
                                                              Test_statistic = 18.8790884443026,
@@ -68,6 +68,25 @@ test_that("test_semiparametric works", {
                                                              logLik = 195.557417217275),
                                                         row.names = c(NA, -1L), class = c("data.table", "data.frame")))
 })
+
+test_that("test_semiparametric works in the case or one or two time points", {
+    set.seed(10)
+    curves <- readRDS("noisy_curves.RDS")[[1]][[1]]
+    curves <- curves[curves[["Exposure"]] %in% c(5, 60)]
+    expect_equal(test_semiparametric(curves), structure(list(Test = "Semiparametric model",
+                                                             State_1 = structure(1L, .Label = c("10", "20"), class = "factor"),
+                                                             State_2 = structure(2L, .Label = c("10", "20"), class = "factor"),
+                                                             Test_statistic = 46.9115145699878,
+                                                             P_value = 6.50570014465104e-11,
+                                                             Significant_difference = TRUE,
+                                                             Time = NA, Transformation = "identity",
+                                                             AIC = -121.276210144012,
+                                                             logLik = 67.6381050720061),
+                                                        row.names = c(NA, -1L),
+                                                        class = c("data.table", "data.frame")))
+})
+
+
 
 test_that("truncated_lines works", {
     set.seed(10)
