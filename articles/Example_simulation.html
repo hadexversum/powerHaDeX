@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,18 +33,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">powerHaDeX</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
@@ -86,18 +82,18 @@
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">powerHaDeX</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">powerHaDeX</span><span class="op">)</span></code></pre></div>
 <p>The package <code>powerHaDeX</code> is a tool for simulating and analyzing data coming from HDX-MS experiments along with the possibility of comparing the power of the tests verifying differences in deuteration levels. The functionality of the simulation involves generating a theoretical spectrum along with its replications, replicating the deuterium uptake curves obtained from spectra, and rejection rate estimation for comparison of the tests for differences in deuteration. Let us go through the process of simulation and all its features.</p>
 <div id="data-simulation" class="section level2">
 <h2 class="hasAnchor">
-<a href="#data-simulation" class="anchor"></a>Data simulation</h2>
+<a href="#data-simulation" class="anchor" aria-hidden="true"></a>Data simulation</h2>
 <div id="theoretical-spectra-simulation" class="section level3">
 <h3 class="hasAnchor">
-<a href="#theoretical-spectra-simulation" class="anchor"></a>Theoretical spectra simulation</h3>
+<a href="#theoretical-spectra-simulation" class="anchor" aria-hidden="true"></a>Theoretical spectra simulation</h3>
 <p>The first step of the simulation is the generation of theoretical spectra of a deuterated peptide over time. To do so, the function <code>simulate_theoretical_spectra</code> is used. There is the possibility of simulation a mass spectrum for more than one point of time and more than one charge by specifying the parameters <code>charge</code> and <code>times</code>. Providing vector of charges and/or vector of exposure times we obtain a <code>data table</code> of spectra consistent with assumed parameters.</p>
 <p>For example, a single spectrum can be simulated as below</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">17</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">17</span><span class="op">)</span>
 
 <span class="va">theo_spectrum</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/simulate_theoretical_spectra.html">simulate_theoretical_spectra</a></span><span class="op">(</span>sequence <span class="op">=</span> <span class="st">"CHERICHERILADY"</span>,
                                               charge <span class="op">=</span> <span class="fl">4</span>,
@@ -138,19 +134,19 @@
 <p><img src="Example_simulation_files/figure-html/unnamed-chunk-4-1.png" width="480" style="display: block; margin: auto;"></p>
 <p>As said before, more than one spectrum can be simulated for different exposure times and charges. Such a case is shown in the following code. We specify two values of charge (3 and 5) and time of measurements (0.167 and 5).</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">17</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">17</span><span class="op">)</span>
 
 <span class="va">theo_spectra</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/simulate_theoretical_spectra.html">simulate_theoretical_spectra</a></span><span class="op">(</span>sequence <span class="op">=</span> <span class="st">"CHERICHERILADY"</span>,
-                                             charge <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">5</span><span class="op">)</span>,
+                                             charge <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">5</span><span class="op">)</span>,
                                              protection_factor <span class="op">=</span> <span class="fl">100</span>,
-                                             times <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.167</span>, <span class="fl">5</span><span class="op">)</span>,
+                                             times <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.167</span>, <span class="fl">5</span><span class="op">)</span>,
                                              pH <span class="op">=</span> <span class="fl">7.5</span>,
                                              temperature <span class="op">=</span> <span class="fl">15</span>,
                                              n_molecules <span class="op">=</span> <span class="fl">500</span>,
                                              time_step_const <span class="op">=</span> <span class="fl">1</span>,
                                              use_markov <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">theo_spectra</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">theo_spectra</span><span class="op">)</span>
 <span class="co">#&gt;    Exposure  PH Intensity       Mz Charge       Sequence  PF</span>
 <span class="co">#&gt; 1:        0 7.5 0.3519156 586.6118      3 CHERICHERILADY 100</span>
 <span class="co">#&gt; 2:        0 7.5 0.3519156 352.3700      5 CHERICHERILADY 100</span>
@@ -165,10 +161,10 @@
 </div>
 <div id="replicated-spectra" class="section level3">
 <h3 class="hasAnchor">
-<a href="#replicated-spectra" class="anchor"></a>Replicated spectra</h3>
+<a href="#replicated-spectra" class="anchor" aria-hidden="true"></a>Replicated spectra</h3>
 <div id="oneall-states" class="section level4">
 <h4 class="hasAnchor">
-<a href="#oneall-states" class="anchor"></a>one/all states</h4>
+<a href="#oneall-states" class="anchor" aria-hidden="true"></a>one/all states</h4>
 <p>To generate replications of the experiment of hydrogen-deuterium exchange the function <code>add_noise_to_spectra</code> can be used. We need to evaluate <code>get_undeuterated_mass</code> and <code>get_spectra_list</code> first as in the code below. By setting <code>compare_pairs = FALSE</code> we do not pair the spectra by protection factors (in the case of our example we did not provide more than one value of protection factor yet).</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">undeuterated_mass</span> <span class="op">=</span> <span class="fu"><a href="../reference/get_undeuterated_mass.html">get_undeuterated_mass</a></span><span class="op">(</span><span class="va">theo_spectra</span><span class="op">)</span>
@@ -209,22 +205,22 @@
 </div>
 <div id="paired-states" class="section level4">
 <h4 class="hasAnchor">
-<a href="#paired-states" class="anchor"></a>paired states</h4>
+<a href="#paired-states" class="anchor" aria-hidden="true"></a>paired states</h4>
 <p>There is an option of generation noisy spectra such that they are prepared for the pairwise testing procedure (for paired states). To take a look at such an example, let us use <code>theo_spectra</code> generated previously for <code>protection factor = 100</code> and simulate theoretical spectra at state <code>protection factor = 200</code> using the function <code>simulate_theoretical_spectra</code>:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="va">theo_spectra_pf_100</span> <span class="op">&lt;-</span> <span class="va">theo_spectra</span>
 <span class="va">theo_spectra_pf_200</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/simulate_theoretical_spectra.html">simulate_theoretical_spectra</a></span><span class="op">(</span>sequence <span class="op">=</span> <span class="st">"CHERICHERILADY"</span>,
-                                                    charge <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">5</span><span class="op">)</span>,
+                                                    charge <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">5</span><span class="op">)</span>,
                                                     protection_factor <span class="op">=</span> <span class="fl">200</span>,
-                                                    times <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.167</span>, <span class="fl">5</span><span class="op">)</span>,
+                                                    times <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.167</span>, <span class="fl">5</span><span class="op">)</span>,
                                                     pH <span class="op">=</span> <span class="fl">7.5</span>,
                                                     temperature <span class="op">=</span> <span class="fl">15</span>,
                                                     n_molecules <span class="op">=</span> <span class="fl">500</span>,
                                                     time_step_const <span class="op">=</span> <span class="fl">1</span>,
                                                     use_markov <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 
-<span class="va">theo_spectra_two_states</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span><span class="va">theo_spectra_pf_100</span>, <span class="va">theo_spectra_pf_200</span><span class="op">)</span></code></pre></div>
+<span class="va">theo_spectra_two_states</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">theo_spectra_pf_100</span>, <span class="va">theo_spectra_pf_200</span><span class="op">)</span></code></pre></div>
 <p>A data table of spectra at different states (<code>theo_spectra_two_states</code> here) can be used as the argument in the functions responsible for adding noise. As explained before, we use the functions <code>get_undeuterated_mass</code> and <code>get_spectra_list</code> first. We specify the need for the data grouped pairwise in the function <code>get_spectra_list</code> by setting <code>compare_pairs = TRUE</code> and <code>reference = "all"</code> as below</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
@@ -400,7 +396,7 @@
 </div>
 <div id="deuteration-curves-from-spectra" class="section level4">
 <h4 class="hasAnchor">
-<a href="#deuteration-curves-from-spectra" class="anchor"></a>deuteration curves from spectra</h4>
+<a href="#deuteration-curves-from-spectra" class="anchor" aria-hidden="true"></a>deuteration curves from spectra</h4>
 <p>Having noisy mass spectra simulated by the function <code>add_noise_to_spectra</code> as shown in the previous sections we can use the function <code>get_deuteration_curves_from_spectra</code> to calculate deuterium uptake as follows:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">deuteration_curves</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_deuteration_curves_from_spectra.html">get_deuteration_curves_from_spectra</a></span><span class="op">(</span><span class="va">replicated_spectra</span><span class="op">)</span>
@@ -467,7 +463,7 @@
 </div>
 <div id="noisy-deuteration-curves" class="section level2">
 <h2 class="hasAnchor">
-<a href="#noisy-deuteration-curves" class="anchor"></a>Noisy deuteration curves</h2>
+<a href="#noisy-deuteration-curves" class="anchor" aria-hidden="true"></a>Noisy deuteration curves</h2>
 <p>We can also simulate noisy deuteration curves using the direct output of <code>simulate_theoretical_spectra</code>. As mentioned before, we specify the number of technical replicates and executions of the experiment using the arguments <code>n_replicates</code> and <code>n_experiments</code>. An example for the case when one/“all” states are considered is shown in the following code:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/get_noisy_deuteration_curves.html">get_noisy_deuteration_curves</a></span><span class="op">(</span><span class="va">theo_spectra</span>,
@@ -857,7 +853,7 @@
 </div>
 <div id="power-estimation" class="section level2">
 <h2 class="hasAnchor">
-<a href="#power-estimation" class="anchor"></a>Power estimation</h2>
+<a href="#power-estimation" class="anchor" aria-hidden="true"></a>Power estimation</h2>
 <p>The package <code>powerHaDeX</code> provides a possibility of the estimation of rejection rate in pairwise testing of differences in deuteration levels.</p>
 <p>The tests available in the package are:</p>
 <ul>
@@ -869,7 +865,7 @@
 <p>We can use the function <code>calculate_hdx_power</code> to execute the testing procedure on the data simulated by <code>get_noisy_deuteration_curves</code>. Example usage of the function is shown below</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/calculate_hdx_power.html">calculate_hdx_power</a></span><span class="op">(</span><span class="va">deuteration_curves_paired_states</span>,
-                    tests <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">test_houde</span><span class="op">)</span>,
+                    tests <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">test_houde</span><span class="op">)</span>,
                     summarized <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 <span class="co">#&gt;          Sequence Num_replicates Num_states Num_timepoints  Test State_1</span>
 <span class="co">#&gt; 1: CHERICHERILADY              4          2              3 Houde     100</span>
@@ -895,7 +891,7 @@
 <p>The summarized result is following</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/calculate_hdx_power.html">calculate_hdx_power</a></span><span class="op">(</span><span class="va">deuteration_curves_paired_states</span>,
-                    tests <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">test_houde</span><span class="op">)</span>,
+                    tests <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">test_houde</span><span class="op">)</span>,
                     summarized <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="co">#&gt;          Sequence Num_replicates Num_states Num_timepoints  Test Transformation</span>
 <span class="co">#&gt; 1: CHERICHERILADY              4          2              3 Houde             NA</span>
@@ -937,11 +933,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Krystyna Grzesiak.</p>
+  <p></p>
+<p>Developed by Krystyna Grzesiak.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.9000.9000.9000.</p>
 </div>
 
       </footer>
@@ -949,6 +947,8 @@
 
   
 
+
+  
 
   </body>
 </html>
