@@ -268,6 +268,7 @@ get_exchange_rates <- function(sequence, exchange = "HD", pH = 9, temperature = 
 
     if (N <= 2) stop("Length of sequence must be greater than 0")
 
+
     kcDH = rep(0, N)
 
     for (i in 1:N) {
@@ -285,13 +286,14 @@ get_exchange_rates <- function(sequence, exchange = "HD", pH = 9, temperature = 
 
                 j <- which(AAs == sequence[i])
                 k <- which(AAs == sequence[i - 1])
-                if (i - 2 <= 1 && i + 1 == N && sequence[i - 1] != "a" && sequence[i] != "m") {
+
+                if (i <= 3 && i + 1 == N && sequence[i - 1] != "a" && sequence[i] != "m") {
 
                     Fa <- 10 ^ (constants[j, 1] + constants[k, 2] + constants[25, 2] + constants[26, 1])
                     Fb <- 10 ^ (constants[j, 3] + constants[k, 4] + constants[25, 4] + constants[26, 3])
                 } else {
 
-                    if (i - 2 <= 1 && sequence[i - 1] != "a") {
+                    if (i <= 3 && sequence[i - 1] != "a") {
 
                         Fa <- 10 ^ (constants[j, 1] + constants[k, 2] + constants[25, 2])
                         Fb <- 10 ^ (constants[j, 3] + constants[k, 4] + constants[25, 4])
