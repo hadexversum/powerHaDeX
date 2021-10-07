@@ -19,8 +19,6 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
-    
-
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -33,12 +31,18 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">powerHaDeX</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
+<li>
+  <a href="../index.html">
+    <span class="fas fa-home fa-lg"></span>
+     
+  </a>
+</li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
@@ -82,20 +86,20 @@
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">powerHaDeX</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">powerHaDeX</span><span class="op">)</span></code></pre></div>
 <p>The package <code>powerHaDeX</code> is a tool for simulating and analyzing data coming from HDX-MS experiments along with the possibility of comparing the power of the tests verifying differences in deuteration levels. The functionality of the simulation involves generating a theoretical spectrum along with its replications, replicating the deuterium uptake curves obtained from spectra, and rejection rate estimation for comparison of the tests for differences in deuteration. Let us go through the process of simulation and all its features.</p>
 <div id="data-simulation" class="section level2">
 <h2 class="hasAnchor">
-<a href="#data-simulation" class="anchor" aria-hidden="true"></a>Data simulation</h2>
+<a href="#data-simulation" class="anchor"></a>Data simulation</h2>
 <div id="theoretical-spectra-simulation" class="section level3">
 <h3 class="hasAnchor">
-<a href="#theoretical-spectra-simulation" class="anchor" aria-hidden="true"></a>Theoretical spectra simulation</h3>
+<a href="#theoretical-spectra-simulation" class="anchor"></a>Theoretical spectra simulation</h3>
 <p>The first step of the simulation is the generation of theoretical spectra of a deuterated peptide over time. To do so, the function <code>simulate_theoretical_spectra</code> is used. There is the possibility of simulation a mass spectrum for more than one point of time and more than one charge by specifying the parameters <code>charge</code> and <code>times</code>. Providing vector of charges and/or vector of exposure times we obtain a <code>data table</code> of spectra consistent with assumed parameters.</p>
 <p>For example, a single spectrum can be simulated as below</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">17</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">17</span><span class="op">)</span>
 
-<span class="va">theo_spectrum</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/simulate_theoretical_spectra.html">simulate_theoretical_spectra</a></span><span class="op">(</span>sequence <span class="op">=</span> <span class="st">"LVRKDLQN"</span>,
+<span class="va">theo_spectrum</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/simulate_theoretical_spectra.html">simulate_theoretical_spectra</a></span><span class="op">(</span>sequence <span class="op">=</span> <span class="st">"CHERICHERILADY"</span>,
                                               charge <span class="op">=</span> <span class="fl">4</span>,
                                               protection_factor <span class="op">=</span> <span class="fl">100</span>,
                                               times <span class="op">=</span> <span class="fl">0.167</span>,
@@ -105,19 +109,25 @@
                                               time_step_const <span class="op">=</span> <span class="fl">1</span>,
                                               use_markov <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="va">theo_spectrum</span>
-<span class="co">#&gt;     Exposure  PH    Intensity       Mz Charge Sequence  PF</span>
-<span class="co">#&gt;  1:    0.000 7.5 0.5801405135 247.1502      4 LVRKDLQN 100</span>
-<span class="co">#&gt;  2:    0.000 7.5 0.3031692943 247.1502      4 LVRKDLQN 100</span>
-<span class="co">#&gt;  3:    0.000 7.5 0.0919265899 247.1502      4 LVRKDLQN 100</span>
-<span class="co">#&gt;  4:    0.000 7.5 0.0204531418 247.1502      4 LVRKDLQN 100</span>
-<span class="co">#&gt;  5:    0.000 7.5 0.0036689790 247.1502      4 LVRKDLQN 100</span>
-<span class="co">#&gt;  6:    0.000 7.5 0.0005576524 247.1502      4 LVRKDLQN 100</span>
-<span class="co">#&gt;  7:    0.167 7.5 0.5674249890 247.1502      4 LVRKDLQN 100</span>
-<span class="co">#&gt;  8:    0.167 7.5 0.3092885885 247.4017      4 LVRKDLQN 100</span>
-<span class="co">#&gt;  9:    0.167 7.5 0.0965820258 247.6533      4 LVRKDLQN 100</span>
-<span class="co">#&gt; 10:    0.167 7.5 0.0220274042 247.9049      4 LVRKDLQN 100</span>
-<span class="co">#&gt; 11:    0.167 7.5 0.0040385691 248.1565      4 LVRKDLQN 100</span>
-<span class="co">#&gt; 12:    0.167 7.5 0.0006261540 248.4080      4 LVRKDLQN 100</span></code></pre></div>
+<span class="co">#&gt;     Exposure  PH    Intensity       Mz Charge       Sequence  PF</span>
+<span class="co">#&gt;  1:    0.000 7.5 0.3519156204 440.2107      4 CHERICHERILADY 100</span>
+<span class="co">#&gt;  2:    0.000 7.5 0.3231637738 440.2107      4 CHERICHERILADY 100</span>
+<span class="co">#&gt;  3:    0.000 7.5 0.1934355070 440.2107      4 CHERICHERILADY 100</span>
+<span class="co">#&gt;  4:    0.000 7.5 0.0868056117 440.2107      4 CHERICHERILADY 100</span>
+<span class="co">#&gt;  5:    0.000 7.5 0.0315957363 440.2107      4 CHERICHERILADY 100</span>
+<span class="co">#&gt;  6:    0.000 7.5 0.0097206744 440.2107      4 CHERICHERILADY 100</span>
+<span class="co">#&gt;  7:    0.000 7.5 0.0025936359 440.2107      4 CHERICHERILADY 100</span>
+<span class="co">#&gt;  8:    0.000 7.5 0.0006109695 440.2107      4 CHERICHERILADY 100</span>
+<span class="co">#&gt;  9:    0.000 7.5 0.0001288097 440.2107      4 CHERICHERILADY 100</span>
+<span class="co">#&gt; 10:    0.167 7.5 0.3209565658 440.2107      4 CHERICHERILADY 100</span>
+<span class="co">#&gt; 11:    0.167 7.5 0.3249997450 440.4623      4 CHERICHERILADY 100</span>
+<span class="co">#&gt; 12:    0.167 7.5 0.2049151762 440.7138      4 CHERICHERILADY 100</span>
+<span class="co">#&gt; 13:    0.167 7.5 0.0964513599 440.9654      4 CHERICHERILADY 100</span>
+<span class="co">#&gt; 14:    0.167 7.5 0.0366685527 441.2170      4 CHERICHERILADY 100</span>
+<span class="co">#&gt; 15:    0.167 7.5 0.0117564483 441.4686      4 CHERICHERILADY 100</span>
+<span class="co">#&gt; 16:    0.167 7.5 0.0032646623 441.7201      4 CHERICHERILADY 100</span>
+<span class="co">#&gt; 17:    0.167 7.5 0.0007997219 441.9717      4 CHERICHERILADY 100</span>
+<span class="co">#&gt; 18:    0.167 7.5 0.0001752103 442.2233      4 CHERICHERILADY 100</span></code></pre></div>
 <p>As we can see in the output - we obtain a spectrum for the given time of measurement 0.167 sec and control measurement measured directly after adding the buffer (conventionally at time equal to 0). Each row of the data is correspondent to a single peak in the spectrum. Such a result for a particular time can be visualized using <code>powerHaDeX</code> as shown below.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/plot_spectra.html">plot_spectra</a></span><span class="op">(</span><span class="va">theo_spectrum</span><span class="op">)</span></code></pre></div>
@@ -128,26 +138,26 @@
 <p><img src="Example_simulation_files/figure-html/unnamed-chunk-4-1.png" width="480" style="display: block; margin: auto;"></p>
 <p>As said before, more than one spectrum can be simulated for different exposure times and charges. Such a case is shown in the following code. We specify two values of charge (3 and 5) and time of measurements (0.167 and 5).</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">17</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">17</span><span class="op">)</span>
 
-<span class="va">theo_spectra</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/simulate_theoretical_spectra.html">simulate_theoretical_spectra</a></span><span class="op">(</span>sequence <span class="op">=</span> <span class="st">"LVRKDLQN"</span>,
-                                             charge <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">5</span><span class="op">)</span>,
+<span class="va">theo_spectra</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/simulate_theoretical_spectra.html">simulate_theoretical_spectra</a></span><span class="op">(</span>sequence <span class="op">=</span> <span class="st">"CHERICHERILADY"</span>,
+                                             charge <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">5</span><span class="op">)</span>,
                                              protection_factor <span class="op">=</span> <span class="fl">100</span>,
-                                             times <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.167</span>, <span class="fl">5</span><span class="op">)</span>,
+                                             times <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.167</span>, <span class="fl">5</span><span class="op">)</span>,
                                              pH <span class="op">=</span> <span class="fl">7.5</span>,
                                              temperature <span class="op">=</span> <span class="fl">15</span>,
                                              n_molecules <span class="op">=</span> <span class="fl">500</span>,
                                              time_step_const <span class="op">=</span> <span class="fl">1</span>,
                                              use_markov <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">theo_spectra</span><span class="op">)</span>
-<span class="co">#&gt;    Exposure  PH  Intensity       Mz Charge Sequence  PF</span>
-<span class="co">#&gt; 1:        0 7.5 0.58014051 329.1978      3 LVRKDLQN 100</span>
-<span class="co">#&gt; 2:        0 7.5 0.58014051 197.9216      5 LVRKDLQN 100</span>
-<span class="co">#&gt; 3:        0 7.5 0.30316929 329.1978      3 LVRKDLQN 100</span>
-<span class="co">#&gt; 4:        0 7.5 0.30316929 197.9216      5 LVRKDLQN 100</span>
-<span class="co">#&gt; 5:        0 7.5 0.09192659 329.1978      3 LVRKDLQN 100</span>
-<span class="co">#&gt; 6:        0 7.5 0.09192659 197.9216      5 LVRKDLQN 100</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">theo_spectra</span><span class="op">)</span>
+<span class="co">#&gt;    Exposure  PH Intensity       Mz Charge       Sequence  PF</span>
+<span class="co">#&gt; 1:        0 7.5 0.3519156 586.6118      3 CHERICHERILADY 100</span>
+<span class="co">#&gt; 2:        0 7.5 0.3519156 352.3700      5 CHERICHERILADY 100</span>
+<span class="co">#&gt; 3:        0 7.5 0.3231638 586.6118      3 CHERICHERILADY 100</span>
+<span class="co">#&gt; 4:        0 7.5 0.3231638 352.3700      5 CHERICHERILADY 100</span>
+<span class="co">#&gt; 5:        0 7.5 0.1934355 586.6118      3 CHERICHERILADY 100</span>
+<span class="co">#&gt; 6:        0 7.5 0.1934355 352.3700      5 CHERICHERILADY 100</span></code></pre></div>
 <p>Such a result can be also displayed on the plot as shown below.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/plot_spectra.html">plot_spectra</a></span><span class="op">(</span><span class="va">theo_spectra</span><span class="op">)</span></code></pre></div>
@@ -155,10 +165,10 @@
 </div>
 <div id="replicated-spectra" class="section level3">
 <h3 class="hasAnchor">
-<a href="#replicated-spectra" class="anchor" aria-hidden="true"></a>Replicated spectra</h3>
+<a href="#replicated-spectra" class="anchor"></a>Replicated spectra</h3>
 <div id="oneall-states" class="section level4">
 <h4 class="hasAnchor">
-<a href="#oneall-states" class="anchor" aria-hidden="true"></a>one/all states</h4>
+<a href="#oneall-states" class="anchor"></a>one/all states</h4>
 <p>To generate replications of the experiment of hydrogen-deuterium exchange the function <code>add_noise_to_spectra</code> can be used. We need to evaluate <code>get_undeuterated_mass</code> and <code>get_spectra_list</code> first as in the code below. By setting <code>compare_pairs = FALSE</code> we do not pair the spectra by protection factors (in the case of our example we did not provide more than one value of protection factor yet).</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">undeuterated_mass</span> <span class="op">=</span> <span class="fu"><a href="../reference/get_undeuterated_mass.html">get_undeuterated_mass</a></span><span class="op">(</span><span class="va">theo_spectra</span><span class="op">)</span>
@@ -169,52 +179,52 @@
 <span class="va">replicated_spectra</span>
 <span class="co">#&gt; [[1]]</span>
 <span class="co">#&gt; [[1]][[1]]</span>
-<span class="co">#&gt;      Exposure  PH    Intensity       Mz Charge Sequence  PF Rep</span>
-<span class="co">#&gt;   1:        0 7.5 0.5801405135 329.2710      3 LVRKDLQN 100   1</span>
-<span class="co">#&gt;   2:        0 7.5 0.5801405135 197.8407      5 LVRKDLQN 100   1</span>
-<span class="co">#&gt;   3:        0 7.5 0.3031692943 329.2529      3 LVRKDLQN 100   1</span>
-<span class="co">#&gt;   4:        0 7.5 0.3031692943 197.8921      5 LVRKDLQN 100   1</span>
-<span class="co">#&gt;   5:        0 7.5 0.0919265899 329.1015      3 LVRKDLQN 100   1</span>
-<span class="co">#&gt;  ---                                                           </span>
-<span class="co">#&gt; 148:        5 7.5 0.1778535948 198.2987      5 LVRKDLQN 100   4</span>
-<span class="co">#&gt; 149:        5 7.5 0.0592038626 198.4566      5 LVRKDLQN 100   4</span>
-<span class="co">#&gt; 150:        5 7.5 0.0160770746 198.7358      5 LVRKDLQN 100   4</span>
-<span class="co">#&gt; 151:        5 7.5 0.0036482453 198.9126      5 LVRKDLQN 100   4</span>
-<span class="co">#&gt; 152:        5 7.5 0.0006591334 199.1315      5 LVRKDLQN 100   4</span>
+<span class="co">#&gt;      Exposure  PH    Intensity       Mz Charge       Sequence  PF Rep</span>
+<span class="co">#&gt;   1:        0 7.5 0.3519156204 586.4957      3 CHERICHERILADY 100   1</span>
+<span class="co">#&gt;   2:        0 7.5 0.3519156204 352.4599      5 CHERICHERILADY 100   1</span>
+<span class="co">#&gt;   3:        0 7.5 0.3231637738 586.7029      3 CHERICHERILADY 100   1</span>
+<span class="co">#&gt;   4:        0 7.5 0.3231637738 352.2874      5 CHERICHERILADY 100   1</span>
+<span class="co">#&gt;   5:        0 7.5 0.1934355070 586.7346      3 CHERICHERILADY 100   1</span>
+<span class="co">#&gt;  ---                                                                 </span>
+<span class="co">#&gt; 228:        5 7.5 0.0184176796 353.7023      5 CHERICHERILADY 100   4</span>
+<span class="co">#&gt; 229:        5 7.5 0.0062067650 353.7496      5 CHERICHERILADY 100   4</span>
+<span class="co">#&gt; 230:        5 7.5 0.0018599905 354.1177      5 CHERICHERILADY 100   4</span>
+<span class="co">#&gt; 231:        5 7.5 0.0004938085 354.2318      5 CHERICHERILADY 100   4</span>
+<span class="co">#&gt; 232:        5 7.5 0.0001104587 354.4601      5 CHERICHERILADY 100   4</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; [[1]][[2]]</span>
-<span class="co">#&gt;      Exposure  PH    Intensity       Mz Charge Sequence  PF Rep</span>
-<span class="co">#&gt;   1:        0 7.5 0.5801405135 329.1846      3 LVRKDLQN 100   1</span>
-<span class="co">#&gt;   2:        0 7.5 0.5801405135 197.9346      5 LVRKDLQN 100   1</span>
-<span class="co">#&gt;   3:        0 7.5 0.3031692943 329.2408      3 LVRKDLQN 100   1</span>
-<span class="co">#&gt;   4:        0 7.5 0.3031692943 197.9660      5 LVRKDLQN 100   1</span>
-<span class="co">#&gt;   5:        0 7.5 0.0919265899 329.2185      3 LVRKDLQN 100   1</span>
-<span class="co">#&gt;  ---                                                           </span>
-<span class="co">#&gt; 148:        5 7.5 0.1778535948 198.3378      5 LVRKDLQN 100   4</span>
-<span class="co">#&gt; 149:        5 7.5 0.0592038626 198.5802      5 LVRKDLQN 100   4</span>
-<span class="co">#&gt; 150:        5 7.5 0.0160770746 198.8372      5 LVRKDLQN 100   4</span>
-<span class="co">#&gt; 151:        5 7.5 0.0036482453 198.8897      5 LVRKDLQN 100   4</span>
-<span class="co">#&gt; 152:        5 7.5 0.0006591334 199.0758      5 LVRKDLQN 100   4</span></code></pre></div>
+<span class="co">#&gt;      Exposure  PH    Intensity       Mz Charge       Sequence  PF Rep</span>
+<span class="co">#&gt;   1:        0 7.5 0.3519156204 586.5470      3 CHERICHERILADY 100   1</span>
+<span class="co">#&gt;   2:        0 7.5 0.3519156204 352.4298      5 CHERICHERILADY 100   1</span>
+<span class="co">#&gt;   3:        0 7.5 0.3231637738 586.6087      3 CHERICHERILADY 100   1</span>
+<span class="co">#&gt;   4:        0 7.5 0.3231637738 352.3265      5 CHERICHERILADY 100   1</span>
+<span class="co">#&gt;   5:        0 7.5 0.1934355070 586.5233      3 CHERICHERILADY 100   1</span>
+<span class="co">#&gt;  ---                                                                 </span>
+<span class="co">#&gt; 228:        5 7.5 0.0184176796 353.5442      5 CHERICHERILADY 100   4</span>
+<span class="co">#&gt; 229:        5 7.5 0.0062067650 353.7953      5 CHERICHERILADY 100   4</span>
+<span class="co">#&gt; 230:        5 7.5 0.0018599905 353.9036      5 CHERICHERILADY 100   4</span>
+<span class="co">#&gt; 231:        5 7.5 0.0004938085 354.1517      5 CHERICHERILADY 100   4</span>
+<span class="co">#&gt; 232:        5 7.5 0.0001104587 354.3799      5 CHERICHERILADY 100   4</span></code></pre></div>
 <p>The output of the function <code>add_noise_to_spectra</code> is adapted to the power calculations. Therefore, it is a list of two elements: the first one is correspondent to the pair of protection factors (in the case when <code>compare_pairs = FALSE</code> we consider all protection factors jointly) and the second is correspondent to the repetitions of the whole experiment (used for the needs of power calculations). By setting the number of experiments <code>n_experiments = 2</code> we simulate two experiments, that is (by default) 4 replicates of measurements for given time points, duplicated. The mentioned replicates are defined in the column <code>Rep</code>.</p>
 </div>
 <div id="paired-states" class="section level4">
 <h4 class="hasAnchor">
-<a href="#paired-states" class="anchor" aria-hidden="true"></a>paired states</h4>
+<a href="#paired-states" class="anchor"></a>paired states</h4>
 <p>There is an option of generation noisy spectra such that they are prepared for the pairwise testing procedure (for paired states). To take a look at such an example, let us use <code>theo_spectra</code> generated previously for <code>protection factor = 100</code> and simulate theoretical spectra at state <code>protection factor = 200</code> using the function <code>simulate_theoretical_spectra</code>:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="va">theo_spectra_pf_100</span> <span class="op">&lt;-</span> <span class="va">theo_spectra</span>
-<span class="va">theo_spectra_pf_200</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/simulate_theoretical_spectra.html">simulate_theoretical_spectra</a></span><span class="op">(</span>sequence <span class="op">=</span> <span class="st">"LVRKDLQN"</span>,
-                                                    charge <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">5</span><span class="op">)</span>,
+<span class="va">theo_spectra_pf_200</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/simulate_theoretical_spectra.html">simulate_theoretical_spectra</a></span><span class="op">(</span>sequence <span class="op">=</span> <span class="st">"CHERICHERILADY"</span>,
+                                                    charge <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">5</span><span class="op">)</span>,
                                                     protection_factor <span class="op">=</span> <span class="fl">200</span>,
-                                                    times <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.167</span>, <span class="fl">5</span><span class="op">)</span>,
+                                                    times <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.167</span>, <span class="fl">5</span><span class="op">)</span>,
                                                     pH <span class="op">=</span> <span class="fl">7.5</span>,
                                                     temperature <span class="op">=</span> <span class="fl">15</span>,
                                                     n_molecules <span class="op">=</span> <span class="fl">500</span>,
                                                     time_step_const <span class="op">=</span> <span class="fl">1</span>,
                                                     use_markov <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 
-<span class="va">theo_spectra_two_states</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">theo_spectra_pf_100</span>, <span class="va">theo_spectra_pf_200</span><span class="op">)</span></code></pre></div>
+<span class="va">theo_spectra_two_states</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span><span class="va">theo_spectra_pf_100</span>, <span class="va">theo_spectra_pf_200</span><span class="op">)</span></code></pre></div>
 <p>A data table of spectra at different states (<code>theo_spectra_two_states</code> here) can be used as the argument in the functions responsible for adding noise. As explained before, we use the functions <code>get_undeuterated_mass</code> and <code>get_spectra_list</code> first. We specify the need for the data grouped pairwise in the function <code>get_spectra_list</code> by setting <code>compare_pairs = TRUE</code> and <code>reference = "all"</code> as below</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
@@ -228,236 +238,236 @@
 <span class="va">replicated_spectra_paired</span>
 <span class="co">#&gt; [[1]]</span>
 <span class="co">#&gt; [[1]][[1]]</span>
-<span class="co">#&gt;      Exposure  PH    Intensity       Mz Charge Sequence  PF Experimental_state</span>
-<span class="co">#&gt;   1:        0 7.5 0.5801405135 329.2359      3 LVRKDLQN 100                  A</span>
-<span class="co">#&gt;   2:        0 7.5 0.5801405135 197.8829      5 LVRKDLQN 100                  A</span>
-<span class="co">#&gt;   3:        0 7.5 0.3031692943 329.2191      3 LVRKDLQN 100                  A</span>
-<span class="co">#&gt;   4:        0 7.5 0.3031692943 197.9121      5 LVRKDLQN 100                  A</span>
-<span class="co">#&gt;   5:        0 7.5 0.0919265899 329.2629      3 LVRKDLQN 100                  A</span>
-<span class="co">#&gt;  ---                                                                          </span>
-<span class="co">#&gt; 300:        5 7.5 0.1505546082 198.2923      5 LVRKDLQN 200                  B</span>
-<span class="co">#&gt; 301:        5 7.5 0.0468899753 198.4946      5 LVRKDLQN 200                  B</span>
-<span class="co">#&gt; 302:        5 7.5 0.0114541548 198.6889      5 LVRKDLQN 200                  B</span>
-<span class="co">#&gt; 303:        5 7.5 0.0023078340 198.9545      5 LVRKDLQN 200                  B</span>
-<span class="co">#&gt; 304:        5 7.5 0.0003408244 199.1208      5 LVRKDLQN 200                  B</span>
-<span class="co">#&gt;      Rep</span>
-<span class="co">#&gt;   1:   1</span>
-<span class="co">#&gt;   2:   1</span>
-<span class="co">#&gt;   3:   1</span>
-<span class="co">#&gt;   4:   1</span>
-<span class="co">#&gt;   5:   1</span>
-<span class="co">#&gt;  ---    </span>
-<span class="co">#&gt; 300:   4</span>
-<span class="co">#&gt; 301:   4</span>
-<span class="co">#&gt; 302:   4</span>
-<span class="co">#&gt; 303:   4</span>
-<span class="co">#&gt; 304:   4</span>
+<span class="co">#&gt;      Exposure  PH    Intensity       Mz Charge       Sequence  PF</span>
+<span class="co">#&gt;   1:        0 7.5 0.3519156204 586.7370      3 CHERICHERILADY 100</span>
+<span class="co">#&gt;   2:        0 7.5 0.3519156204 352.4086      5 CHERICHERILADY 100</span>
+<span class="co">#&gt;   3:        0 7.5 0.3231637738 586.6778      3 CHERICHERILADY 100</span>
+<span class="co">#&gt;   4:        0 7.5 0.3231637738 352.3025      5 CHERICHERILADY 100</span>
+<span class="co">#&gt;   5:        0 7.5 0.1934355070 586.4973      3 CHERICHERILADY 100</span>
+<span class="co">#&gt;  ---                                                             </span>
+<span class="co">#&gt; 452:        5 7.5 0.0352195664 353.2925      5 CHERICHERILADY 200</span>
+<span class="co">#&gt; 453:        5 7.5 0.0124630617 353.4778      5 CHERICHERILADY 200</span>
+<span class="co">#&gt; 454:        5 7.5 0.0038328707 353.8688      5 CHERICHERILADY 200</span>
+<span class="co">#&gt; 455:        5 7.5 0.0010409430 354.1951      5 CHERICHERILADY 200</span>
+<span class="co">#&gt; 456:        5 7.5 0.0002418826 354.1752      5 CHERICHERILADY 200</span>
+<span class="co">#&gt;      Experimental_state Rep</span>
+<span class="co">#&gt;   1:                  A   1</span>
+<span class="co">#&gt;   2:                  A   1</span>
+<span class="co">#&gt;   3:                  A   1</span>
+<span class="co">#&gt;   4:                  A   1</span>
+<span class="co">#&gt;   5:                  A   1</span>
+<span class="co">#&gt;  ---                       </span>
+<span class="co">#&gt; 452:                  B   4</span>
+<span class="co">#&gt; 453:                  B   4</span>
+<span class="co">#&gt; 454:                  B   4</span>
+<span class="co">#&gt; 455:                  B   4</span>
+<span class="co">#&gt; 456:                  B   4</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; [[1]][[2]]</span>
-<span class="co">#&gt;      Exposure  PH    Intensity       Mz Charge Sequence  PF Experimental_state</span>
-<span class="co">#&gt;   1:        0 7.5 0.5801405135 329.2717      3 LVRKDLQN 100                  A</span>
-<span class="co">#&gt;   2:        0 7.5 0.5801405135 197.8954      5 LVRKDLQN 100                  A</span>
-<span class="co">#&gt;   3:        0 7.5 0.3031692943 329.1712      3 LVRKDLQN 100                  A</span>
-<span class="co">#&gt;   4:        0 7.5 0.3031692943 198.0092      5 LVRKDLQN 100                  A</span>
-<span class="co">#&gt;   5:        0 7.5 0.0919265899 329.2547      3 LVRKDLQN 100                  A</span>
-<span class="co">#&gt;  ---                                                                          </span>
-<span class="co">#&gt; 300:        5 7.5 0.1505546082 198.3219      5 LVRKDLQN 200                  B</span>
-<span class="co">#&gt; 301:        5 7.5 0.0468899753 198.5474      5 LVRKDLQN 200                  B</span>
-<span class="co">#&gt; 302:        5 7.5 0.0114541548 198.6426      5 LVRKDLQN 200                  B</span>
-<span class="co">#&gt; 303:        5 7.5 0.0023078340 198.8887      5 LVRKDLQN 200                  B</span>
-<span class="co">#&gt; 304:        5 7.5 0.0003408244 199.1392      5 LVRKDLQN 200                  B</span>
-<span class="co">#&gt;      Rep</span>
-<span class="co">#&gt;   1:   1</span>
-<span class="co">#&gt;   2:   1</span>
-<span class="co">#&gt;   3:   1</span>
-<span class="co">#&gt;   4:   1</span>
-<span class="co">#&gt;   5:   1</span>
-<span class="co">#&gt;  ---    </span>
-<span class="co">#&gt; 300:   4</span>
-<span class="co">#&gt; 301:   4</span>
-<span class="co">#&gt; 302:   4</span>
-<span class="co">#&gt; 303:   4</span>
-<span class="co">#&gt; 304:   4</span>
+<span class="co">#&gt;      Exposure  PH    Intensity       Mz Charge       Sequence  PF</span>
+<span class="co">#&gt;   1:        0 7.5 0.3519156204 586.4083      3 CHERICHERILADY 100</span>
+<span class="co">#&gt;   2:        0 7.5 0.3519156204 352.4195      5 CHERICHERILADY 100</span>
+<span class="co">#&gt;   3:        0 7.5 0.3231637738 586.6470      3 CHERICHERILADY 100</span>
+<span class="co">#&gt;   4:        0 7.5 0.3231637738 352.4269      5 CHERICHERILADY 100</span>
+<span class="co">#&gt;   5:        0 7.5 0.1934355070 586.5192      3 CHERICHERILADY 100</span>
+<span class="co">#&gt;  ---                                                             </span>
+<span class="co">#&gt; 452:        5 7.5 0.0352195664 353.4370      5 CHERICHERILADY 200</span>
+<span class="co">#&gt; 453:        5 7.5 0.0124630617 353.4969      5 CHERICHERILADY 200</span>
+<span class="co">#&gt; 454:        5 7.5 0.0038328707 353.7006      5 CHERICHERILADY 200</span>
+<span class="co">#&gt; 455:        5 7.5 0.0010409430 354.0913      5 CHERICHERILADY 200</span>
+<span class="co">#&gt; 456:        5 7.5 0.0002418826 354.2725      5 CHERICHERILADY 200</span>
+<span class="co">#&gt;      Experimental_state Rep</span>
+<span class="co">#&gt;   1:                  A   1</span>
+<span class="co">#&gt;   2:                  A   1</span>
+<span class="co">#&gt;   3:                  A   1</span>
+<span class="co">#&gt;   4:                  A   1</span>
+<span class="co">#&gt;   5:                  A   1</span>
+<span class="co">#&gt;  ---                       </span>
+<span class="co">#&gt; 452:                  B   4</span>
+<span class="co">#&gt; 453:                  B   4</span>
+<span class="co">#&gt; 454:                  B   4</span>
+<span class="co">#&gt; 455:                  B   4</span>
+<span class="co">#&gt; 456:                  B   4</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; [[2]]</span>
 <span class="co">#&gt; [[2]][[1]]</span>
-<span class="co">#&gt;      Exposure  PH    Intensity       Mz Charge Sequence  PF Experimental_state</span>
-<span class="co">#&gt;   1:        0 7.5 0.5801405135 329.1471      3 LVRKDLQN 100                  A</span>
-<span class="co">#&gt;   2:        0 7.5 0.5801405135 197.9210      5 LVRKDLQN 100                  A</span>
-<span class="co">#&gt;   3:        0 7.5 0.3031692943 329.2649      3 LVRKDLQN 100                  A</span>
-<span class="co">#&gt;   4:        0 7.5 0.3031692943 197.8792      5 LVRKDLQN 100                  A</span>
-<span class="co">#&gt;   5:        0 7.5 0.0919265899 329.2559      3 LVRKDLQN 100                  A</span>
-<span class="co">#&gt;  ---                                                                          </span>
-<span class="co">#&gt; 300:        5 7.5 0.1778535948 198.3300      5 LVRKDLQN 100                  B</span>
-<span class="co">#&gt; 301:        5 7.5 0.0592038626 198.5690      5 LVRKDLQN 100                  B</span>
-<span class="co">#&gt; 302:        5 7.5 0.0160770746 198.6702      5 LVRKDLQN 100                  B</span>
-<span class="co">#&gt; 303:        5 7.5 0.0036482453 199.0012      5 LVRKDLQN 100                  B</span>
-<span class="co">#&gt; 304:        5 7.5 0.0006591334 199.2084      5 LVRKDLQN 100                  B</span>
-<span class="co">#&gt;      Rep</span>
-<span class="co">#&gt;   1:   1</span>
-<span class="co">#&gt;   2:   1</span>
-<span class="co">#&gt;   3:   1</span>
-<span class="co">#&gt;   4:   1</span>
-<span class="co">#&gt;   5:   1</span>
-<span class="co">#&gt;  ---    </span>
-<span class="co">#&gt; 300:   4</span>
-<span class="co">#&gt; 301:   4</span>
-<span class="co">#&gt; 302:   4</span>
-<span class="co">#&gt; 303:   4</span>
-<span class="co">#&gt; 304:   4</span>
+<span class="co">#&gt;      Exposure  PH    Intensity       Mz Charge       Sequence  PF</span>
+<span class="co">#&gt;   1:        0 7.5 0.3519156204 586.7216      3 CHERICHERILADY 100</span>
+<span class="co">#&gt;   2:        0 7.5 0.3519156204 352.3303      5 CHERICHERILADY 100</span>
+<span class="co">#&gt;   3:        0 7.5 0.3231637738 586.5394      3 CHERICHERILADY 100</span>
+<span class="co">#&gt;   4:        0 7.5 0.3231637738 352.4421      5 CHERICHERILADY 100</span>
+<span class="co">#&gt;   5:        0 7.5 0.1934355070 586.6901      3 CHERICHERILADY 100</span>
+<span class="co">#&gt;  ---                                                             </span>
+<span class="co">#&gt; 460:        5 7.5 0.0184176796 353.7459      5 CHERICHERILADY 100</span>
+<span class="co">#&gt; 461:        5 7.5 0.0062067650 353.9221      5 CHERICHERILADY 100</span>
+<span class="co">#&gt; 462:        5 7.5 0.0018599905 354.0662      5 CHERICHERILADY 100</span>
+<span class="co">#&gt; 463:        5 7.5 0.0004938085 354.1538      5 CHERICHERILADY 100</span>
+<span class="co">#&gt; 464:        5 7.5 0.0001104587 354.4298      5 CHERICHERILADY 100</span>
+<span class="co">#&gt;      Experimental_state Rep</span>
+<span class="co">#&gt;   1:                  A   1</span>
+<span class="co">#&gt;   2:                  A   1</span>
+<span class="co">#&gt;   3:                  A   1</span>
+<span class="co">#&gt;   4:                  A   1</span>
+<span class="co">#&gt;   5:                  A   1</span>
+<span class="co">#&gt;  ---                       </span>
+<span class="co">#&gt; 460:                  B   4</span>
+<span class="co">#&gt; 461:                  B   4</span>
+<span class="co">#&gt; 462:                  B   4</span>
+<span class="co">#&gt; 463:                  B   4</span>
+<span class="co">#&gt; 464:                  B   4</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; [[2]][[2]]</span>
-<span class="co">#&gt;      Exposure  PH    Intensity       Mz Charge Sequence  PF Experimental_state</span>
-<span class="co">#&gt;   1:        0 7.5 0.5801405135 329.1585      3 LVRKDLQN 100                  A</span>
-<span class="co">#&gt;   2:        0 7.5 0.5801405135 197.9427      5 LVRKDLQN 100                  A</span>
-<span class="co">#&gt;   3:        0 7.5 0.3031692943 329.1631      3 LVRKDLQN 100                  A</span>
-<span class="co">#&gt;   4:        0 7.5 0.3031692943 197.9247      5 LVRKDLQN 100                  A</span>
-<span class="co">#&gt;   5:        0 7.5 0.0919265899 329.0961      3 LVRKDLQN 100                  A</span>
-<span class="co">#&gt;  ---                                                                          </span>
-<span class="co">#&gt; 300:        5 7.5 0.1778535948 198.3329      5 LVRKDLQN 100                  B</span>
-<span class="co">#&gt; 301:        5 7.5 0.0592038626 198.4793      5 LVRKDLQN 100                  B</span>
-<span class="co">#&gt; 302:        5 7.5 0.0160770746 198.7649      5 LVRKDLQN 100                  B</span>
-<span class="co">#&gt; 303:        5 7.5 0.0036482453 198.8841      5 LVRKDLQN 100                  B</span>
-<span class="co">#&gt; 304:        5 7.5 0.0006591334 199.2217      5 LVRKDLQN 100                  B</span>
-<span class="co">#&gt;      Rep</span>
-<span class="co">#&gt;   1:   1</span>
-<span class="co">#&gt;   2:   1</span>
-<span class="co">#&gt;   3:   1</span>
-<span class="co">#&gt;   4:   1</span>
-<span class="co">#&gt;   5:   1</span>
-<span class="co">#&gt;  ---    </span>
-<span class="co">#&gt; 300:   4</span>
-<span class="co">#&gt; 301:   4</span>
-<span class="co">#&gt; 302:   4</span>
-<span class="co">#&gt; 303:   4</span>
-<span class="co">#&gt; 304:   4</span>
+<span class="co">#&gt;      Exposure  PH    Intensity       Mz Charge       Sequence  PF</span>
+<span class="co">#&gt;   1:        0 7.5 0.3519156204 586.5392      3 CHERICHERILADY 100</span>
+<span class="co">#&gt;   2:        0 7.5 0.3519156204 352.5052      5 CHERICHERILADY 100</span>
+<span class="co">#&gt;   3:        0 7.5 0.3231637738 586.5200      3 CHERICHERILADY 100</span>
+<span class="co">#&gt;   4:        0 7.5 0.3231637738 352.2501      5 CHERICHERILADY 100</span>
+<span class="co">#&gt;   5:        0 7.5 0.1934355070 586.5751      3 CHERICHERILADY 100</span>
+<span class="co">#&gt;  ---                                                             </span>
+<span class="co">#&gt; 460:        5 7.5 0.0184176796 353.5050      5 CHERICHERILADY 100</span>
+<span class="co">#&gt; 461:        5 7.5 0.0062067650 353.7317      5 CHERICHERILADY 100</span>
+<span class="co">#&gt; 462:        5 7.5 0.0018599905 353.9752      5 CHERICHERILADY 100</span>
+<span class="co">#&gt; 463:        5 7.5 0.0004938085 354.2930      5 CHERICHERILADY 100</span>
+<span class="co">#&gt; 464:        5 7.5 0.0001104587 354.4625      5 CHERICHERILADY 100</span>
+<span class="co">#&gt;      Experimental_state Rep</span>
+<span class="co">#&gt;   1:                  A   1</span>
+<span class="co">#&gt;   2:                  A   1</span>
+<span class="co">#&gt;   3:                  A   1</span>
+<span class="co">#&gt;   4:                  A   1</span>
+<span class="co">#&gt;   5:                  A   1</span>
+<span class="co">#&gt;  ---                       </span>
+<span class="co">#&gt; 460:                  B   4</span>
+<span class="co">#&gt; 461:                  B   4</span>
+<span class="co">#&gt; 462:                  B   4</span>
+<span class="co">#&gt; 463:                  B   4</span>
+<span class="co">#&gt; 464:                  B   4</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; [[3]]</span>
 <span class="co">#&gt; [[3]][[1]]</span>
-<span class="co">#&gt;      Exposure  PH    Intensity       Mz Charge Sequence  PF Experimental_state</span>
-<span class="co">#&gt;   1:        0 7.5 0.5801405135 329.1780      3 LVRKDLQN 200                  A</span>
-<span class="co">#&gt;   2:        0 7.5 0.5801405135 197.8701      5 LVRKDLQN 200                  A</span>
-<span class="co">#&gt;   3:        0 7.5 0.3031692943 329.2254      3 LVRKDLQN 200                  A</span>
-<span class="co">#&gt;   4:        0 7.5 0.3031692943 197.8732      5 LVRKDLQN 200                  A</span>
-<span class="co">#&gt;   5:        0 7.5 0.0919265899 329.1519      3 LVRKDLQN 200                  A</span>
-<span class="co">#&gt;  ---                                                                          </span>
-<span class="co">#&gt; 300:        5 7.5 0.1505546082 198.3380      5 LVRKDLQN 200                  B</span>
-<span class="co">#&gt; 301:        5 7.5 0.0468899753 198.5193      5 LVRKDLQN 200                  B</span>
-<span class="co">#&gt; 302:        5 7.5 0.0114541548 198.8112      5 LVRKDLQN 200                  B</span>
-<span class="co">#&gt; 303:        5 7.5 0.0023078340 198.9325      5 LVRKDLQN 200                  B</span>
-<span class="co">#&gt; 304:        5 7.5 0.0003408244 199.1887      5 LVRKDLQN 200                  B</span>
-<span class="co">#&gt;      Rep</span>
-<span class="co">#&gt;   1:   1</span>
-<span class="co">#&gt;   2:   1</span>
-<span class="co">#&gt;   3:   1</span>
-<span class="co">#&gt;   4:   1</span>
-<span class="co">#&gt;   5:   1</span>
-<span class="co">#&gt;  ---    </span>
-<span class="co">#&gt; 300:   4</span>
-<span class="co">#&gt; 301:   4</span>
-<span class="co">#&gt; 302:   4</span>
-<span class="co">#&gt; 303:   4</span>
-<span class="co">#&gt; 304:   4</span>
+<span class="co">#&gt;      Exposure  PH    Intensity       Mz Charge       Sequence  PF</span>
+<span class="co">#&gt;   1:        0 7.5 0.3519156204 586.5642      3 CHERICHERILADY 200</span>
+<span class="co">#&gt;   2:        0 7.5 0.3519156204 352.2645      5 CHERICHERILADY 200</span>
+<span class="co">#&gt;   3:        0 7.5 0.3231637738 586.6306      3 CHERICHERILADY 200</span>
+<span class="co">#&gt;   4:        0 7.5 0.3231637738 352.4414      5 CHERICHERILADY 200</span>
+<span class="co">#&gt;   5:        0 7.5 0.1934355070 586.6002      3 CHERICHERILADY 200</span>
+<span class="co">#&gt;  ---                                                             </span>
+<span class="co">#&gt; 444:        5 7.5 0.0352195664 353.3482      5 CHERICHERILADY 200</span>
+<span class="co">#&gt; 445:        5 7.5 0.0124630617 353.4801      5 CHERICHERILADY 200</span>
+<span class="co">#&gt; 446:        5 7.5 0.0038328707 353.7377      5 CHERICHERILADY 200</span>
+<span class="co">#&gt; 447:        5 7.5 0.0010409430 354.0588      5 CHERICHERILADY 200</span>
+<span class="co">#&gt; 448:        5 7.5 0.0002418826 354.2376      5 CHERICHERILADY 200</span>
+<span class="co">#&gt;      Experimental_state Rep</span>
+<span class="co">#&gt;   1:                  A   1</span>
+<span class="co">#&gt;   2:                  A   1</span>
+<span class="co">#&gt;   3:                  A   1</span>
+<span class="co">#&gt;   4:                  A   1</span>
+<span class="co">#&gt;   5:                  A   1</span>
+<span class="co">#&gt;  ---                       </span>
+<span class="co">#&gt; 444:                  B   4</span>
+<span class="co">#&gt; 445:                  B   4</span>
+<span class="co">#&gt; 446:                  B   4</span>
+<span class="co">#&gt; 447:                  B   4</span>
+<span class="co">#&gt; 448:                  B   4</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; [[3]][[2]]</span>
-<span class="co">#&gt;      Exposure  PH    Intensity       Mz Charge Sequence  PF Experimental_state</span>
-<span class="co">#&gt;   1:        0 7.5 0.5801405135 329.2022      3 LVRKDLQN 200                  A</span>
-<span class="co">#&gt;   2:        0 7.5 0.5801405135 198.0410      5 LVRKDLQN 200                  A</span>
-<span class="co">#&gt;   3:        0 7.5 0.3031692943 329.2512      3 LVRKDLQN 200                  A</span>
-<span class="co">#&gt;   4:        0 7.5 0.3031692943 197.9284      5 LVRKDLQN 200                  A</span>
-<span class="co">#&gt;   5:        0 7.5 0.0919265899 329.2267      3 LVRKDLQN 200                  A</span>
-<span class="co">#&gt;  ---                                                                          </span>
-<span class="co">#&gt; 300:        5 7.5 0.1505546082 198.3448      5 LVRKDLQN 200                  B</span>
-<span class="co">#&gt; 301:        5 7.5 0.0468899753 198.6165      5 LVRKDLQN 200                  B</span>
-<span class="co">#&gt; 302:        5 7.5 0.0114541548 198.8513      5 LVRKDLQN 200                  B</span>
-<span class="co">#&gt; 303:        5 7.5 0.0023078340 198.8434      5 LVRKDLQN 200                  B</span>
-<span class="co">#&gt; 304:        5 7.5 0.0003408244 199.0959      5 LVRKDLQN 200                  B</span>
-<span class="co">#&gt;      Rep</span>
-<span class="co">#&gt;   1:   1</span>
-<span class="co">#&gt;   2:   1</span>
-<span class="co">#&gt;   3:   1</span>
-<span class="co">#&gt;   4:   1</span>
-<span class="co">#&gt;   5:   1</span>
-<span class="co">#&gt;  ---    </span>
-<span class="co">#&gt; 300:   4</span>
-<span class="co">#&gt; 301:   4</span>
-<span class="co">#&gt; 302:   4</span>
-<span class="co">#&gt; 303:   4</span>
-<span class="co">#&gt; 304:   4</span></code></pre></div>
+<span class="co">#&gt;      Exposure  PH    Intensity       Mz Charge       Sequence  PF</span>
+<span class="co">#&gt;   1:        0 7.5 0.3519156204 586.6821      3 CHERICHERILADY 200</span>
+<span class="co">#&gt;   2:        0 7.5 0.3519156204 352.5324      5 CHERICHERILADY 200</span>
+<span class="co">#&gt;   3:        0 7.5 0.3231637738 586.6122      3 CHERICHERILADY 200</span>
+<span class="co">#&gt;   4:        0 7.5 0.3231637738 352.3069      5 CHERICHERILADY 200</span>
+<span class="co">#&gt;   5:        0 7.5 0.1934355070 586.7892      3 CHERICHERILADY 200</span>
+<span class="co">#&gt;  ---                                                             </span>
+<span class="co">#&gt; 444:        5 7.5 0.0352195664 353.2613      5 CHERICHERILADY 200</span>
+<span class="co">#&gt; 445:        5 7.5 0.0124630617 353.5934      5 CHERICHERILADY 200</span>
+<span class="co">#&gt; 446:        5 7.5 0.0038328707 353.8038      5 CHERICHERILADY 200</span>
+<span class="co">#&gt; 447:        5 7.5 0.0010409430 353.9717      5 CHERICHERILADY 200</span>
+<span class="co">#&gt; 448:        5 7.5 0.0002418826 354.1598      5 CHERICHERILADY 200</span>
+<span class="co">#&gt;      Experimental_state Rep</span>
+<span class="co">#&gt;   1:                  A   1</span>
+<span class="co">#&gt;   2:                  A   1</span>
+<span class="co">#&gt;   3:                  A   1</span>
+<span class="co">#&gt;   4:                  A   1</span>
+<span class="co">#&gt;   5:                  A   1</span>
+<span class="co">#&gt;  ---                       </span>
+<span class="co">#&gt; 444:                  B   4</span>
+<span class="co">#&gt; 445:                  B   4</span>
+<span class="co">#&gt; 446:                  B   4</span>
+<span class="co">#&gt; 447:                  B   4</span>
+<span class="co">#&gt; 448:                  B   4</span></code></pre></div>
 <p>As we can see, we obtained the output adapted to the pairwise comparison - each element of a list is a list of data tables (according to the argument <code>n_experiments</code>) for paired states. In our example, we get three pairs: 100 vs. 200 for power estimation and 100 vs. 100, 200 vs, 200 for type I error estimation.</p>
 </div>
 <div id="deuteration-curves-from-spectra" class="section level4">
 <h4 class="hasAnchor">
-<a href="#deuteration-curves-from-spectra" class="anchor" aria-hidden="true"></a>deuteration curves from spectra</h4>
+<a href="#deuteration-curves-from-spectra" class="anchor"></a>deuteration curves from spectra</h4>
 <p>Having noisy mass spectra simulated by the function <code>add_noise_to_spectra</code> as shown in the previous sections we can use the function <code>get_deuteration_curves_from_spectra</code> to calculate deuterium uptake as follows:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">deuteration_curves</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_deuteration_curves_from_spectra.html">get_deuteration_curves_from_spectra</a></span><span class="op">(</span><span class="va">replicated_spectra</span><span class="op">)</span>
 <span class="va">deuteration_curves</span>
 <span class="co">#&gt; [[1]]</span>
 <span class="co">#&gt; [[1]][[1]]</span>
-<span class="co">#&gt;     Exposure  PH Charge Sequence  PF Rep     Mass</span>
-<span class="co">#&gt;  1:    0.000 7.5      3 LVRKDLQN 100   1 984.7220</span>
-<span class="co">#&gt;  2:    0.000 7.5      5 LVRKDLQN 100   1 984.2905</span>
-<span class="co">#&gt;  3:    0.000 7.5      3 LVRKDLQN 100   2 984.4942</span>
-<span class="co">#&gt;  4:    0.000 7.5      5 LVRKDLQN 100   2 984.3885</span>
-<span class="co">#&gt;  5:    0.000 7.5      3 LVRKDLQN 100   3 984.5046</span>
-<span class="co">#&gt;  6:    0.000 7.5      5 LVRKDLQN 100   3 984.7803</span>
-<span class="co">#&gt;  7:    0.000 7.5      3 LVRKDLQN 100   4 984.5908</span>
-<span class="co">#&gt;  8:    0.000 7.5      5 LVRKDLQN 100   4 984.4665</span>
-<span class="co">#&gt;  9:    0.167 7.5      3 LVRKDLQN 100   1 985.1234</span>
-<span class="co">#&gt; 10:    0.167 7.5      5 LVRKDLQN 100   1 985.0912</span>
-<span class="co">#&gt; 11:    0.167 7.5      3 LVRKDLQN 100   2 985.1182</span>
-<span class="co">#&gt; 12:    0.167 7.5      5 LVRKDLQN 100   2 985.0670</span>
-<span class="co">#&gt; 13:    0.167 7.5      3 LVRKDLQN 100   3 985.1454</span>
-<span class="co">#&gt; 14:    0.167 7.5      5 LVRKDLQN 100   3 985.5210</span>
-<span class="co">#&gt; 15:    0.167 7.5      3 LVRKDLQN 100   4 985.1830</span>
-<span class="co">#&gt; 16:    0.167 7.5      5 LVRKDLQN 100   4 985.1679</span>
-<span class="co">#&gt; 17:    5.000 7.5      3 LVRKDLQN 100   1 985.5347</span>
-<span class="co">#&gt; 18:    5.000 7.5      5 LVRKDLQN 100   1 985.7443</span>
-<span class="co">#&gt; 19:    5.000 7.5      3 LVRKDLQN 100   2 985.4652</span>
-<span class="co">#&gt; 20:    5.000 7.5      5 LVRKDLQN 100   2 985.5478</span>
-<span class="co">#&gt; 21:    5.000 7.5      3 LVRKDLQN 100   3 985.4461</span>
-<span class="co">#&gt; 22:    5.000 7.5      5 LVRKDLQN 100   3 985.3939</span>
-<span class="co">#&gt; 23:    5.000 7.5      3 LVRKDLQN 100   4 985.6203</span>
-<span class="co">#&gt; 24:    5.000 7.5      5 LVRKDLQN 100   4 985.6134</span>
-<span class="co">#&gt;     Exposure  PH Charge Sequence  PF Rep     Mass</span>
+<span class="co">#&gt;     Exposure  PH Charge       Sequence  PF Rep     Mass</span>
+<span class="co">#&gt;  1:    0.000 7.5      3 CHERICHERILADY 100   1 1756.877</span>
+<span class="co">#&gt;  2:    0.000 7.5      5 CHERICHERILADY 100   1 1757.043</span>
+<span class="co">#&gt;  3:    0.000 7.5      3 CHERICHERILADY 100   2 1756.888</span>
+<span class="co">#&gt;  4:    0.000 7.5      5 CHERICHERILADY 100   2 1756.976</span>
+<span class="co">#&gt;  5:    0.000 7.5      3 CHERICHERILADY 100   3 1756.869</span>
+<span class="co">#&gt;  6:    0.000 7.5      5 CHERICHERILADY 100   3 1756.964</span>
+<span class="co">#&gt;  7:    0.000 7.5      3 CHERICHERILADY 100   4 1756.732</span>
+<span class="co">#&gt;  8:    0.000 7.5      5 CHERICHERILADY 100   4 1756.731</span>
+<span class="co">#&gt;  9:    0.167 7.5      3 CHERICHERILADY 100   1 1758.086</span>
+<span class="co">#&gt; 10:    0.167 7.5      5 CHERICHERILADY 100   1 1758.149</span>
+<span class="co">#&gt; 11:    0.167 7.5      3 CHERICHERILADY 100   2 1758.032</span>
+<span class="co">#&gt; 12:    0.167 7.5      5 CHERICHERILADY 100   2 1758.247</span>
+<span class="co">#&gt; 13:    0.167 7.5      3 CHERICHERILADY 100   3 1757.928</span>
+<span class="co">#&gt; 14:    0.167 7.5      5 CHERICHERILADY 100   3 1758.456</span>
+<span class="co">#&gt; 15:    0.167 7.5      3 CHERICHERILADY 100   4 1757.913</span>
+<span class="co">#&gt; 16:    0.167 7.5      5 CHERICHERILADY 100   4 1758.034</span>
+<span class="co">#&gt; 17:    5.000 7.5      3 CHERICHERILADY 100   1 1758.950</span>
+<span class="co">#&gt; 18:    5.000 7.5      5 CHERICHERILADY 100   1 1759.048</span>
+<span class="co">#&gt; 19:    5.000 7.5      3 CHERICHERILADY 100   2 1759.271</span>
+<span class="co">#&gt; 20:    5.000 7.5      5 CHERICHERILADY 100   2 1758.711</span>
+<span class="co">#&gt; 21:    5.000 7.5      3 CHERICHERILADY 100   3 1758.791</span>
+<span class="co">#&gt; 22:    5.000 7.5      5 CHERICHERILADY 100   3 1758.703</span>
+<span class="co">#&gt; 23:    5.000 7.5      3 CHERICHERILADY 100   4 1759.277</span>
+<span class="co">#&gt; 24:    5.000 7.5      5 CHERICHERILADY 100   4 1759.155</span>
+<span class="co">#&gt;     Exposure  PH Charge       Sequence  PF Rep     Mass</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; [[1]][[2]]</span>
-<span class="co">#&gt;     Exposure  PH Charge Sequence  PF Rep     Mass</span>
-<span class="co">#&gt;  1:    0.000 7.5      3 LVRKDLQN 100   1 984.5914</span>
-<span class="co">#&gt;  2:    0.000 7.5      5 LVRKDLQN 100   1 984.6269</span>
-<span class="co">#&gt;  3:    0.000 7.5      3 LVRKDLQN 100   2 984.5053</span>
-<span class="co">#&gt;  4:    0.000 7.5      5 LVRKDLQN 100   2 984.3073</span>
-<span class="co">#&gt;  5:    0.000 7.5      3 LVRKDLQN 100   3 984.6592</span>
-<span class="co">#&gt;  6:    0.000 7.5      5 LVRKDLQN 100   3 984.5060</span>
-<span class="co">#&gt;  7:    0.000 7.5      3 LVRKDLQN 100   4 984.4063</span>
-<span class="co">#&gt;  8:    0.000 7.5      5 LVRKDLQN 100   4 984.3590</span>
-<span class="co">#&gt;  9:    0.167 7.5      3 LVRKDLQN 100   1 985.3884</span>
-<span class="co">#&gt; 10:    0.167 7.5      5 LVRKDLQN 100   1 985.2198</span>
-<span class="co">#&gt; 11:    0.167 7.5      3 LVRKDLQN 100   2 985.2015</span>
-<span class="co">#&gt; 12:    0.167 7.5      5 LVRKDLQN 100   2 984.9362</span>
-<span class="co">#&gt; 13:    0.167 7.5      3 LVRKDLQN 100   3 985.0735</span>
-<span class="co">#&gt; 14:    0.167 7.5      5 LVRKDLQN 100   3 985.1214</span>
-<span class="co">#&gt; 15:    0.167 7.5      3 LVRKDLQN 100   4 985.0328</span>
-<span class="co">#&gt; 16:    0.167 7.5      5 LVRKDLQN 100   4 985.0761</span>
-<span class="co">#&gt; 17:    5.000 7.5      3 LVRKDLQN 100   1 985.6421</span>
-<span class="co">#&gt; 18:    5.000 7.5      5 LVRKDLQN 100   1 985.6240</span>
-<span class="co">#&gt; 19:    5.000 7.5      3 LVRKDLQN 100   2 985.5196</span>
-<span class="co">#&gt; 20:    5.000 7.5      5 LVRKDLQN 100   2 985.6061</span>
-<span class="co">#&gt; 21:    5.000 7.5      3 LVRKDLQN 100   3 985.5106</span>
-<span class="co">#&gt; 22:    5.000 7.5      5 LVRKDLQN 100   3 985.6861</span>
-<span class="co">#&gt; 23:    5.000 7.5      3 LVRKDLQN 100   4 985.4683</span>
-<span class="co">#&gt; 24:    5.000 7.5      5 LVRKDLQN 100   4 985.6079</span>
-<span class="co">#&gt;     Exposure  PH Charge Sequence  PF Rep     Mass</span></code></pre></div>
+<span class="co">#&gt;     Exposure  PH Charge       Sequence  PF Rep     Mass</span>
+<span class="co">#&gt;  1:    0.000 7.5      3 CHERICHERILADY 100   1 1756.698</span>
+<span class="co">#&gt;  2:    0.000 7.5      5 CHERICHERILADY 100   1 1756.690</span>
+<span class="co">#&gt;  3:    0.000 7.5      3 CHERICHERILADY 100   2 1756.934</span>
+<span class="co">#&gt;  4:    0.000 7.5      5 CHERICHERILADY 100   2 1756.727</span>
+<span class="co">#&gt;  5:    0.000 7.5      3 CHERICHERILADY 100   3 1756.560</span>
+<span class="co">#&gt;  6:    0.000 7.5      5 CHERICHERILADY 100   3 1757.230</span>
+<span class="co">#&gt;  7:    0.000 7.5      3 CHERICHERILADY 100   4 1756.910</span>
+<span class="co">#&gt;  8:    0.000 7.5      5 CHERICHERILADY 100   4 1756.577</span>
+<span class="co">#&gt;  9:    0.167 7.5      3 CHERICHERILADY 100   1 1757.889</span>
+<span class="co">#&gt; 10:    0.167 7.5      5 CHERICHERILADY 100   1 1758.118</span>
+<span class="co">#&gt; 11:    0.167 7.5      3 CHERICHERILADY 100   2 1758.136</span>
+<span class="co">#&gt; 12:    0.167 7.5      5 CHERICHERILADY 100   2 1758.097</span>
+<span class="co">#&gt; 13:    0.167 7.5      3 CHERICHERILADY 100   3 1757.922</span>
+<span class="co">#&gt; 14:    0.167 7.5      5 CHERICHERILADY 100   3 1758.285</span>
+<span class="co">#&gt; 15:    0.167 7.5      3 CHERICHERILADY 100   4 1757.953</span>
+<span class="co">#&gt; 16:    0.167 7.5      5 CHERICHERILADY 100   4 1758.229</span>
+<span class="co">#&gt; 17:    5.000 7.5      3 CHERICHERILADY 100   1 1758.956</span>
+<span class="co">#&gt; 18:    5.000 7.5      5 CHERICHERILADY 100   1 1758.982</span>
+<span class="co">#&gt; 19:    5.000 7.5      3 CHERICHERILADY 100   2 1759.049</span>
+<span class="co">#&gt; 20:    5.000 7.5      5 CHERICHERILADY 100   2 1758.665</span>
+<span class="co">#&gt; 21:    5.000 7.5      3 CHERICHERILADY 100   3 1759.001</span>
+<span class="co">#&gt; 22:    5.000 7.5      5 CHERICHERILADY 100   3 1759.295</span>
+<span class="co">#&gt; 23:    5.000 7.5      3 CHERICHERILADY 100   4 1758.946</span>
+<span class="co">#&gt; 24:    5.000 7.5      5 CHERICHERILADY 100   4 1758.728</span>
+<span class="co">#&gt;     Exposure  PH Charge       Sequence  PF Rep     Mass</span></code></pre></div>
 <p>As we can see, we obtain the output analogous to the output of <code>add_noise_to_spectra</code> but containing deuterium uptake curves instead of mass spectra.</p>
 </div>
 </div>
 </div>
 <div id="noisy-deuteration-curves" class="section level2">
 <h2 class="hasAnchor">
-<a href="#noisy-deuteration-curves" class="anchor" aria-hidden="true"></a>Noisy deuteration curves</h2>
+<a href="#noisy-deuteration-curves" class="anchor"></a>Noisy deuteration curves</h2>
 <p>We can also simulate noisy deuteration curves using the direct output of <code>simulate_theoretical_spectra</code>. As mentioned before, we specify the number of technical replicates and executions of the experiment using the arguments <code>n_replicates</code> and <code>n_experiments</code>. An example for the case when one/“all” states are considered is shown in the following code:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/get_noisy_deuteration_curves.html">get_noisy_deuteration_curves</a></span><span class="op">(</span><span class="va">theo_spectra</span>,
@@ -466,60 +476,60 @@
                              compare_pairs <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 <span class="co">#&gt; [[1]]</span>
 <span class="co">#&gt; [[1]][[1]]</span>
-<span class="co">#&gt;     Sequence Rep State Exposure      Mass Charge</span>
-<span class="co">#&gt;  1: LVRKDLQN   1   100    0.000 0.0000000      3</span>
-<span class="co">#&gt;  2: LVRKDLQN   1   100    0.000 0.0000000      5</span>
-<span class="co">#&gt;  3: LVRKDLQN   1   100    0.167 0.5862529      3</span>
-<span class="co">#&gt;  4: LVRKDLQN   1   100    0.167 0.5854435      5</span>
-<span class="co">#&gt;  5: LVRKDLQN   1   100    5.000 1.0217033      3</span>
-<span class="co">#&gt;  6: LVRKDLQN   1   100    5.000 0.9930022      5</span>
-<span class="co">#&gt;  7: LVRKDLQN   2   100    0.000 0.0000000      3</span>
-<span class="co">#&gt;  8: LVRKDLQN   2   100    0.000 0.0000000      5</span>
-<span class="co">#&gt;  9: LVRKDLQN   2   100    0.167 0.3479222      3</span>
-<span class="co">#&gt; 10: LVRKDLQN   2   100    0.167 0.5470459      5</span>
-<span class="co">#&gt; 11: LVRKDLQN   2   100    5.000 1.0366925      3</span>
-<span class="co">#&gt; 12: LVRKDLQN   2   100    5.000 1.1481261      5</span>
-<span class="co">#&gt; 13: LVRKDLQN   3   100    0.000 0.0000000      3</span>
-<span class="co">#&gt; 14: LVRKDLQN   3   100    0.000 0.0000000      5</span>
-<span class="co">#&gt; 15: LVRKDLQN   3   100    0.167 0.8224366      3</span>
-<span class="co">#&gt; 16: LVRKDLQN   3   100    0.167 0.5187992      5</span>
-<span class="co">#&gt; 17: LVRKDLQN   3   100    5.000 1.0305438      3</span>
-<span class="co">#&gt; 18: LVRKDLQN   3   100    5.000 0.4350522      5</span>
-<span class="co">#&gt; 19: LVRKDLQN   4   100    0.000 0.0000000      3</span>
-<span class="co">#&gt; 20: LVRKDLQN   4   100    0.000 0.0000000      5</span>
-<span class="co">#&gt; 21: LVRKDLQN   4   100    0.167 0.3920062      3</span>
-<span class="co">#&gt; 22: LVRKDLQN   4   100    0.167 0.8563719      5</span>
-<span class="co">#&gt; 23: LVRKDLQN   4   100    5.000 1.0286272      3</span>
-<span class="co">#&gt; 24: LVRKDLQN   4   100    5.000 0.9252842      5</span>
-<span class="co">#&gt;     Sequence Rep State Exposure      Mass Charge</span>
+<span class="co">#&gt;           Sequence Rep State Exposure      Mass Charge</span>
+<span class="co">#&gt;  1: CHERICHERILADY   1   100    0.000 0.0000000      3</span>
+<span class="co">#&gt;  2: CHERICHERILADY   1   100    0.000 0.0000000      5</span>
+<span class="co">#&gt;  3: CHERICHERILADY   1   100    0.167 1.0217790      3</span>
+<span class="co">#&gt;  4: CHERICHERILADY   1   100    0.167 1.1115481      5</span>
+<span class="co">#&gt;  5: CHERICHERILADY   1   100    5.000 2.2000449      3</span>
+<span class="co">#&gt;  6: CHERICHERILADY   1   100    5.000 2.4815535      5</span>
+<span class="co">#&gt;  7: CHERICHERILADY   2   100    0.000 0.0000000      3</span>
+<span class="co">#&gt;  8: CHERICHERILADY   2   100    0.000 0.0000000      5</span>
+<span class="co">#&gt;  9: CHERICHERILADY   2   100    0.167 0.9464547      3</span>
+<span class="co">#&gt; 10: CHERICHERILADY   2   100    0.167 0.8102006      5</span>
+<span class="co">#&gt; 11: CHERICHERILADY   2   100    5.000 2.1403363      3</span>
+<span class="co">#&gt; 12: CHERICHERILADY   2   100    5.000 1.8741435      5</span>
+<span class="co">#&gt; 13: CHERICHERILADY   3   100    0.000 0.0000000      3</span>
+<span class="co">#&gt; 14: CHERICHERILADY   3   100    0.000 0.0000000      5</span>
+<span class="co">#&gt; 15: CHERICHERILADY   3   100    0.167 1.0501886      3</span>
+<span class="co">#&gt; 16: CHERICHERILADY   3   100    0.167 1.5787876      5</span>
+<span class="co">#&gt; 17: CHERICHERILADY   3   100    5.000 2.0908309      3</span>
+<span class="co">#&gt; 18: CHERICHERILADY   3   100    5.000 2.1018103      5</span>
+<span class="co">#&gt; 19: CHERICHERILADY   4   100    0.000 0.0000000      3</span>
+<span class="co">#&gt; 20: CHERICHERILADY   4   100    0.000 0.0000000      5</span>
+<span class="co">#&gt; 21: CHERICHERILADY   4   100    0.167 1.4237105      3</span>
+<span class="co">#&gt; 22: CHERICHERILADY   4   100    0.167 0.8013307      5</span>
+<span class="co">#&gt; 23: CHERICHERILADY   4   100    5.000 2.0033885      3</span>
+<span class="co">#&gt; 24: CHERICHERILADY   4   100    5.000 2.5667487      5</span>
+<span class="co">#&gt;           Sequence Rep State Exposure      Mass Charge</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; [[1]][[2]]</span>
-<span class="co">#&gt;     Sequence Rep State Exposure      Mass Charge</span>
-<span class="co">#&gt;  1: LVRKDLQN   1   100    0.000 0.0000000      3</span>
-<span class="co">#&gt;  2: LVRKDLQN   1   100    0.000 0.0000000      5</span>
-<span class="co">#&gt;  3: LVRKDLQN   1   100    0.167 0.6380952      3</span>
-<span class="co">#&gt;  4: LVRKDLQN   1   100    0.167 0.4741402      5</span>
-<span class="co">#&gt;  5: LVRKDLQN   1   100    5.000 1.1345753      3</span>
-<span class="co">#&gt;  6: LVRKDLQN   1   100    5.000 0.8061157      5</span>
-<span class="co">#&gt;  7: LVRKDLQN   2   100    0.000 0.0000000      3</span>
-<span class="co">#&gt;  8: LVRKDLQN   2   100    0.000 0.0000000      5</span>
-<span class="co">#&gt;  9: LVRKDLQN   2   100    0.167 0.5803908      3</span>
-<span class="co">#&gt; 10: LVRKDLQN   2   100    0.167 0.4503113      5</span>
-<span class="co">#&gt; 11: LVRKDLQN   2   100    5.000 0.8832259      3</span>
-<span class="co">#&gt; 12: LVRKDLQN   2   100    5.000 0.9580442      5</span>
-<span class="co">#&gt; 13: LVRKDLQN   3   100    0.000 0.0000000      3</span>
-<span class="co">#&gt; 14: LVRKDLQN   3   100    0.000 0.0000000      5</span>
-<span class="co">#&gt; 15: LVRKDLQN   3   100    0.167 0.6287035      3</span>
-<span class="co">#&gt; 16: LVRKDLQN   3   100    0.167 0.6156612      5</span>
-<span class="co">#&gt; 17: LVRKDLQN   3   100    5.000 0.9346183      3</span>
-<span class="co">#&gt; 18: LVRKDLQN   3   100    5.000 1.1377334      5</span>
-<span class="co">#&gt; 19: LVRKDLQN   4   100    0.000 0.0000000      3</span>
-<span class="co">#&gt; 20: LVRKDLQN   4   100    0.000 0.0000000      5</span>
-<span class="co">#&gt; 21: LVRKDLQN   4   100    0.167 0.7384239      3</span>
-<span class="co">#&gt; 22: LVRKDLQN   4   100    0.167 0.5794067      5</span>
-<span class="co">#&gt; 23: LVRKDLQN   4   100    5.000 0.8788954      3</span>
-<span class="co">#&gt; 24: LVRKDLQN   4   100    5.000 0.8209538      5</span>
-<span class="co">#&gt;     Sequence Rep State Exposure      Mass Charge</span></code></pre></div>
+<span class="co">#&gt;           Sequence Rep State Exposure      Mass Charge</span>
+<span class="co">#&gt;  1: CHERICHERILADY   1   100    0.000 0.0000000      3</span>
+<span class="co">#&gt;  2: CHERICHERILADY   1   100    0.000 0.0000000      5</span>
+<span class="co">#&gt;  3: CHERICHERILADY   1   100    0.167 1.2843118      3</span>
+<span class="co">#&gt;  4: CHERICHERILADY   1   100    0.167 1.2523143      5</span>
+<span class="co">#&gt;  5: CHERICHERILADY   1   100    5.000 2.2997912      3</span>
+<span class="co">#&gt;  6: CHERICHERILADY   1   100    5.000 2.4740207      5</span>
+<span class="co">#&gt;  7: CHERICHERILADY   2   100    0.000 0.0000000      3</span>
+<span class="co">#&gt;  8: CHERICHERILADY   2   100    0.000 0.0000000      5</span>
+<span class="co">#&gt;  9: CHERICHERILADY   2   100    0.167 1.2818168      3</span>
+<span class="co">#&gt; 10: CHERICHERILADY   2   100    0.167 1.2974389      5</span>
+<span class="co">#&gt; 11: CHERICHERILADY   2   100    5.000 1.8699221      3</span>
+<span class="co">#&gt; 12: CHERICHERILADY   2   100    5.000 2.6689255      5</span>
+<span class="co">#&gt; 13: CHERICHERILADY   3   100    0.000 0.0000000      3</span>
+<span class="co">#&gt; 14: CHERICHERILADY   3   100    0.000 0.0000000      5</span>
+<span class="co">#&gt; 15: CHERICHERILADY   3   100    0.167 0.7400186      3</span>
+<span class="co">#&gt; 16: CHERICHERILADY   3   100    0.167 0.4871051      5</span>
+<span class="co">#&gt; 17: CHERICHERILADY   3   100    5.000 1.7770345      3</span>
+<span class="co">#&gt; 18: CHERICHERILADY   3   100    5.000 1.9142936      5</span>
+<span class="co">#&gt; 19: CHERICHERILADY   4   100    0.000 0.0000000      3</span>
+<span class="co">#&gt; 20: CHERICHERILADY   4   100    0.000 0.0000000      5</span>
+<span class="co">#&gt; 21: CHERICHERILADY   4   100    0.167 1.5793063      3</span>
+<span class="co">#&gt; 22: CHERICHERILADY   4   100    0.167 1.4803818      5</span>
+<span class="co">#&gt; 23: CHERICHERILADY   4   100    5.000 2.2572368      3</span>
+<span class="co">#&gt; 24: CHERICHERILADY   4   100    5.000 2.0599348      5</span>
+<span class="co">#&gt;           Sequence Rep State Exposure      Mass Charge</span></code></pre></div>
 <p>The case when the pairwise comparisons are considered requires providing the data simulated for different protection factors. Let us take a look at the results for <code>theo_spectra_two_states</code> simulated in the previous section:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">deuteration_curves_paired_states</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_noisy_deuteration_curves.html">get_noisy_deuteration_curves</a></span><span class="op">(</span><span class="va">theo_spectra_two_states</span>,
@@ -530,324 +540,324 @@
 <span class="va">deuteration_curves_paired_states</span>
 <span class="co">#&gt; [[1]]</span>
 <span class="co">#&gt; [[1]][[1]]</span>
-<span class="co">#&gt;     Sequence Rep State Exposure      Mass Charge Experimental_state</span>
-<span class="co">#&gt;  1: LVRKDLQN   1   100    0.000 0.0000000      3                  A</span>
-<span class="co">#&gt;  2: LVRKDLQN   1   100    0.000 0.0000000      5                  A</span>
-<span class="co">#&gt;  3: LVRKDLQN   1   100    0.167 0.8688819      3                  A</span>
-<span class="co">#&gt;  4: LVRKDLQN   1   100    0.167 0.2757140      5                  A</span>
-<span class="co">#&gt;  5: LVRKDLQN   1   100    5.000 1.0198106      3                  A</span>
-<span class="co">#&gt;  6: LVRKDLQN   1   100    5.000 0.6753098      5                  A</span>
-<span class="co">#&gt;  7: LVRKDLQN   1   200    0.000 0.0000000      3                  B</span>
-<span class="co">#&gt;  8: LVRKDLQN   1   200    0.000 0.0000000      5                  B</span>
-<span class="co">#&gt;  9: LVRKDLQN   1   200    0.167 0.5274486      3                  B</span>
-<span class="co">#&gt; 10: LVRKDLQN   1   200    0.167 0.8077955      5                  B</span>
-<span class="co">#&gt; 11: LVRKDLQN   1   200    5.000 0.9859614      3                  B</span>
-<span class="co">#&gt; 12: LVRKDLQN   1   200    5.000 1.1993870      5                  B</span>
-<span class="co">#&gt; 13: LVRKDLQN   2   100    0.000 0.0000000      3                  A</span>
-<span class="co">#&gt; 14: LVRKDLQN   2   100    0.000 0.0000000      5                  A</span>
-<span class="co">#&gt; 15: LVRKDLQN   2   100    0.167 0.8045094      3                  A</span>
-<span class="co">#&gt; 16: LVRKDLQN   2   100    0.167 1.1200420      5                  A</span>
-<span class="co">#&gt; 17: LVRKDLQN   2   100    5.000 1.1567777      3                  A</span>
-<span class="co">#&gt; 18: LVRKDLQN   2   100    5.000 1.1913560      5                  A</span>
-<span class="co">#&gt; 19: LVRKDLQN   2   200    0.000 0.0000000      3                  B</span>
-<span class="co">#&gt; 20: LVRKDLQN   2   200    0.000 0.0000000      5                  B</span>
-<span class="co">#&gt; 21: LVRKDLQN   2   200    0.167 0.7695384      3                  B</span>
-<span class="co">#&gt; 22: LVRKDLQN   2   200    0.167 0.8307251      5                  B</span>
-<span class="co">#&gt; 23: LVRKDLQN   2   200    5.000 0.8609096      3                  B</span>
-<span class="co">#&gt; 24: LVRKDLQN   2   200    5.000 0.8827987      5                  B</span>
-<span class="co">#&gt; 25: LVRKDLQN   3   100    0.000 0.0000000      3                  A</span>
-<span class="co">#&gt; 26: LVRKDLQN   3   100    0.000 0.0000000      5                  A</span>
-<span class="co">#&gt; 27: LVRKDLQN   3   100    0.167 0.4966942      3                  A</span>
-<span class="co">#&gt; 28: LVRKDLQN   3   100    0.167 0.6386009      5                  A</span>
-<span class="co">#&gt; 29: LVRKDLQN   3   100    5.000 1.0268833      3                  A</span>
-<span class="co">#&gt; 30: LVRKDLQN   3   100    5.000 1.1676825      5                  A</span>
-<span class="co">#&gt; 31: LVRKDLQN   3   200    0.000 0.0000000      3                  B</span>
-<span class="co">#&gt; 32: LVRKDLQN   3   200    0.000 0.0000000      5                  B</span>
-<span class="co">#&gt; 33: LVRKDLQN   3   200    0.167 0.7393893      3                  B</span>
-<span class="co">#&gt; 34: LVRKDLQN   3   200    0.167 0.5218890      5                  B</span>
-<span class="co">#&gt; 35: LVRKDLQN   3   200    5.000 1.0364554      3                  B</span>
-<span class="co">#&gt; 36: LVRKDLQN   3   200    5.000 0.7648215      5                  B</span>
-<span class="co">#&gt; 37: LVRKDLQN   4   100    0.000 0.0000000      3                  A</span>
-<span class="co">#&gt; 38: LVRKDLQN   4   100    0.000 0.0000000      5                  A</span>
-<span class="co">#&gt; 39: LVRKDLQN   4   100    0.167 0.5473698      3                  A</span>
-<span class="co">#&gt; 40: LVRKDLQN   4   100    0.167 0.3121527      5                  A</span>
-<span class="co">#&gt; 41: LVRKDLQN   4   100    5.000 1.0522619      3                  A</span>
-<span class="co">#&gt; 42: LVRKDLQN   4   100    5.000 0.7312982      5                  A</span>
-<span class="co">#&gt; 43: LVRKDLQN   4   200    0.000 0.0000000      3                  B</span>
-<span class="co">#&gt; 44: LVRKDLQN   4   200    0.000 0.0000000      5                  B</span>
-<span class="co">#&gt; 45: LVRKDLQN   4   200    0.167 0.6360312      3                  B</span>
-<span class="co">#&gt; 46: LVRKDLQN   4   200    0.167 0.7061931      5                  B</span>
-<span class="co">#&gt; 47: LVRKDLQN   4   200    5.000 0.9047647      3                  B</span>
-<span class="co">#&gt; 48: LVRKDLQN   4   200    5.000 0.9409487      5                  B</span>
-<span class="co">#&gt;     Sequence Rep State Exposure      Mass Charge Experimental_state</span>
+<span class="co">#&gt;           Sequence Rep State Exposure      Mass Charge Experimental_state</span>
+<span class="co">#&gt;  1: CHERICHERILADY   1   100    0.000 0.0000000      3                  A</span>
+<span class="co">#&gt;  2: CHERICHERILADY   1   100    0.000 0.0000000      5                  A</span>
+<span class="co">#&gt;  3: CHERICHERILADY   1   100    0.167 1.5207689      3                  A</span>
+<span class="co">#&gt;  4: CHERICHERILADY   1   100    0.167 0.7352172      5                  A</span>
+<span class="co">#&gt;  5: CHERICHERILADY   1   100    5.000 2.1869179      3                  A</span>
+<span class="co">#&gt;  6: CHERICHERILADY   1   100    5.000 1.8464555      5                  A</span>
+<span class="co">#&gt;  7: CHERICHERILADY   1   200    0.000 0.0000000      3                  B</span>
+<span class="co">#&gt;  8: CHERICHERILADY   1   200    0.000 0.0000000      5                  B</span>
+<span class="co">#&gt;  9: CHERICHERILADY   1   200    0.167 1.2827260      3                  B</span>
+<span class="co">#&gt; 10: CHERICHERILADY   1   200    0.167 1.0469703      5                  B</span>
+<span class="co">#&gt; 11: CHERICHERILADY   1   200    5.000 1.7941624      3                  B</span>
+<span class="co">#&gt; 12: CHERICHERILADY   1   200    5.000 1.7559851      5                  B</span>
+<span class="co">#&gt; 13: CHERICHERILADY   2   100    0.000 0.0000000      3                  A</span>
+<span class="co">#&gt; 14: CHERICHERILADY   2   100    0.000 0.0000000      5                  A</span>
+<span class="co">#&gt; 15: CHERICHERILADY   2   100    0.167 1.0475764      3                  A</span>
+<span class="co">#&gt; 16: CHERICHERILADY   2   100    0.167 1.9204614      5                  A</span>
+<span class="co">#&gt; 17: CHERICHERILADY   2   100    5.000 1.9722249      3                  A</span>
+<span class="co">#&gt; 18: CHERICHERILADY   2   100    5.000 2.6312181      5                  A</span>
+<span class="co">#&gt; 19: CHERICHERILADY   2   200    0.000 0.0000000      3                  B</span>
+<span class="co">#&gt; 20: CHERICHERILADY   2   200    0.000 0.0000000      5                  B</span>
+<span class="co">#&gt; 21: CHERICHERILADY   2   200    0.167 1.4472922      3                  B</span>
+<span class="co">#&gt; 22: CHERICHERILADY   2   200    0.167 1.1995781      5                  B</span>
+<span class="co">#&gt; 23: CHERICHERILADY   2   200    5.000 1.9419813      3                  B</span>
+<span class="co">#&gt; 24: CHERICHERILADY   2   200    5.000 2.0305247      5                  B</span>
+<span class="co">#&gt; 25: CHERICHERILADY   3   100    0.000 0.0000000      3                  A</span>
+<span class="co">#&gt; 26: CHERICHERILADY   3   100    0.000 0.0000000      5                  A</span>
+<span class="co">#&gt; 27: CHERICHERILADY   3   100    0.167 1.0726453      3                  A</span>
+<span class="co">#&gt; 28: CHERICHERILADY   3   100    0.167 1.2602940      5                  A</span>
+<span class="co">#&gt; 29: CHERICHERILADY   3   100    5.000 2.3765079      3                  A</span>
+<span class="co">#&gt; 30: CHERICHERILADY   3   100    5.000 1.9773408      5                  A</span>
+<span class="co">#&gt; 31: CHERICHERILADY   3   200    0.000 0.0000000      3                  B</span>
+<span class="co">#&gt; 32: CHERICHERILADY   3   200    0.000 0.0000000      5                  B</span>
+<span class="co">#&gt; 33: CHERICHERILADY   3   200    0.167 1.0148760      3                  B</span>
+<span class="co">#&gt; 34: CHERICHERILADY   3   200    0.167 1.8425044      5                  B</span>
+<span class="co">#&gt; 35: CHERICHERILADY   3   200    5.000 1.8452257      3                  B</span>
+<span class="co">#&gt; 36: CHERICHERILADY   3   200    5.000 1.9145016      5                  B</span>
+<span class="co">#&gt; 37: CHERICHERILADY   4   100    0.000 0.0000000      3                  A</span>
+<span class="co">#&gt; 38: CHERICHERILADY   4   100    0.000 0.0000000      5                  A</span>
+<span class="co">#&gt; 39: CHERICHERILADY   4   100    0.167 1.4018812      3                  A</span>
+<span class="co">#&gt; 40: CHERICHERILADY   4   100    0.167 1.4990865      5                  A</span>
+<span class="co">#&gt; 41: CHERICHERILADY   4   100    5.000 2.1589545      3                  A</span>
+<span class="co">#&gt; 42: CHERICHERILADY   4   100    5.000 2.0232537      5                  A</span>
+<span class="co">#&gt; 43: CHERICHERILADY   4   200    0.000 0.0000000      3                  B</span>
+<span class="co">#&gt; 44: CHERICHERILADY   4   200    0.000 0.0000000      5                  B</span>
+<span class="co">#&gt; 45: CHERICHERILADY   4   200    0.167 0.9609064      3                  B</span>
+<span class="co">#&gt; 46: CHERICHERILADY   4   200    0.167 1.1868611      5                  B</span>
+<span class="co">#&gt; 47: CHERICHERILADY   4   200    5.000 1.8657509      3                  B</span>
+<span class="co">#&gt; 48: CHERICHERILADY   4   200    5.000 2.0116651      5                  B</span>
+<span class="co">#&gt;           Sequence Rep State Exposure      Mass Charge Experimental_state</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; [[1]][[2]]</span>
-<span class="co">#&gt;     Sequence Rep State Exposure       Mass Charge Experimental_state</span>
-<span class="co">#&gt;  1: LVRKDLQN   1   100    0.000 0.00000000      3                  A</span>
-<span class="co">#&gt;  2: LVRKDLQN   1   100    0.000 0.00000000      5                  A</span>
-<span class="co">#&gt;  3: LVRKDLQN   1   100    0.167 0.55001174      3                  A</span>
-<span class="co">#&gt;  4: LVRKDLQN   1   100    0.167 0.59138328      5                  A</span>
-<span class="co">#&gt;  5: LVRKDLQN   1   100    5.000 0.78914662      3                  A</span>
-<span class="co">#&gt;  6: LVRKDLQN   1   100    5.000 0.89662356      5                  A</span>
-<span class="co">#&gt;  7: LVRKDLQN   1   200    0.000 0.00000000      3                  B</span>
-<span class="co">#&gt;  8: LVRKDLQN   1   200    0.000 0.00000000      5                  B</span>
-<span class="co">#&gt;  9: LVRKDLQN   1   200    0.167 0.60797164      3                  B</span>
-<span class="co">#&gt; 10: LVRKDLQN   1   200    0.167 0.54322679      5                  B</span>
-<span class="co">#&gt; 11: LVRKDLQN   1   200    5.000 0.68705023      3                  B</span>
-<span class="co">#&gt; 12: LVRKDLQN   1   200    5.000 0.43281018      5                  B</span>
-<span class="co">#&gt; 13: LVRKDLQN   2   100    0.000 0.00000000      3                  A</span>
-<span class="co">#&gt; 14: LVRKDLQN   2   100    0.000 0.00000000      5                  A</span>
-<span class="co">#&gt; 15: LVRKDLQN   2   100    0.167 0.59729193      3                  A</span>
-<span class="co">#&gt; 16: LVRKDLQN   2   100    0.167 0.50224550      5                  A</span>
-<span class="co">#&gt; 17: LVRKDLQN   2   100    5.000 0.89469821      3                  A</span>
-<span class="co">#&gt; 18: LVRKDLQN   2   100    5.000 0.82198533      5                  A</span>
-<span class="co">#&gt; 19: LVRKDLQN   2   200    0.000 0.00000000      3                  B</span>
-<span class="co">#&gt; 20: LVRKDLQN   2   200    0.000 0.00000000      5                  B</span>
-<span class="co">#&gt; 21: LVRKDLQN   2   200    0.167 0.41449351      3                  B</span>
-<span class="co">#&gt; 22: LVRKDLQN   2   200    0.167 0.38162801      5                  B</span>
-<span class="co">#&gt; 23: LVRKDLQN   2   200    5.000 0.94601901      3                  B</span>
-<span class="co">#&gt; 24: LVRKDLQN   2   200    5.000 0.86372840      5                  B</span>
-<span class="co">#&gt; 25: LVRKDLQN   3   100    0.000 0.00000000      3                  A</span>
-<span class="co">#&gt; 26: LVRKDLQN   3   100    0.000 0.00000000      5                  A</span>
-<span class="co">#&gt; 27: LVRKDLQN   3   100    0.167 0.68216721      3                  A</span>
-<span class="co">#&gt; 28: LVRKDLQN   3   100    0.167 0.02141843      5                  A</span>
-<span class="co">#&gt; 29: LVRKDLQN   3   100    5.000 0.89147299      3                  A</span>
-<span class="co">#&gt; 30: LVRKDLQN   3   100    5.000 0.84016570      5                  A</span>
-<span class="co">#&gt; 31: LVRKDLQN   3   200    0.000 0.00000000      3                  B</span>
-<span class="co">#&gt; 32: LVRKDLQN   3   200    0.000 0.00000000      5                  B</span>
-<span class="co">#&gt; 33: LVRKDLQN   3   200    0.167 0.53264614      3                  B</span>
-<span class="co">#&gt; 34: LVRKDLQN   3   200    0.167 0.90563974      5                  B</span>
-<span class="co">#&gt; 35: LVRKDLQN   3   200    5.000 0.68062196      3                  B</span>
-<span class="co">#&gt; 36: LVRKDLQN   3   200    5.000 0.89324136      5                  B</span>
-<span class="co">#&gt; 37: LVRKDLQN   4   100    0.000 0.00000000      3                  A</span>
-<span class="co">#&gt; 38: LVRKDLQN   4   100    0.000 0.00000000      5                  A</span>
-<span class="co">#&gt; 39: LVRKDLQN   4   100    0.167 0.68615870      3                  A</span>
-<span class="co">#&gt; 40: LVRKDLQN   4   100    0.167 0.26450425      5                  A</span>
-<span class="co">#&gt; 41: LVRKDLQN   4   100    5.000 1.15217997      3                  A</span>
-<span class="co">#&gt; 42: LVRKDLQN   4   100    5.000 0.52995818      5                  A</span>
-<span class="co">#&gt; 43: LVRKDLQN   4   200    0.000 0.00000000      3                  B</span>
-<span class="co">#&gt; 44: LVRKDLQN   4   200    0.000 0.00000000      5                  B</span>
-<span class="co">#&gt; 45: LVRKDLQN   4   200    0.167 0.66118020      3                  B</span>
-<span class="co">#&gt; 46: LVRKDLQN   4   200    0.167 0.43346532      5                  B</span>
-<span class="co">#&gt; 47: LVRKDLQN   4   200    5.000 0.87280032      3                  B</span>
-<span class="co">#&gt; 48: LVRKDLQN   4   200    5.000 0.83657552      5                  B</span>
-<span class="co">#&gt;     Sequence Rep State Exposure       Mass Charge Experimental_state</span>
+<span class="co">#&gt;           Sequence Rep State Exposure      Mass Charge Experimental_state</span>
+<span class="co">#&gt;  1: CHERICHERILADY   1   100    0.000 0.0000000      3                  A</span>
+<span class="co">#&gt;  2: CHERICHERILADY   1   100    0.000 0.0000000      5                  A</span>
+<span class="co">#&gt;  3: CHERICHERILADY   1   100    0.167 1.6781217      3                  A</span>
+<span class="co">#&gt;  4: CHERICHERILADY   1   100    0.167 0.4808957      5                  A</span>
+<span class="co">#&gt;  5: CHERICHERILADY   1   100    5.000 2.6580429      3                  A</span>
+<span class="co">#&gt;  6: CHERICHERILADY   1   100    5.000 1.9883399      5                  A</span>
+<span class="co">#&gt;  7: CHERICHERILADY   1   200    0.000 0.0000000      3                  B</span>
+<span class="co">#&gt;  8: CHERICHERILADY   1   200    0.000 0.0000000      5                  B</span>
+<span class="co">#&gt;  9: CHERICHERILADY   1   200    0.167 1.3999345      3                  B</span>
+<span class="co">#&gt; 10: CHERICHERILADY   1   200    0.167 1.1900220      5                  B</span>
+<span class="co">#&gt; 11: CHERICHERILADY   1   200    5.000 2.1148292      3                  B</span>
+<span class="co">#&gt; 12: CHERICHERILADY   1   200    5.000 1.7987158      5                  B</span>
+<span class="co">#&gt; 13: CHERICHERILADY   2   100    0.000 0.0000000      3                  A</span>
+<span class="co">#&gt; 14: CHERICHERILADY   2   100    0.000 0.0000000      5                  A</span>
+<span class="co">#&gt; 15: CHERICHERILADY   2   100    0.167 1.3323371      3                  A</span>
+<span class="co">#&gt; 16: CHERICHERILADY   2   100    0.167 1.3423614      5                  A</span>
+<span class="co">#&gt; 17: CHERICHERILADY   2   100    5.000 2.4359630      3                  A</span>
+<span class="co">#&gt; 18: CHERICHERILADY   2   100    5.000 2.5127416      5                  A</span>
+<span class="co">#&gt; 19: CHERICHERILADY   2   200    0.000 0.0000000      3                  B</span>
+<span class="co">#&gt; 20: CHERICHERILADY   2   200    0.000 0.0000000      5                  B</span>
+<span class="co">#&gt; 21: CHERICHERILADY   2   200    0.167 1.1928251      3                  B</span>
+<span class="co">#&gt; 22: CHERICHERILADY   2   200    0.167 1.1177404      5                  B</span>
+<span class="co">#&gt; 23: CHERICHERILADY   2   200    5.000 1.9404736      3                  B</span>
+<span class="co">#&gt; 24: CHERICHERILADY   2   200    5.000 1.7554388      5                  B</span>
+<span class="co">#&gt; 25: CHERICHERILADY   3   100    0.000 0.0000000      3                  A</span>
+<span class="co">#&gt; 26: CHERICHERILADY   3   100    0.000 0.0000000      5                  A</span>
+<span class="co">#&gt; 27: CHERICHERILADY   3   100    0.167 1.1646453      3                  A</span>
+<span class="co">#&gt; 28: CHERICHERILADY   3   100    0.167 1.0842386      5                  A</span>
+<span class="co">#&gt; 29: CHERICHERILADY   3   100    5.000 2.0189018      3                  A</span>
+<span class="co">#&gt; 30: CHERICHERILADY   3   100    5.000 1.8269066      5                  A</span>
+<span class="co">#&gt; 31: CHERICHERILADY   3   200    0.000 0.0000000      3                  B</span>
+<span class="co">#&gt; 32: CHERICHERILADY   3   200    0.000 0.0000000      5                  B</span>
+<span class="co">#&gt; 33: CHERICHERILADY   3   200    0.167 1.0505442      3                  B</span>
+<span class="co">#&gt; 34: CHERICHERILADY   3   200    0.167 1.0031656      5                  B</span>
+<span class="co">#&gt; 35: CHERICHERILADY   3   200    5.000 1.9077371      3                  B</span>
+<span class="co">#&gt; 36: CHERICHERILADY   3   200    5.000 1.9325159      5                  B</span>
+<span class="co">#&gt; 37: CHERICHERILADY   4   100    0.000 0.0000000      3                  A</span>
+<span class="co">#&gt; 38: CHERICHERILADY   4   100    0.000 0.0000000      5                  A</span>
+<span class="co">#&gt; 39: CHERICHERILADY   4   100    0.167 1.1083388      3                  A</span>
+<span class="co">#&gt; 40: CHERICHERILADY   4   100    0.167 0.9574459      5                  A</span>
+<span class="co">#&gt; 41: CHERICHERILADY   4   100    5.000 1.7538790      3                  A</span>
+<span class="co">#&gt; 42: CHERICHERILADY   4   100    5.000 2.3883536      5                  A</span>
+<span class="co">#&gt; 43: CHERICHERILADY   4   200    0.000 0.0000000      3                  B</span>
+<span class="co">#&gt; 44: CHERICHERILADY   4   200    0.000 0.0000000      5                  B</span>
+<span class="co">#&gt; 45: CHERICHERILADY   4   200    0.167 1.1834793      3                  B</span>
+<span class="co">#&gt; 46: CHERICHERILADY   4   200    0.167 1.2435665      5                  B</span>
+<span class="co">#&gt; 47: CHERICHERILADY   4   200    5.000 2.0890209      3                  B</span>
+<span class="co">#&gt; 48: CHERICHERILADY   4   200    5.000 1.7799847      5                  B</span>
+<span class="co">#&gt;           Sequence Rep State Exposure      Mass Charge Experimental_state</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; [[2]]</span>
 <span class="co">#&gt; [[2]][[1]]</span>
-<span class="co">#&gt;     Sequence Rep State Exposure      Mass Charge Experimental_state</span>
-<span class="co">#&gt;  1: LVRKDLQN   1   100    0.000 0.0000000      3                  A</span>
-<span class="co">#&gt;  2: LVRKDLQN   1   100    0.000 0.0000000      5                  A</span>
-<span class="co">#&gt;  3: LVRKDLQN   1   100    0.167 0.4768095      3                  A</span>
-<span class="co">#&gt;  4: LVRKDLQN   1   100    0.167 0.5613175      5                  A</span>
-<span class="co">#&gt;  5: LVRKDLQN   1   100    5.000 0.8142961      3                  A</span>
-<span class="co">#&gt;  6: LVRKDLQN   1   100    5.000 0.9112404      5                  A</span>
-<span class="co">#&gt;  7: LVRKDLQN   1   100    0.000 0.0000000      3                  B</span>
-<span class="co">#&gt;  8: LVRKDLQN   1   100    0.000 0.0000000      5                  B</span>
-<span class="co">#&gt;  9: LVRKDLQN   1   100    0.167 0.5358670      3                  B</span>
-<span class="co">#&gt; 10: LVRKDLQN   1   100    0.167 0.6955966      5                  B</span>
-<span class="co">#&gt; 11: LVRKDLQN   1   100    5.000 0.8848144      3                  B</span>
-<span class="co">#&gt; 12: LVRKDLQN   1   100    5.000 0.9670609      5                  B</span>
-<span class="co">#&gt; 13: LVRKDLQN   2   100    0.000 0.0000000      3                  A</span>
-<span class="co">#&gt; 14: LVRKDLQN   2   100    0.000 0.0000000      5                  A</span>
-<span class="co">#&gt; 15: LVRKDLQN   2   100    0.167 0.6824842      3                  A</span>
-<span class="co">#&gt; 16: LVRKDLQN   2   100    0.167 0.5829643      5                  A</span>
-<span class="co">#&gt; 17: LVRKDLQN   2   100    5.000 1.0808980      3                  A</span>
-<span class="co">#&gt; 18: LVRKDLQN   2   100    5.000 0.8273605      5                  A</span>
-<span class="co">#&gt; 19: LVRKDLQN   2   100    0.000 0.0000000      3                  B</span>
-<span class="co">#&gt; 20: LVRKDLQN   2   100    0.000 0.0000000      5                  B</span>
-<span class="co">#&gt; 21: LVRKDLQN   2   100    0.167 0.3542803      3                  B</span>
-<span class="co">#&gt; 22: LVRKDLQN   2   100    0.167 0.7011323      5                  B</span>
-<span class="co">#&gt; 23: LVRKDLQN   2   100    5.000 1.0018592      3                  B</span>
-<span class="co">#&gt; 24: LVRKDLQN   2   100    5.000 1.0221169      5                  B</span>
-<span class="co">#&gt; 25: LVRKDLQN   3   100    0.000 0.0000000      3                  A</span>
-<span class="co">#&gt; 26: LVRKDLQN   3   100    0.000 0.0000000      5                  A</span>
-<span class="co">#&gt; 27: LVRKDLQN   3   100    0.167 0.7599389      3                  A</span>
-<span class="co">#&gt; 28: LVRKDLQN   3   100    0.167 0.8085072      5                  A</span>
-<span class="co">#&gt; 29: LVRKDLQN   3   100    5.000 0.9927695      3                  A</span>
-<span class="co">#&gt; 30: LVRKDLQN   3   100    5.000 1.2256098      5                  A</span>
-<span class="co">#&gt; 31: LVRKDLQN   3   100    0.000 0.0000000      3                  B</span>
-<span class="co">#&gt; 32: LVRKDLQN   3   100    0.000 0.0000000      5                  B</span>
-<span class="co">#&gt; 33: LVRKDLQN   3   100    0.167 0.4679417      3                  B</span>
-<span class="co">#&gt; 34: LVRKDLQN   3   100    0.167 0.9455015      5                  B</span>
-<span class="co">#&gt; 35: LVRKDLQN   3   100    5.000 0.7690987      3                  B</span>
-<span class="co">#&gt; 36: LVRKDLQN   3   100    5.000 1.3640756      5                  B</span>
-<span class="co">#&gt; 37: LVRKDLQN   4   100    0.000 0.0000000      3                  A</span>
-<span class="co">#&gt; 38: LVRKDLQN   4   100    0.000 0.0000000      5                  A</span>
-<span class="co">#&gt; 39: LVRKDLQN   4   100    0.167 0.7429659      3                  A</span>
-<span class="co">#&gt; 40: LVRKDLQN   4   100    0.167 0.4431065      5                  A</span>
-<span class="co">#&gt; 41: LVRKDLQN   4   100    5.000 1.2305711      3                  A</span>
-<span class="co">#&gt; 42: LVRKDLQN   4   100    5.000 0.9831319      5                  A</span>
-<span class="co">#&gt; 43: LVRKDLQN   4   100    0.000 0.0000000      3                  B</span>
-<span class="co">#&gt; 44: LVRKDLQN   4   100    0.000 0.0000000      5                  B</span>
-<span class="co">#&gt; 45: LVRKDLQN   4   100    0.167 0.7608223      3                  B</span>
-<span class="co">#&gt; 46: LVRKDLQN   4   100    0.167 0.5157238      5                  B</span>
-<span class="co">#&gt; 47: LVRKDLQN   4   100    5.000 0.9420449      3                  B</span>
-<span class="co">#&gt; 48: LVRKDLQN   4   100    5.000 0.7239010      5                  B</span>
-<span class="co">#&gt;     Sequence Rep State Exposure      Mass Charge Experimental_state</span>
+<span class="co">#&gt;           Sequence Rep State Exposure      Mass Charge Experimental_state</span>
+<span class="co">#&gt;  1: CHERICHERILADY   1   100    0.000 0.0000000      3                  A</span>
+<span class="co">#&gt;  2: CHERICHERILADY   1   100    0.000 0.0000000      5                  A</span>
+<span class="co">#&gt;  3: CHERICHERILADY   1   100    0.167 1.3770517      3                  A</span>
+<span class="co">#&gt;  4: CHERICHERILADY   1   100    0.167 1.0946753      5                  A</span>
+<span class="co">#&gt;  5: CHERICHERILADY   1   100    5.000 2.2676963      3                  A</span>
+<span class="co">#&gt;  6: CHERICHERILADY   1   100    5.000 2.1869644      5                  A</span>
+<span class="co">#&gt;  7: CHERICHERILADY   1   100    0.000 0.0000000      3                  B</span>
+<span class="co">#&gt;  8: CHERICHERILADY   1   100    0.000 0.0000000      5                  B</span>
+<span class="co">#&gt;  9: CHERICHERILADY   1   100    0.167 1.4280720      3                  B</span>
+<span class="co">#&gt; 10: CHERICHERILADY   1   100    0.167 0.6347083      5                  B</span>
+<span class="co">#&gt; 11: CHERICHERILADY   1   100    5.000 2.2459142      3                  B</span>
+<span class="co">#&gt; 12: CHERICHERILADY   1   100    5.000 1.7591879      5                  B</span>
+<span class="co">#&gt; 13: CHERICHERILADY   2   100    0.000 0.0000000      3                  A</span>
+<span class="co">#&gt; 14: CHERICHERILADY   2   100    0.000 0.0000000      5                  A</span>
+<span class="co">#&gt; 15: CHERICHERILADY   2   100    0.167 0.8076238      3                  A</span>
+<span class="co">#&gt; 16: CHERICHERILADY   2   100    0.167 0.4181348      5                  A</span>
+<span class="co">#&gt; 17: CHERICHERILADY   2   100    5.000 1.9222855      3                  A</span>
+<span class="co">#&gt; 18: CHERICHERILADY   2   100    5.000 2.0144909      5                  A</span>
+<span class="co">#&gt; 19: CHERICHERILADY   2   100    0.000 0.0000000      3                  B</span>
+<span class="co">#&gt; 20: CHERICHERILADY   2   100    0.000 0.0000000      5                  B</span>
+<span class="co">#&gt; 21: CHERICHERILADY   2   100    0.167 1.3234358      3                  B</span>
+<span class="co">#&gt; 22: CHERICHERILADY   2   100    0.167 1.0481475      5                  B</span>
+<span class="co">#&gt; 23: CHERICHERILADY   2   100    5.000 2.1908907      3                  B</span>
+<span class="co">#&gt; 24: CHERICHERILADY   2   100    5.000 2.3685638      5                  B</span>
+<span class="co">#&gt; 25: CHERICHERILADY   3   100    0.000 0.0000000      3                  A</span>
+<span class="co">#&gt; 26: CHERICHERILADY   3   100    0.000 0.0000000      5                  A</span>
+<span class="co">#&gt; 27: CHERICHERILADY   3   100    0.167 0.9039832      3                  A</span>
+<span class="co">#&gt; 28: CHERICHERILADY   3   100    0.167 1.0006418      5                  A</span>
+<span class="co">#&gt; 29: CHERICHERILADY   3   100    5.000 1.7835761      3                  A</span>
+<span class="co">#&gt; 30: CHERICHERILADY   3   100    5.000 1.7206495      5                  A</span>
+<span class="co">#&gt; 31: CHERICHERILADY   3   100    0.000 0.0000000      3                  B</span>
+<span class="co">#&gt; 32: CHERICHERILADY   3   100    0.000 0.0000000      5                  B</span>
+<span class="co">#&gt; 33: CHERICHERILADY   3   100    0.167 1.4370787      3                  B</span>
+<span class="co">#&gt; 34: CHERICHERILADY   3   100    0.167 0.9982968      5                  B</span>
+<span class="co">#&gt; 35: CHERICHERILADY   3   100    5.000 1.8583631      3                  B</span>
+<span class="co">#&gt; 36: CHERICHERILADY   3   100    5.000 2.1806191      5                  B</span>
+<span class="co">#&gt; 37: CHERICHERILADY   4   100    0.000 0.0000000      3                  A</span>
+<span class="co">#&gt; 38: CHERICHERILADY   4   100    0.000 0.0000000      5                  A</span>
+<span class="co">#&gt; 39: CHERICHERILADY   4   100    0.167 1.4723786      3                  A</span>
+<span class="co">#&gt; 40: CHERICHERILADY   4   100    0.167 0.9099599      5                  A</span>
+<span class="co">#&gt; 41: CHERICHERILADY   4   100    5.000 2.2107337      3                  A</span>
+<span class="co">#&gt; 42: CHERICHERILADY   4   100    5.000 1.6726933      5                  A</span>
+<span class="co">#&gt; 43: CHERICHERILADY   4   100    0.000 0.0000000      3                  B</span>
+<span class="co">#&gt; 44: CHERICHERILADY   4   100    0.000 0.0000000      5                  B</span>
+<span class="co">#&gt; 45: CHERICHERILADY   4   100    0.167 1.5922112      3                  B</span>
+<span class="co">#&gt; 46: CHERICHERILADY   4   100    0.167 1.0559666      5                  B</span>
+<span class="co">#&gt; 47: CHERICHERILADY   4   100    5.000 2.8185554      3                  B</span>
+<span class="co">#&gt; 48: CHERICHERILADY   4   100    5.000 2.2032581      5                  B</span>
+<span class="co">#&gt;           Sequence Rep State Exposure      Mass Charge Experimental_state</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; [[2]][[2]]</span>
-<span class="co">#&gt;     Sequence Rep State Exposure      Mass Charge Experimental_state</span>
-<span class="co">#&gt;  1: LVRKDLQN   1   100    0.000 0.0000000      3                  A</span>
-<span class="co">#&gt;  2: LVRKDLQN   1   100    0.000 0.0000000      5                  A</span>
-<span class="co">#&gt;  3: LVRKDLQN   1   100    0.167 0.4634742      3                  A</span>
-<span class="co">#&gt;  4: LVRKDLQN   1   100    0.167 0.8350539      5                  A</span>
-<span class="co">#&gt;  5: LVRKDLQN   1   100    5.000 0.7678225      3                  A</span>
-<span class="co">#&gt;  6: LVRKDLQN   1   100    5.000 1.0121998      5                  A</span>
-<span class="co">#&gt;  7: LVRKDLQN   1   100    0.000 0.0000000      3                  B</span>
-<span class="co">#&gt;  8: LVRKDLQN   1   100    0.000 0.0000000      5                  B</span>
-<span class="co">#&gt;  9: LVRKDLQN   1   100    0.167 0.4750667      3                  B</span>
-<span class="co">#&gt; 10: LVRKDLQN   1   100    0.167 0.4692972      5                  B</span>
-<span class="co">#&gt; 11: LVRKDLQN   1   100    5.000 1.0076020      3                  B</span>
-<span class="co">#&gt; 12: LVRKDLQN   1   100    5.000 0.9509027      5                  B</span>
-<span class="co">#&gt; 13: LVRKDLQN   2   100    0.000 0.0000000      3                  A</span>
-<span class="co">#&gt; 14: LVRKDLQN   2   100    0.000 0.0000000      5                  A</span>
-<span class="co">#&gt; 15: LVRKDLQN   2   100    0.167 0.5023049      3                  A</span>
-<span class="co">#&gt; 16: LVRKDLQN   2   100    0.167 0.4966683      5                  A</span>
-<span class="co">#&gt; 17: LVRKDLQN   2   100    5.000 0.9344318      3                  A</span>
-<span class="co">#&gt; 18: LVRKDLQN   2   100    5.000 0.7792464      5                  A</span>
-<span class="co">#&gt; 19: LVRKDLQN   2   100    0.000 0.0000000      3                  B</span>
-<span class="co">#&gt; 20: LVRKDLQN   2   100    0.000 0.0000000      5                  B</span>
-<span class="co">#&gt; 21: LVRKDLQN   2   100    0.167 0.6229240      3                  B</span>
-<span class="co">#&gt; 22: LVRKDLQN   2   100    0.167 0.6168183      5                  B</span>
-<span class="co">#&gt; 23: LVRKDLQN   2   100    5.000 1.2588303      3                  B</span>
-<span class="co">#&gt; 24: LVRKDLQN   2   100    5.000 0.8048048      5                  B</span>
-<span class="co">#&gt; 25: LVRKDLQN   3   100    0.000 0.0000000      3                  A</span>
-<span class="co">#&gt; 26: LVRKDLQN   3   100    0.000 0.0000000      5                  A</span>
-<span class="co">#&gt; 27: LVRKDLQN   3   100    0.167 0.6884906      3                  A</span>
-<span class="co">#&gt; 28: LVRKDLQN   3   100    0.167 0.6700916      5                  A</span>
-<span class="co">#&gt; 29: LVRKDLQN   3   100    5.000 1.2088672      3                  A</span>
-<span class="co">#&gt; 30: LVRKDLQN   3   100    5.000 0.8091150      5                  A</span>
-<span class="co">#&gt; 31: LVRKDLQN   3   100    0.000 0.0000000      3                  B</span>
-<span class="co">#&gt; 32: LVRKDLQN   3   100    0.000 0.0000000      5                  B</span>
-<span class="co">#&gt; 33: LVRKDLQN   3   100    0.167 0.5772441      3                  B</span>
-<span class="co">#&gt; 34: LVRKDLQN   3   100    0.167 0.4352822      5                  B</span>
-<span class="co">#&gt; 35: LVRKDLQN   3   100    5.000 1.0633172      3                  B</span>
-<span class="co">#&gt; 36: LVRKDLQN   3   100    5.000 0.7624823      5                  B</span>
-<span class="co">#&gt; 37: LVRKDLQN   4   100    0.000 0.0000000      3                  A</span>
-<span class="co">#&gt; 38: LVRKDLQN   4   100    0.000 0.0000000      5                  A</span>
-<span class="co">#&gt; 39: LVRKDLQN   4   100    0.167 0.6843514      3                  A</span>
-<span class="co">#&gt; 40: LVRKDLQN   4   100    0.167 0.5846838      5                  A</span>
-<span class="co">#&gt; 41: LVRKDLQN   4   100    5.000 1.0649440      3                  A</span>
-<span class="co">#&gt; 42: LVRKDLQN   4   100    5.000 0.9518970      5                  A</span>
-<span class="co">#&gt; 43: LVRKDLQN   4   100    0.000 0.0000000      3                  B</span>
-<span class="co">#&gt; 44: LVRKDLQN   4   100    0.000 0.0000000      5                  B</span>
-<span class="co">#&gt; 45: LVRKDLQN   4   100    0.167 0.4166306      3                  B</span>
-<span class="co">#&gt; 46: LVRKDLQN   4   100    0.167 0.7760045      5                  B</span>
-<span class="co">#&gt; 47: LVRKDLQN   4   100    5.000 0.8635095      3                  B</span>
-<span class="co">#&gt; 48: LVRKDLQN   4   100    5.000 1.3700233      5                  B</span>
-<span class="co">#&gt;     Sequence Rep State Exposure      Mass Charge Experimental_state</span>
+<span class="co">#&gt;           Sequence Rep State Exposure      Mass Charge Experimental_state</span>
+<span class="co">#&gt;  1: CHERICHERILADY   1   100    0.000 0.0000000      3                  A</span>
+<span class="co">#&gt;  2: CHERICHERILADY   1   100    0.000 0.0000000      5                  A</span>
+<span class="co">#&gt;  3: CHERICHERILADY   1   100    0.167 1.1539172      3                  A</span>
+<span class="co">#&gt;  4: CHERICHERILADY   1   100    0.167 1.5709964      5                  A</span>
+<span class="co">#&gt;  5: CHERICHERILADY   1   100    5.000 2.1800052      3                  A</span>
+<span class="co">#&gt;  6: CHERICHERILADY   1   100    5.000 2.8243194      5                  A</span>
+<span class="co">#&gt;  7: CHERICHERILADY   1   100    0.000 0.0000000      3                  B</span>
+<span class="co">#&gt;  8: CHERICHERILADY   1   100    0.000 0.0000000      5                  B</span>
+<span class="co">#&gt;  9: CHERICHERILADY   1   100    0.167 1.1454261      3                  B</span>
+<span class="co">#&gt; 10: CHERICHERILADY   1   100    0.167 0.9793045      5                  B</span>
+<span class="co">#&gt; 11: CHERICHERILADY   1   100    5.000 2.2666683      3                  B</span>
+<span class="co">#&gt; 12: CHERICHERILADY   1   100    5.000 2.3877039      5                  B</span>
+<span class="co">#&gt; 13: CHERICHERILADY   2   100    0.000 0.0000000      3                  A</span>
+<span class="co">#&gt; 14: CHERICHERILADY   2   100    0.000 0.0000000      5                  A</span>
+<span class="co">#&gt; 15: CHERICHERILADY   2   100    0.167 1.3112611      3                  A</span>
+<span class="co">#&gt; 16: CHERICHERILADY   2   100    0.167 1.4761010      5                  A</span>
+<span class="co">#&gt; 17: CHERICHERILADY   2   100    5.000 2.3261447      3                  A</span>
+<span class="co">#&gt; 18: CHERICHERILADY   2   100    5.000 2.5973632      5                  A</span>
+<span class="co">#&gt; 19: CHERICHERILADY   2   100    0.000 0.0000000      3                  B</span>
+<span class="co">#&gt; 20: CHERICHERILADY   2   100    0.000 0.0000000      5                  B</span>
+<span class="co">#&gt; 21: CHERICHERILADY   2   100    0.167 1.2893253      3                  B</span>
+<span class="co">#&gt; 22: CHERICHERILADY   2   100    0.167 1.0561114      5                  B</span>
+<span class="co">#&gt; 23: CHERICHERILADY   2   100    5.000 2.4315334      3                  B</span>
+<span class="co">#&gt; 24: CHERICHERILADY   2   100    5.000 2.2832633      5                  B</span>
+<span class="co">#&gt; 25: CHERICHERILADY   3   100    0.000 0.0000000      3                  A</span>
+<span class="co">#&gt; 26: CHERICHERILADY   3   100    0.000 0.0000000      5                  A</span>
+<span class="co">#&gt; 27: CHERICHERILADY   3   100    0.167 1.0852956      3                  A</span>
+<span class="co">#&gt; 28: CHERICHERILADY   3   100    0.167 1.7403264      5                  A</span>
+<span class="co">#&gt; 29: CHERICHERILADY   3   100    5.000 1.6813097      3                  A</span>
+<span class="co">#&gt; 30: CHERICHERILADY   3   100    5.000 2.0703185      5                  A</span>
+<span class="co">#&gt; 31: CHERICHERILADY   3   100    0.000 0.0000000      3                  B</span>
+<span class="co">#&gt; 32: CHERICHERILADY   3   100    0.000 0.0000000      5                  B</span>
+<span class="co">#&gt; 33: CHERICHERILADY   3   100    0.167 1.4077223      3                  B</span>
+<span class="co">#&gt; 34: CHERICHERILADY   3   100    0.167 1.4689478      5                  B</span>
+<span class="co">#&gt; 35: CHERICHERILADY   3   100    5.000 2.5328115      3                  B</span>
+<span class="co">#&gt; 36: CHERICHERILADY   3   100    5.000 2.1029809      5                  B</span>
+<span class="co">#&gt; 37: CHERICHERILADY   4   100    0.000 0.0000000      3                  A</span>
+<span class="co">#&gt; 38: CHERICHERILADY   4   100    0.000 0.0000000      5                  A</span>
+<span class="co">#&gt; 39: CHERICHERILADY   4   100    0.167 0.9259389      3                  A</span>
+<span class="co">#&gt; 40: CHERICHERILADY   4   100    0.167 1.4567690      5                  A</span>
+<span class="co">#&gt; 41: CHERICHERILADY   4   100    5.000 2.1933157      3                  A</span>
+<span class="co">#&gt; 42: CHERICHERILADY   4   100    5.000 2.2186362      5                  A</span>
+<span class="co">#&gt; 43: CHERICHERILADY   4   100    0.000 0.0000000      3                  B</span>
+<span class="co">#&gt; 44: CHERICHERILADY   4   100    0.000 0.0000000      5                  B</span>
+<span class="co">#&gt; 45: CHERICHERILADY   4   100    0.167 1.1325609      3                  B</span>
+<span class="co">#&gt; 46: CHERICHERILADY   4   100    0.167 1.4687089      5                  B</span>
+<span class="co">#&gt; 47: CHERICHERILADY   4   100    5.000 2.2201589      3                  B</span>
+<span class="co">#&gt; 48: CHERICHERILADY   4   100    5.000 2.6779419      5                  B</span>
+<span class="co">#&gt;           Sequence Rep State Exposure      Mass Charge Experimental_state</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; [[3]]</span>
 <span class="co">#&gt; [[3]][[1]]</span>
-<span class="co">#&gt;     Sequence Rep State Exposure      Mass Charge Experimental_state</span>
-<span class="co">#&gt;  1: LVRKDLQN   1   200    0.000 0.0000000      3                  A</span>
-<span class="co">#&gt;  2: LVRKDLQN   1   200    0.000 0.0000000      5                  A</span>
-<span class="co">#&gt;  3: LVRKDLQN   1   200    0.167 0.5860856      3                  A</span>
-<span class="co">#&gt;  4: LVRKDLQN   1   200    0.167 0.4088091      5                  A</span>
-<span class="co">#&gt;  5: LVRKDLQN   1   200    5.000 0.9314306      3                  A</span>
-<span class="co">#&gt;  6: LVRKDLQN   1   200    5.000 0.4406770      5                  A</span>
-<span class="co">#&gt;  7: LVRKDLQN   1   200    0.000 0.0000000      3                  B</span>
-<span class="co">#&gt;  8: LVRKDLQN   1   200    0.000 0.0000000      5                  B</span>
-<span class="co">#&gt;  9: LVRKDLQN   1   200    0.167 0.6256725      3                  B</span>
-<span class="co">#&gt; 10: LVRKDLQN   1   200    0.167 0.8503172      5                  B</span>
-<span class="co">#&gt; 11: LVRKDLQN   1   200    5.000 1.0318344      3                  B</span>
-<span class="co">#&gt; 12: LVRKDLQN   1   200    5.000 1.0085049      5                  B</span>
-<span class="co">#&gt; 13: LVRKDLQN   2   200    0.000 0.0000000      3                  A</span>
-<span class="co">#&gt; 14: LVRKDLQN   2   200    0.000 0.0000000      5                  A</span>
-<span class="co">#&gt; 15: LVRKDLQN   2   200    0.167 0.7118991      3                  A</span>
-<span class="co">#&gt; 16: LVRKDLQN   2   200    0.167 0.5942822      5                  A</span>
-<span class="co">#&gt; 17: LVRKDLQN   2   200    5.000 0.8587224      3                  A</span>
-<span class="co">#&gt; 18: LVRKDLQN   2   200    5.000 1.0334573      5                  A</span>
-<span class="co">#&gt; 19: LVRKDLQN   2   200    0.000 0.0000000      3                  B</span>
-<span class="co">#&gt; 20: LVRKDLQN   2   200    0.000 0.0000000      5                  B</span>
-<span class="co">#&gt; 21: LVRKDLQN   2   200    0.167 0.7325176      3                  B</span>
-<span class="co">#&gt; 22: LVRKDLQN   2   200    0.167 0.2245484      5                  B</span>
-<span class="co">#&gt; 23: LVRKDLQN   2   200    5.000 0.8863298      3                  B</span>
-<span class="co">#&gt; 24: LVRKDLQN   2   200    5.000 0.7647333      5                  B</span>
-<span class="co">#&gt; 25: LVRKDLQN   3   200    0.000 0.0000000      3                  A</span>
-<span class="co">#&gt; 26: LVRKDLQN   3   200    0.000 0.0000000      5                  A</span>
-<span class="co">#&gt; 27: LVRKDLQN   3   200    0.167 0.5883306      3                  A</span>
-<span class="co">#&gt; 28: LVRKDLQN   3   200    0.167 0.4096724      5                  A</span>
-<span class="co">#&gt; 29: LVRKDLQN   3   200    5.000 0.7373130      3                  A</span>
-<span class="co">#&gt; 30: LVRKDLQN   3   200    5.000 0.7821204      5                  A</span>
-<span class="co">#&gt; 31: LVRKDLQN   3   200    0.000 0.0000000      3                  B</span>
-<span class="co">#&gt; 32: LVRKDLQN   3   200    0.000 0.0000000      5                  B</span>
-<span class="co">#&gt; 33: LVRKDLQN   3   200    0.167 0.4654000      3                  B</span>
-<span class="co">#&gt; 34: LVRKDLQN   3   200    0.167 0.5476341      5                  B</span>
-<span class="co">#&gt; 35: LVRKDLQN   3   200    5.000 1.0301946      3                  B</span>
-<span class="co">#&gt; 36: LVRKDLQN   3   200    5.000 0.6265989      5                  B</span>
-<span class="co">#&gt; 37: LVRKDLQN   4   200    0.000 0.0000000      3                  A</span>
-<span class="co">#&gt; 38: LVRKDLQN   4   200    0.000 0.0000000      5                  A</span>
-<span class="co">#&gt; 39: LVRKDLQN   4   200    0.167 0.5419040      3                  A</span>
-<span class="co">#&gt; 40: LVRKDLQN   4   200    0.167 0.4712411      5                  A</span>
-<span class="co">#&gt; 41: LVRKDLQN   4   200    5.000 0.6568930      3                  A</span>
-<span class="co">#&gt; 42: LVRKDLQN   4   200    5.000 0.7405925      5                  A</span>
-<span class="co">#&gt; 43: LVRKDLQN   4   200    0.000 0.0000000      3                  B</span>
-<span class="co">#&gt; 44: LVRKDLQN   4   200    0.000 0.0000000      5                  B</span>
-<span class="co">#&gt; 45: LVRKDLQN   4   200    0.167 0.3225097      3                  B</span>
-<span class="co">#&gt; 46: LVRKDLQN   4   200    0.167 0.6613463      5                  B</span>
-<span class="co">#&gt; 47: LVRKDLQN   4   200    5.000 0.6763167      3                  B</span>
-<span class="co">#&gt; 48: LVRKDLQN   4   200    5.000 1.0101823      5                  B</span>
-<span class="co">#&gt;     Sequence Rep State Exposure      Mass Charge Experimental_state</span>
+<span class="co">#&gt;           Sequence Rep State Exposure      Mass Charge Experimental_state</span>
+<span class="co">#&gt;  1: CHERICHERILADY   1   200    0.000 0.0000000      3                  A</span>
+<span class="co">#&gt;  2: CHERICHERILADY   1   200    0.000 0.0000000      5                  A</span>
+<span class="co">#&gt;  3: CHERICHERILADY   1   200    0.167 0.9192103      3                  A</span>
+<span class="co">#&gt;  4: CHERICHERILADY   1   200    0.167 1.3795445      5                  A</span>
+<span class="co">#&gt;  5: CHERICHERILADY   1   200    5.000 1.6738519      3                  A</span>
+<span class="co">#&gt;  6: CHERICHERILADY   1   200    5.000 2.0097934      5                  A</span>
+<span class="co">#&gt;  7: CHERICHERILADY   1   200    0.000 0.0000000      3                  B</span>
+<span class="co">#&gt;  8: CHERICHERILADY   1   200    0.000 0.0000000      5                  B</span>
+<span class="co">#&gt;  9: CHERICHERILADY   1   200    0.167 1.3003182      3                  B</span>
+<span class="co">#&gt; 10: CHERICHERILADY   1   200    0.167 1.6588773      5                  B</span>
+<span class="co">#&gt; 11: CHERICHERILADY   1   200    5.000 1.8973142      3                  B</span>
+<span class="co">#&gt; 12: CHERICHERILADY   1   200    5.000 1.9998967      5                  B</span>
+<span class="co">#&gt; 13: CHERICHERILADY   2   200    0.000 0.0000000      3                  A</span>
+<span class="co">#&gt; 14: CHERICHERILADY   2   200    0.000 0.0000000      5                  A</span>
+<span class="co">#&gt; 15: CHERICHERILADY   2   200    0.167 1.5072892      3                  A</span>
+<span class="co">#&gt; 16: CHERICHERILADY   2   200    0.167 1.3773792      5                  A</span>
+<span class="co">#&gt; 17: CHERICHERILADY   2   200    5.000 2.0170342      3                  A</span>
+<span class="co">#&gt; 18: CHERICHERILADY   2   200    5.000 1.9735832      5                  A</span>
+<span class="co">#&gt; 19: CHERICHERILADY   2   200    0.000 0.0000000      3                  B</span>
+<span class="co">#&gt; 20: CHERICHERILADY   2   200    0.000 0.0000000      5                  B</span>
+<span class="co">#&gt; 21: CHERICHERILADY   2   200    0.167 1.2415880      3                  B</span>
+<span class="co">#&gt; 22: CHERICHERILADY   2   200    0.167 0.8160180      5                  B</span>
+<span class="co">#&gt; 23: CHERICHERILADY   2   200    5.000 1.9620370      3                  B</span>
+<span class="co">#&gt; 24: CHERICHERILADY   2   200    5.000 1.5091585      5                  B</span>
+<span class="co">#&gt; 25: CHERICHERILADY   3   200    0.000 0.0000000      3                  A</span>
+<span class="co">#&gt; 26: CHERICHERILADY   3   200    0.000 0.0000000      5                  A</span>
+<span class="co">#&gt; 27: CHERICHERILADY   3   200    0.167 1.1402270      3                  A</span>
+<span class="co">#&gt; 28: CHERICHERILADY   3   200    0.167 1.3932776      5                  A</span>
+<span class="co">#&gt; 29: CHERICHERILADY   3   200    5.000 1.8251330      3                  A</span>
+<span class="co">#&gt; 30: CHERICHERILADY   3   200    5.000 2.2904576      5                  A</span>
+<span class="co">#&gt; 31: CHERICHERILADY   3   200    0.000 0.0000000      3                  B</span>
+<span class="co">#&gt; 32: CHERICHERILADY   3   200    0.000 0.0000000      5                  B</span>
+<span class="co">#&gt; 33: CHERICHERILADY   3   200    0.167 1.4656616      3                  B</span>
+<span class="co">#&gt; 34: CHERICHERILADY   3   200    0.167 1.1774973      5                  B</span>
+<span class="co">#&gt; 35: CHERICHERILADY   3   200    5.000 2.0786363      3                  B</span>
+<span class="co">#&gt; 36: CHERICHERILADY   3   200    5.000 1.6740664      5                  B</span>
+<span class="co">#&gt; 37: CHERICHERILADY   4   200    0.000 0.0000000      3                  A</span>
+<span class="co">#&gt; 38: CHERICHERILADY   4   200    0.000 0.0000000      5                  A</span>
+<span class="co">#&gt; 39: CHERICHERILADY   4   200    0.167 0.7852231      3                  A</span>
+<span class="co">#&gt; 40: CHERICHERILADY   4   200    0.167 1.5536717      5                  A</span>
+<span class="co">#&gt; 41: CHERICHERILADY   4   200    5.000 1.4398432      3                  A</span>
+<span class="co">#&gt; 42: CHERICHERILADY   4   200    5.000 2.0938878      5                  A</span>
+<span class="co">#&gt; 43: CHERICHERILADY   4   200    0.000 0.0000000      3                  B</span>
+<span class="co">#&gt; 44: CHERICHERILADY   4   200    0.000 0.0000000      5                  B</span>
+<span class="co">#&gt; 45: CHERICHERILADY   4   200    0.167 1.1391676      3                  B</span>
+<span class="co">#&gt; 46: CHERICHERILADY   4   200    0.167 0.9436166      5                  B</span>
+<span class="co">#&gt; 47: CHERICHERILADY   4   200    5.000 1.9333818      3                  B</span>
+<span class="co">#&gt; 48: CHERICHERILADY   4   200    5.000 1.9133177      5                  B</span>
+<span class="co">#&gt;           Sequence Rep State Exposure      Mass Charge Experimental_state</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; [[3]][[2]]</span>
-<span class="co">#&gt;     Sequence Rep State Exposure      Mass Charge Experimental_state</span>
-<span class="co">#&gt;  1: LVRKDLQN   1   200    0.000 0.0000000      3                  A</span>
-<span class="co">#&gt;  2: LVRKDLQN   1   200    0.000 0.0000000      5                  A</span>
-<span class="co">#&gt;  3: LVRKDLQN   1   200    0.167 0.5951292      3                  A</span>
-<span class="co">#&gt;  4: LVRKDLQN   1   200    0.167 0.0953842      5                  A</span>
-<span class="co">#&gt;  5: LVRKDLQN   1   200    5.000 0.9973953      3                  A</span>
-<span class="co">#&gt;  6: LVRKDLQN   1   200    5.000 0.2267871      5                  A</span>
-<span class="co">#&gt;  7: LVRKDLQN   1   200    0.000 0.0000000      3                  B</span>
-<span class="co">#&gt;  8: LVRKDLQN   1   200    0.000 0.0000000      5                  B</span>
-<span class="co">#&gt;  9: LVRKDLQN   1   200    0.167 0.4308534      3                  B</span>
-<span class="co">#&gt; 10: LVRKDLQN   1   200    0.167 0.7194207      5                  B</span>
-<span class="co">#&gt; 11: LVRKDLQN   1   200    5.000 0.7010559      3                  B</span>
-<span class="co">#&gt; 12: LVRKDLQN   1   200    5.000 0.8846406      5                  B</span>
-<span class="co">#&gt; 13: LVRKDLQN   2   200    0.000 0.0000000      3                  A</span>
-<span class="co">#&gt; 14: LVRKDLQN   2   200    0.000 0.0000000      5                  A</span>
-<span class="co">#&gt; 15: LVRKDLQN   2   200    0.167 0.5605016      3                  A</span>
-<span class="co">#&gt; 16: LVRKDLQN   2   200    0.167 0.4959362      5                  A</span>
-<span class="co">#&gt; 17: LVRKDLQN   2   200    5.000 0.8780305      3                  A</span>
-<span class="co">#&gt; 18: LVRKDLQN   2   200    5.000 0.9230153      5                  A</span>
-<span class="co">#&gt; 19: LVRKDLQN   2   200    0.000 0.0000000      3                  B</span>
-<span class="co">#&gt; 20: LVRKDLQN   2   200    0.000 0.0000000      5                  B</span>
-<span class="co">#&gt; 21: LVRKDLQN   2   200    0.167 0.3885789      3                  B</span>
-<span class="co">#&gt; 22: LVRKDLQN   2   200    0.167 0.6586108      5                  B</span>
-<span class="co">#&gt; 23: LVRKDLQN   2   200    5.000 0.6903721      3                  B</span>
-<span class="co">#&gt; 24: LVRKDLQN   2   200    5.000 0.8071477      5                  B</span>
-<span class="co">#&gt; 25: LVRKDLQN   3   200    0.000 0.0000000      3                  A</span>
-<span class="co">#&gt; 26: LVRKDLQN   3   200    0.000 0.0000000      5                  A</span>
-<span class="co">#&gt; 27: LVRKDLQN   3   200    0.167 0.7484155      3                  A</span>
-<span class="co">#&gt; 28: LVRKDLQN   3   200    0.167 0.8489969      5                  A</span>
-<span class="co">#&gt; 29: LVRKDLQN   3   200    5.000 0.8271001      3                  A</span>
-<span class="co">#&gt; 30: LVRKDLQN   3   200    5.000 1.1104277      5                  A</span>
-<span class="co">#&gt; 31: LVRKDLQN   3   200    0.000 0.0000000      3                  B</span>
-<span class="co">#&gt; 32: LVRKDLQN   3   200    0.000 0.0000000      5                  B</span>
-<span class="co">#&gt; 33: LVRKDLQN   3   200    0.167 0.4790403      3                  B</span>
-<span class="co">#&gt; 34: LVRKDLQN   3   200    0.167 0.3714524      5                  B</span>
-<span class="co">#&gt; 35: LVRKDLQN   3   200    5.000 0.6852605      3                  B</span>
-<span class="co">#&gt; 36: LVRKDLQN   3   200    5.000 0.9867953      5                  B</span>
-<span class="co">#&gt; 37: LVRKDLQN   4   200    0.000 0.0000000      3                  A</span>
-<span class="co">#&gt; 38: LVRKDLQN   4   200    0.000 0.0000000      5                  A</span>
-<span class="co">#&gt; 39: LVRKDLQN   4   200    0.167 0.5690252      3                  A</span>
-<span class="co">#&gt; 40: LVRKDLQN   4   200    0.167 0.6762240      5                  A</span>
-<span class="co">#&gt; 41: LVRKDLQN   4   200    5.000 0.6845991      3                  A</span>
-<span class="co">#&gt; 42: LVRKDLQN   4   200    5.000 1.0641156      5                  A</span>
-<span class="co">#&gt; 43: LVRKDLQN   4   200    0.000 0.0000000      3                  B</span>
-<span class="co">#&gt; 44: LVRKDLQN   4   200    0.000 0.0000000      5                  B</span>
-<span class="co">#&gt; 45: LVRKDLQN   4   200    0.167 0.4727656      3                  B</span>
-<span class="co">#&gt; 46: LVRKDLQN   4   200    0.167 0.9270015      5                  B</span>
-<span class="co">#&gt; 47: LVRKDLQN   4   200    5.000 1.0647175      3                  B</span>
-<span class="co">#&gt; 48: LVRKDLQN   4   200    5.000 0.9172156      5                  B</span>
-<span class="co">#&gt;     Sequence Rep State Exposure      Mass Charge Experimental_state</span></code></pre></div>
+<span class="co">#&gt;           Sequence Rep State Exposure      Mass Charge Experimental_state</span>
+<span class="co">#&gt;  1: CHERICHERILADY   1   200    0.000 0.0000000      3                  A</span>
+<span class="co">#&gt;  2: CHERICHERILADY   1   200    0.000 0.0000000      5                  A</span>
+<span class="co">#&gt;  3: CHERICHERILADY   1   200    0.167 1.2889882      3                  A</span>
+<span class="co">#&gt;  4: CHERICHERILADY   1   200    0.167 0.6497663      5                  A</span>
+<span class="co">#&gt;  5: CHERICHERILADY   1   200    5.000 2.2352366      3                  A</span>
+<span class="co">#&gt;  6: CHERICHERILADY   1   200    5.000 1.7340315      5                  A</span>
+<span class="co">#&gt;  7: CHERICHERILADY   1   200    0.000 0.0000000      3                  B</span>
+<span class="co">#&gt;  8: CHERICHERILADY   1   200    0.000 0.0000000      5                  B</span>
+<span class="co">#&gt;  9: CHERICHERILADY   1   200    0.167 1.0475158      3                  B</span>
+<span class="co">#&gt; 10: CHERICHERILADY   1   200    0.167 1.2707170      5                  B</span>
+<span class="co">#&gt; 11: CHERICHERILADY   1   200    5.000 1.5745761      3                  B</span>
+<span class="co">#&gt; 12: CHERICHERILADY   1   200    5.000 1.9409744      5                  B</span>
+<span class="co">#&gt; 13: CHERICHERILADY   2   200    0.000 0.0000000      3                  A</span>
+<span class="co">#&gt; 14: CHERICHERILADY   2   200    0.000 0.0000000      5                  A</span>
+<span class="co">#&gt; 15: CHERICHERILADY   2   200    0.167 0.9468887      3                  A</span>
+<span class="co">#&gt; 16: CHERICHERILADY   2   200    0.167 1.3770209      5                  A</span>
+<span class="co">#&gt; 17: CHERICHERILADY   2   200    5.000 1.7767978      3                  A</span>
+<span class="co">#&gt; 18: CHERICHERILADY   2   200    5.000 2.1329732      5                  A</span>
+<span class="co">#&gt; 19: CHERICHERILADY   2   200    0.000 0.0000000      3                  B</span>
+<span class="co">#&gt; 20: CHERICHERILADY   2   200    0.000 0.0000000      5                  B</span>
+<span class="co">#&gt; 21: CHERICHERILADY   2   200    0.167 1.3397511      3                  B</span>
+<span class="co">#&gt; 22: CHERICHERILADY   2   200    0.167 0.6677473      5                  B</span>
+<span class="co">#&gt; 23: CHERICHERILADY   2   200    5.000 1.7203313      3                  B</span>
+<span class="co">#&gt; 24: CHERICHERILADY   2   200    5.000 1.4457426      5                  B</span>
+<span class="co">#&gt; 25: CHERICHERILADY   3   200    0.000 0.0000000      3                  A</span>
+<span class="co">#&gt; 26: CHERICHERILADY   3   200    0.000 0.0000000      5                  A</span>
+<span class="co">#&gt; 27: CHERICHERILADY   3   200    0.167 1.1518489      3                  A</span>
+<span class="co">#&gt; 28: CHERICHERILADY   3   200    0.167 1.0544928      5                  A</span>
+<span class="co">#&gt; 29: CHERICHERILADY   3   200    5.000 1.8950090      3                  A</span>
+<span class="co">#&gt; 30: CHERICHERILADY   3   200    5.000 1.7786260      5                  A</span>
+<span class="co">#&gt; 31: CHERICHERILADY   3   200    0.000 0.0000000      3                  B</span>
+<span class="co">#&gt; 32: CHERICHERILADY   3   200    0.000 0.0000000      5                  B</span>
+<span class="co">#&gt; 33: CHERICHERILADY   3   200    0.167 1.3907501      3                  B</span>
+<span class="co">#&gt; 34: CHERICHERILADY   3   200    0.167 1.0546782      5                  B</span>
+<span class="co">#&gt; 35: CHERICHERILADY   3   200    5.000 2.1036419      3                  B</span>
+<span class="co">#&gt; 36: CHERICHERILADY   3   200    5.000 2.1847686      5                  B</span>
+<span class="co">#&gt; 37: CHERICHERILADY   4   200    0.000 0.0000000      3                  A</span>
+<span class="co">#&gt; 38: CHERICHERILADY   4   200    0.000 0.0000000      5                  A</span>
+<span class="co">#&gt; 39: CHERICHERILADY   4   200    0.167 1.5362964      3                  A</span>
+<span class="co">#&gt; 40: CHERICHERILADY   4   200    0.167 1.1456876      5                  A</span>
+<span class="co">#&gt; 41: CHERICHERILADY   4   200    5.000 2.0304707      3                  A</span>
+<span class="co">#&gt; 42: CHERICHERILADY   4   200    5.000 1.9172427      5                  A</span>
+<span class="co">#&gt; 43: CHERICHERILADY   4   200    0.000 0.0000000      3                  B</span>
+<span class="co">#&gt; 44: CHERICHERILADY   4   200    0.000 0.0000000      5                  B</span>
+<span class="co">#&gt; 45: CHERICHERILADY   4   200    0.167 1.2819903      3                  B</span>
+<span class="co">#&gt; 46: CHERICHERILADY   4   200    0.167 0.9935587      5                  B</span>
+<span class="co">#&gt; 47: CHERICHERILADY   4   200    5.000 2.2534796      3                  B</span>
+<span class="co">#&gt; 48: CHERICHERILADY   4   200    5.000 1.3380264      5                  B</span>
+<span class="co">#&gt;           Sequence Rep State Exposure      Mass Charge Experimental_state</span></code></pre></div>
 </div>
 <div id="power-estimation" class="section level2">
 <h2 class="hasAnchor">
-<a href="#power-estimation" class="anchor" aria-hidden="true"></a>Power estimation</h2>
+<a href="#power-estimation" class="anchor"></a>Power estimation</h2>
 <p>The package <code>powerHaDeX</code> provides a possibility of the estimation of rejection rate in pairwise testing of differences in deuteration levels.</p>
 <p>The tests available in the package are:</p>
 <ul>
@@ -859,35 +869,42 @@
 <p>We can use the function <code>calculate_hdx_power</code> to execute the testing procedure on the data simulated by <code>get_noisy_deuteration_curves</code>. Example usage of the function is shown below</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/calculate_hdx_power.html">calculate_hdx_power</a></span><span class="op">(</span><span class="va">deuteration_curves_paired_states</span>,
-                    tests <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">test_houde</span><span class="op">)</span>,
+                    tests <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">test_houde</span><span class="op">)</span>,
                     summarized <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="co">#&gt;    Sequence Num_replicates Num_states Num_timepoints  Test State_1 State_2</span>
-<span class="co">#&gt; 1: LVRKDLQN              4          2              3 Houde     100     200</span>
-<span class="co">#&gt; 2: LVRKDLQN              4          2              3 Houde     100     200</span>
-<span class="co">#&gt; 3: LVRKDLQN              4          2              3 Houde     100     100</span>
-<span class="co">#&gt; 4: LVRKDLQN              4          2              3 Houde     100     100</span>
-<span class="co">#&gt; 5: LVRKDLQN              4          2              3 Houde     200     200</span>
-<span class="co">#&gt; 6: LVRKDLQN              4          2              3 Houde     200     200</span>
-<span class="co">#&gt;    Test_statistic P_value Significant_difference Time Transformation AIC logLik</span>
-<span class="co">#&gt; 1:             NA      NA                  FALSE   NA             NA  NA     NA</span>
-<span class="co">#&gt; 2:             NA      NA                  FALSE   NA             NA  NA     NA</span>
-<span class="co">#&gt; 3:             NA      NA                  FALSE   NA             NA  NA     NA</span>
-<span class="co">#&gt; 4:             NA      NA                  FALSE   NA             NA  NA     NA</span>
-<span class="co">#&gt; 5:             NA      NA                  FALSE   NA             NA  NA     NA</span>
-<span class="co">#&gt; 6:             NA      NA                  FALSE   NA             NA  NA     NA</span></code></pre></div>
+<span class="co">#&gt;          Sequence Num_replicates Num_states Num_timepoints  Test State_1</span>
+<span class="co">#&gt; 1: CHERICHERILADY              4          2              3 Houde     100</span>
+<span class="co">#&gt; 2: CHERICHERILADY              4          2              3 Houde     100</span>
+<span class="co">#&gt; 3: CHERICHERILADY              4          2              3 Houde     100</span>
+<span class="co">#&gt; 4: CHERICHERILADY              4          2              3 Houde     100</span>
+<span class="co">#&gt; 5: CHERICHERILADY              4          2              3 Houde     200</span>
+<span class="co">#&gt; 6: CHERICHERILADY              4          2              3 Houde     200</span>
+<span class="co">#&gt;    State_2 Test_statistic P_value Significant_difference Time Transformation</span>
+<span class="co">#&gt; 1:     200             NA      NA                  FALSE   NA             NA</span>
+<span class="co">#&gt; 2:     200             NA      NA                  FALSE   NA             NA</span>
+<span class="co">#&gt; 3:     100             NA      NA                  FALSE   NA             NA</span>
+<span class="co">#&gt; 4:     100             NA      NA                  FALSE   NA             NA</span>
+<span class="co">#&gt; 5:     200             NA      NA                  FALSE   NA             NA</span>
+<span class="co">#&gt; 6:     200             NA      NA                  FALSE   NA             NA</span>
+<span class="co">#&gt;    AIC logLik</span>
+<span class="co">#&gt; 1:  NA     NA</span>
+<span class="co">#&gt; 2:  NA     NA</span>
+<span class="co">#&gt; 3:  NA     NA</span>
+<span class="co">#&gt; 4:  NA     NA</span>
+<span class="co">#&gt; 5:  NA     NA</span>
+<span class="co">#&gt; 6:  NA     NA</span></code></pre></div>
 <p>The summarized result is following</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/calculate_hdx_power.html">calculate_hdx_power</a></span><span class="op">(</span><span class="va">deuteration_curves_paired_states</span>,
-                    tests <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">test_houde</span><span class="op">)</span>,
+                    tests <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">test_houde</span><span class="op">)</span>,
                     summarized <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="co">#&gt;    Sequence Num_replicates Num_states Num_timepoints  Test Transformation Time</span>
-<span class="co">#&gt; 1: LVRKDLQN              4          2              3 Houde             NA   NA</span>
-<span class="co">#&gt; 2: LVRKDLQN              4          2              3 Houde             NA   NA</span>
-<span class="co">#&gt; 3: LVRKDLQN              4          2              3 Houde             NA   NA</span>
-<span class="co">#&gt;    State_1 State_2 Power</span>
-<span class="co">#&gt; 1:     100     200     0</span>
-<span class="co">#&gt; 2:     100     100     0</span>
-<span class="co">#&gt; 3:     200     200     0</span></code></pre></div>
+<span class="co">#&gt;          Sequence Num_replicates Num_states Num_timepoints  Test Transformation</span>
+<span class="co">#&gt; 1: CHERICHERILADY              4          2              3 Houde             NA</span>
+<span class="co">#&gt; 2: CHERICHERILADY              4          2              3 Houde             NA</span>
+<span class="co">#&gt; 3: CHERICHERILADY              4          2              3 Houde             NA</span>
+<span class="co">#&gt;    Time State_1 State_2 Power</span>
+<span class="co">#&gt; 1:   NA     100     200     0</span>
+<span class="co">#&gt; 2:   NA     100     100     0</span>
+<span class="co">#&gt; 3:   NA     200     200     0</span></code></pre></div>
 <p>There is a possibility of simulate the rejection rate of another test using an external implementation. Such a test function for pairwise testing should be of specific shape as below:</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>example_test &lt;-<span class="st"> </span><span class="cf">function</span>(data, significance_level) {</span>
 <span id="cb15-2"><a href="#cb15-2"></a>  States =<span class="st"> </span><span class="kw">unique</span>(data<span class="op">$</span>State)</span>
@@ -900,7 +917,7 @@
 <span id="cb15-9"><a href="#cb15-9"></a>                                <span class="dt">Test_statistic =</span> <span class="ot">NA</span>,</span>
 <span id="cb15-10"><a href="#cb15-10"></a>                                <span class="dt">P_value =</span> <span class="ot">NA</span>,</span>
 <span id="cb15-11"><a href="#cb15-11"></a>                                <span class="dt">Significant_difference =</span> <span class="co">#TRUE or FALSE,</span></span>
-<span id="cb15-12"><a href="#cb15-12"></a>                                <span class="dt">Time =</span> <span class="ot">NA</span>,</span>
+<span id="cb15-12"><a href="#cb15-12"></a>                                  <span class="dt">Time =</span> <span class="ot">NA</span>,</span>
 <span id="cb15-13"><a href="#cb15-13"></a>                                <span class="dt">Transformation =</span> <span class="ot">NA</span>,</span>
 <span id="cb15-14"><a href="#cb15-14"></a>                                <span class="dt">AIC =</span> <span class="ot">NA</span>,</span>
 <span id="cb15-15"><a href="#cb15-15"></a>                                <span class="dt">logLik =</span> <span class="ot">NA</span>))</span>
@@ -920,13 +937,11 @@
 
 
       <footer><div class="copyright">
-  <p></p>
-<p>Developed by Krystyna Grzesiak.</p>
+  <p>Developed by Krystyna Grzesiak.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.9000.9000.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
@@ -934,8 +949,6 @@
 
   
 
-
-  
 
   </body>
 </html>
