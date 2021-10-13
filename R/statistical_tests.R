@@ -72,7 +72,8 @@ test_houde <- function(data, significance_level = 0.05) {
     data_exp <- data[, list(avg_exp_mass = mean(Mass)),
                      by = list(Sequence, State, Exposure, Rep, Experimental_state)]
 
-    data_exp <- data_exp[, list(deut_uptake = mean(avg_exp_mass), err_avg_mass = sd(avg_exp_mass)/sqrt(length(Rep))),
+    data_exp <- data_exp[, list(deut_uptake = mean(avg_exp_mass),
+                                err_avg_mass = sd(avg_exp_mass)/sqrt(length(Rep))),
                          by = list(State, Sequence, Exposure, Experimental_state)]
 
     data_exp[, err_deut_uptake := sqrt(err_avg_mass^2 + err_avg_mass[Exposure == 0]^2),
@@ -200,7 +201,7 @@ test_hdx_analyzer <- function(data, significance_level = 0.05) {
     F_statistic[3] <- result$`F`[2]
     p_value[3] <- result$`Pr(>F)`[2]
 
-    data.table(Test = "Deuteros lm",
+    data.table(Test = paste("Deuteros lm", Transformation, Time),
                State_1 = States[1],
                State_2 = States[2],
                Test_statistic = F_statistic,
@@ -323,7 +324,7 @@ test_memhdx_model <- function(data, significance_level = 0.05) {
     Test_statistic[3] <- result$Chisq[2]
     p_value[3] <- result$`Pr(>Chisq)`[2]
 
-    data.table(Test = "MEMHDX lmm",
+    data.table(Test = paste("MEMHDX lmm", Transformation, Time),
                State_1 = States[1],
                State_2 = States[2],
                Test_statistic = Test_statistic,

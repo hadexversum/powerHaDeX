@@ -21,7 +21,7 @@ test_that("test_houde works", {
 test_that("test_hdx_analyzer works", {
     curves <- readRDS("noisy_curves.RDS")[[1]][[1]]
 
-    expect_equal(test_hdx_analyzer(curves), structure(list(Test = c("Deuteros lm", "Deuteros lm", "Deuteros lm"),
+    expect_equal(test_hdx_analyzer(curves), structure(list(Test = c("Deuteros lm identity continuous", "Deuteros lm identity categorical", "Deuteros lm log continuous"),
                                                            State_1 = structure(c(1L, 1L, 1L), class = "factor", .Label = c("10", "20")),
                                                            State_2 = structure(c(2L, 2L, 2L), class = "factor", .Label = c("10", "20")),
                                                            Test_statistic = c(1.90596540277125, 30.4891372765257, 5.00315365023482),
@@ -39,7 +39,7 @@ test_that("test_memhdx_model works", {
     set.seed(10)
     curves <- readRDS("noisy_curves.RDS")[[1]][[1]]
 
-    expect_equal(test_memhdx_model(curves), structure(list(Test = c("MEMHDX lmm", "MEMHDX lmm", "MEMHDX lmm"),
+    expect_equal(test_memhdx_model(curves), structure(list(Test = c("MEMHDX lmm identity continuous", "MEMHDX lmm identity categorical", "MEMHDX lmm log continuous"),
                                                            State_1 = structure(c(1L, 1L, 1L), class = "factor", .Label = c("10", "20")),
                                                            State_2 = structure(c(2L, 2L, 2L), class = "factor", .Label = c("10", "20")),
                                                            Test_statistic = c(3.86021412427414, 148.417835464572, 9.94982009055384),
