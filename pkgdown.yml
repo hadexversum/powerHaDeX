@@ -1,8 +1,8 @@
 pandoc: 2.7.3
-pkgdown: 1.9000.9000.9000
-pkgdown_sha: 31939caeb87846bc75e0cb5eccc0d610405c4580
+pkgdown: 1.6.1
+pkgdown_sha: ~
 articles:
   Example_simulation: Example_simulation.html
   Simulation_description: Simulation_description.html
-last_built: 2021-10-07T20:46Z
+last_built: 2021-10-13T11:07Z
 
