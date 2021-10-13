@@ -67,72 +67,85 @@
 #'                              use_markov = TRUE)
 #'
 #' @export
-simulate_theoretical_spectra = function(sequence, charge = NULL, protection_factor = 1,
-                                        times = c(60, 600), pH = 7.5,
-                                        temperature = 15, n_molecules = 100,
-                                        time_step_const = 1, if_corr = FALSE,
-                                        min_probability = 1e-4,
-                                        use_markov = TRUE) {
+simulate_theoretical_spectra <- function(sequence, charge = NULL, protection_factor = 1,
+                                         times = c(60, 600), pH = 7.5,
+                                         temperature = 15, n_molecules = 100,
+                                         time_step_const = 1, if_corr = FALSE,
+                                         min_probability = 1e-4,
+                                         use_markov = TRUE) {
 
-    sequence = strsplit(sequence, "")[[1]]
+    sequence <- strsplit(sequence, "")[[1]]
+
+    if(!all(sequence %in% strsplit("ARDNCGEQHILKMFPSTWYV", "")[[1]])) {
+        stop(paste0("The sequence is invalid. There is no interpretation for: ",
+                   paste0(unique(sequence[which(!(sequence %in% strsplit("ARDNCGEQHILKMFPSTWYV", "")[[1]]))]), collapse = ", " ), "."))
+    }
+
     if (length(protection_factor) == 1L) {
-        protection_factor = rep(protection_factor, length(sequence))
+
+        protection_factor <- rep(protection_factor, length(sequence))
     }
     if (is.null(charge)) {
-        charge = sample(2:6, 1)
+
+        charge <- sample(2:6, 1)
     }
 
-    peptide_iso_dist = get_approx_isotopic_distribution(sequence, min_probability)
-    peptide_mass = peptide_iso_dist[[1]]
-    isotopic_probs = peptide_iso_dist[[2]]
-    maxND = peptide_iso_dist[[3]]
-    maxD = peptide_iso_dist[[4]]
-    kcHD = get_exchange_rates(sequence, "HD", pH, temperature, 'poly', if_corr)
-    kcDH = get_exchange_rates(sequence, "DH", pH, temperature, 'poly')
+    peptide_iso_dist <- get_approx_isotopic_distribution(sequence, min_probability)
+    peptide_mass <- peptide_iso_dist[[1]]
+    isotopic_probs <- peptide_iso_dist[[2]]
+    maxND <- peptide_iso_dist[[3]]
+    maxD <- peptide_iso_dist[[4]]
+    kcHD <- get_exchange_rates(sequence, "HD", pH, temperature, 'poly', if_corr)
+    kcDH <- get_exchange_rates(sequence, "DH", pH, temperature, 'poly')
 
-    kmax = max(max(kcDH), max(kcHD))
-    deltaT = time_step_const / kmax
-    steps_between_time_points = ceiling(times/deltaT)
+    kmax <- max(max(kcDH), max(kcHD))
+    deltaT <- time_step_const / kmax
+    steps_between_time_points <- ceiling(times/deltaT)
 
     if (floor(max(times)/deltaT) == 0) {
+
         print("There is no deuteration before given time point. The measurement at the control time (conventionally 0) is returned.")
-        isotope_dists = data.table::data.table()
+        isotope_dists <- data.table::data.table()
     } else {
         tryCatch({
-            transition_probs = get_exchange_probabilities(kcHD, kcDH, deltaT, protection_factor)
+            transition_probs <- get_exchange_probabilities(kcHD, kcDH, deltaT, protection_factor)
 
             if(use_markov) {
-                HD_matrices = get_HD_matrices_using_markov(sequence, transition_probs,
-                                                           steps_between_time_points,
-                                                           n_molecules)
+                HD_matrices <- get_HD_matrices_using_markov(sequence, transition_probs,
+                                                            steps_between_time_points,
+                                                            n_molecules)
             }else {
-                time_sequence = seq(0, max(times), deltaT)
-                HD_matrices = get_HD_matrices(sequence, transition_probs,
-                                              time_sequence, times,
-                                              n_molecules)
+                time_sequence <- seq(0, max(times), deltaT)
+                HD_matrices <- get_HD_matrices(sequence, transition_probs,
+                                               time_sequence, times,
+                                               n_molecules)
             }
 
-            isotope_dists = get_iso_probs_deut(HD_matrices, maxD, maxND,
-                                               isotopic_probs, peptide_mass,
-                                               times, charge, pH)
+            isotope_dists <- get_iso_probs_deut(HD_matrices, maxD, maxND,
+                                                isotopic_probs, peptide_mass,
+                                                times, charge, pH)
         })
     }
-    isotope_dists = rbind(merge(data.frame(Exposure = 0,
-                                           Intensity = isotopic_probs,
-                                           PH = pH),
-                                data.frame(Mz = peptide_mass / charge + 1.007276,
-                                           PH = pH,
-                                           Exposure = 0,
-                                           Charge = charge)),
-                          isotope_dists)
 
-    isotope_dists[["Sequence"]] = paste0(sequence, collapse = "")
+    isotope_dists <- rbind(merge(data.frame(Exposure = 0,
+                                            Intensity = isotopic_probs,
+                                            PH = pH),
+                                 data.frame(Mz = peptide_mass / charge + 1.007276,
+                                            PH = pH,
+                                            Exposure = 0,
+                                            Charge = charge)),
+                           isotope_dists)
+
+    isotope_dists[["Sequence"]] <- paste0(sequence, collapse = "")
+
     if (length(unique(protection_factor)) == 1) {
-        isotope_dists[["PF"]] = protection_factor[1]
+        isotope_dists[["PF"]] <- protection_factor[1]
     } else {
-        isotope_dists[["PF"]] = paste(protection_factor,
-                                      sep = ",", collapse = ",")
+        isotope_dists[["PF"]] <- paste(protection_factor,
+                                       sep = ",", collapse = ",")
     }
-    isotope_dists = isotope_dists[isotope_dists[["Intensity"]] > min_probability, ]
+
+    isotope_dists <- isotope_dists[isotope_dists[["Intensity"]] > min_probability, ]
+
     data.table::as.data.table(isotope_dists)
 }

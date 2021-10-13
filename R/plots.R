@@ -39,12 +39,15 @@ plot_spectra <- function(spectra,
                          charges = unique(spectra[["Charge"]]),
                          control_time = FALSE,
                          ...) {
-    Mz = Intensity = NULL
+
+    Mz <- Intensity <- NULL
 
     if(control_time) {
+
         spectra <- spectra[spectra[["Exposure"]] %in% time_points &
                                spectra[["Charge"]] %in% charges]
     }else{
+
         spectra <- spectra[spectra[["Exposure"]] %in% time_points &
                                spectra[["Charge"]] %in% charges &
                                spectra[["Exposure"]] != 0]
@@ -62,6 +65,7 @@ plot_spectra <- function(spectra,
         facet_wrap(Charge~ Exposure, scales = "free")
 
     return(p)
+
 }
 
 

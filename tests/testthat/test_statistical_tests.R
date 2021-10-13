@@ -1,7 +1,7 @@
 
 
 test_that("test_houde works", {
-    curves = readRDS("noisy_curves.RDS")[[1]][[1]]
+    curves <- readRDS("noisy_curves.RDS")[[1]][[1]]
 
     expect_equal(test_houde(curves), structure(list(Test = "Houde",
                                                     State_1 = structure(1L, .Label = c("10", "20"), class = "factor"),
@@ -19,7 +19,7 @@ test_that("test_houde works", {
 
 
 test_that("test_hdx_analyzer works", {
-    curves = readRDS("noisy_curves.RDS")[[1]][[1]]
+    curves <- readRDS("noisy_curves.RDS")[[1]][[1]]
 
     expect_equal(test_hdx_analyzer(curves), structure(list(Test = c("Deuteros lm", "Deuteros lm", "Deuteros lm"),
                                                            State_1 = structure(c(1L, 1L, 1L), class = "factor", .Label = c("10", "20")),
@@ -37,7 +37,7 @@ test_that("test_hdx_analyzer works", {
 
 test_that("test_memhdx_model works", {
     set.seed(10)
-    curves = readRDS("noisy_curves.RDS")[[1]][[1]]
+    curves <- readRDS("noisy_curves.RDS")[[1]][[1]]
 
     expect_equal(test_memhdx_model(curves), structure(list(Test = c("MEMHDX lmm", "MEMHDX lmm", "MEMHDX lmm"),
                                                            State_1 = structure(c(1L, 1L, 1L), class = "factor", .Label = c("10", "20")),
@@ -55,8 +55,8 @@ test_that("test_memhdx_model works", {
 
 test_that("test_semiparametric works", {
     set.seed(10)
-    curves = readRDS("noisy_curves.RDS")[[1]][[1]]
-    expect_equal(test_semiparametric(curves), structure(list(Test = "RIDGE_knots_random_intercept_id_exposure",
+    curves <- readRDS("noisy_curves.RDS")[[1]][[1]]
+    expect_equal(test_semiparametric(curves), structure(list(Test = "Semiparametric model",
                                                              State_1 = structure(1L, .Label = c("10", "20"), class = "factor"),
                                                              State_2 = structure(2L, .Label = c("10", "20"), class = "factor"),
                                                              Test_statistic = 18.8790884443026,
@@ -69,10 +69,29 @@ test_that("test_semiparametric works", {
                                                         row.names = c(NA, -1L), class = c("data.table", "data.frame")))
 })
 
+test_that("test_semiparametric works in the case or one or two time points", {
+    set.seed(10)
+    curves <- readRDS("noisy_curves.RDS")[[1]][[1]]
+    curves <- curves[curves[["Exposure"]] %in% c(5, 60)]
+    expect_equal(test_semiparametric(curves), structure(list(Test = "Semiparametric model",
+                                                             State_1 = structure(1L, .Label = c("10", "20"), class = "factor"),
+                                                             State_2 = structure(2L, .Label = c("10", "20"), class = "factor"),
+                                                             Test_statistic = 46.9115145699878,
+                                                             P_value = 6.50570014465104e-11,
+                                                             Significant_difference = TRUE,
+                                                             Time = NA, Transformation = "identity",
+                                                             AIC = -121.276210144012,
+                                                             logLik = 67.6381050720061),
+                                                        row.names = c(NA, -1L),
+                                                        class = c("data.table", "data.frame")))
+})
+
+
+
 test_that("truncated_lines works", {
     set.seed(10)
-    x = rnorm(30)
-    knots = seq(min(x), max(x), 1)
+    x <- rnorm(30)
+    knots <- seq(min(x), max(x), 1)
     expect_equal(truncated_lines(x, knots), structure(c(2.20403300911136, 2.00103429610047, 0.813956288247019,
                                                         1.58611912238581, 2.47983196473704, 2.5750811388697, 0.977210662740044,
                                                         1.82161082069867, 0.55861415646644, 1.92880844404554, 3.28706634125666,
@@ -95,8 +114,5 @@ test_that("truncated_lines works", {
                                                         0, 0, 0, 0, 0.11080810026361, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
     ), .Dim = c(30L, 4L)))
 })
-
-
-
 
 

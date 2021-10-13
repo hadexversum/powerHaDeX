@@ -41,7 +41,7 @@ For example, a single spectrum can be simulated as below
 ```{r}
 set.seed(17)
 
-theo_spectrum <- simulate_theoretical_spectra(sequence = "LVRKDLQN",
+theo_spectrum <- simulate_theoretical_spectra(sequence = "CHERICHERILADY",
                                               charge = 4,
                                               protection_factor = 100,
                                               times = 0.167,
@@ -73,7 +73,7 @@ As said before, more than one spectrum can be simulated for different exposure t
 ```{r}
 set.seed(17)
 
-theo_spectra <- simulate_theoretical_spectra(sequence = "LVRKDLQN",
+theo_spectra <- simulate_theoretical_spectra(sequence = "CHERICHERILADY",
                                              charge = c(3, 5),
                                              protection_factor = 100,
                                              times = c(0.167, 5),
@@ -122,7 +122,7 @@ There is an option of generation noisy spectra such that they are prepared for t
 ```{r}
 
 theo_spectra_pf_100 <- theo_spectra
-theo_spectra_pf_200 <- simulate_theoretical_spectra(sequence = "LVRKDLQN",
+theo_spectra_pf_200 <- simulate_theoretical_spectra(sequence = "CHERICHERILADY",
                                                     charge = c(3, 5),
                                                     protection_factor = 200,
                                                     times = c(0.167, 5),
@@ -243,7 +243,7 @@ example_test <- function(data, significance_level) {
                                 Test_statistic = NA,
                                 P_value = NA,
                                 Significant_difference = #TRUE or FALSE,
-                                Time = NA,
+                                  Time = NA,
                                 Transformation = NA,
                                 AIC = NA,
                                 logLik = NA))

@@ -28,13 +28,17 @@
 #' @keywords internal
 #'
 #' @export
-get_exchange_probabilities = function(HD_rate, DH_rate, time_step, protection_factor) {
+get_exchange_probabilities <- function(HD_rate, DH_rate, time_step, protection_factor) {
+
     if(any(protection_factor == 0)) stop("Protection factor can not be 0.")
+
     transition_probs <- list(HD = (1 - exp(-HD_rate * time_step / protection_factor)),
                              DH = (1 - exp(-DH_rate * time_step / protection_factor)))
     transition_probs[["HH"]] <- 1 - transition_probs[["HD"]]
     transition_probs[["DD"]] <- 1 - transition_probs[["DH"]]
+
     transition_probs
+
 }
 
 
@@ -68,27 +72,36 @@ get_exchange_probabilities = function(HD_rate, DH_rate, time_step, protection_fa
 #' @useDynLib powerHaDeX, .registration = TRUE
 #'
 #' @export
-get_HD_matrices = function(sequence, transition_probs, experiment_times,
-                           times_to_record, n_molecules = 100) {
-    peptide_length = length(sequence)
+
+get_HD_matrices <- function(sequence, transition_probs, experiment_times,
+                            times_to_record, n_molecules = 100) {
+
+    peptide_length <- length(sequence)
 
     time_intervals <- cut(experiment_times, c(0, times_to_record), right = TRUE, include.lowest = TRUE)
     separated_times <- split(experiment_times, time_intervals)
 
-    hd_matrices = vector("list", length(times_to_record))
-    HDmatrix = matrix(0L, n_molecules, peptide_length) # 0 denotes hydrogen, 1 denotes deuterium
+    hd_matrices <- vector("list", length(times_to_record))
+    HDmatrix <- matrix(0L, n_molecules, peptide_length) # 0 denotes hydrogen, 1 denotes deuterium
 
     for (i in 1:length(hd_matrices)) {
+
         if(length(separated_times[[i]]) == 0) {
-            hd_matrices[[i]] = HDmatrix
+
+            hd_matrices[[i]] <- HDmatrix
+
         }else {
-            HDmatrix = get_deuteration_single_timepoint(HDmatrix, separated_times[[i]],
-                                                        transition_probs[[1]], transition_probs[[2]])
+
+            HDmatrix <- get_deuteration_single_timepoint(HDmatrix, separated_times[[i]],
+                                                         transition_probs[[1]], transition_probs[[2]])
             HDmatrix[, unique(c(1, 2, which(sequence == "P")))] = 0
-            hd_matrices[[i]] = HDmatrix
+            hd_matrices[[i]] <- HDmatrix
+
         }
     }
+
     hd_matrices
+
 }
 
 #' Get a matrix of simulated exchanged hydrogens for each experiment time point
@@ -126,16 +139,23 @@ get_HD_matrices_using_markov <- function(sequence, transition_probs,
     hd_matrices <- lapply(1:length(steps_between_time_points), function(i) {
 
         steps <- sum(steps_between_time_points[1:i])
+
         HDmatrix <- sapply(1:peptide_length, function(amino_acid) {
+
             transition_matrix <- matrix(c(transition_probs[["HH"]][amino_acid], transition_probs[["HD"]][amino_acid],
-                                          transition_probs[["DH"]][amino_acid], transition_probs[["DD"]][amino_acid]), nrow = 2,
+                                          transition_probs[["DH"]][amino_acid], transition_probs[["DD"]][amino_acid]),
+                                        nrow = 2,
                                         byrow = TRUE)
-            probabilities = as.vector(initial_state%*%(transition_matrix%^%steps))
+            probabilities <- as.vector(initial_state%*%(transition_matrix%^%steps))
             sample(c(0, 1), n_molecules, replace = TRUE, prob = probabilities)
+
         })
+
         HDmatrix[, unique(c(1, 2, which(sequence == "P")))] <- 0
         HDmatrix
+
     })
+
     hd_matrices
 }
 
@@ -172,14 +192,17 @@ get_HD_matrices_using_markov <- function(sequence, transition_probs,
 #' @keywords internal
 #'
 #' @export
-get_observed_iso_dist = function(HDmatrix, isotopic_distribution, maxD) {
-    Distr = rep(0, maxD + 1)
-    deltaMass = rowSums(HDmatrix)
-    Distr[sort(unique(deltaMass)) + 1] = table(deltaMass)
-    Distr = Distr / sum(Distr)
-    obsDistr = signal::conv(isotopic_distribution, Distr)
-    obsDistr = obsDistr / sum(obsDistr)
+get_observed_iso_dist <- function(HDmatrix, isotopic_distribution, maxD) {
+
+    Distr <- rep(0, maxD + 1)
+    deltaMass <- rowSums(HDmatrix)
+    Distr[sort(unique(deltaMass)) + 1] <- table(deltaMass)
+    Distr <- Distr / sum(Distr)
+    obsDistr <- signal::conv(isotopic_distribution, Distr)
+    obsDistr <- obsDistr / sum(obsDistr)
+
     obsDistr
+
 }
 
 
@@ -218,18 +241,24 @@ get_observed_iso_dist = function(HDmatrix, isotopic_distribution, maxD) {
 #' @export
 
 get_iso_probs_deut <- function(HD_matrices, maxD, maxND, isotopic_probs, peptide_mass, times, charge, pH) {
+
     isotope_dists <- lapply(1:length(times), function(ith_time) {
+
         do.call(rbind, lapply(1:length(charge), function(ith_charge) {
-            observed_dist = get_observed_iso_dist(HD_matrices[[ith_time]], isotopic_probs, maxD)
-            observed_peaks = matrix(0, maxD + maxND + 1, 2)
-            DM = 1.00628
-            observed_peaks[1, 1] = peptide_mass / charge[ith_charge] + 1.007276
-            observed_peaks[1, 2] = observed_dist[1]
+
+            observed_dist <- get_observed_iso_dist(HD_matrices[[ith_time]], isotopic_probs, maxD)
+            observed_peaks <- matrix(0, maxD + maxND + 1, 2)
+            DM <- 1.00628
+            observed_peaks[1, 1] <- peptide_mass / charge[ith_charge] + 1.007276
+            observed_peaks[1, 2] <- observed_dist[1]
 
             for (i in 2:(maxD + maxND + 1)) {
-                observed_peaks[i, 1] = observed_peaks[i - 1, 1] + DM / charge[ith_charge]
-                observed_peaks[i, 2] = observed_dist[i]
+
+                observed_peaks[i, 1] <- observed_peaks[i - 1, 1] + DM / charge[ith_charge]
+                observed_peaks[i, 2] <- observed_dist[i]
+
             }
+
             data.frame(Exposure = times[ith_time],
                        Mz = observed_peaks[, 1],
                        Intensity = observed_peaks[, 2],
@@ -238,7 +267,10 @@ get_iso_probs_deut <- function(HD_matrices, maxD, maxND, isotopic_probs, peptide
             )
         }))
     })
-    isotope_dists = data.table::rbindlist(isotope_dists)
+
+    isotope_dists <- data.table::rbindlist(isotope_dists)
+
     isotope_dists
+
 }
 
