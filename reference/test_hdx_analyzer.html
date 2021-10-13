@@ -190,14 +190,14 @@ of tests for differences in deuteration levels.</p></div>
                                                                  n_experiments <span class='op'>=</span> <span class='fl'>1</span>,
                                                                  reference <span class='op'>=</span> <span class='fl'>100</span><span class='op'>)</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>
 <span class='fu'>test_hdx_analyzer</span><span class='op'>(</span><span class='va'>deuteration_curves_paired_states</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;           Test State_1 State_2 Test_statistic   P_value Significant_difference
-#&gt; 1: Deuteros lm     200     100       1.024610 0.3673406                  FALSE
-#&gt; 2: Deuteros lm     200     100       2.429216 0.0786117                  FALSE
-#&gt; 3: Deuteros lm     200     100       1.146444 0.3270732                  FALSE
-#&gt;           Time Transformation        AIC     logLik
-#&gt; 1:  continuous       identity  11.358650 -0.6793251
-#&gt; 2: categorical       identity -35.967467 24.9837336
-#&gt; 3:  continuous            log   6.917827  1.5410865</div><div class='input'>
+</div><div class='output co'>#&gt;                                Test State_1 State_2 Test_statistic   P_value
+#&gt; 1:  Deuteros lm identity continuous     200     100       1.024610 0.3673406
+#&gt; 2: Deuteros lm identity categorical     200     100       2.429216 0.0786117
+#&gt; 3:       Deuteros lm log continuous     200     100       1.146444 0.3270732
+#&gt;    Significant_difference        Time Transformation        AIC     logLik
+#&gt; 1:                  FALSE  continuous       identity  11.358650 -0.6793251
+#&gt; 2:                  FALSE categorical       identity -35.967467 24.9837336
+#&gt; 3:                  FALSE  continuous            log   6.917827  1.5410865</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
