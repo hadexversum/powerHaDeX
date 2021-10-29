@@ -3,16 +3,19 @@ Type: Package
 Title: Efficient simulation of HDX-MS data and tools for the statistical analysis.
 Version: 1.0
 Date: 2021-10-04
-Author: c(person("Krystyna", "Grzesiak", 
-          email = "krygrz11@gmail.com",
-          role = c("cre", "aut")),
-          person("Mateusz", "Staniak", 
-          email = "mateusz.staniak@math.uni.wroc.pl", 
-          role = c("aut")),
-          person("Michal", "Burdukiewicz", 
-          email = "michalburdukiewicz@gmail.com", 
-          comment = c(ORCID = "0000-0001-8926-582X"),
-          role = c("ctb"))
+Authors@R: c(person(given = "Krystyna", 
+           family = "Grzesiak", 
+           email = "krygrz11@gmail.com",
+           role = c("cre", "aut")),
+           person(given = "Mateusz", 
+           family = "Staniak", 
+           email = "mateusz.staniak@math.uni.wroc.pl", 
+           role = c("aut")),
+           person(given = "Michal", 
+           family = "Burdukiewicz", 
+           email = "michalburdukiewicz@gmail.com", 
+           comment = c(ORCID = "0000-0001-8926-582X"),
+           role = c("ctb")))
 Maintainer: Krystyna Grzesiak <krygrz11@gmail.com>
 Description: powerHaDeX facilitates simulating and analyzing data coming
     from HDX-MS experiments along with the possibility of comparing the power of
