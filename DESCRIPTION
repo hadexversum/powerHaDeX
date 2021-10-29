@@ -1,6 +1,6 @@
 Package: powerHaDeX
 Type: Package
-Title: Efficient simulation of HDX-MS data
+Title: Efficient simulation of HDX-MS data and tools for the statistical analysis.
 Version: 1.0
 Date: 2021-10-04
 Author: c(person("Krystyna", "Grzesiak", 
