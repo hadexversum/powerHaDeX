@@ -75,6 +75,7 @@ test_houde <- function(data, significance_level = 0.05) {
     data_exp <- data_exp[, list(deut_uptake = mean(avg_exp_mass),
                                 err_avg_mass = sd(avg_exp_mass)/sqrt(length(Rep))),
                          by = list(State, Sequence, Exposure, Experimental_state)]
+    data_exp[is.na(data_exp)] <- 0
 
     data_exp[, err_deut_uptake := sqrt(err_avg_mass^2 + err_avg_mass[Exposure == 0]^2),
              by = list(State, Sequence, Experimental_state)]

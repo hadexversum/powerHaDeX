@@ -1,6 +1,6 @@
 Package: powerHaDeX
 Type: Package
-Title: Efficient simulation of HDX-MS data and tools for the statistical analysis.
+Title: Efficient Simulation of HDX-MS Data and Tools for the Statistical Analysis.
 Version: 1.0
 Date: 2021-10-04
 Authors@R: c(person(given = "Krystyna", 
@@ -19,7 +19,7 @@ Authors@R: c(person(given = "Krystyna",
 Maintainer: Krystyna Grzesiak <krygrz11@gmail.com>
 Description: powerHaDeX facilitates simulating and analyzing data coming
     from HDX-MS experiments along with the possibility of comparing the power of
-    the tests verifying differences in deuteration levels.
+    the tests verifying differences in the levels of deuterium uptake.
 License: GPL (>= 3)
 Encoding: UTF-8
 Imports: 

@@ -32,7 +32,8 @@
 #' @export
 
 
-test_hadex_data <- function(dat, states = unique(dat[["State"]])[1:2], tests = list(test_hdx_analyzer, test_memhdx_model)) {
+test_hadex_data <- function(dat, states = unique(dat[["State"]])[1:2],
+                            tests = list(test_houde)) {
 
     Test <- State_1 <- State_2 <- Significant_difference <- State <- Sequence <- NULL
 
