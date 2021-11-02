@@ -37,7 +37,7 @@ test_hadex_data <- function(dat, states = unique(dat[["State"]])[1:2],
 
     Test <- State_1 <- State_2 <- Significant_difference <- State <- Sequence <- NULL
 
-    if(length(states) != 2) stop("Two states must be provided for pairwise testing.")
+    if(length(states[!is.na(states)]) != 2) stop("Two states must be provided for pairwise testing.")
     if(any(!(states %in% unique(dat[["State"]])))) stop("The provided states can not be found in the given data.")
 
     dat <- dat[State %in% states]
