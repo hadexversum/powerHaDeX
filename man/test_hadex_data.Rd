@@ -7,7 +7,7 @@
 test_hadex_data(
   dat,
   states = unique(dat[["State"]])[1:2],
-  tests = list(test_hdx_analyzer, test_memhdx_model)
+  tests = list(test_houde)
 )
 }
 \arguments{
