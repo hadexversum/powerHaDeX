@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,18 +33,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">powerHaDeX</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
@@ -86,18 +82,18 @@
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">powerHaDeX</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">powerHaDeX</span><span class="op">)</span></code></pre></div>
 <p>The package <code>powerHaDeX</code> is a tool for simulating and analyzing data coming from HDX-MS experiments along with the possibility of comparing the power of the tests verifying differences in deuteration levels. The functionality of the simulation involves generating a theoretical spectrum along with its replications, replicating the deuterium uptake curves obtained from spectra, and rejection rate estimation for comparison of the tests for differences in deuteration. Let us go through the process of simulation and all its features.</p>
-<div id="data-simulation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#data-simulation" class="anchor"></a>Data simulation</h2>
-<div id="theoretical-spectra-simulation" class="section level3">
-<h3 class="hasAnchor">
-<a href="#theoretical-spectra-simulation" class="anchor"></a>Theoretical spectra simulation</h3>
+<div class="section level2">
+<h2 id="data-simulation">Data simulation<a class="anchor" aria-label="anchor" href="#data-simulation"></a>
+</h2>
+<div class="section level3">
+<h3 id="theoretical-spectra-simulation">Theoretical spectra simulation<a class="anchor" aria-label="anchor" href="#theoretical-spectra-simulation"></a>
+</h3>
 <p>The first step of the simulation is the generation of theoretical spectra of a deuterated peptide over time. To do so, the function <code>simulate_theoretical_spectra</code> is used. There is the possibility of simulation a mass spectrum for more than one point of time and more than one charge by specifying the parameters <code>charge</code> and <code>times</code>. Providing vector of charges and/or vector of exposure times we obtain a <code>data table</code> of spectra consistent with assumed parameters.</p>
 <p>For example, a single spectrum can be simulated as below</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">17</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">17</span><span class="op">)</span>
 
 <span class="va">theo_spectrum</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/simulate_theoretical_spectra.html">simulate_theoretical_spectra</a></span><span class="op">(</span>sequence <span class="op">=</span> <span class="st">"CHERICHERILADY"</span>,
                                               charge <span class="op">=</span> <span class="fl">4</span>,
@@ -138,19 +134,19 @@
 <p><img src="Example_simulation_files/figure-html/unnamed-chunk-4-1.png" width="480" style="display: block; margin: auto;"></p>
 <p>As said before, more than one spectrum can be simulated for different exposure times and charges. Such a case is shown in the following code. We specify two values of charge (3 and 5) and time of measurements (0.167 and 5).</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">17</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">17</span><span class="op">)</span>
 
 <span class="va">theo_spectra</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/simulate_theoretical_spectra.html">simulate_theoretical_spectra</a></span><span class="op">(</span>sequence <span class="op">=</span> <span class="st">"CHERICHERILADY"</span>,
-                                             charge <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">5</span><span class="op">)</span>,
+                                             charge <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">5</span><span class="op">)</span>,
                                              protection_factor <span class="op">=</span> <span class="fl">100</span>,
-                                             times <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.167</span>, <span class="fl">5</span><span class="op">)</span>,
+                                             times <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.167</span>, <span class="fl">5</span><span class="op">)</span>,
                                              pH <span class="op">=</span> <span class="fl">7.5</span>,
                                              temperature <span class="op">=</span> <span class="fl">15</span>,
                                              n_molecules <span class="op">=</span> <span class="fl">500</span>,
                                              time_step_const <span class="op">=</span> <span class="fl">1</span>,
                                              use_markov <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">theo_spectra</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">theo_spectra</span><span class="op">)</span>
 <span class="co">#&gt;    Exposure  PH Intensity       Mz Charge       Sequence  PF</span>
 <span class="co">#&gt; 1:        0 7.5 0.3519156 586.6118      3 CHERICHERILADY 100</span>
 <span class="co">#&gt; 2:        0 7.5 0.3519156 352.3700      5 CHERICHERILADY 100</span>
@@ -163,12 +159,12 @@
 <code class="sourceCode R"><span class="fu"><a href="../reference/plot_spectra.html">plot_spectra</a></span><span class="op">(</span><span class="va">theo_spectra</span><span class="op">)</span></code></pre></div>
 <p><img src="Example_simulation_files/figure-html/unnamed-chunk-6-1.png" width="480" style="display: block; margin: auto;"></p>
 </div>
-<div id="replicated-spectra" class="section level3">
-<h3 class="hasAnchor">
-<a href="#replicated-spectra" class="anchor"></a>Replicated spectra</h3>
-<div id="oneall-states" class="section level4">
-<h4 class="hasAnchor">
-<a href="#oneall-states" class="anchor"></a>one/all states</h4>
+<div class="section level3">
+<h3 id="replicated-spectra">Replicated spectra<a class="anchor" aria-label="anchor" href="#replicated-spectra"></a>
+</h3>
+<div class="section level4">
+<h4 id="oneall-states">one/all states<a class="anchor" aria-label="anchor" href="#oneall-states"></a>
+</h4>
 <p>To generate replications of the experiment of hydrogen-deuterium exchange the function <code>add_noise_to_spectra</code> can be used. We need to evaluate <code>get_undeuterated_mass</code> and <code>get_spectra_list</code> first as in the code below. By setting <code>compare_pairs = FALSE</code> we do not pair the spectra by protection factors (in the case of our example we did not provide more than one value of protection factor yet).</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">undeuterated_mass</span> <span class="op">=</span> <span class="fu"><a href="../reference/get_undeuterated_mass.html">get_undeuterated_mass</a></span><span class="op">(</span><span class="va">theo_spectra</span><span class="op">)</span>
@@ -179,52 +175,76 @@
 <span class="va">replicated_spectra</span>
 <span class="co">#&gt; [[1]]</span>
 <span class="co">#&gt; [[1]][[1]]</span>
-<span class="co">#&gt;      Exposure  PH    Intensity       Mz Charge       Sequence  PF Rep</span>
-<span class="co">#&gt;   1:        0 7.5 0.3519156204 586.4957      3 CHERICHERILADY 100   1</span>
-<span class="co">#&gt;   2:        0 7.5 0.3519156204 352.4599      5 CHERICHERILADY 100   1</span>
-<span class="co">#&gt;   3:        0 7.5 0.3231637738 586.7029      3 CHERICHERILADY 100   1</span>
-<span class="co">#&gt;   4:        0 7.5 0.3231637738 352.2874      5 CHERICHERILADY 100   1</span>
-<span class="co">#&gt;   5:        0 7.5 0.1934355070 586.7346      3 CHERICHERILADY 100   1</span>
-<span class="co">#&gt;  ---                                                                 </span>
-<span class="co">#&gt; 228:        5 7.5 0.0184176796 353.7023      5 CHERICHERILADY 100   4</span>
-<span class="co">#&gt; 229:        5 7.5 0.0062067650 353.7496      5 CHERICHERILADY 100   4</span>
-<span class="co">#&gt; 230:        5 7.5 0.0018599905 354.1177      5 CHERICHERILADY 100   4</span>
-<span class="co">#&gt; 231:        5 7.5 0.0004938085 354.2318      5 CHERICHERILADY 100   4</span>
-<span class="co">#&gt; 232:        5 7.5 0.0001104587 354.4601      5 CHERICHERILADY 100   4</span>
+<span class="co">#&gt;      Exposure  PH    Intensity       Mz Charge       Sequence  PF</span>
+<span class="co">#&gt;   1:        0 7.5 0.3519156204 586.4957      3 CHERICHERILADY 100</span>
+<span class="co">#&gt;   2:        0 7.5 0.3519156204 352.4599      5 CHERICHERILADY 100</span>
+<span class="co">#&gt;   3:        0 7.5 0.3231637738 586.7029      3 CHERICHERILADY 100</span>
+<span class="co">#&gt;   4:        0 7.5 0.3231637738 352.2874      5 CHERICHERILADY 100</span>
+<span class="co">#&gt;   5:        0 7.5 0.1934355070 586.7346      3 CHERICHERILADY 100</span>
+<span class="co">#&gt;  ---                                                             </span>
+<span class="co">#&gt; 228:        5 7.5 0.0184176796 353.7023      5 CHERICHERILADY 100</span>
+<span class="co">#&gt; 229:        5 7.5 0.0062067650 353.7496      5 CHERICHERILADY 100</span>
+<span class="co">#&gt; 230:        5 7.5 0.0018599905 354.1177      5 CHERICHERILADY 100</span>
+<span class="co">#&gt; 231:        5 7.5 0.0004938085 354.2318      5 CHERICHERILADY 100</span>
+<span class="co">#&gt; 232:        5 7.5 0.0001104587 354.4601      5 CHERICHERILADY 100</span>
+<span class="co">#&gt;      Experimental_state Rep</span>
+<span class="co">#&gt;   1:          State_100   1</span>
+<span class="co">#&gt;   2:          State_100   1</span>
+<span class="co">#&gt;   3:          State_100   1</span>
+<span class="co">#&gt;   4:          State_100   1</span>
+<span class="co">#&gt;   5:          State_100   1</span>
+<span class="co">#&gt;  ---                       </span>
+<span class="co">#&gt; 228:          State_100   4</span>
+<span class="co">#&gt; 229:          State_100   4</span>
+<span class="co">#&gt; 230:          State_100   4</span>
+<span class="co">#&gt; 231:          State_100   4</span>
+<span class="co">#&gt; 232:          State_100   4</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; [[1]][[2]]</span>
-<span class="co">#&gt;      Exposure  PH    Intensity       Mz Charge       Sequence  PF Rep</span>
-<span class="co">#&gt;   1:        0 7.5 0.3519156204 586.5470      3 CHERICHERILADY 100   1</span>
-<span class="co">#&gt;   2:        0 7.5 0.3519156204 352.4298      5 CHERICHERILADY 100   1</span>
-<span class="co">#&gt;   3:        0 7.5 0.3231637738 586.6087      3 CHERICHERILADY 100   1</span>
-<span class="co">#&gt;   4:        0 7.5 0.3231637738 352.3265      5 CHERICHERILADY 100   1</span>
-<span class="co">#&gt;   5:        0 7.5 0.1934355070 586.5233      3 CHERICHERILADY 100   1</span>
-<span class="co">#&gt;  ---                                                                 </span>
-<span class="co">#&gt; 228:        5 7.5 0.0184176796 353.5442      5 CHERICHERILADY 100   4</span>
-<span class="co">#&gt; 229:        5 7.5 0.0062067650 353.7953      5 CHERICHERILADY 100   4</span>
-<span class="co">#&gt; 230:        5 7.5 0.0018599905 353.9036      5 CHERICHERILADY 100   4</span>
-<span class="co">#&gt; 231:        5 7.5 0.0004938085 354.1517      5 CHERICHERILADY 100   4</span>
-<span class="co">#&gt; 232:        5 7.5 0.0001104587 354.3799      5 CHERICHERILADY 100   4</span></code></pre></div>
+<span class="co">#&gt;      Exposure  PH    Intensity       Mz Charge       Sequence  PF</span>
+<span class="co">#&gt;   1:        0 7.5 0.3519156204 586.5470      3 CHERICHERILADY 100</span>
+<span class="co">#&gt;   2:        0 7.5 0.3519156204 352.4298      5 CHERICHERILADY 100</span>
+<span class="co">#&gt;   3:        0 7.5 0.3231637738 586.6087      3 CHERICHERILADY 100</span>
+<span class="co">#&gt;   4:        0 7.5 0.3231637738 352.3265      5 CHERICHERILADY 100</span>
+<span class="co">#&gt;   5:        0 7.5 0.1934355070 586.5233      3 CHERICHERILADY 100</span>
+<span class="co">#&gt;  ---                                                             </span>
+<span class="co">#&gt; 228:        5 7.5 0.0184176796 353.5442      5 CHERICHERILADY 100</span>
+<span class="co">#&gt; 229:        5 7.5 0.0062067650 353.7953      5 CHERICHERILADY 100</span>
+<span class="co">#&gt; 230:        5 7.5 0.0018599905 353.9036      5 CHERICHERILADY 100</span>
+<span class="co">#&gt; 231:        5 7.5 0.0004938085 354.1517      5 CHERICHERILADY 100</span>
+<span class="co">#&gt; 232:        5 7.5 0.0001104587 354.3799      5 CHERICHERILADY 100</span>
+<span class="co">#&gt;      Experimental_state Rep</span>
+<span class="co">#&gt;   1:          State_100   1</span>
+<span class="co">#&gt;   2:          State_100   1</span>
+<span class="co">#&gt;   3:          State_100   1</span>
+<span class="co">#&gt;   4:          State_100   1</span>
+<span class="co">#&gt;   5:          State_100   1</span>
+<span class="co">#&gt;  ---                       </span>
+<span class="co">#&gt; 228:          State_100   4</span>
+<span class="co">#&gt; 229:          State_100   4</span>
+<span class="co">#&gt; 230:          State_100   4</span>
+<span class="co">#&gt; 231:          State_100   4</span>
+<span class="co">#&gt; 232:          State_100   4</span></code></pre></div>
 <p>The output of the function <code>add_noise_to_spectra</code> is adapted to the power calculations. Therefore, it is a list of two elements: the first one is correspondent to the pair of protection factors (in the case when <code>compare_pairs = FALSE</code> we consider all protection factors jointly) and the second is correspondent to the repetitions of the whole experiment (used for the needs of power calculations). By setting the number of experiments <code>n_experiments = 2</code> we simulate two experiments, that is (by default) 4 replicates of measurements for given time points, duplicated. The mentioned replicates are defined in the column <code>Rep</code>.</p>
 </div>
-<div id="paired-states" class="section level4">
-<h4 class="hasAnchor">
-<a href="#paired-states" class="anchor"></a>paired states</h4>
+<div class="section level4">
+<h4 id="paired-states">paired states<a class="anchor" aria-label="anchor" href="#paired-states"></a>
+</h4>
 <p>There is an option of generation noisy spectra such that they are prepared for the pairwise testing procedure (for paired states). To take a look at such an example, let us use <code>theo_spectra</code> generated previously for <code>protection factor = 100</code> and simulate theoretical spectra at state <code>protection factor = 200</code> using the function <code>simulate_theoretical_spectra</code>:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
 <span class="va">theo_spectra_pf_100</span> <span class="op">&lt;-</span> <span class="va">theo_spectra</span>
 <span class="va">theo_spectra_pf_200</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/simulate_theoretical_spectra.html">simulate_theoretical_spectra</a></span><span class="op">(</span>sequence <span class="op">=</span> <span class="st">"CHERICHERILADY"</span>,
-                                                    charge <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">5</span><span class="op">)</span>,
+                                                    charge <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">5</span><span class="op">)</span>,
                                                     protection_factor <span class="op">=</span> <span class="fl">200</span>,
-                                                    times <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.167</span>, <span class="fl">5</span><span class="op">)</span>,
+                                                    times <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.167</span>, <span class="fl">5</span><span class="op">)</span>,
                                                     pH <span class="op">=</span> <span class="fl">7.5</span>,
                                                     temperature <span class="op">=</span> <span class="fl">15</span>,
                                                     n_molecules <span class="op">=</span> <span class="fl">500</span>,
                                                     time_step_const <span class="op">=</span> <span class="fl">1</span>,
                                                     use_markov <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 
-<span class="va">theo_spectra_two_states</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span><span class="va">theo_spectra_pf_100</span>, <span class="va">theo_spectra_pf_200</span><span class="op">)</span></code></pre></div>
+<span class="va">theo_spectra_two_states</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">theo_spectra_pf_100</span>, <span class="va">theo_spectra_pf_200</span><span class="op">)</span></code></pre></div>
 <p>A data table of spectra at different states (<code>theo_spectra_two_states</code> here) can be used as the argument in the functions responsible for adding noise. As explained before, we use the functions <code>get_undeuterated_mass</code> and <code>get_spectra_list</code> first. We specify the need for the data grouped pairwise in the function <code>get_spectra_list</code> by setting <code>compare_pairs = TRUE</code> and <code>reference = "all"</code> as below</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
@@ -398,76 +418,76 @@
 <span class="co">#&gt; 448:                  B   4</span></code></pre></div>
 <p>As we can see, we obtained the output adapted to the pairwise comparison - each element of a list is a list of data tables (according to the argument <code>n_experiments</code>) for paired states. In our example, we get three pairs: 100 vs. 200 for power estimation and 100 vs. 100, 200 vs, 200 for type I error estimation.</p>
 </div>
-<div id="deuteration-curves-from-spectra" class="section level4">
-<h4 class="hasAnchor">
-<a href="#deuteration-curves-from-spectra" class="anchor"></a>deuteration curves from spectra</h4>
+<div class="section level4">
+<h4 id="deuteration-curves-from-spectra">deuteration curves from spectra<a class="anchor" aria-label="anchor" href="#deuteration-curves-from-spectra"></a>
+</h4>
 <p>Having noisy mass spectra simulated by the function <code>add_noise_to_spectra</code> as shown in the previous sections we can use the function <code>get_deuteration_curves_from_spectra</code> to calculate deuterium uptake as follows:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">deuteration_curves</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_deuteration_curves_from_spectra.html">get_deuteration_curves_from_spectra</a></span><span class="op">(</span><span class="va">replicated_spectra</span><span class="op">)</span>
 <span class="va">deuteration_curves</span>
 <span class="co">#&gt; [[1]]</span>
 <span class="co">#&gt; [[1]][[1]]</span>
-<span class="co">#&gt;     Exposure  PH Charge       Sequence  PF Rep     Mass</span>
-<span class="co">#&gt;  1:    0.000 7.5      3 CHERICHERILADY 100   1 1756.877</span>
-<span class="co">#&gt;  2:    0.000 7.5      5 CHERICHERILADY 100   1 1757.043</span>
-<span class="co">#&gt;  3:    0.000 7.5      3 CHERICHERILADY 100   2 1756.888</span>
-<span class="co">#&gt;  4:    0.000 7.5      5 CHERICHERILADY 100   2 1756.976</span>
-<span class="co">#&gt;  5:    0.000 7.5      3 CHERICHERILADY 100   3 1756.869</span>
-<span class="co">#&gt;  6:    0.000 7.5      5 CHERICHERILADY 100   3 1756.964</span>
-<span class="co">#&gt;  7:    0.000 7.5      3 CHERICHERILADY 100   4 1756.732</span>
-<span class="co">#&gt;  8:    0.000 7.5      5 CHERICHERILADY 100   4 1756.731</span>
-<span class="co">#&gt;  9:    0.167 7.5      3 CHERICHERILADY 100   1 1758.086</span>
-<span class="co">#&gt; 10:    0.167 7.5      5 CHERICHERILADY 100   1 1758.149</span>
-<span class="co">#&gt; 11:    0.167 7.5      3 CHERICHERILADY 100   2 1758.032</span>
-<span class="co">#&gt; 12:    0.167 7.5      5 CHERICHERILADY 100   2 1758.247</span>
-<span class="co">#&gt; 13:    0.167 7.5      3 CHERICHERILADY 100   3 1757.928</span>
-<span class="co">#&gt; 14:    0.167 7.5      5 CHERICHERILADY 100   3 1758.456</span>
-<span class="co">#&gt; 15:    0.167 7.5      3 CHERICHERILADY 100   4 1757.913</span>
-<span class="co">#&gt; 16:    0.167 7.5      5 CHERICHERILADY 100   4 1758.034</span>
-<span class="co">#&gt; 17:    5.000 7.5      3 CHERICHERILADY 100   1 1758.950</span>
-<span class="co">#&gt; 18:    5.000 7.5      5 CHERICHERILADY 100   1 1759.048</span>
-<span class="co">#&gt; 19:    5.000 7.5      3 CHERICHERILADY 100   2 1759.271</span>
-<span class="co">#&gt; 20:    5.000 7.5      5 CHERICHERILADY 100   2 1758.711</span>
-<span class="co">#&gt; 21:    5.000 7.5      3 CHERICHERILADY 100   3 1758.791</span>
-<span class="co">#&gt; 22:    5.000 7.5      5 CHERICHERILADY 100   3 1758.703</span>
-<span class="co">#&gt; 23:    5.000 7.5      3 CHERICHERILADY 100   4 1759.277</span>
-<span class="co">#&gt; 24:    5.000 7.5      5 CHERICHERILADY 100   4 1759.155</span>
-<span class="co">#&gt;     Exposure  PH Charge       Sequence  PF Rep     Mass</span>
+<span class="co">#&gt;     Exposure  PH Charge       Sequence  PF Experimental_state Rep     Mass</span>
+<span class="co">#&gt;  1:    0.000 7.5      3 CHERICHERILADY 100          State_100   1 1756.877</span>
+<span class="co">#&gt;  2:    0.000 7.5      5 CHERICHERILADY 100          State_100   1 1757.043</span>
+<span class="co">#&gt;  3:    0.000 7.5      3 CHERICHERILADY 100          State_100   2 1756.888</span>
+<span class="co">#&gt;  4:    0.000 7.5      5 CHERICHERILADY 100          State_100   2 1756.976</span>
+<span class="co">#&gt;  5:    0.000 7.5      3 CHERICHERILADY 100          State_100   3 1756.869</span>
+<span class="co">#&gt;  6:    0.000 7.5      5 CHERICHERILADY 100          State_100   3 1756.964</span>
+<span class="co">#&gt;  7:    0.000 7.5      3 CHERICHERILADY 100          State_100   4 1756.732</span>
+<span class="co">#&gt;  8:    0.000 7.5      5 CHERICHERILADY 100          State_100   4 1756.731</span>
+<span class="co">#&gt;  9:    0.167 7.5      3 CHERICHERILADY 100          State_100   1 1758.086</span>
+<span class="co">#&gt; 10:    0.167 7.5      5 CHERICHERILADY 100          State_100   1 1758.149</span>
+<span class="co">#&gt; 11:    0.167 7.5      3 CHERICHERILADY 100          State_100   2 1758.032</span>
+<span class="co">#&gt; 12:    0.167 7.5      5 CHERICHERILADY 100          State_100   2 1758.247</span>
+<span class="co">#&gt; 13:    0.167 7.5      3 CHERICHERILADY 100          State_100   3 1757.928</span>
+<span class="co">#&gt; 14:    0.167 7.5      5 CHERICHERILADY 100          State_100   3 1758.456</span>
+<span class="co">#&gt; 15:    0.167 7.5      3 CHERICHERILADY 100          State_100   4 1757.913</span>
+<span class="co">#&gt; 16:    0.167 7.5      5 CHERICHERILADY 100          State_100   4 1758.034</span>
+<span class="co">#&gt; 17:    5.000 7.5      3 CHERICHERILADY 100          State_100   1 1758.950</span>
+<span class="co">#&gt; 18:    5.000 7.5      5 CHERICHERILADY 100          State_100   1 1759.048</span>
+<span class="co">#&gt; 19:    5.000 7.5      3 CHERICHERILADY 100          State_100   2 1759.271</span>
+<span class="co">#&gt; 20:    5.000 7.5      5 CHERICHERILADY 100          State_100   2 1758.711</span>
+<span class="co">#&gt; 21:    5.000 7.5      3 CHERICHERILADY 100          State_100   3 1758.791</span>
+<span class="co">#&gt; 22:    5.000 7.5      5 CHERICHERILADY 100          State_100   3 1758.703</span>
+<span class="co">#&gt; 23:    5.000 7.5      3 CHERICHERILADY 100          State_100   4 1759.277</span>
+<span class="co">#&gt; 24:    5.000 7.5      5 CHERICHERILADY 100          State_100   4 1759.155</span>
+<span class="co">#&gt;     Exposure  PH Charge       Sequence  PF Experimental_state Rep     Mass</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; [[1]][[2]]</span>
-<span class="co">#&gt;     Exposure  PH Charge       Sequence  PF Rep     Mass</span>
-<span class="co">#&gt;  1:    0.000 7.5      3 CHERICHERILADY 100   1 1756.698</span>
-<span class="co">#&gt;  2:    0.000 7.5      5 CHERICHERILADY 100   1 1756.690</span>
-<span class="co">#&gt;  3:    0.000 7.5      3 CHERICHERILADY 100   2 1756.934</span>
-<span class="co">#&gt;  4:    0.000 7.5      5 CHERICHERILADY 100   2 1756.727</span>
-<span class="co">#&gt;  5:    0.000 7.5      3 CHERICHERILADY 100   3 1756.560</span>
-<span class="co">#&gt;  6:    0.000 7.5      5 CHERICHERILADY 100   3 1757.230</span>
-<span class="co">#&gt;  7:    0.000 7.5      3 CHERICHERILADY 100   4 1756.910</span>
-<span class="co">#&gt;  8:    0.000 7.5      5 CHERICHERILADY 100   4 1756.577</span>
-<span class="co">#&gt;  9:    0.167 7.5      3 CHERICHERILADY 100   1 1757.889</span>
-<span class="co">#&gt; 10:    0.167 7.5      5 CHERICHERILADY 100   1 1758.118</span>
-<span class="co">#&gt; 11:    0.167 7.5      3 CHERICHERILADY 100   2 1758.136</span>
-<span class="co">#&gt; 12:    0.167 7.5      5 CHERICHERILADY 100   2 1758.097</span>
-<span class="co">#&gt; 13:    0.167 7.5      3 CHERICHERILADY 100   3 1757.922</span>
-<span class="co">#&gt; 14:    0.167 7.5      5 CHERICHERILADY 100   3 1758.285</span>
-<span class="co">#&gt; 15:    0.167 7.5      3 CHERICHERILADY 100   4 1757.953</span>
-<span class="co">#&gt; 16:    0.167 7.5      5 CHERICHERILADY 100   4 1758.229</span>
-<span class="co">#&gt; 17:    5.000 7.5      3 CHERICHERILADY 100   1 1758.956</span>
-<span class="co">#&gt; 18:    5.000 7.5      5 CHERICHERILADY 100   1 1758.982</span>
-<span class="co">#&gt; 19:    5.000 7.5      3 CHERICHERILADY 100   2 1759.049</span>
-<span class="co">#&gt; 20:    5.000 7.5      5 CHERICHERILADY 100   2 1758.665</span>
-<span class="co">#&gt; 21:    5.000 7.5      3 CHERICHERILADY 100   3 1759.001</span>
-<span class="co">#&gt; 22:    5.000 7.5      5 CHERICHERILADY 100   3 1759.295</span>
-<span class="co">#&gt; 23:    5.000 7.5      3 CHERICHERILADY 100   4 1758.946</span>
-<span class="co">#&gt; 24:    5.000 7.5      5 CHERICHERILADY 100   4 1758.728</span>
-<span class="co">#&gt;     Exposure  PH Charge       Sequence  PF Rep     Mass</span></code></pre></div>
+<span class="co">#&gt;     Exposure  PH Charge       Sequence  PF Experimental_state Rep     Mass</span>
+<span class="co">#&gt;  1:    0.000 7.5      3 CHERICHERILADY 100          State_100   1 1756.698</span>
+<span class="co">#&gt;  2:    0.000 7.5      5 CHERICHERILADY 100          State_100   1 1756.690</span>
+<span class="co">#&gt;  3:    0.000 7.5      3 CHERICHERILADY 100          State_100   2 1756.934</span>
+<span class="co">#&gt;  4:    0.000 7.5      5 CHERICHERILADY 100          State_100   2 1756.727</span>
+<span class="co">#&gt;  5:    0.000 7.5      3 CHERICHERILADY 100          State_100   3 1756.560</span>
+<span class="co">#&gt;  6:    0.000 7.5      5 CHERICHERILADY 100          State_100   3 1757.230</span>
+<span class="co">#&gt;  7:    0.000 7.5      3 CHERICHERILADY 100          State_100   4 1756.910</span>
+<span class="co">#&gt;  8:    0.000 7.5      5 CHERICHERILADY 100          State_100   4 1756.577</span>
+<span class="co">#&gt;  9:    0.167 7.5      3 CHERICHERILADY 100          State_100   1 1757.889</span>
+<span class="co">#&gt; 10:    0.167 7.5      5 CHERICHERILADY 100          State_100   1 1758.118</span>
+<span class="co">#&gt; 11:    0.167 7.5      3 CHERICHERILADY 100          State_100   2 1758.136</span>
+<span class="co">#&gt; 12:    0.167 7.5      5 CHERICHERILADY 100          State_100   2 1758.097</span>
+<span class="co">#&gt; 13:    0.167 7.5      3 CHERICHERILADY 100          State_100   3 1757.922</span>
+<span class="co">#&gt; 14:    0.167 7.5      5 CHERICHERILADY 100          State_100   3 1758.285</span>
+<span class="co">#&gt; 15:    0.167 7.5      3 CHERICHERILADY 100          State_100   4 1757.953</span>
+<span class="co">#&gt; 16:    0.167 7.5      5 CHERICHERILADY 100          State_100   4 1758.229</span>
+<span class="co">#&gt; 17:    5.000 7.5      3 CHERICHERILADY 100          State_100   1 1758.956</span>
+<span class="co">#&gt; 18:    5.000 7.5      5 CHERICHERILADY 100          State_100   1 1758.982</span>
+<span class="co">#&gt; 19:    5.000 7.5      3 CHERICHERILADY 100          State_100   2 1759.049</span>
+<span class="co">#&gt; 20:    5.000 7.5      5 CHERICHERILADY 100          State_100   2 1758.665</span>
+<span class="co">#&gt; 21:    5.000 7.5      3 CHERICHERILADY 100          State_100   3 1759.001</span>
+<span class="co">#&gt; 22:    5.000 7.5      5 CHERICHERILADY 100          State_100   3 1759.295</span>
+<span class="co">#&gt; 23:    5.000 7.5      3 CHERICHERILADY 100          State_100   4 1758.946</span>
+<span class="co">#&gt; 24:    5.000 7.5      5 CHERICHERILADY 100          State_100   4 1758.728</span>
+<span class="co">#&gt;     Exposure  PH Charge       Sequence  PF Experimental_state Rep     Mass</span></code></pre></div>
 <p>As we can see, we obtain the output analogous to the output of <code>add_noise_to_spectra</code> but containing deuterium uptake curves instead of mass spectra.</p>
 </div>
 </div>
 </div>
-<div id="noisy-deuteration-curves" class="section level2">
-<h2 class="hasAnchor">
-<a href="#noisy-deuteration-curves" class="anchor"></a>Noisy deuteration curves</h2>
+<div class="section level2">
+<h2 id="noisy-deuteration-curves">Noisy deuteration curves<a class="anchor" aria-label="anchor" href="#noisy-deuteration-curves"></a>
+</h2>
 <p>We can also simulate noisy deuteration curves using the direct output of <code>simulate_theoretical_spectra</code>. As mentioned before, we specify the number of technical replicates and executions of the experiment using the arguments <code>n_replicates</code> and <code>n_experiments</code>. An example for the case when one/“all” states are considered is shown in the following code:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/get_noisy_deuteration_curves.html">get_noisy_deuteration_curves</a></span><span class="op">(</span><span class="va">theo_spectra</span>,
@@ -476,60 +496,60 @@
                              compare_pairs <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 <span class="co">#&gt; [[1]]</span>
 <span class="co">#&gt; [[1]][[1]]</span>
-<span class="co">#&gt;           Sequence Rep State Exposure      Mass Charge</span>
-<span class="co">#&gt;  1: CHERICHERILADY   1   100    0.000 0.0000000      3</span>
-<span class="co">#&gt;  2: CHERICHERILADY   1   100    0.000 0.0000000      5</span>
-<span class="co">#&gt;  3: CHERICHERILADY   1   100    0.167 1.0217790      3</span>
-<span class="co">#&gt;  4: CHERICHERILADY   1   100    0.167 1.1115481      5</span>
-<span class="co">#&gt;  5: CHERICHERILADY   1   100    5.000 2.2000449      3</span>
-<span class="co">#&gt;  6: CHERICHERILADY   1   100    5.000 2.4815535      5</span>
-<span class="co">#&gt;  7: CHERICHERILADY   2   100    0.000 0.0000000      3</span>
-<span class="co">#&gt;  8: CHERICHERILADY   2   100    0.000 0.0000000      5</span>
-<span class="co">#&gt;  9: CHERICHERILADY   2   100    0.167 0.9464547      3</span>
-<span class="co">#&gt; 10: CHERICHERILADY   2   100    0.167 0.8102006      5</span>
-<span class="co">#&gt; 11: CHERICHERILADY   2   100    5.000 2.1403363      3</span>
-<span class="co">#&gt; 12: CHERICHERILADY   2   100    5.000 1.8741435      5</span>
-<span class="co">#&gt; 13: CHERICHERILADY   3   100    0.000 0.0000000      3</span>
-<span class="co">#&gt; 14: CHERICHERILADY   3   100    0.000 0.0000000      5</span>
-<span class="co">#&gt; 15: CHERICHERILADY   3   100    0.167 1.0501886      3</span>
-<span class="co">#&gt; 16: CHERICHERILADY   3   100    0.167 1.5787876      5</span>
-<span class="co">#&gt; 17: CHERICHERILADY   3   100    5.000 2.0908309      3</span>
-<span class="co">#&gt; 18: CHERICHERILADY   3   100    5.000 2.1018103      5</span>
-<span class="co">#&gt; 19: CHERICHERILADY   4   100    0.000 0.0000000      3</span>
-<span class="co">#&gt; 20: CHERICHERILADY   4   100    0.000 0.0000000      5</span>
-<span class="co">#&gt; 21: CHERICHERILADY   4   100    0.167 1.4237105      3</span>
-<span class="co">#&gt; 22: CHERICHERILADY   4   100    0.167 0.8013307      5</span>
-<span class="co">#&gt; 23: CHERICHERILADY   4   100    5.000 2.0033885      3</span>
-<span class="co">#&gt; 24: CHERICHERILADY   4   100    5.000 2.5667487      5</span>
-<span class="co">#&gt;           Sequence Rep State Exposure      Mass Charge</span>
+<span class="co">#&gt;           Sequence Rep State Exposure      Mass Charge Experimental_state</span>
+<span class="co">#&gt;  1: CHERICHERILADY   1   100    0.000 0.0000000      3          State_100</span>
+<span class="co">#&gt;  2: CHERICHERILADY   1   100    0.000 0.0000000      5          State_100</span>
+<span class="co">#&gt;  3: CHERICHERILADY   1   100    0.167 1.0217790      3          State_100</span>
+<span class="co">#&gt;  4: CHERICHERILADY   1   100    0.167 1.1115481      5          State_100</span>
+<span class="co">#&gt;  5: CHERICHERILADY   1   100    5.000 2.2000449      3          State_100</span>
+<span class="co">#&gt;  6: CHERICHERILADY   1   100    5.000 2.4815535      5          State_100</span>
+<span class="co">#&gt;  7: CHERICHERILADY   2   100    0.000 0.0000000      3          State_100</span>
+<span class="co">#&gt;  8: CHERICHERILADY   2   100    0.000 0.0000000      5          State_100</span>
+<span class="co">#&gt;  9: CHERICHERILADY   2   100    0.167 0.9464547      3          State_100</span>
+<span class="co">#&gt; 10: CHERICHERILADY   2   100    0.167 0.8102006      5          State_100</span>
+<span class="co">#&gt; 11: CHERICHERILADY   2   100    5.000 2.1403363      3          State_100</span>
+<span class="co">#&gt; 12: CHERICHERILADY   2   100    5.000 1.8741435      5          State_100</span>
+<span class="co">#&gt; 13: CHERICHERILADY   3   100    0.000 0.0000000      3          State_100</span>
+<span class="co">#&gt; 14: CHERICHERILADY   3   100    0.000 0.0000000      5          State_100</span>
+<span class="co">#&gt; 15: CHERICHERILADY   3   100    0.167 1.0501886      3          State_100</span>
+<span class="co">#&gt; 16: CHERICHERILADY   3   100    0.167 1.5787876      5          State_100</span>
+<span class="co">#&gt; 17: CHERICHERILADY   3   100    5.000 2.0908309      3          State_100</span>
+<span class="co">#&gt; 18: CHERICHERILADY   3   100    5.000 2.1018103      5          State_100</span>
+<span class="co">#&gt; 19: CHERICHERILADY   4   100    0.000 0.0000000      3          State_100</span>
+<span class="co">#&gt; 20: CHERICHERILADY   4   100    0.000 0.0000000      5          State_100</span>
+<span class="co">#&gt; 21: CHERICHERILADY   4   100    0.167 1.4237105      3          State_100</span>
+<span class="co">#&gt; 22: CHERICHERILADY   4   100    0.167 0.8013307      5          State_100</span>
+<span class="co">#&gt; 23: CHERICHERILADY   4   100    5.000 2.0033885      3          State_100</span>
+<span class="co">#&gt; 24: CHERICHERILADY   4   100    5.000 2.5667487      5          State_100</span>
+<span class="co">#&gt;           Sequence Rep State Exposure      Mass Charge Experimental_state</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; [[1]][[2]]</span>
-<span class="co">#&gt;           Sequence Rep State Exposure      Mass Charge</span>
-<span class="co">#&gt;  1: CHERICHERILADY   1   100    0.000 0.0000000      3</span>
-<span class="co">#&gt;  2: CHERICHERILADY   1   100    0.000 0.0000000      5</span>
-<span class="co">#&gt;  3: CHERICHERILADY   1   100    0.167 1.2843118      3</span>
-<span class="co">#&gt;  4: CHERICHERILADY   1   100    0.167 1.2523143      5</span>
-<span class="co">#&gt;  5: CHERICHERILADY   1   100    5.000 2.2997912      3</span>
-<span class="co">#&gt;  6: CHERICHERILADY   1   100    5.000 2.4740207      5</span>
-<span class="co">#&gt;  7: CHERICHERILADY   2   100    0.000 0.0000000      3</span>
-<span class="co">#&gt;  8: CHERICHERILADY   2   100    0.000 0.0000000      5</span>
-<span class="co">#&gt;  9: CHERICHERILADY   2   100    0.167 1.2818168      3</span>
-<span class="co">#&gt; 10: CHERICHERILADY   2   100    0.167 1.2974389      5</span>
-<span class="co">#&gt; 11: CHERICHERILADY   2   100    5.000 1.8699221      3</span>
-<span class="co">#&gt; 12: CHERICHERILADY   2   100    5.000 2.6689255      5</span>
-<span class="co">#&gt; 13: CHERICHERILADY   3   100    0.000 0.0000000      3</span>
-<span class="co">#&gt; 14: CHERICHERILADY   3   100    0.000 0.0000000      5</span>
-<span class="co">#&gt; 15: CHERICHERILADY   3   100    0.167 0.7400186      3</span>
-<span class="co">#&gt; 16: CHERICHERILADY   3   100    0.167 0.4871051      5</span>
-<span class="co">#&gt; 17: CHERICHERILADY   3   100    5.000 1.7770345      3</span>
-<span class="co">#&gt; 18: CHERICHERILADY   3   100    5.000 1.9142936      5</span>
-<span class="co">#&gt; 19: CHERICHERILADY   4   100    0.000 0.0000000      3</span>
-<span class="co">#&gt; 20: CHERICHERILADY   4   100    0.000 0.0000000      5</span>
-<span class="co">#&gt; 21: CHERICHERILADY   4   100    0.167 1.5793063      3</span>
-<span class="co">#&gt; 22: CHERICHERILADY   4   100    0.167 1.4803818      5</span>
-<span class="co">#&gt; 23: CHERICHERILADY   4   100    5.000 2.2572368      3</span>
-<span class="co">#&gt; 24: CHERICHERILADY   4   100    5.000 2.0599348      5</span>
-<span class="co">#&gt;           Sequence Rep State Exposure      Mass Charge</span></code></pre></div>
+<span class="co">#&gt;           Sequence Rep State Exposure      Mass Charge Experimental_state</span>
+<span class="co">#&gt;  1: CHERICHERILADY   1   100    0.000 0.0000000      3          State_100</span>
+<span class="co">#&gt;  2: CHERICHERILADY   1   100    0.000 0.0000000      5          State_100</span>
+<span class="co">#&gt;  3: CHERICHERILADY   1   100    0.167 1.2843118      3          State_100</span>
+<span class="co">#&gt;  4: CHERICHERILADY   1   100    0.167 1.2523143      5          State_100</span>
+<span class="co">#&gt;  5: CHERICHERILADY   1   100    5.000 2.2997912      3          State_100</span>
+<span class="co">#&gt;  6: CHERICHERILADY   1   100    5.000 2.4740207      5          State_100</span>
+<span class="co">#&gt;  7: CHERICHERILADY   2   100    0.000 0.0000000      3          State_100</span>
+<span class="co">#&gt;  8: CHERICHERILADY   2   100    0.000 0.0000000      5          State_100</span>
+<span class="co">#&gt;  9: CHERICHERILADY   2   100    0.167 1.2818168      3          State_100</span>
+<span class="co">#&gt; 10: CHERICHERILADY   2   100    0.167 1.2974389      5          State_100</span>
+<span class="co">#&gt; 11: CHERICHERILADY   2   100    5.000 1.8699221      3          State_100</span>
+<span class="co">#&gt; 12: CHERICHERILADY   2   100    5.000 2.6689255      5          State_100</span>
+<span class="co">#&gt; 13: CHERICHERILADY   3   100    0.000 0.0000000      3          State_100</span>
+<span class="co">#&gt; 14: CHERICHERILADY   3   100    0.000 0.0000000      5          State_100</span>
+<span class="co">#&gt; 15: CHERICHERILADY   3   100    0.167 0.7400186      3          State_100</span>
+<span class="co">#&gt; 16: CHERICHERILADY   3   100    0.167 0.4871051      5          State_100</span>
+<span class="co">#&gt; 17: CHERICHERILADY   3   100    5.000 1.7770345      3          State_100</span>
+<span class="co">#&gt; 18: CHERICHERILADY   3   100    5.000 1.9142936      5          State_100</span>
+<span class="co">#&gt; 19: CHERICHERILADY   4   100    0.000 0.0000000      3          State_100</span>
+<span class="co">#&gt; 20: CHERICHERILADY   4   100    0.000 0.0000000      5          State_100</span>
+<span class="co">#&gt; 21: CHERICHERILADY   4   100    0.167 1.5793063      3          State_100</span>
+<span class="co">#&gt; 22: CHERICHERILADY   4   100    0.167 1.4803818      5          State_100</span>
+<span class="co">#&gt; 23: CHERICHERILADY   4   100    5.000 2.2572368      3          State_100</span>
+<span class="co">#&gt; 24: CHERICHERILADY   4   100    5.000 2.0599348      5          State_100</span>
+<span class="co">#&gt;           Sequence Rep State Exposure      Mass Charge Experimental_state</span></code></pre></div>
 <p>The case when the pairwise comparisons are considered requires providing the data simulated for different protection factors. Let us take a look at the results for <code>theo_spectra_two_states</code> simulated in the previous section:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">deuteration_curves_paired_states</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_noisy_deuteration_curves.html">get_noisy_deuteration_curves</a></span><span class="op">(</span><span class="va">theo_spectra_two_states</span>,
@@ -855,9 +875,9 @@
 <span class="co">#&gt; 48: CHERICHERILADY   4   200    5.000 1.3380264      5                  B</span>
 <span class="co">#&gt;           Sequence Rep State Exposure      Mass Charge Experimental_state</span></code></pre></div>
 </div>
-<div id="power-estimation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#power-estimation" class="anchor"></a>Power estimation</h2>
+<div class="section level2">
+<h2 id="power-estimation">Power estimation<a class="anchor" aria-label="anchor" href="#power-estimation"></a>
+</h2>
 <p>The package <code>powerHaDeX</code> provides a possibility of the estimation of rejection rate in pairwise testing of differences in deuteration levels.</p>
 <p>The tests available in the package are:</p>
 <ul>
@@ -869,7 +889,7 @@
 <p>We can use the function <code>calculate_hdx_power</code> to execute the testing procedure on the data simulated by <code>get_noisy_deuteration_curves</code>. Example usage of the function is shown below</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/calculate_hdx_power.html">calculate_hdx_power</a></span><span class="op">(</span><span class="va">deuteration_curves_paired_states</span>,
-                    tests <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">test_houde</span><span class="op">)</span>,
+                    tests <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">test_houde</span><span class="op">)</span>,
                     summarized <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 <span class="co">#&gt;          Sequence Num_replicates Num_states Num_timepoints  Test State_1</span>
 <span class="co">#&gt; 1: CHERICHERILADY              4          2              3 Houde     100</span>
@@ -895,7 +915,7 @@
 <p>The summarized result is following</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/calculate_hdx_power.html">calculate_hdx_power</a></span><span class="op">(</span><span class="va">deuteration_curves_paired_states</span>,
-                    tests <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="va">test_houde</span><span class="op">)</span>,
+                    tests <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">test_houde</span><span class="op">)</span>,
                     summarized <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="co">#&gt;          Sequence Num_replicates Num_states Num_timepoints  Test Transformation</span>
 <span class="co">#&gt; 1: CHERICHERILADY              4          2              3 Houde             NA</span>
@@ -937,11 +957,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Krystyna Grzesiak, Mateusz Staniak.</p>
+  <p></p>
+<p>Developed by Krystyna Grzesiak, Mateusz Staniak.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer>
@@ -949,6 +971,8 @@
 
   
 
+
+  
 
   </body>
 </html>

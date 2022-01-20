@@ -49,6 +49,9 @@
     <loc>/reference/calculate_peptide_mass.html</loc>
   </url>
   <url>
+    <loc>/reference/convert_hadex_data.html</loc>
+  </url>
+  <url>
     <loc>/reference/create_experimental_file.html</loc>
   </url>
   <url>
@@ -134,6 +137,9 @@
   </url>
   <url>
     <loc>/reference/simulate_theoretical_spectra.html</loc>
+  </url>
+  <url>
+    <loc>/reference/test_hadex_data.html</loc>
   </url>
   <url>
     <loc>/reference/test_hdx_analyzer.html</loc>
