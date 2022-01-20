@@ -7,8 +7,9 @@
 add_noise(replicate_curve, standard_deviations)
 }
 \arguments{
-\item{replicate_curve}{`data.table` with technical replicates of a deuteration curve
-(one element of a list obtained by \code{\link[powerHaDeX]{get_deuteration_curves_from_spectra}})}
+\item{replicate_curve}{`data.table` with technical replicates of a
+deuteration curve (one element of a list obtained by
+\code{\link[powerHaDeX]{get_deuteration_curves_from_spectra}})}
 
 \item{standard_deviations}{named vector of standard deviations}
 }
@@ -21,6 +22,7 @@ Adds noise to mass domain
 \details{
 The noise is sampled from normal distribution with mean \code{0}
 and standard deviation equal to \code{per_run_deviations} and added to the
-\code{Mass} values unless they are not zeroes (there is no noise at the time \code{0}).
+\code{Mass} values unless they are not zeroes (there is no noise at the time
+\code{0}).
 }
 \keyword{internal}

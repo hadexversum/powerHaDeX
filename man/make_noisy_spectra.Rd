@@ -13,25 +13,27 @@ make_noisy_spectra(
 )
 }
 \arguments{
-\item{spectra}{a list of spectra obtained via \code{\link[powerHaDeX]{make_experimental_design}}.}
+\item{spectra}{a list of spectra obtained via
+\code{\link[powerHaDeX]{make_experimental_design}}.}
 
-\item{n_experiments}{number of replicates of an experiment for power calculation}
+\item{n_experiments}{number of replicates of an experiment for power
+calculation.}
 
-\item{undeuterated_mass}{the value of mass of an undeuterated peptide computed by
-\code{\link[powerHaDeX]{get_undeuterated_mass}}.}
+\item{undeuterated_mass}{the value of mass of an undeuterated peptide
+computed by \code{\link[powerHaDeX]{get_undeuterated_mass}}.}
 
-\item{mass_deviations}{mass deviation in parts per million. Either a single number
-(then the error at each time point will be the same) or a vector of the same length
-as number of unique time points in the experiment. The error will be sampled from
-normal distribution with standard deviation equal to
+\item{mass_deviations}{mass deviation in parts per million. Either a single
+number (then the error at each time point will be the same) or a vector of
+the same length as number of unique time points in the experiment. The error
+will be sampled from normal distribution with standard deviation equal to
 \deqn{mass_deviations * undeuterated_mass/1e6}
 Default to 50.}
 
-\item{intensity_deviations}{optional, standard deviations of random noise that
-will be added to intensities. Either a single number (then the error at each
-time point will be the same) or a vector of the same length as number of unique
-time points in the experiment. The error will be sampled from normal distribution
-with these standard deviations.Default \code{NULL}.}
+\item{intensity_deviations}{optional, standard deviations of random noise
+that will be added to intensities. Either a single number (then the error at
+each time point will be the same) or a vector of the same length as number of
+unique time points in the experiment. The error will be sampled from normal
+distribution with these standard deviations.Default \code{NULL}.}
 }
 \value{
 list of lists of data.tables
@@ -40,6 +42,7 @@ list of lists of data.tables
 Creates spectra with technical replicates and noise
 }
 \details{
-This function uses  \code{\link[powerHaDeX]{add_noise_to_one_spectrum}}.
+This function uses
+\code{\link[powerHaDeX]{add_noise_to_one_spectrum}}.
 }
 \keyword{internal}

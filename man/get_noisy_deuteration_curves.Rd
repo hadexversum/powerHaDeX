@@ -17,54 +17,59 @@ get_noisy_deuteration_curves(
 )
 }
 \arguments{
-\item{theoretical_spectra}{a data table or a list of data tables of theoretical
-spectra created by the function \code{\link[powerHaDeX]{simulate_theoretical_spectra}}.}
+\item{theoretical_spectra}{a data table or a list of data tables of
+theoretical spectra created by the function
+\code{\link[powerHaDeX]{simulate_theoretical_spectra}}.}
 
 \item{compare_pairs}{if FALSE, all groups (defined by the protection factor)
 will be considered jointly. If TRUE (default), each protection factor will be
-considered together with the protection factor given by the `reference` parameter}
+considered together with the protection factor given by the `reference`
+parameter.}
 
 \item{reference}{protection factor that will be used for comparison to other
-protection factors in. The function accepts either \code{NA} (for comparing all
-protection factors), a number (for comparing with reference value of protection factor)
-or "all" (for pairwise comparisons of all the possible combinations). Default \code{NA}.}
+protection factors in. The function accepts either \code{NA} (for comparing
+all protection factors), a number (for comparing with reference value of
+protection factor) or "all" (for pairwise comparisons of all the possible
+combinations). Default \code{NA}.}
 
 \item{n_replicates}{number of technical replicates to create}
 
-\item{n_experiments}{number of replicates of an experiment for power calculation}
+\item{n_experiments}{number of replicates of an experiment for power
+calculation.}
 
-\item{mass_deviations}{mass deviation in parts per million. Either a single number
-(then the error at each time point will be the same) or a vector of the same length
-as number of unique time points in the experiment. The error will be sampled from
-normal distribution with standard deviation equal to
+\item{mass_deviations}{mass deviation in parts per million. Either a single
+number (then the error at each time point will be the same) or a vector of
+the same length as number of unique time points in the experiment. The error
+will be sampled from normal distribution with standard deviation equal to
 \deqn{mass_deviations * undeuterated_mass/1e6}
 Default to 50.}
 
-\item{intensity_deviations}{optional, standard deviations of random noise that
-will be added to intensities. Either a single number (then the error at each
-time point will be the same) or a vector of the same length as number of unique
-time points in the experiment. The error will be sampled from normal distribution
-with these standard deviations.Default \code{NULL}.}
+\item{intensity_deviations}{optional, standard deviations of random noise
+that will be added to intensities. Either a single number (then the error at
+each time point will be the same) or a vector of the same length as number of
+unique time points in the experiment. The error will be sampled from normal
+distribution with these standard deviations.Default \code{NULL}.}
 
 \item{per_run_deviations}{optional, standard deviations of random noise that
-will be added to deuteration curves. Either a single number (then the error at each
-time point will be the same) or a vector of the same length as number of unique
-time points in the experiment. The error will be sampled from normal distribution
-with these standard deviations. Default \code{NULL}.}
+will be added to deuteration curves. Either a single number (then the error
+at each time point will be the same) or a vector of the same length as number
+of unique time points in the experiment. The error will be sampled from
+normal distribution with these standard deviations. Default \code{NULL}.}
 
-\item{relative}{logical, if TRUE (default), each deuteration curve will start at 0
-(relative mass will be returned). Default \code{TRUE}.}
+\item{relative}{logical, if TRUE (default), each deuteration curve will start
+at 0 (relative mass will be returned). Default \code{TRUE}.}
 }
 \value{
-a list (for paired states when \code{compare_pairs} is \code{TRUE}) of lists
-(repetitions of experiment for power calculations) of data tables of the variables:
+a list (for paired states when \code{compare_pairs} is \code{TRUE})
+of lists (repetitions of experiment for power calculations) of data tables of
+the variables:
 
 - \code{Sequence} - provided amino acid sequence
 
 - \code{Rep} - technical replication
 
-- \code{State} - provided protection factor (the theoretical - in practice unknown -
-state of the protein)
+- \code{State} - provided protection factor (the theoretical - in practice
+unknown - state of the protein)
 
 - \code{Exposure} - exposure time
 
@@ -76,8 +81,9 @@ state of the protein)
 experimenter) provided in the case when \code{compare_pairs} is \code{TRUE}.
 }
 \description{
-This function creates a list of lists of noisy deuteration curves
-based on theoretical spectra in order to imitate the data from the HDX experiments.
+This function creates a list of lists of noisy deuteration
+curves based on theoretical spectra in order to imitate the data from the
+HDX experiments.
 }
 \examples{
 theo_spectra_pf_100 <- simulate_theoretical_spectra(sequence = "LVRKDLQN",
@@ -102,10 +108,10 @@ theo_spectra_pf_200 <- simulate_theoretical_spectra(sequence = "LVRKDLQN",
 
 theo_spectra_two_states <- rbind(theo_spectra_pf_100, theo_spectra_pf_200)
 
-deuteration_curves_paired_states <- get_noisy_deuteration_curves(theo_spectra_two_states,
-                                                                 n_replicates = 4,
-                                                                 n_experiments = 2,
-                                                                 compare_pairs = TRUE,
-                                                                 reference = "all")
+deut_curves_p_states <- get_noisy_deuteration_curves(theo_spectra_two_states,
+                                                     n_replicates = 4,
+                                                     n_experiments = 2,
+                                                     compare_pairs = TRUE,
+                                                     reference = "all")
 
 }

@@ -5,9 +5,9 @@
 \alias{powerHaDeX}
 \title{powerHaDeX}
 \description{
-The R-package powerHaDeX for simulating and analyzing data coming
-from HDX-MS experiments along with the possibility of comparing the power of
-the tests verifying differences in deuteration levels.
+The R-package powerHaDeX for simulating and analyzing data
+coming from HDX-MS experiments along with the possibility of comparing the
+power of the tests verifying differences in deuteration levels.
 }
 \author{
 Michal Burdukiewicz, Krystyna Grzesiak, Mateusz Staniak

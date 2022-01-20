@@ -21,8 +21,9 @@ in deuteration levels. Its input and output are compatible with
 the function \code{\link[powerHaDeX]{calculate_hdx_power}}.
 }
 \details{
-This function uses \code{\link[powerHaDeX]{truncated_lines}}. The knots
-considered in the testing procedure are chosen using ridge regression.
+This function uses \code{\link[powerHaDeX]{truncated_lines}}.
+The knots considered in the testing procedure are chosen using ridge
+regression.
 }
 \examples{
 theo_spectra_pf_100 <- simulate_theoretical_spectra(sequence = "LVRKDLQN",
@@ -46,11 +47,11 @@ theo_spectra_pf_200 <- simulate_theoretical_spectra(sequence = "LVRKDLQN",
 
 theo_spectra_two_states <- rbind(theo_spectra_pf_100, theo_spectra_pf_200)
 
-deuteration_curves_paired_states <- get_noisy_deuteration_curves(theo_spectra_two_states,
-                                                                 n_replicates = 4,
-                                                                 n_experiments = 1,
-                                                                 reference = 100)[[1]][[1]]
-test_semiparametric(deuteration_curves_paired_states)
+deut_curves_p_states <- get_noisy_deuteration_curves(theo_spectra_two_states,
+                                                     n_replicates = 4,
+                                                     n_experiments = 1,
+                                                     reference = 100)[[1]][[1]]
+test_semiparametric(deut_curves_p_states)
 
 }
 \seealso{

@@ -17,8 +17,8 @@ This function returns a data table compatible with the function
 }
 \description{
 This function performs Damian Houde's confidence intervals test
-for differences in deuteration levels. Its input and output are compatible with
-the function \code{\link[powerHaDeX]{calculate_hdx_power}}.
+for differences in deuteration levels. Its input and output are compatible
+with the function \code{\link[powerHaDeX]{calculate_hdx_power}}.
 }
 \examples{
 theo_spectra_pf_100 <- simulate_theoretical_spectra(sequence = "LVRKDLQN",
@@ -42,17 +42,18 @@ theo_spectra_pf_200 <- simulate_theoretical_spectra(sequence = "LVRKDLQN",
 
 theo_spectra_two_states <- rbind(theo_spectra_pf_100, theo_spectra_pf_200)
 
-deuteration_curves_paired_states <- get_noisy_deuteration_curves(theo_spectra_two_states,
-                                                                 n_replicates = 4,
-                                                                 n_experiments = 1,
-                                                                 reference = 100)[[1]][[1]]
-test_houde(deuteration_curves_paired_states)
+deut_curves_p_states <- get_noisy_deuteration_curves(theo_spectra_two_states,
+                                                     n_replicates = 4,
+                                                     n_experiments = 1,
+                                                     reference = 100)[[1]][[1]]
+test_houde(deut_curves_p_states)
 
 }
 \references{
 Houde, Damian, Steven A Berkowitz, and John R Engen (2011).
-“The utility of hydrogen/deuterium exchange mass spectrometry in biopharmaceutical
-comparabilitystudies”. In:Journal of pharmaceutical sciences100.6, pp. 2071–2086.
+“The utility of hydrogen/deuterium exchange mass spectrometry in
+biopharmaceutical comparabilitystudies”. In:Journal of pharmaceutical
+sciences100.6, pp. 2071–2086.
 }
 \seealso{
 Other tests:

@@ -16,6 +16,5 @@ test_that("experimental returns error", {
 
     peptides <- data.frame()
     expect_error(create_experimental_file(peptides, charge = 1:3),
-                 "You must provide at least one sequence to simulate spectra.
-                                              See simulate_theoretical_spectra for more details.")
+                 "at least one sequence")
 })

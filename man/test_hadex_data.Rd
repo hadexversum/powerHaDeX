@@ -13,11 +13,12 @@ test_hadex_data(
 \arguments{
 \item{dat}{data.table. The data of hdx_data class from the HaDeX package.}
 
-\item{states}{a character vector containing two states from provided `dat` that
-should be tested. By default the first two states (if exist) from `dat` are chosen.}
+\item{states}{a character vector containing two states from provided `dat`
+that should be tested. By default the first two states (if exist) from `dat`
+are chosen.}
 
-\item{tests}{a list of testing functions. In the `powerHaDeX` package the following
-tests are implemented:
+\item{tests}{a list of testing functions. In the `powerHaDeX` package the
+following tests are implemented:
 
 - \code{\link[powerHaDeX]{test_houde}},
 
@@ -34,13 +35,13 @@ This function returns a data table of variables:
 
 - \code{State_1}, \code{State_2} - tested states from \code{states},
 
-- \code{Significant_difference} - \code{TRUE} or \code{FALSE}, indicating whether the null hypothesis
-is rejected
+- \code{Significant_difference} - \code{TRUE} or \code{FALSE}, indicating
+whether the null hypothesis is rejected
 
 - \code{Sequence} - amino acid sequence that was tested
 }
 \description{
 This function converts the data from HaDeX in order to make it
-compatible with the input of test functions and perform the testing procedures
-of provided tests.
+compatible with the input of test functions and perform the testing
+procedures of provided tests.
 }

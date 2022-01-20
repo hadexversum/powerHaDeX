@@ -12,6 +12,7 @@ get_relative_mass(mass, time)
 \item{time}{vector of time points}
 }
 \description{
-Mass minus mass at zero is calculated as a form of deuterium uptake.
+Mass minus mass at zero is calculated as a form of deuterium
+uptake.
 }
 \keyword{internal}

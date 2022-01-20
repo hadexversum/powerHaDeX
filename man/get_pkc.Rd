@@ -19,9 +19,10 @@ The function returns a list of \code{asp}, \code{glu} and \code{his}
 (\code{pKc} values corresponding to amino acids).
 }
 \description{
-calculates supplementary constants for aspartic acid (Asp), glutamic
-acid (Glu) and histidine (His). Values for mentioned amino acids are pH and
-temperature dependent, in contrary to the rest amino acids with fixed values.
+calculates supplementary constants for aspartic acid (Asp),
+glutamic acid (Glu) and histidine (His). Values for mentioned amino acids are
+pH and temperature dependent, in contrary to the rest amino acids with fixed
+values.
 }
 \details{
 Depending on provided \code{exchange} direction tabular values of

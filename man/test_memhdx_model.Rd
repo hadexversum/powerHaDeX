@@ -17,8 +17,8 @@ This function returns a data table compatible with the function
 }
 \description{
 This function performs the test based on a linear mixed effects
-model used in MEMHDX tools. Its input and output are compatible with the function
-\code{\link[powerHaDeX]{calculate_hdx_power}}.
+model used in MEMHDX tools. Its input and output are compatible with the
+function \code{\link[powerHaDeX]{calculate_hdx_power}}.
 }
 \examples{
 theo_spectra_pf_100 <- simulate_theoretical_spectra(sequence = "LVRKDLQN",
@@ -42,17 +42,17 @@ theo_spectra_pf_200 <- simulate_theoretical_spectra(sequence = "LVRKDLQN",
 
 theo_spectra_two_states <- rbind(theo_spectra_pf_100, theo_spectra_pf_200)
 
-deuteration_curves_paired_states <- get_noisy_deuteration_curves(theo_spectra_two_states,
-                                                                 n_replicates = 4,
-                                                                 n_experiments = 1,
-                                                                 reference = 100)[[1]][[1]]
-test_memhdx_model(deuteration_curves_paired_states)
+deut_curves_p_states <- get_noisy_deuteration_curves(theo_spectra_two_states,
+                                                     n_replicates = 4,
+                                                     n_experiments = 1,
+                                                     reference = 100)[[1]][[1]]
+test_memhdx_model(deut_curves_p_states)
 
 }
 \references{
-Hourdel, Véronique et al. (July 2016). “MEMHDX: an interactive tool
-to expedite the statistical validation and visualization of large HDX-MS data sets”.
-In:Bioinformatics32.22, pp. 3413–3419.issn: 1367-4803.
+Hourdel, Véronique et al. (July 2016). “MEMHDX: an interactive
+tool to expedite the statistical validation and visualization of large HDX-MS
+data sets”. In:Bioinformatics32.22, pp. 3413–3419.issn: 1367-4803.
 }
 \seealso{
 Other tests:

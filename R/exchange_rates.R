@@ -26,12 +26,14 @@ get_F_const = function(temp_kelvin, gas_constant) {
 
 #' Constant related to...
 #'
-#' @param mol_type character, "poly" or "oligo". If "oligo" then the calculated constants
-#' are multiplied by c according to the considered condition (base, water or acid).
+#' @param mol_type character, "poly" or "oligo". If "oligo" then the calculated
+#' constants are multiplied by c according to the considered condition (base,
+#' water or acid).
 #' @param exchange type of exchange - "HD" for hydrogen to deuterium,
 #' "DH" for deuterium to hydrogen (back-exchange). Default "HD".
 #'
-#' @return list of Ka,Kb and Kw corresponding to the chosen \code{mol_type} and acid, base or water.
+#' @return list of Ka,Kb and Kw corresponding to the chosen \code{mol_type} and
+#' acid, base or water.
 #'
 #' @keywords internal
 get_poly_const = function(mol_type, exchange = "HD") {
@@ -67,9 +69,10 @@ get_poly_const = function(mol_type, exchange = "HD") {
 
 #' Calculating pKc values
 #'
-#' @description calculates supplementary constants for aspartic acid (Asp), glutamic
-#' acid (Glu) and histidine (His). Values for mentioned amino acids are pH and
-#' temperature dependent, in contrary to the rest amino acids with fixed values.
+#' @description calculates supplementary constants for aspartic acid (Asp),
+#' glutamic acid (Glu) and histidine (His). Values for mentioned amino acids are
+#' pH and temperature dependent, in contrary to the rest amino acids with fixed
+#' values.
 #'
 #' @inheritParams get_F_const
 #' @inheritParams get_poly_const
@@ -106,9 +109,9 @@ get_pkc <- function(temp_kelvin, gas_constant, exchange = "HD") {
 
     Ea_Glu <- 1083
     Ea_His <- 7500
-    pKc_Asp <- -log10(10^(Asp_exponent) * exp(-1 * Ea_Asp * ((1 / temp_kelvin - 1 / 278) / gas_constant)))
-    pKc_Glu <- -log10(10^(Glu_exponent) * exp(-1 * Ea_Glu * ((1 / temp_kelvin - 1 / 278) / gas_constant)))
-    pKc_His <- -log10(10^(His_exponent) * exp(-1 * Ea_His * ((1 / temp_kelvin - 1 / 278) / gas_constant)))
+    pKc_Asp <- -log10(10^(Asp_exponent)*exp(-1*Ea_Asp*((1/temp_kelvin-1/278)/gas_constant)))
+    pKc_Glu <- -log10(10^(Glu_exponent)*exp(-1*Ea_Glu*((1/temp_kelvin-1/278)/gas_constant)))
+    pKc_His <- -log10(10^(His_exponent)*exp(-1*Ea_His*((1/temp_kelvin - 1/278)/gas_constant)))
     list(asp = pKc_Asp,
          glu = pKc_Glu,
          his = pKc_His)
@@ -119,10 +122,12 @@ get_pkc <- function(temp_kelvin, gas_constant, exchange = "HD") {
 #'
 #' @param pH reaction pH
 #' @param pkc_consts constants calculated via \code{\link[powerHaDeX]{get_pkc}}
-#' @param k_consts constants calculated via \code{\link[powerHaDeX]{get_poly_const}}
+#' @param k_consts constants calculated via
+#' \code{\link[powerHaDeX]{get_poly_const}}
 #'
 #' @return a matrix named \code{constants} of tabular and calculated constants
-#' (specifically for \code{Asp}, \code{Glu}, \code{His}, \code{C−Term} and \code{NHMe})
+#' (specifically for \code{Asp}, \code{Glu}, \code{His}, \code{C−Term} and
+#' \code{NHMe})
 #'
 #' @keywords internal
 
@@ -189,33 +194,37 @@ get_exchange_constants <- function(pH, pkc_consts, k_consts) {
 #' @description Calculate exchange rates that are required to obtain exchange
 #' probabilities.
 #'
-#' @param sequence peptide amino acid sequence as a character vector of amino acids
+#' @param sequence peptide amino acid sequence as a character vector of amino
+#' acids
 #' @param temperature temperature of the reaction (Celsius). Default to 15.
-#' @param if_corr logical. PH correction indicator. Default value \code{FALSE}. The value of pH is equal to pD.
-#' If there is correction, the pD = pH + 0.4. (Conelly et al 1993)
+#' @param if_corr logical. PH correction indicator. Default value \code{FALSE}.
+#' The value of pH is equal to pD. If there is correction, the pD = pH + 0.4.
+#' (Conelly et al 1993)
 #' @inheritParams get_poly_const
 #' @inheritParams get_exchange_constants
 #'
-#' @details   The correction of \code{pH} is taken into account for calculation of \code{pD}:
+#' @details   The correction of \code{pH} is taken into account for calculation
+#' of \code{pD}:
 #' \deqn{pD = pH + 0.4 * if_corr}
 #' Next, the provided temperature is converted into K and the internal functions
-#' \code{\link[powerHaDeX]{get_F_const}}, \code{\link[powerHaDeX]{get_poly_const}} and
+#' \code{\link[powerHaDeX]{get_F_const}},
+#' \code{\link[powerHaDeX]{get_poly_const}} and
 #' \code{\link[powerHaDeX]{get_pkc}} are evaluated.
 #'
-#' Using the obtained matrix of constants and provided \code{sequence} \code{F_a}
-#' and \code{F_b} are calculated for each amino acid in the sequence, concerning
-#' the previous and next amino acid. For the amino acids in the middle of the sequence,
-#' the following formula is used:
+#' Using the obtained matrix of constants and provided \code{sequence}
+#' \code{F_a} and \code{F_b} are calculated for each amino acid in the sequence,
+#' concerning the previous and next amino acid. For the amino acids in the
+#' middle of the sequence, the following formula is used:
 #'
 #' \deqn{F_x = 10^{ previous_x + current_x}}
 #'
 #' where \code{x} is either \code{a} or \code{b}, and \code{previous_x} is the
-#' acid/base factor for a previous amino acid in the sequence, and \code{current_x}
-#' for the amino acid it is calculated for. If the amino acid is next to the C- or
-#' N-term, the term-effect is taken into account.
+#' acid/base factor for a previous amino acid in the sequence, and
+#' \code{current_x} for the amino acid it is calculated for. If the amino acid
+#' is next to the C- or N-term, the term-effect is taken into account.
 #'
-#' Finally, the exchange rate \code{k_c} for the amino acid is the sum of catalysis
-#' constants for acid, base and water (Conelly et al, 1993). Namely:
+#' Finally, the exchange rate \code{k_c} for the amino acid is the sum of
+#' catalysis constants for acid, base and water (Conelly et al, 1993). Namely:
 #'
 #' \deqn{k_c = k_{acid} + k_{base} + k_{water}}
 #' where
@@ -225,22 +234,26 @@ get_exchange_constants <- function(pH, pkc_consts, k_consts) {
 #'
 #' where \code{D} and \code{OD} indicates deuterium  and deuterium oxide
 #' concentration, \code{F_a} and \code{F_b} are values calculated specifically
-#' for given amino acid, as described before, \code{K_a} and \code{K_b} are values
-#' computed by \code{\link[powerHaDeX]{get_poly_const}} function, based on the mole
-#' type, \code{F_ta}, \code{F_tb} and \code{F_tw} are values computed by
-#' \code{\link[powerHaDeX]{get_F_const}} function.
+#' for given amino acid, as described before, \code{K_a} and \code{K_b} are
+#' values computed by \code{\link[powerHaDeX]{get_poly_const}} function, based
+#' on the mole type, \code{F_ta}, \code{F_tb} and \code{F_tw} are values
+#' computed by \code{\link[powerHaDeX]{get_F_const}} function.
 #'
 #' @return The obtained exchange rates are stored in vector \code{kcHD} or
 #' \code{kcDH} according to the exchange direction. They are used to calculate
-#' the exchange probabilities thus both \code{kcHD} and \code{kcDH} are necessary
-#'  as we take the possibility of back-exchange into account.
+#' the exchange probabilities thus both \code{kcHD} and \code{kcDH} are
+#' necessary as we take the possibility of back-exchange into account.
 #'
 #' @keywords internal
 #'
 #' @export
 
-get_exchange_rates <- function(sequence, exchange = "HD", pH = 9, temperature = 15,
-                               mol_type = "poly", if_corr = FALSE) {
+get_exchange_rates <- function(sequence,
+                               exchange = "HD",
+                               pH = 9,
+                               temperature = 15,
+                               mol_type = "poly",
+                               if_corr = FALSE) {
     assert(checkLogical(if_corr))
     assert(checkChoice(mol_type, c("poly", "oligo")))
     assert(checkChoice(exchange, c("HD", "DH")))

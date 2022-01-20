@@ -18,8 +18,8 @@ data.table containing one deuterium uptake curve.
 This funtion calculates deuterium uptake from spectra.
 }
 \details{
-The centroid mass value from spectrum is calculated as a weighted mean
-from peaks based on the formulas
+The centroid mass value from spectrum is calculated as a weighted
+mean from peaks based on the formulas
 \deqn{M = charge * (Mz - p_m)}
 and
 \deqn{m = 1/N \sum_{k = 1}^{N} I_k M_k.}

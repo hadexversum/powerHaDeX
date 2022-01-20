@@ -11,11 +11,13 @@ get_exchange_constants(pH, pkc_consts, k_consts)
 
 \item{pkc_consts}{constants calculated via \code{\link[powerHaDeX]{get_pkc}}}
 
-\item{k_consts}{constants calculated via \code{\link[powerHaDeX]{get_poly_const}}}
+\item{k_consts}{constants calculated via
+\code{\link[powerHaDeX]{get_poly_const}}}
 }
 \value{
 a matrix named \code{constants} of tabular and calculated constants
-(specifically for \code{Asp}, \code{Glu}, \code{His}, \code{C−Term} and \code{NHMe})
+(specifically for \code{Asp}, \code{Glu}, \code{His}, \code{C−Term} and
+\code{NHMe})
 }
 \description{
 Exchange constant for Hydrogen-Deuterium Exchange.

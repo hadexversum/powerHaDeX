@@ -6,8 +6,8 @@
 #'
 #' @param sequence character vector of amino acid sequence of a peptide
 #'
-#' @details Calculates peptide mass as a sum of amino acids' from \code{sequence}
-#'  masses and H2O mass (1.007825 * 2 + 15.994915 = 18.01056).
+#' @details Calculates peptide mass as a sum of amino acids' from
+#' \code{sequence} masses and H2O mass (1.007825 * 2 + 15.994915 = 18.01056).
 #'
 #' @keywords internal
 #'
@@ -33,25 +33,27 @@ calculate_peptide_mass <- function(sequence) {
 #' @param sequence character vector of amino acid sequence of a peptide
 #' @param min_probability minimum isotopic probability that will be considered
 #'
-#' @details Additional file \code{sysdata.RDA} contains the maximal possible occurrence
-#' of the isotopes C13, N15, O18, S34 (carbon, nitrogen, oxygen, and sulfur, respectively)
-#' in the respective amino acids, and their masses. Based on that, the maximal possible
-#' number of molecules of the isotopes in the sequence is calculated. Peptide mass is the
-#' sum of the masses of amino acids and H2O mass - as it includes the N terminal group
-#' (H) and C terminal group (OH).
+#' @details Additional file \code{sysdata.RDA} contains the maximal possible
+#' occurrence of the isotopes C13, N15, O18, S34 (carbon, nitrogen, oxygen, and
+#' sulfur, respectively) in the respective amino acids, and their masses. Based
+#' on that, the maximal possible number of molecules of the isotopes in the
+#' sequence is calculated. Peptide mass is the sum of the masses of amino acids
+#' and H2O mass - as it includes the N terminal group (H) and C terminal group
+#' (OH).
 #'
-#' Next, the distributions of mentioned isotopes are calculated under the assumption
-#' that the occurrence of ith considered isotope has a binomial distribution B(n_i, p_i)
-#'  with parameters n_i (maximal possible occurrence in the sequence) and p_i
-#'  (natural richness - possibility of occurrence in the universe).  For the oxygen
-#'  molecules, we have to take into account that oxygen occurs in a diatomic molecule.
-#'  Calculation of the sulfur distribution takes into account its rare occurrence.
+#' Next, the distributions of mentioned isotopes are calculated under the
+#' assumption that the occurrence of ith considered isotope has a binomial
+#' distribution B(n_i, p_i) with parameters n_i (maximal possible occurrence in
+#' the sequence) and p_i (natural richness - possibility of occurrence in the
+#' universe).  For the oxygen molecules, we have to take into account that
+#' oxygen occurs in a diatomic molecule. Calculation of the sulfur distribution
+#' takes into account its rare occurrence.
 #'
-#'  The final isotopic distribution is computed as a convolution of obtained distributions
-#'  with probabilities greater than \code{min_probability}. It is a vector of probabilities
-#'  of possible monoisotopic masses. The number of exchangeable amides is computed as the
-#'  length of the sequence, reduced by the number of prolines located on the third of
-#'  further position.
+#' The final isotopic distribution is computed as a convolution of obtained
+#' distributions with probabilities greater than \code{min_probability}. It is a
+#' vector of probabilities of possible monoisotopic masses. The number of
+#' exchangeable amides is computed as the length of the sequence, reduced by the
+#' number of prolines located on the third of further position.
 
 #' @return list of elements: the mass of the peptide (\code{peptide_mass}),
 #' final distribution (\code{isotopic_distribution}) of the isotopes,
@@ -85,7 +87,8 @@ get_approx_isotopic_distribution = function(sequence, min_probability = 1e-3) {
     distS <- rep(0, 2 * n_sulfer + 1)
     distS[seq(1, 2*n_sulfer + 1, 2)] <- dist[1:(n_sulfer + 1)]
 
-    finalDist <- sort(signal::conv(distS, signal::conv(distO, signal::conv(distC, distN))),
+    finalDist <- sort(conv(distS,
+                           conv(distO, conv(distC, distN))),
                       decreasing = TRUE)
 
     maxND <- sum(finalDist >= min_probability)

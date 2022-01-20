@@ -20,7 +20,8 @@ Adds noise to a single time point in mass domain
 }
 \details{
 the noise is sampled from a normal distribution with mean \code{0}
-and standard deviation equal to \code{standard_deviations} and added to \code{Mz}
-values for the time points (based on supplied parameters for time points).
+and standard deviation equal to \code{standard_deviations} and added to
+\code{Mz} values for the time points (based on supplied parameters for time
+points).
 }
 \keyword{internal}

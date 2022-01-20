@@ -20,7 +20,8 @@ get_HD_matrices(
 
 \item{experiment_times}{numeric vector of times at which exchange will happen}
 
-\item{times_to_record}{numeric vector of times for which deuteration level measurement should be made}
+\item{times_to_record}{numeric vector of times for which deuteration level
+measurement should be made}
 
 \item{n_molecules}{number of peptide molecules}
 }

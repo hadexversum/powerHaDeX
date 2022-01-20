@@ -3,8 +3,8 @@
 #' @importFrom data.table data.table
 #'
 #' @description This function performs Damian Houde's confidence intervals test
-#' for differences in deuteration levels. Its input and output are compatible with
-#' the function \code{\link[powerHaDeX]{calculate_hdx_power}}.
+#' for differences in deuteration levels. Its input and output are compatible
+#' with the function \code{\link[powerHaDeX]{calculate_hdx_power}}.
 #'
 #' @param data data.table with deuteration curves
 #' @param significance_level significance level for tests
@@ -13,8 +13,9 @@
 #' \code{\link[powerHaDeX]{calculate_hdx_power}}.
 #'
 #' @references Houde, Damian, Steven A Berkowitz, and John R Engen (2011).
-#' “The utility of hydrogen/deuterium exchange mass spectrometry in biopharmaceutical
-#' comparabilitystudies”. In:Journal of pharmaceutical sciences100.6, pp. 2071–2086.
+#' “The utility of hydrogen/deuterium exchange mass spectrometry in
+#' biopharmaceutical comparabilitystudies”. In:Journal of pharmaceutical
+#' sciences100.6, pp. 2071–2086.
 #'
 #' @seealso
 #' Other tests:
@@ -50,17 +51,15 @@
 #'
 #' theo_spectra_two_states <- rbind(theo_spectra_pf_100, theo_spectra_pf_200)
 #'
-#' deuteration_curves_paired_states <- get_noisy_deuteration_curves(theo_spectra_two_states,
-#'                                                                  n_replicates = 4,
-#'                                                                  n_experiments = 1,
-#'                                                                  reference = 100)[[1]][[1]]
-#' test_houde(deuteration_curves_paired_states)
+#' deut_curves_p_states <- get_noisy_deuteration_curves(theo_spectra_two_states,
+#'                                                      n_replicates = 4,
+#'                                                      n_experiments = 1,
+#'                                                      reference = 100)[[1]][[1]]
+#' test_houde(deut_curves_p_states)
 #'
 #' @export
 
 test_houde <- function(data, significance_level = 0.05) {
-
-    Sequence <- State <- Exposure <- Rep <- Experimental_state <- Mass <- err_avg_mass <- avg_exp_mass <- err_deut_uptake <- deut_uptake <- NULL
 
     States <- unique(data[["State"]])
     confidence_limit <- 1 - significance_level
@@ -70,14 +69,17 @@ test_houde <- function(data, significance_level = 0.05) {
 
 
     data_exp <- data[, list(avg_exp_mass = mean(Mass)),
-                     by = list(Sequence, State, Exposure, Rep, Experimental_state)]
+                     by = list(Sequence, State, Exposure, Rep,
+                               Experimental_state)]
 
     data_exp <- data_exp[, list(deut_uptake = mean(avg_exp_mass),
                                 err_avg_mass = sd(avg_exp_mass)/sqrt(length(Rep))),
-                         by = list(State, Sequence, Exposure, Experimental_state)]
+                         by = list(State, Sequence, Exposure,
+                                   Experimental_state)]
     data_exp[is.na(data_exp)] <- 0
 
-    data_exp[, err_deut_uptake := sqrt(err_avg_mass^2 + err_avg_mass[Exposure == 0]^2),
+    data_exp[, err_deut_uptake := sqrt(err_avg_mass^2 +
+                                           err_avg_mass[Exposure == 0]^2),
              by = list(State, Sequence, Experimental_state)]
 
 
@@ -91,7 +93,8 @@ test_houde <- function(data, significance_level = 0.05) {
 
     avg_difference <- mean(calc_dat[["diff_deut_uptake"]])
 
-    x_threshold <- t_value * mean(calc_dat[["err_diff_deut_uptake"]], na.rm = TRUE)/sqrt(length(calc_dat))
+    x_threshold <- t_value * mean(calc_dat[["err_diff_deut_uptake"]],
+                                  na.rm = TRUE)/sqrt(length(calc_dat))
 
     data.table(Test = "Houde",
                State_1 = States[1],
@@ -155,11 +158,11 @@ test_houde <- function(data, significance_level = 0.05) {
 #'
 #' theo_spectra_two_states <- rbind(theo_spectra_pf_100, theo_spectra_pf_200)
 #'
-#' deuteration_curves_paired_states <- get_noisy_deuteration_curves(theo_spectra_two_states,
-#'                                                                  n_replicates = 4,
-#'                                                                  n_experiments = 1,
-#'                                                                  reference = 100)[[1]][[1]]
-#' test_hdx_analyzer(deuteration_curves_paired_states)
+#' deut_curves_p_states <- get_noisy_deuteration_curves(theo_spectra_two_states,
+#'                                                      n_replicates = 4,
+#'                                                      n_experiments = 1,
+#'                                                      reference = 100)[[1]][[1]]
+#' test_hdx_analyzer(deut_curves_p_states)
 #'
 #' @export
 
@@ -219,17 +222,17 @@ test_hdx_analyzer <- function(data, significance_level = 0.05) {
 #' @importFrom lmerTest lmer
 #'
 #' @description This function performs the test based on a linear mixed effects
-#' model used in MEMHDX tools. Its input and output are compatible with the function
-#' \code{\link[powerHaDeX]{calculate_hdx_power}}.
+#' model used in MEMHDX tools. Its input and output are compatible with the
+#' function \code{\link[powerHaDeX]{calculate_hdx_power}}.
 #'
 #' @inheritParams test_houde
 #'
 #' @returns This function returns a data table compatible with the function
 #' \code{\link[powerHaDeX]{calculate_hdx_power}}.
 #'
-#' @references  Hourdel, Véronique et al. (July 2016). “MEMHDX: an interactive tool
-#' to expedite the statistical validation and visualization of large HDX-MS data sets”.
-#' In:Bioinformatics32.22, pp. 3413–3419.issn: 1367-4803.
+#' @references  Hourdel, Véronique et al. (July 2016). “MEMHDX: an interactive
+#' tool to expedite the statistical validation and visualization of large HDX-MS
+#' data sets”. In:Bioinformatics32.22, pp. 3413–3419.issn: 1367-4803.
 #'
 #' @seealso
 #' Other tests:
@@ -265,11 +268,11 @@ test_hdx_analyzer <- function(data, significance_level = 0.05) {
 #'
 #' theo_spectra_two_states <- rbind(theo_spectra_pf_100, theo_spectra_pf_200)
 #'
-#' deuteration_curves_paired_states <- get_noisy_deuteration_curves(theo_spectra_two_states,
-#'                                                                  n_replicates = 4,
-#'                                                                  n_experiments = 1,
-#'                                                                  reference = 100)[[1]][[1]]
-#' test_memhdx_model(deuteration_curves_paired_states)
+#' deut_curves_p_states <- get_noisy_deuteration_curves(theo_spectra_two_states,
+#'                                                      n_replicates = 4,
+#'                                                      n_experiments = 1,
+#'                                                      reference = 100)[[1]][[1]]
+#' test_memhdx_model(deut_curves_p_states)
 #'
 #' @export
 
@@ -360,8 +363,9 @@ truncated_lines <- function(x, knots){
 #'
 #' @inheritParams test_houde
 #'
-#' @details This function uses \code{\link[powerHaDeX]{truncated_lines}}. The knots
-#' considered in the testing procedure are chosen using ridge regression.
+#' @details This function uses \code{\link[powerHaDeX]{truncated_lines}}.
+#' The knots considered in the testing procedure are chosen using ridge
+#' regression.
 #'
 #' @returns This function returns a data table compatible with the function
 #' \code{\link[powerHaDeX]{calculate_hdx_power}}.
@@ -400,25 +404,27 @@ truncated_lines <- function(x, knots){
 #'
 #' theo_spectra_two_states <- rbind(theo_spectra_pf_100, theo_spectra_pf_200)
 #'
-#' deuteration_curves_paired_states <- get_noisy_deuteration_curves(theo_spectra_two_states,
-#'                                                                  n_replicates = 4,
-#'                                                                  n_experiments = 1,
-#'                                                                  reference = 100)[[1]][[1]]
-#' test_semiparametric(deuteration_curves_paired_states)
+#' deut_curves_p_states <- get_noisy_deuteration_curves(theo_spectra_two_states,
+#'                                                      n_replicates = 4,
+#'                                                      n_experiments = 1,
+#'                                                      reference = 100)[[1]][[1]]
+#' test_semiparametric(deut_curves_p_states)
 #'
 #' @export
 
 test_semiparametric <- function(data, significance_level = 0.05) {
 
     States <- unique(data[["State"]])
-    data[["id"]] <- paste0(data[["Rep"]], data[["Charge"]], data[["Experimental_state"]])
+    data[["id"]] <- paste0(data[["Rep"]], data[["Charge"]],
+                           data[["Experimental_state"]])
     Test <- aic <- loglik <- Test_statistic <- p_value <- NA
 
     Times <- unique(data[["Exposure"]])
 
     if(length(Times) > 2) {
 
-        knots <- unique(setdiff(data[["Exposure"]], c(max(data[["Exposure"]]), min(data[["Exposure"]]))))
+        knots <- unique(setdiff(data[["Exposure"]], c(max(data[["Exposure"]]),
+                                                      min(data[["Exposure"]]))))
         X <- truncated_lines(data[["Exposure"]], knots)
 
         colnames(X) <- c(paste0("knot_", as.character(knots)))
@@ -470,17 +476,18 @@ test_semiparametric <- function(data, significance_level = 0.05) {
 
 
 
-#' Test based on area under the deuteration curve for differences in deuteration levels
+#' Test based on area under the deuteration curve for differences in deuteration
+#' levels
 #'
 #' @inheritParams test_houde
 #'
 #' @returns This function returns a data table compatible with the function
 #' \code{\link[powerHaDeX]{calculate_hdx_power}}.
 #'
-#' @seealso Mazur, Sharlyn J and Daniel P Weber (2017). “The area between exchange
-#' curves as a measure of conformational differences in hydrogen-deuterium exchange
-#' mass spectrometry studies”. In:Journal of the American Society for Mass Spectrometry
-#' 28.5, pp. 978–981.
+#' @seealso Mazur, Sharlyn J and Daniel P Weber (2017). “The area between
+#' exchange curves as a measure of conformational differences in
+#' hydrogen-deuterium exchange mass spectrometry studies”. In:Journal of the
+#' American Society for Mass Spectrometry 28.5, pp. 978–981.
 #'
 
 # test_auc_test <- function(data, significance_level = 0.05) {

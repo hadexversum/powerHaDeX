@@ -15,32 +15,34 @@ add_noise_to_one_spectrum(
 \item{spectrum}{a single spectrum from the list obtained using
 \code{\link[powerHaDeX]{make_experimental_design}}.}
 
-\item{undeuterated_mass}{the value of mass of an undeuterated peptide computed by
-\code{\link[powerHaDeX]{get_undeuterated_mass}}.}
+\item{undeuterated_mass}{the value of mass of an undeuterated peptide
+computed by \code{\link[powerHaDeX]{get_undeuterated_mass}}.}
 
-\item{mass_deviations}{mass deviation in parts per million. Either a single number
-(then the error at each time point will be the same) or a vector of the same length
-as number of unique time points in the experiment. The error will be sampled from
-normal distribution with standard deviation equal to
+\item{mass_deviations}{mass deviation in parts per million. Either a single
+number (then the error at each time point will be the same) or a vector of
+the same length as number of unique time points in the experiment. The error
+will be sampled from normal distribution with standard deviation equal to
 \deqn{mass_deviations * undeuterated_mass/1e6}
 Default to 50.}
 
-\item{intensity_deviations}{optional, standard deviations of random noise that
-will be added to intensities. Either a single number (then the error at each
-time point will be the same) or a vector of the same length as number of unique
-time points in the experiment. The error will be sampled from normal distribution
-with these standard deviations.Default \code{NULL}.}
+\item{intensity_deviations}{optional, standard deviations of random noise
+that will be added to intensities. Either a single number (then the error at
+each time point will be the same) or a vector of the same length as number of
+unique time points in the experiment. The error will be sampled from normal
+distribution with these standard deviations.Default \code{NULL}.}
 }
 \value{
 data.table containing a single noisy spectrum
 }
 \description{
-This function adds noise to intensities and/or masses in a spectrum.
+This function adds noise to intensities and/or masses in a
+spectrum.
 }
 \details{
 The deviations are calculated as follows
 \deqn{sd = mass_deviations * undeuterated_mass/10^6}.
-To add noise this function uses \code{\link[powerHaDeX]{add_noise_to_one_timepoint}}
-and \code{\link[powerHaDeX]{add_noise_to_intensities}}.
+To add noise this function uses
+\code{\link[powerHaDeX]{add_noise_to_one_timepoint}} and
+\code{\link[powerHaDeX]{add_noise_to_intensities}}.
 }
 \keyword{internal}

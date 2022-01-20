@@ -13,15 +13,17 @@ plot_spectra(
 )
 }
 \arguments{
-\item{spectra}{data table. Result of \code{\link[powerHaDeX]{simulate_theoretical_spectra}}.}
+\item{spectra}{data table. Result of
+\code{\link[powerHaDeX]{simulate_theoretical_spectra}}.}
 
-\item{time_points}{vector of values of exposure times to be displayed on the plot.
-Default \code{unique(spectra[["Exposure"]])}.}
+\item{time_points}{vector of values of exposure times to be displayed on the
+plot. Default \code{unique(spectra[["Exposure"]])}.}
 
-\item{charges}{vector of charges to be displayed on the plot. Default \code{unique(spectra[["Charge"]])}.}
+\item{charges}{vector of charges to be displayed on the plot. Default
+\code{unique(spectra[["Charge"]])}.}
 
-\item{control_time}{logical. Indicates whether the spectrum at the control time
-(conventionally equal to 0) should be drawn.}
+\item{control_time}{logical. Indicates whether the spectrum at the control
+time (conventionally equal to 0) should be drawn.}
 
 \item{...}{additional arguments passing to the \code{\link[ggplot2]{theme}}.}
 }
@@ -29,8 +31,8 @@ Default \code{unique(spectra[["Exposure"]])}.}
 ggplot object
 }
 \description{
-Graphical visualization of mass spectra obtained using the function
-\code{\link[powerHaDeX]{simulate_theoretical_spectra}}.
+Graphical visualization of mass spectra obtained using the
+function \code{\link[powerHaDeX]{simulate_theoretical_spectra}}.
 }
 \details{
 This function draws mass spectra from data obtained via

@@ -21,25 +21,26 @@ that can be used for simulating mass spectra.
 See \code{\link[powerHaDeX]{simulate_theoretical_spectra}} for more details
 about the additional parameters.}
 
-\item{times}{a vector of times at which deuteration levels will be measured (seconds)}
+\item{times}{a vector of times at which deuteration levels will be measured
+(seconds)}
 
-\item{charge}{vector of charges of the peptide ion. If NULL, one value is sampled
-from vector 2:6. Default NULL.}
+\item{charge}{vector of charges of the peptide ion. If NULL, one value is
+sampled from vector 2:6. Default NULL.}
 
 \item{n_replicates}{number of technical replicates to create}
 
-\item{mass_deviations}{mass deviation in parts per million. Either a single number
-(then the error at each time point will be the same) or a vector of the same length
-as number of unique time points in the experiment. The error will be sampled from
-normal distribution with standard deviation equal to
+\item{mass_deviations}{mass deviation in parts per million. Either a single
+number (then the error at each time point will be the same) or a vector of
+the same length as number of unique time points in the experiment. The error
+will be sampled from normal distribution with standard deviation equal to
 \deqn{mass_deviations * undeuterated_mass/1e6}
 Default to 50.}
 
-\item{intensity_deviations}{optional, standard deviations of random noise that
-will be added to intensities. Either a single number (then the error at each
-time point will be the same) or a vector of the same length as number of unique
-time points in the experiment. The error will be sampled from normal distribution
-with these standard deviations.Default \code{NULL}.}
+\item{intensity_deviations}{optional, standard deviations of random noise
+that will be added to intensities. Either a single number (then the error at
+each time point will be the same) or a vector of the same length as number of
+unique time points in the experiment. The error will be sampled from normal
+distribution with these standard deviations.Default \code{NULL}.}
 
 \item{file_type}{...}
 }

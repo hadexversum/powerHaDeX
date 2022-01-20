@@ -21,14 +21,15 @@ simulate_theoretical_spectra(
 \arguments{
 \item{sequence}{amino acid sequence of a peptide as a single string}
 
-\item{charge}{vector of charges of the peptide ion. If NULL, one value is sampled
-from vector 2:6. Default NULL.}
+\item{charge}{vector of charges of the peptide ion. If NULL, one value is
+sampled from vector 2:6. Default NULL.}
 
 \item{protection_factor}{protection factor. If a single number of provided,
 same protection factor will be assumed for each amide. Default value: 1
 (indicates that the exchange rate is equal to the intristic exchange rate)}
 
-\item{times}{a vector of times at which deuteration levels will be measured (seconds)}
+\item{times}{a vector of times at which deuteration levels will be measured
+(seconds)}
 
 \item{pH}{pH of the reaction. Default to 7.5.}
 
@@ -41,14 +42,15 @@ indicates the length of the time step of the simulation. The bigger the time
 step, the fewer time points are simulated (the fewer iterations in case of
 Zhong-Yuan Kan's approach).}
 
-\item{if_corr}{logical. PH correction indicator. Default value \code{FALSE}. The value of pH is equal to pD.
-If there is correction, the pD = pH + 0.4. (Conelly et al 1993)}
+\item{if_corr}{logical. PH correction indicator. Default value \code{FALSE}.
+The value of pH is equal to pD. If there is correction, the pD = pH + 0.4.
+(Conelly et al 1993)}
 
 \item{min_probability}{smallest isotopic probability to consider}
 
-\item{use_markov}{logical. If TRUE algorithm basing on Markov chain will be used.
-If FALSE simulation provided by Zhong-Yuan Kan will be executed. Default to TRUE,
-as it fastens the calculation}
+\item{use_markov}{logical. If TRUE algorithm basing on Markov chain will be
+used. If FALSE simulation provided by Zhong-Yuan Kan will be executed.
+Default to TRUE, as it fastens the calculation}
 }
 \value{
 a data table of variables:
@@ -57,8 +59,8 @@ a data table of variables:
 
  - \code{Mz} - mass-to-charge ratio,
 
- - \code{Intensity} - isotopic probabilities larger than \code{min_probability}
- (the smaller ones are zeroes)
+ - \code{Intensity} - isotopic probabilities larger than
+ \code{min_probability}(the smaller ones are zeroes)
 
  and the variables provided by user
 
@@ -74,12 +76,12 @@ a data table of variables:
 Simulate theoretical spectra of a deuterated peptide over time
 }
 \details{
-To the results calculated by \code{\link[powerHaDeX]{get_iso_probs_deut}}
-is added a minimal exchange control - for time point \code{0} (directly after
-adding a buffer). The m/z values are obtained as a ratio of the
-\code{peptide_mass} magnified by proton mass and the peptide charge.
-The distribution of undeuterated peptide is the
-intensities vector.
+To the results calculated by
+\code{\link[powerHaDeX]{get_iso_probs_deut}} is added a minimal exchange
+control - for time point \code{0} (directly after adding a buffer).
+The m/z values are obtained as a ratio of the \code{peptide_mass} magnified
+by proton mass and the peptide charge. The distribution of undeuterated
+peptide is the intensities vector.
 }
 \examples{
 simulate_theoretical_spectra(sequence = "LVRKDLQN",
@@ -94,12 +96,12 @@ simulate_theoretical_spectra(sequence = "LVRKDLQN",
 
 }
 \seealso{
-The algorithm that is used to simulate theoretical spectra is based on
-Zhong-Yuan Kan's implementation in Matlab. The original version of codes is
-located in the repository \url{https://github.com/kanzy/HX-MS-Simulations}
+The algorithm that is used to simulate theoretical spectra is based
+on Zhong-Yuan Kan's implementation in Matlab. The original version of codes
+is located in the repository \url{https://github.com/kanzy/HX-MS-Simulations}
 (as at 29.06.2020). In the \code{powerHaDeX} package can be found the Kan's
 algorithm re-implemented in R (using Rcpp) and the accelerated implementation
-(that uses Markov chains' properties). Moreover, the package \code{powerHaDeX}
-allows the user to simulate spectra for more than one exposure time for both
-(Rcpp and Markov) approaches.
+(that uses Markov chains' properties). Moreover, the package
+\code{powerHaDeX} allows the user to simulate spectra for more than one
+exposure time for both (Rcpp and Markov) approaches.
 }

@@ -16,8 +16,9 @@ get_iso_probs_deut(
 )
 }
 \arguments{
-\item{HD_matrices}{list. Simulated matrices for every time point after hydrogen-deuterium-exchange.
-Calculated via \code{\link[powerHaDeX]{get_HD_matrices}} or
+\item{HD_matrices}{list. Simulated matrices for every time point after
+hydrogen-deuterium-exchange. Calculated via
+\code{\link[powerHaDeX]{get_HD_matrices}} or
 \code{\link[powerHaDeX]{get_HD_matrices_using_markov}}}
 
 \item{maxD}{length of the sequence - amount of prolines}
@@ -28,10 +29,11 @@ Calculated via \code{\link[powerHaDeX]{get_HD_matrices}} or
 
 \item{peptide_mass}{mass of the peptide + mass of H2O}
 
-\item{times}{a vector of times at which deuteration levels will be measured (seconds)}
+\item{times}{a vector of times at which deuteration levels will be measured
+(seconds)}
 
-\item{charge}{vector of charges of the peptide ion. If NULL, one value is sampled
-from vector 2:6. Default NULL.}
+\item{charge}{vector of charges of the peptide ion. If NULL, one value is
+sampled from vector 2:6. Default NULL.}
 
 \item{pH}{pH of the reaction. Default to 7.5.}
 }
@@ -47,10 +49,10 @@ The output is a data frame with the variables:
 \code{PH} - pH.
 }
 \description{
-Compute the isotopic probabilities for the deuterated peptide as a convolution
-of the isotopic distribution for the undeuterated peptide and the observed
-isotopic distribution after hydrogen-deuterium exchange computed by
-\code{get_observed_iso_dist}.
+Compute the isotopic probabilities for the deuterated peptide
+as a convolution of the isotopic distribution for the undeuterated peptide
+and the observed isotopic distribution after hydrogen-deuterium exchange
+computed by \code{get_observed_iso_dist}.
 }
 \details{
 The m/z values for the deuterated peptide are calculated using the

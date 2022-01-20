@@ -9,12 +9,14 @@ add_column(data, col_name, value = NULL)
 \arguments{
 \item{data}{a data frame of interest.}
 
-\item{col_name}{a character. Name of column that should be created if it does not exist}
+\item{col_name}{a character. Name of column that should be created if it does
+not exist}
 
 \item{value}{optional. A value to fill with.}
 }
 \description{
-This function adds column if does not exist and fill it with provided value.
+This function adds column if does not exist and fill it with
+provided value.
 }
 \examples{
 \dontrun{

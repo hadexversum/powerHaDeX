@@ -7,11 +7,12 @@
 prepare_input_peptides(peptides)
 }
 \arguments{
-\item{peptides}{a data frame of parameters for which \code{\link[powerHaDeX]{simulate_theoretical_spectra}}
-will be executed.}
+\item{peptides}{a data frame of parameters for which
+\code{\link[powerHaDeX]{simulate_theoretical_spectra}} will be executed.}
 }
 \value{
-a data frame being a proper input for \code{\link[powerHaDeX]{create_experimental_file}}.
+a data frame being a proper input for
+\code{\link[powerHaDeX]{create_experimental_file}}.
 }
 \description{
 Supplementary function providing appropriate input.

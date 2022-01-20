@@ -40,18 +40,26 @@ create_experimental_file <- function(peptides,
     noisy_spectra_data <- rbindlist(lapply(1:nrow(all_params), function(ith_row) {
 
         print(paste("Simulation row:", ith_row))
-        spectrum <- tryCatch(simulate_theoretical_spectra(sequence = all_params[ith_row, "sequence"],
-                                                          charge = charge,
-                                                          protection_factor = all_params[ith_row, "protection_factor"],
-                                                          times = times,
-                                                          pH = all_params[ith_row, "pH"],
-                                                          temperature = all_params[ith_row, "temperature"],
-                                                          n_molecules = all_params[ith_row, "n_molecules"],
-                                                          time_step_const = all_params[ith_row, "time_step_const"],
-                                                          use_markov = all_params[ith_row, "use_markov"]),
-                             error = function(e) {
-                                 print(e)
-                                 data.frame()})
+        spectrum <- tryCatch(
+            simulate_theoretical_spectra(sequence = all_params[ith_row,
+                                                               "sequence"],
+                                         charge = charge,
+                                         protection_factor = all_params[ith_row,
+                                                                        "protection_factor"],
+                                         times = times,
+                                         pH = all_params[ith_row,
+                                                         "pH"],
+                                         temperature = all_params[ith_row,
+                                                                  "temperature"],
+                                         n_molecules = all_params[ith_row,
+                                                                  "n_molecules"],
+                                         time_step_const = all_params[ith_row,
+                                                                      "time_step_const"],
+                                         use_markov = all_params[ith_row,
+                                                                 "use_markov"]),
+            error = function(e) {
+                print(e)
+                data.frame()})
 
         spectra_by_charge <- split(spectrum, f = spectrum[["Charge"]])
 
@@ -69,6 +77,7 @@ create_experimental_file <- function(peptides,
                                                   intensity_deviations = intensity_deviations)
             noisy_spectra[[1]][[1]][["MHP"]] <- calculate_peptide_mass(strsplit(all_params[ith_row, "sequence"], "")[[1]])
             noisy_spectra_center <- get_deuteration_curve_single_spectrum(noisy_spectra[[1]][[1]])
+            noisy_spectra_center[["Experimental_state"]] <- NULL
             noisy_spectra_center[["Protein"]] <- all_params[ith_row, "Protein"]
             noisy_spectra_center[["Start"]] <- all_params[ith_row, "Start"]
             noisy_spectra_center[["End"]] <- all_params[ith_row, "End"]
@@ -76,7 +85,8 @@ create_experimental_file <- function(peptides,
             colnames(noisy_spectra_center) <- c("Exposure", "z", "Sequence",
                                                 "State", "File", "MHP", "Center",
                                                 "Protein", "Start", "End")
-            noisy_spectra_center[["State"]] <- paste0("PF_", noisy_spectra_center[["State"]])
+            noisy_spectra_center[["State"]] <- paste0("PF_",
+                                                      noisy_spectra_center[["State"]])
             noisy_spectra_center
 
         }))
@@ -84,10 +94,12 @@ create_experimental_file <- function(peptides,
 
     noisy_spectra_data[, Modification := NA]
     noisy_spectra_data[, Fragment := NA]
-    noisy_spectra_data[, MaxUptake := nchar(Sequence) - 2 - lengths(regmatches(Sequence, gregexpr("P", Sequence)))]
+    noisy_spectra_data[, MaxUptake := nchar(Sequence) - 2 - lengths(regmatches(Sequence,
+                                                                               gregexpr("P", Sequence)))]
     noisy_spectra_data[, RT := 0]
-    DynamX_order <- c("Protein", "Start", "End", "Sequence", "Modification", "Fragment", "MaxUptake",
-                      "MHP", "State", "Exposure", "File", "z", "RT", "Center")
+    DynamX_order <- c("Protein", "Start", "End", "Sequence", "Modification",
+                      "Fragment", "MaxUptake", "MHP", "State", "Exposure",
+                      "File", "z", "RT", "Center")
     setcolorder(noisy_spectra_data, DynamX_order)
 
     data.table(noisy_spectra_data)
@@ -97,10 +109,11 @@ create_experimental_file <- function(peptides,
 #' Prepare input for \code{\link[powerHaDeX]{create_experimental_file}}
 #'
 #' @description Supplementary function providing appropriate input.
-#' @param peptides a data frame of parameters for which \code{\link[powerHaDeX]{simulate_theoretical_spectra}}
-#' will be executed.
+#' @param peptides a data frame of parameters for which
+#' \code{\link[powerHaDeX]{simulate_theoretical_spectra}} will be executed.
 #'
-#' @return a data frame being a proper input for \code{\link[powerHaDeX]{create_experimental_file}}.
+#' @return a data frame being a proper input for
+#' \code{\link[powerHaDeX]{create_experimental_file}}.
 #'
 
 prepare_input_peptides <- function(peptides) {
@@ -126,10 +139,12 @@ prepare_input_peptides <- function(peptides) {
 
 #' Complete data frame with columns
 #'
-#' @description This function adds column if does not exist and fill it with provided value.
+#' @description This function adds column if does not exist and fill it with
+#' provided value.
 #'
 #' @param data a data frame of interest.
-#' @param col_name a character. Name of column that should be created if it does not exist
+#' @param col_name a character. Name of column that should be created if it does
+#' not exist
 #' @param value optional. A value to fill with.
 #'
 #' @examples

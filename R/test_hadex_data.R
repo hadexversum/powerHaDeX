@@ -1,14 +1,15 @@
 #' Apply tests for HaDeX data
 #'
 #' @description This function converts the data from HaDeX in order to make it
-#' compatible with the input of test functions and perform the testing procedures
-#' of provided tests.
+#' compatible with the input of test functions and perform the testing
+#' procedures of provided tests.
 #'
 #' @param dat data.table. The data of hdx_data class from the HaDeX package.
-#' @param states a character vector containing two states from provided `dat` that
-#' should be tested. By default the first two states (if exist) from `dat` are chosen.
-#' @param tests a list of testing functions. In the `powerHaDeX` package the following
-#' tests are implemented:
+#' @param states a character vector containing two states from provided `dat`
+#' that should be tested. By default the first two states (if exist) from `dat`
+#' are chosen.
+#' @param tests a list of testing functions. In the `powerHaDeX` package the
+#' following tests are implemented:
 #'
 #' - \code{\link[powerHaDeX]{test_houde}},
 #'
@@ -24,8 +25,8 @@
 #'
 #' - \code{State_1}, \code{State_2} - tested states from \code{states},
 #'
-#' - \code{Significant_difference} - \code{TRUE} or \code{FALSE}, indicating whether the null hypothesis
-#' is rejected
+#' - \code{Significant_difference} - \code{TRUE} or \code{FALSE}, indicating
+#' whether the null hypothesis is rejected
 #'
 #' - \code{Sequence} - amino acid sequence that was tested
 #'
@@ -35,10 +36,12 @@
 test_hadex_data <- function(dat, states = unique(dat[["State"]])[1:2],
                             tests = list(test_houde)) {
 
-    Test <- State_1 <- State_2 <- Significant_difference <- State <- Sequence <- NULL
-
-    if(length(states[!is.na(states)]) != 2) stop("Two states must be provided for pairwise testing.")
-    if(any(!(states %in% unique(dat[["State"]])))) stop("The provided states can not be found in the given data.")
+    if(length(states[!is.na(states)]) != 2) {
+        stop("Two states must be provided for pairwise testing.")
+    }
+    if(any(!(states %in% unique(dat[["State"]])))) {
+        stop("The provided states can not be found in the given data.")
+    }
 
     dat <- dat[State %in% states]
 
@@ -93,21 +96,27 @@ test_hadex_data <- function(dat, states = unique(dat[["State"]])[1:2],
 
 convert_hadex_data <- function(dat) {
 
-    Center <- z <- exp_mass <- Inten <- Experimental_state <- State <- Sequence <- File <- Exposure <- avg_exp_mass <- NULL
-
     proton_mass <- 1.00727647
 
     dat[,  `:=`(exp_mass = Center * z - z * proton_mass,
                 Center = NULL)]
 
-    dat <- dat[ , list(avg_exp_mass = weighted.mean(exp_mass, Inten, na.rm = TRUE)),
-                by = c("Sequence", "Start", "End", "MHP", "MaxUptake", "State", "Exposure", "Protein", "File", "z")]
+    dat <- dat[,
+               list(avg_exp_mass = weighted.mean(exp_mass, Inten,
+                                                 na.rm = TRUE)),
+               by = c("Sequence", "Start", "End", "MHP", "MaxUptake", "State",
+                      "Exposure", "Protein", "File", "z")]
 
-    dat[, Experimental_state := ifelse(State == unique(dat[["State"]])[1], "A", "B")]
-    dat <- dat[, list(Sequence, File, State, Exposure, avg_exp_mass, z, Experimental_state)]
+    dat[, Experimental_state := ifelse(State == unique(dat[["State"]])[1],
+                                       "A", "B")]
+    dat <- dat[, list(Sequence, File, State, Exposure,
+                      avg_exp_mass, z, Experimental_state)]
 
-    setnames(dat, c("Sequence", "File", "State", "Exposure", "avg_exp_mass", "z",  "Experimental_state"),
-             c("Sequence", "Rep", "State", "Exposure", "Mass", "Charge", "Experimental_state"))
+    setnames(dat,
+             c("Sequence", "File", "State", "Exposure", "avg_exp_mass",
+               "z",  "Experimental_state"),
+             c("Sequence", "Rep", "State", "Exposure", "Mass", "Charge",
+               "Experimental_state"))
 
     dat
 

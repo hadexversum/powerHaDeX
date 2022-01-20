@@ -9,9 +9,12 @@
 
 ####   Possibly misspelled words in DESCRIPTION: HDX (3:32), spectrometry (22:56).
 
-*HDX* is an abbreviation for Hydrogen-Deuterium Exchange which is a term widely used in biochemistry. 
+*HDX* is an abbreviation for Hydrogen-Deuterium Exchange which is a term widely 
+used in biochemistry. 
 
-Mass *spectrometry* (MS) is an analytical technique used to measure mass to charge ratio of ions.
+Mass *spectrometry* (MS) is an analytical technique used to measure mass to 
+charge ratio of ions.
 
-The combination of HDX and MS (HDX-MS) means Hydrogen-Deuterium Exchange monitored by Mass Spectrometry.
+The combination of HDX and MS (HDX-MS) means Hydrogen-Deuterium Exchange
+monitored by Mass Spectrometry.
 

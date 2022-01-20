@@ -27,18 +27,19 @@ times at which deuteration levels are measured.}
 Matrices are stored in a list of matrices (\code{HD_matrices}) -
 each matrix for the respective time point of the measurement \code{times}.
 
-Using the distributions of process in given times of mesurements, states \code{H}
-or \code{D} are sampled for \code{m} peptide molecules (\code{n_molecules)}
-for each of \eqn{i = 1,..., n} amino acids and stored in a \code{m x n}
-dimensional matrix for each of the time points of the measurement given by \code{times}.
+Using the distributions of process in given times of mesurements, states
+\code{H} or \code{D} are sampled for \code{m} peptide molecules
+(\code{n_molecules)} for each of \eqn{i = 1,..., n} amino acids and stored
+in a \code{m x n} dimensional matrix for each of the time points of the
+measurement given by \code{times}.
 }
 \description{
 Calculate matrices of simulated exchange required for obtaining
 empirical distribution.
 }
 \details{
-The improvement is based on the observation that the considered process
-is a Markov chain with transition probabilities \eqn{P(H -> D)} and \eqn{P(D -> H)},
-and states \code{H} and \code{D}.
+The improvement is based on the observation that the considered
+process is a Markov chain with transition probabilities \eqn{P(H -> D)} and
+\eqn{P(D -> H)}, and states \code{H} and \code{D}.
 }
 \keyword{internal}

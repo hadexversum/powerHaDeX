@@ -22,20 +22,23 @@ Calculate isotopic probabilities (intensity).
 }
 \details{
 The exchangeable-hydrogen distribution describing the increase of
-the mass is obtained from the exchange matrix from \code{\link[powerHaDeX]{get_HD_matrices}}
-or \code{\link[powerHaDeX]{get_HD_matrices_using_markov}} and the number of exchangeable hydrogens
-\code{n_exchangeable}. First, the numbers of hydrogens exchanged in each molecule
-are calculated as sums of rows of the exchange matrix. Next, a  vector of the
-counts is built and stored in a vector of length \code{n_exchangeable} plus one
-(for the lack of exchange). To obtain fractions counts are averaged.
+the mass is obtained from the exchange matrix from
+\code{\link[powerHaDeX]{get_HD_matrices}} or
+\code{\link[powerHaDeX]{get_HD_matrices_using_markov}} and the number of
+exchangeable hydrogens \code{n_exchangeable}. First, the numbers of hydrogens
+exchanged in each molecule are calculated as sums of rows of the exchange
+matrix. Next, a  vector of the counts is built and stored in a vector of
+length \code{n_exchangeable} plus one (for the lack of exchange). To obtain
+fractions counts are averaged.
 
 The isotopic probabilities for the deuterated peptide are computed as the
 convolution of obtained distribution and the isotopic distribution for the
 undeuterated peptide (\code{isotopic_distribution}) as it is a sum of those
-variables (Claesen and Burzykowski 2017, Deconvolution-Based Approach). Namely
+variables (Claesen and Burzykowski 2017, Deconvolution-Based Approach).
+Namely
 \deqn{M_delta = M_{mol} - M_{mon}}
-where \code{M_mol} is the random variable describing molecular mass, \code{M_mon}
-is the random variable describing monoisotopic mass and \code{M_delta} is the
-random variable describing the increase in mass.
+where \code{M_mol} is the random variable describing molecular mass,
+\code{M_mon} is the random variable describing monoisotopic mass and
+\code{M_delta} is the random variable describing the increase in mass.
 }
 \keyword{internal}

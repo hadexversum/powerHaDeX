@@ -12,25 +12,33 @@ calculate_hdx_power(
 )
 }
 \arguments{
-\item{deuteration_curves}{list returned by the \code{\link[powerHaDeX]{get_noisy_deuteration_curves}}}
+\item{deuteration_curves}{list returned by the
+\code{\link[powerHaDeX]{get_noisy_deuteration_curves}}}
 
-\item{tests}{lists of tests to perform. Each test function should take two parameters - data
-(data_table containing replicated curves) and \code{significance_level}, and have particular
-output - data frame of variables: \code{Test} (name of a test which should be displayed in
-the final result), \code{State_1}, \code{State_2} (biological states of interest), \code{Test_statistic},
-\code{P_value}, \code{Significant_difference} (the same as \code{p_value <= significance_level}), \code{Time}
-(character, "continuous" or "categorical"), \code{Transformation} (character, transformation that is used
-for exposure), \code{AIC}, \code{logLik}. For example see \code{\link[powerHaDeX]{test_houde}}.}
+\item{tests}{lists of tests to perform. Each test function should take two
+parameters - data (data_table containing replicated curves) and
+\code{significance_level}, and have particular output - data frame of
+variables: \code{Test} (name of a test which should be displayed in the final
+result), \code{State_1}, \code{State_2} (biological states of interest),
+\code{Test_statistic}, \code{P_value}, \code{Significant_difference} (the
+same as \code{p_value <= significance_level}), \code{Time} (character,
+"continuous" or "categorical"), \code{Transformation} (character,
+transformation that is used for exposure), \code{AIC}, \code{logLik}. For
+example see \code{\link[powerHaDeX]{test_houde}}.}
 
-\item{significance_level}{significance level that will be used for testing. See \code{tests}}
+\item{significance_level}{significance level that will be used for testing.
+See \code{tests}}
 
-\item{summarized}{logical. Indicates whether the power should be calculated. Default \code{TRUE}.}
+\item{summarized}{logical. Indicates whether the power should be calculated.
+Default \code{TRUE}.}
 }
 \value{
-list of data.tables with test result, optionally summarized with power.
+list of data.tables with test result, optionally summarized with
+power.
 }
 \description{
-This function estimates power of statistical tests for HDX experiments.
+This function estimates power of statistical tests for HDX
+experiments.
 }
 \examples{
 
@@ -56,17 +64,19 @@ theo_spectra_pf_200 <- simulate_theoretical_spectra(sequence = "LVRKDLQN",
 
 theo_spectra_two_states <- rbind(theo_spectra_pf_100, theo_spectra_pf_200)
 
-deuteration_curves_paired_states <- get_noisy_deuteration_curves(theo_spectra_two_states,
-                                                                 n_replicates = 4,
-                                                                 n_experiments = 2,
-                                                                 compare_pairs = TRUE,
-                                                                 reference = "all")
-calculate_hdx_power(deuteration_curves_paired_states,
+deut_curves_p_states <- get_noisy_deuteration_curves(theo_spectra_two_states,
+                                                     n_replicates = 4,
+                                                     n_experiments = 2,
+                                                     compare_pairs = TRUE,
+                                                     reference = "all")
+calculate_hdx_power(deut_curves_p_states,
                     tests = list(test_houde),
                     summarized = TRUE)
 
 }
 \seealso{
-\code{\link[powerHaDeX]{test_houde}}, \code{\link[powerHaDeX]{test_semiparametric}},
-\code{\link[powerHaDeX]{test_hdx_analyzer}}, \code{\link[powerHaDeX]{test_memhdx_model}}
+\code{\link[powerHaDeX]{test_houde}},
+\code{\link[powerHaDeX]{test_semiparametric}},
+\code{\link[powerHaDeX]{test_hdx_analyzer}},
+\code{\link[powerHaDeX]{test_memhdx_model}}
 }
