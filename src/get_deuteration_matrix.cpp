@@ -44,6 +44,7 @@ void overwrite_matrix(NumericMatrix& matrix,
 //' @param time_sequence vector of exchange times
 //' @param hd_probs probabilities of transition HD
 //' @param dh_probs probabilities of transition DH
+//' @return a matrix denoting hydrogen-deuterium exchange for given timepoint.
 //' @export
 // [[Rcpp::export]]
 NumericMatrix get_deuteration_single_timepoint(NumericMatrix initial_matrix,

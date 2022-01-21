@@ -30,7 +30,6 @@
 #'
 #' @keywords internal
 #'
-#' @export
 get_exchange_probabilities <- function(HD_rate,
                                        DH_rate,
                                        time_step,
@@ -78,7 +77,6 @@ get_exchange_probabilities <- function(HD_rate,
 #'
 #' @useDynLib powerHaDeX, .registration = TRUE
 #'
-#' @export
 
 get_HD_matrices <- function(sequence, transition_probs, experiment_times,
                             times_to_record, n_molecules = 100) {
@@ -139,7 +137,6 @@ get_HD_matrices <- function(sequence, transition_probs, experiment_times,
 #'
 #' @keywords internal
 #'
-#' @export
 get_HD_matrices_using_markov <- function(sequence, transition_probs,
                                          steps_between_time_points,
                                          n_molecules = 100) {
@@ -207,7 +204,6 @@ get_HD_matrices_using_markov <- function(sequence, transition_probs,
 #'
 #' @keywords internal
 #'
-#' @export
 get_observed_iso_dist <- function(HDmatrix, isotopic_distribution, maxD) {
 
     Distr <- rep(0, maxD + 1)
@@ -255,7 +251,8 @@ get_observed_iso_dist <- function(HDmatrix, isotopic_distribution, maxD) {
 #'
 #' \code{PH} - pH.
 #'
-#' @export
+#' @keywords internal
+#'
 
 get_iso_probs_deut <- function(HD_matrices, maxD, maxND, isotopic_probs,
                                peptide_mass, times, charge, pH) {

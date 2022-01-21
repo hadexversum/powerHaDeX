@@ -9,6 +9,9 @@ calculate_peptide_mass(sequence)
 \arguments{
 \item{sequence}{character vector of amino acid sequence of a peptide}
 }
+\value{
+a single number denoting the mass of the undeuterated peptide.
+}
 \description{
 Calculate mass of undeuterated peptide
 }
@@ -16,4 +19,3 @@ Calculate mass of undeuterated peptide
 Calculates peptide mass as a sum of amino acids' from
 \code{sequence} masses and H2O mass (1.007825 * 2 + 15.994915 = 18.01056).
 }
-\keyword{internal}

@@ -17,9 +17,11 @@ Authors@R: c(person(given = "Krystyna",
            comment = c(ORCID = "0000-0001-8926-582X"),
            role = c("ctb")))
 Maintainer: Krystyna Grzesiak <krygrz11@gmail.com>
-Description: Facilitates simulating and analyzing data coming from HDX-MS experiments 
-           along with the possibility of comparing the power of the tests verifying differences in 
-           the levels of deuterium uptake.
+Description: Facilitates simulating and analyzing data coming from HDX-MS 
+             experiments along with the possibility of comparing the power of 
+             the tests verifying differences in the levels of deuterium uptake. 
+             The simulation of mass spectra is a fast version of 
+             <https://github.com/kanzy/HX-MS-Simulations>.
 License: GPL (>= 3)
 Encoding: UTF-8
 Imports: 

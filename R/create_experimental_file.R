@@ -10,15 +10,15 @@
 #' about the additional parameters.
 #' @inheritParams simulate_theoretical_spectra
 #' @inheritParams get_noisy_deuteration_curves
-#' @param file_type ...
+#' @param file_type the type of file. Default to "DynamX".
+#'
+#' @return data table. The table of HDX-MS results consistent with `file_type`
+#' format.
 #'
 #' @examples
-#' \dontrun{
 #' peptides <- data.frame(sequence = c("FPTTKTY", "LVRKDLQN"),
 #'                        protection_factor = c(10, 100))
 #' create_experimental_file(peptides, charge = 1:3)
-#'
-#' }
 #'
 #' @export
 #'
@@ -147,11 +147,6 @@ prepare_input_peptides <- function(peptides) {
 #' not exist
 #' @param value optional. A value to fill with.
 #'
-#' @examples
-#' \dontrun{
-#' add_column(mtcars, "mpg")
-#' add_column(mtcars, c("column1", "column2"))
-#' }
 #'
 
 add_column <- function(data, col_name, value = NULL) {

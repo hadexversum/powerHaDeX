@@ -7,6 +7,7 @@
 #' @param time_sequence vector of exchange times
 #' @param hd_probs probabilities of transition HD
 #' @param dh_probs probabilities of transition DH
+#' @return a matrix denoting hydrogen-deuterium exchange for given timepoint.
 #' @export
 get_deuteration_single_timepoint <- function(initial_matrix, time_sequence, hd_probs, dh_probs) {
     .Call(`_powerHaDeX_get_deuteration_single_timepoint`, initial_matrix, time_sequence, hd_probs, dh_probs)

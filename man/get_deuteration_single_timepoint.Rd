@@ -20,6 +20,9 @@ get_deuteration_single_timepoint(
 
 \item{dh_probs}{probabilities of transition DH}
 }
+\value{
+a matrix denoting hydrogen-deuterium exchange for given timepoint.
+}
 \description{
 Calculates deuteration for given timepoint
 }

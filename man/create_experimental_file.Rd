@@ -42,18 +42,19 @@ each time point will be the same) or a vector of the same length as number of
 unique time points in the experiment. The error will be sampled from normal
 distribution with these standard deviations.Default \code{NULL}.}
 
-\item{file_type}{...}
+\item{file_type}{the type of file. Default to "DynamX".}
+}
+\value{
+data table. The table of HDX-MS results consistent with `file_type`
+format.
 }
 \description{
 This function generates replications of mass spectra that are
 consistent with common experimental data files
 }
 \examples{
-\dontrun{
 peptides <- data.frame(sequence = c("FPTTKTY", "LVRKDLQN"),
                        protection_factor = c(10, 100))
 create_experimental_file(peptides, charge = 1:3)
-
-}
 
 }
