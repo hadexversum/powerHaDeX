@@ -26,7 +26,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -57,7 +57,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">add_noise_to_one_timepoint</span><span class="op">(</span><span class="va">spectrum</span>, <span class="va">standard_deviations</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">add_noise_to_one_timepoint</span><span class="op">(</span><span class="va">spectrum</span>, <span class="va">standard_deviations</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -65,12 +65,17 @@
     <dl><dt>spectrum</dt>
 <dd><p>a single spectrum from the list obtained using
 <code><a href="make_experimental_design.html">make_experimental_design</a></code>.</p></dd>
+
+
 <dt>standard_deviations</dt>
 <dd><p>vector of standard deviations for the random noise</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>data.table</p>
+    
+
+<p>data.table</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -88,11 +93,11 @@ points).</p>
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by Krystyna Grzesiak, Mateusz Staniak.</p>
+  <p></p><p>Developed by Krystyna Grzesiak, Mateusz Staniak, Weronika Puchala.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

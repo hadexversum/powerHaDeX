@@ -43,7 +43,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -82,7 +82,7 @@
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">powerHaDeX</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">powerHaDeX</span><span class="op">)</span></span></code></pre></div>
 <p>The package <code>powerHaDeX</code> is a tool providing a solution for the need for simulation and analysis of the data coming from HDX-MS experiments. This article is dedicated to the detailed description of the simulation of HDX-MS data.</p>
 <div class="section level2">
 <h2 id="diagram-of-hdx-ms-curve-simulation-">Diagram of HDX-MS curve simulation.<a class="anchor" aria-label="anchor" href="#diagram-of-hdx-ms-curve-simulation-"></a>
@@ -261,15 +261,15 @@
 </ul>
 <p>As in the table below</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">spectrum1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/simulate_theoretical_spectra.html">simulate_theoretical_spectra</a></span><span class="op">(</span><span class="st">"LVRKDLQN"</span>, protection_factor <span class="op">=</span> <span class="fl">10</span>, charge <span class="op">=</span> <span class="fl">2</span>, times <span class="op">=</span> <span class="fl">60</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">spectrum1</span><span class="op">)</span>
-<span class="co">#&gt;    Exposure  PH    Intensity       Mz Charge Sequence PF</span>
-<span class="co">#&gt; 1:        0 7.5 0.5801405135 493.2931      2 LVRKDLQN 10</span>
-<span class="co">#&gt; 2:        0 7.5 0.3031692943 493.2931      2 LVRKDLQN 10</span>
-<span class="co">#&gt; 3:        0 7.5 0.0919265899 493.2931      2 LVRKDLQN 10</span>
-<span class="co">#&gt; 4:        0 7.5 0.0204531418 493.2931      2 LVRKDLQN 10</span>
-<span class="co">#&gt; 5:        0 7.5 0.0036689790 493.2931      2 LVRKDLQN 10</span>
-<span class="co">#&gt; 6:        0 7.5 0.0005576524 493.2931      2 LVRKDLQN 10</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">spectrum1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/simulate_theoretical_spectra.html">simulate_theoretical_spectra</a></span><span class="op">(</span><span class="st">"LVRKDLQN"</span>, protection_factor <span class="op">=</span> <span class="fl">10</span>, charge <span class="op">=</span> <span class="fl">2</span>, times <span class="op">=</span> <span class="fl">60</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">spectrum1</span><span class="op">)</span></span>
+<span><span class="co">#&gt;    Exposure  PH    Intensity       Mz Charge Sequence PF</span></span>
+<span><span class="co">#&gt; 1:        0 7.5 0.5801405135 493.2931      2 LVRKDLQN 10</span></span>
+<span><span class="co">#&gt; 2:        0 7.5 0.3031692943 493.2931      2 LVRKDLQN 10</span></span>
+<span><span class="co">#&gt; 3:        0 7.5 0.0919265899 493.2931      2 LVRKDLQN 10</span></span>
+<span><span class="co">#&gt; 4:        0 7.5 0.0204531418 493.2931      2 LVRKDLQN 10</span></span>
+<span><span class="co">#&gt; 5:        0 7.5 0.0036689790 493.2931      2 LVRKDLQN 10</span></span>
+<span><span class="co">#&gt; 6:        0 7.5 0.0005576524 493.2931      2 LVRKDLQN 10</span></span></code></pre></div>
 <p>The data obtained by the procedure described above is called the theoretical spectrum. Let us note that a single spectrum is observed for a particular set of parameters such as <code>Exposure</code>, <code>Sequence</code>, <code>PF</code>, <code>Charge</code>, <code>PH</code>. Thus, using the option of providing a vector of time points and/or charges, one obtains several spectra.</p>
 <p>Such a spectrum is the first step of the simulation shown in the first diagram when simulated for two biological states and different time points.</p>
 </div>
@@ -333,31 +333,31 @@
 </ul>
 <p>as shown below</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="va">spectrum2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/simulate_theoretical_spectra.html">simulate_theoretical_spectra</a></span><span class="op">(</span><span class="st">"LVRKDLQN"</span>, protection_factor <span class="op">=</span> <span class="fl">1000</span>, charge <span class="op">=</span> <span class="fl">2</span>, times <span class="op">=</span> <span class="fl">60</span><span class="op">)</span>
-<span class="va">paired_spectra</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">spectrum1</span>, <span class="va">spectrum2</span><span class="op">)</span>
-
-<span class="fu"><a href="../reference/get_noisy_deuteration_curves.html">get_noisy_deuteration_curves</a></span><span class="op">(</span><span class="va">paired_spectra</span>,
-                             n_replicates <span class="op">=</span> <span class="fl">4</span>,
-                             n_experiments <span class="op">=</span> <span class="fl">1</span>,
-                             reference <span class="op">=</span> <span class="st">"all"</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
-<span class="co">#&gt;     Sequence Rep State Exposure      Mass Charge Experimental_state</span>
-<span class="co">#&gt;  1: LVRKDLQN   1    10        0 0.0000000      2                  A</span>
-<span class="co">#&gt;  2: LVRKDLQN   1    10       60 1.5394656      2                  A</span>
-<span class="co">#&gt;  3: LVRKDLQN   1  1000        0 0.0000000      2                  B</span>
-<span class="co">#&gt;  4: LVRKDLQN   1  1000       60 0.9650304      2                  B</span>
-<span class="co">#&gt;  5: LVRKDLQN   2    10        0 0.0000000      2                  A</span>
-<span class="co">#&gt;  6: LVRKDLQN   2    10       60 1.3727406      2                  A</span>
-<span class="co">#&gt;  7: LVRKDLQN   2  1000        0 0.0000000      2                  B</span>
-<span class="co">#&gt;  8: LVRKDLQN   2  1000       60 0.9547002      2                  B</span>
-<span class="co">#&gt;  9: LVRKDLQN   3    10        0 0.0000000      2                  A</span>
-<span class="co">#&gt; 10: LVRKDLQN   3    10       60 1.5615080      2                  A</span>
-<span class="co">#&gt; 11: LVRKDLQN   3  1000        0 0.0000000      2                  B</span>
-<span class="co">#&gt; 12: LVRKDLQN   3  1000       60 1.0402436      2                  B</span>
-<span class="co">#&gt; 13: LVRKDLQN   4    10        0 0.0000000      2                  A</span>
-<span class="co">#&gt; 14: LVRKDLQN   4    10       60 1.3771870      2                  A</span>
-<span class="co">#&gt; 15: LVRKDLQN   4  1000        0 0.0000000      2                  B</span>
-<span class="co">#&gt; 16: LVRKDLQN   4  1000       60 1.0938394      2                  B</span></code></pre></div>
+<code class="sourceCode R"><span></span>
+<span><span class="va">spectrum2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/simulate_theoretical_spectra.html">simulate_theoretical_spectra</a></span><span class="op">(</span><span class="st">"LVRKDLQN"</span>, protection_factor <span class="op">=</span> <span class="fl">1000</span>, charge <span class="op">=</span> <span class="fl">2</span>, times <span class="op">=</span> <span class="fl">60</span><span class="op">)</span></span>
+<span><span class="va">paired_spectra</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">spectrum1</span>, <span class="va">spectrum2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/get_noisy_deuteration_curves.html">get_noisy_deuteration_curves</a></span><span class="op">(</span><span class="va">paired_spectra</span>,</span>
+<span>                             n_replicates <span class="op">=</span> <span class="fl">4</span>,</span>
+<span>                             n_experiments <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>                             reference <span class="op">=</span> <span class="st">"all"</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
+<span><span class="co">#&gt;     Sequence Rep State Exposure      Mass Charge Experimental_state</span></span>
+<span><span class="co">#&gt;  1: LVRKDLQN   1    10        0 0.0000000      2                  A</span></span>
+<span><span class="co">#&gt;  2: LVRKDLQN   1    10       60 1.6878389      2                  A</span></span>
+<span><span class="co">#&gt;  3: LVRKDLQN   1  1000        0 0.0000000      2                  B</span></span>
+<span><span class="co">#&gt;  4: LVRKDLQN   1  1000       60 1.1869735      2                  B</span></span>
+<span><span class="co">#&gt;  5: LVRKDLQN   2    10        0 0.0000000      2                  A</span></span>
+<span><span class="co">#&gt;  6: LVRKDLQN   2    10       60 1.6815608      2                  A</span></span>
+<span><span class="co">#&gt;  7: LVRKDLQN   2  1000        0 0.0000000      2                  B</span></span>
+<span><span class="co">#&gt;  8: LVRKDLQN   2  1000       60 0.9837729      2                  B</span></span>
+<span><span class="co">#&gt;  9: LVRKDLQN   3    10        0 0.0000000      2                  A</span></span>
+<span><span class="co">#&gt; 10: LVRKDLQN   3    10       60 1.6428771      2                  A</span></span>
+<span><span class="co">#&gt; 11: LVRKDLQN   3  1000        0 0.0000000      2                  B</span></span>
+<span><span class="co">#&gt; 12: LVRKDLQN   3  1000       60 1.1736787      2                  B</span></span>
+<span><span class="co">#&gt; 13: LVRKDLQN   4    10        0 0.0000000      2                  A</span></span>
+<span><span class="co">#&gt; 14: LVRKDLQN   4    10       60 1.6743780      2                  A</span></span>
+<span><span class="co">#&gt; 15: LVRKDLQN   4  1000        0 0.0000000      2                  B</span></span>
+<span><span class="co">#&gt; 16: LVRKDLQN   4  1000       60 1.1831840      2                  B</span></span></code></pre></div>
 </div>
 </div>
 </div>
@@ -375,12 +375,12 @@
 
       <footer><div class="copyright">
   <p></p>
-<p>Developed by Krystyna Grzesiak, Mateusz Staniak.</p>
+<p>Developed by Krystyna Grzesiak, Mateusz Staniak, Weronika Puchala.</p>
 </div>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>

@@ -28,7 +28,7 @@ add_noise_to_spectra."><!-- mathjax --><script src="https://cdnjs.cloudflare.com
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -61,7 +61,7 @@ provided spectra. It is a supplementary function used in
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">make_experimental_design</span><span class="op">(</span><span class="va">spectra</span>, n_replicates <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">make_experimental_design</span><span class="op">(</span><span class="va">spectra</span>, n_replicates <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -69,12 +69,17 @@ provided spectra. It is a supplementary function used in
     <dl><dt>spectra</dt>
 <dd><p>list created by the <code><a href="get_spectra_list.html">get_spectra_list</a></code>
 function</p></dd>
+
+
 <dt>n_replicates</dt>
 <dd><p>number of technical replicates to create</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>list of data.tables</p>
+    
+
+<p>list of data.tables</p>
     </div>
 
   </div>
@@ -85,11 +90,11 @@ function</p></dd>
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by Krystyna Grzesiak, Mateusz Staniak.</p>
+  <p></p><p>Developed by Krystyna Grzesiak, Mateusz Staniak, Weronika Puchala.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

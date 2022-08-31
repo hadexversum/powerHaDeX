@@ -28,7 +28,7 @@ HDX experiments."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -61,17 +61,17 @@ HDX experiments.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">get_noisy_deuteration_curves</span><span class="op">(</span>
-  <span class="va">theoretical_spectra</span>,
-  compare_pairs <span class="op">=</span> <span class="cn">TRUE</span>,
-  reference <span class="op">=</span> <span class="cn">NA</span>,
-  n_replicates <span class="op">=</span> <span class="fl">4</span>,
-  n_experiments <span class="op">=</span> <span class="fl">100</span>,
-  mass_deviations <span class="op">=</span> <span class="fl">50</span>,
-  intensity_deviations <span class="op">=</span> <span class="cn">NULL</span>,
-  per_run_deviations <span class="op">=</span> <span class="cn">NULL</span>,
-  relative <span class="op">=</span> <span class="cn">TRUE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_noisy_deuteration_curves</span><span class="op">(</span></span>
+<span>  <span class="va">theoretical_spectra</span>,</span>
+<span>  compare_pairs <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  reference <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  n_replicates <span class="op">=</span> <span class="fl">4</span>,</span>
+<span>  n_experiments <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>  mass_deviations <span class="op">=</span> <span class="fl">50</span>,</span>
+<span>  intensity_deviations <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  per_run_deviations <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  relative <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -80,22 +80,32 @@ HDX experiments.</p>
 <dd><p>a data table or a list of data tables of
 theoretical spectra created by the function
 <code><a href="simulate_theoretical_spectra.html">simulate_theoretical_spectra</a></code>.</p></dd>
+
+
 <dt>compare_pairs</dt>
 <dd><p>if FALSE, all groups (defined by the protection factor)
 will be considered jointly. If TRUE (default), each protection factor will be
 considered together with the protection factor given by the `reference`
 parameter.</p></dd>
+
+
 <dt>reference</dt>
 <dd><p>protection factor that will be used for comparison to other
 protection factors in. The function accepts either <code>NA</code> (for comparing
 all protection factors), a number (for comparing with reference value of
 protection factor) or "all" (for pairwise comparisons of all the possible
 combinations). Default <code>NA</code>.</p></dd>
+
+
 <dt>n_replicates</dt>
 <dd><p>number of technical replicates to create</p></dd>
+
+
 <dt>n_experiments</dt>
 <dd><p>number of replicates of an experiment for power
 calculation.</p></dd>
+
+
 <dt>mass_deviations</dt>
 <dd><p>mass deviation in parts per million. Either a single
 number (then the error at each time point will be the same) or a vector of
@@ -103,68 +113,91 @@ the same length as number of unique time points in the experiment. The error
 will be sampled from normal distribution with standard deviation equal to
 $$mass_deviations * undeuterated_mass/1e6$$
 Default to 50.</p></dd>
+
+
 <dt>intensity_deviations</dt>
 <dd><p>optional, standard deviations of random noise
 that will be added to intensities. Either a single number (then the error at
 each time point will be the same) or a vector of the same length as number of
 unique time points in the experiment. The error will be sampled from normal
 distribution with these standard deviations.Default <code>NULL</code>.</p></dd>
+
+
 <dt>per_run_deviations</dt>
 <dd><p>optional, standard deviations of random noise that
 will be added to deuteration curves. Either a single number (then the error
 at each time point will be the same) or a vector of the same length as number
 of unique time points in the experiment. The error will be sampled from
 normal distribution with these standard deviations. Default <code>NULL</code>.</p></dd>
+
+
 <dt>relative</dt>
 <dd><p>logical, if TRUE (default), each deuteration curve will start
 at 0 (relative mass will be returned). Default <code>TRUE</code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>a list (for paired states when <code>compare_pairs</code> is <code>TRUE</code>)
+    
+
+<p>a list (for paired states when <code>compare_pairs</code> is <code>TRUE</code>)
 of lists (repetitions of experiment for power calculations) of data tables of
-the variables:
-- <code>Sequence</code> - provided amino acid sequence
-- <code>Rep</code> - technical replication
-- <code>State</code> - provided protection factor (the theoretical - in practice
-unknown - state of the protein)
-- <code>Exposure</code> - exposure time
-- <code>Mass</code> - mass or deuterium uptake when <code>relative</code> is <code>TRUE</code>.
-- <code>Charge</code> - charge
-- <code>Experimental_state</code> - the biological state (from the viewpoint of the
+the variables:</p>
+
+
+<p>- <code>Sequence</code> - provided amino acid sequence</p>
+
+
+<p>- <code>Rep</code> - technical replication</p>
+
+
+<p>- <code>State</code> - provided protection factor (the theoretical - in practice
+unknown - state of the protein)</p>
+
+
+<p>- <code>Exposure</code> - exposure time</p>
+
+
+<p>- <code>Mass</code> - mass or deuterium uptake when <code>relative</code> is <code>TRUE</code>.</p>
+
+
+<p>- <code>Charge</code> - charge</p>
+
+
+<p>- <code>Experimental_state</code> - the biological state (from the viewpoint of the
 experimenter) provided in the case when <code>compare_pairs</code> is <code>TRUE</code>.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">theo_spectra_pf_100</span> <span class="op">&lt;-</span> <span class="fu"><a href="simulate_theoretical_spectra.html">simulate_theoretical_spectra</a></span><span class="op">(</span>sequence <span class="op">=</span> <span class="st">"LVRKDLQN"</span>,</span>
-<span class="r-in">                                                    charge <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">5</span><span class="op">)</span>,</span>
-<span class="r-in">                                                    protection_factor <span class="op">=</span> <span class="fl">100</span>,</span>
-<span class="r-in">                                                    times <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.167</span>, <span class="fl">5</span><span class="op">)</span>,</span>
-<span class="r-in">                                                    pH <span class="op">=</span> <span class="fl">7.5</span>,</span>
-<span class="r-in">                                                    temperature <span class="op">=</span> <span class="fl">15</span>,</span>
-<span class="r-in">                                                    n_molecules <span class="op">=</span> <span class="fl">500</span>,</span>
-<span class="r-in">                                                    time_step_const <span class="op">=</span> <span class="fl">1</span>,</span>
-<span class="r-in">                                                    use_markov <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">theo_spectra_pf_200</span> <span class="op">&lt;-</span> <span class="fu"><a href="simulate_theoretical_spectra.html">simulate_theoretical_spectra</a></span><span class="op">(</span>sequence <span class="op">=</span> <span class="st">"LVRKDLQN"</span>,</span>
-<span class="r-in">                                                    charge <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">5</span><span class="op">)</span>,</span>
-<span class="r-in">                                                    protection_factor <span class="op">=</span> <span class="fl">200</span>,</span>
-<span class="r-in">                                                    times <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.167</span>, <span class="fl">5</span><span class="op">)</span>,</span>
-<span class="r-in">                                                    pH <span class="op">=</span> <span class="fl">7.5</span>,</span>
-<span class="r-in">                                                    temperature <span class="op">=</span> <span class="fl">15</span>,</span>
-<span class="r-in">                                                    n_molecules <span class="op">=</span> <span class="fl">500</span>,</span>
-<span class="r-in">                                                    time_step_const <span class="op">=</span> <span class="fl">1</span>,</span>
-<span class="r-in">                                                    use_markov <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">theo_spectra_two_states</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">theo_spectra_pf_100</span>, <span class="va">theo_spectra_pf_200</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">deut_curves_p_states</span> <span class="op">&lt;-</span> <span class="fu">get_noisy_deuteration_curves</span><span class="op">(</span><span class="va">theo_spectra_two_states</span>,</span>
-<span class="r-in">                                                     n_replicates <span class="op">=</span> <span class="fl">4</span>,</span>
-<span class="r-in">                                                     n_experiments <span class="op">=</span> <span class="fl">2</span>,</span>
-<span class="r-in">                                                     compare_pairs <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span class="r-in">                                                     reference <span class="op">=</span> <span class="st">"all"</span><span class="op">)</span></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">theo_spectra_pf_100</span> <span class="op">&lt;-</span> <span class="fu"><a href="simulate_theoretical_spectra.html">simulate_theoretical_spectra</a></span><span class="op">(</span>sequence <span class="op">=</span> <span class="st">"LVRKDLQN"</span>,</span></span>
+<span class="r-in"><span>                                                    charge <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">5</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                                                    protection_factor <span class="op">=</span> <span class="fl">100</span>,</span></span>
+<span class="r-in"><span>                                                    times <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.167</span>, <span class="fl">5</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                                                    pH <span class="op">=</span> <span class="fl">7.5</span>,</span></span>
+<span class="r-in"><span>                                                    temperature <span class="op">=</span> <span class="fl">15</span>,</span></span>
+<span class="r-in"><span>                                                    n_molecules <span class="op">=</span> <span class="fl">500</span>,</span></span>
+<span class="r-in"><span>                                                    time_step_const <span class="op">=</span> <span class="fl">1</span>,</span></span>
+<span class="r-in"><span>                                                    use_markov <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">theo_spectra_pf_200</span> <span class="op">&lt;-</span> <span class="fu"><a href="simulate_theoretical_spectra.html">simulate_theoretical_spectra</a></span><span class="op">(</span>sequence <span class="op">=</span> <span class="st">"LVRKDLQN"</span>,</span></span>
+<span class="r-in"><span>                                                    charge <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">5</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                                                    protection_factor <span class="op">=</span> <span class="fl">200</span>,</span></span>
+<span class="r-in"><span>                                                    times <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.167</span>, <span class="fl">5</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                                                    pH <span class="op">=</span> <span class="fl">7.5</span>,</span></span>
+<span class="r-in"><span>                                                    temperature <span class="op">=</span> <span class="fl">15</span>,</span></span>
+<span class="r-in"><span>                                                    n_molecules <span class="op">=</span> <span class="fl">500</span>,</span></span>
+<span class="r-in"><span>                                                    time_step_const <span class="op">=</span> <span class="fl">1</span>,</span></span>
+<span class="r-in"><span>                                                    use_markov <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">theo_spectra_two_states</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">theo_spectra_pf_100</span>, <span class="va">theo_spectra_pf_200</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">deut_curves_p_states</span> <span class="op">&lt;-</span> <span class="fu">get_noisy_deuteration_curves</span><span class="op">(</span><span class="va">theo_spectra_two_states</span>,</span></span>
+<span class="r-in"><span>                                                     n_replicates <span class="op">=</span> <span class="fl">4</span>,</span></span>
+<span class="r-in"><span>                                                     n_experiments <span class="op">=</span> <span class="fl">2</span>,</span></span>
+<span class="r-in"><span>                                                     compare_pairs <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>                                                     reference <span class="op">=</span> <span class="st">"all"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -175,11 +208,11 @@ experimenter) provided in the case when <code>compare_pairs</code> is <code>TRUE
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by Krystyna Grzesiak, Mateusz Staniak.</p>
+  <p></p><p>Developed by Krystyna Grzesiak, Mateusz Staniak, Weronika Puchala.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

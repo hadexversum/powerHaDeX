@@ -26,7 +26,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -57,28 +57,37 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">get_deuteration_single_timepoint</span><span class="op">(</span>
-  <span class="va">initial_matrix</span>,
-  <span class="va">time_sequence</span>,
-  <span class="va">hd_probs</span>,
-  <span class="va">dh_probs</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_deuteration_single_timepoint</span><span class="op">(</span></span>
+<span>  <span class="va">initial_matrix</span>,</span>
+<span>  <span class="va">time_sequence</span>,</span>
+<span>  <span class="va">hd_probs</span>,</span>
+<span>  <span class="va">dh_probs</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>initial_matrix</dt>
 <dd><p>A matrix</p></dd>
+
+
 <dt>time_sequence</dt>
 <dd><p>vector of exchange times</p></dd>
+
+
 <dt>hd_probs</dt>
 <dd><p>probabilities of transition HD</p></dd>
+
+
 <dt>dh_probs</dt>
 <dd><p>probabilities of transition DH</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>a matrix denoting hydrogen-deuterium exchange for given timepoint.</p>
+    
+
+<p>a matrix denoting hydrogen-deuterium exchange for given timepoint.</p>
     </div>
 
   </div>
@@ -89,11 +98,11 @@
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by Krystyna Grzesiak, Mateusz Staniak.</p>
+  <p></p><p>Developed by Krystyna Grzesiak, Mateusz Staniak, Weronika Puchala.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

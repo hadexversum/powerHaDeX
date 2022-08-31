@@ -27,7 +27,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -59,7 +59,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">get_spectra_list</span><span class="op">(</span><span class="va">theoretical_spectra</span>, compare_pairs <span class="op">=</span> <span class="cn">FALSE</span>, reference <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_spectra_list</span><span class="op">(</span><span class="va">theoretical_spectra</span>, compare_pairs <span class="op">=</span> <span class="cn">FALSE</span>, reference <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -68,21 +68,28 @@
 <dd><p>a data table or a list of data tables of
 theoretical spectra created by the function
 <code><a href="simulate_theoretical_spectra.html">simulate_theoretical_spectra</a></code>.</p></dd>
+
+
 <dt>compare_pairs</dt>
 <dd><p>if FALSE, all groups (defined by the protection factor)
 will be considered jointly. If TRUE (default), each protection factor will be
 considered together with the protection factor given by the `reference`
 parameter.</p></dd>
+
+
 <dt>reference</dt>
 <dd><p>protection factor that will be used for comparison to other
 protection factors in. The function accepts either <code>NA</code> (for comparing
 all protection factors), a number (for comparing with reference value of
 protection factor) or "all" (for pairwise comparisons of all the possible
 combinations). Default <code>NA</code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>list of data.tables containing spectra - for paired states or all
+    
+
+<p>list of data.tables containing spectra - for paired states or all
 states.</p>
     </div>
     <div id="details">
@@ -105,11 +112,11 @@ pairs if <code>reference</code> equals "all").</p>
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by Krystyna Grzesiak, Mateusz Staniak.</p>
+  <p></p><p>Developed by Krystyna Grzesiak, Mateusz Staniak, Weronika Puchala.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

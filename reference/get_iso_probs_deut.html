@@ -29,7 +29,7 @@ computed by get_observed_iso_dist."><!-- mathjax --><script src="https://cdnjs.c
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -63,16 +63,16 @@ computed by <code>get_observed_iso_dist</code>.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">get_iso_probs_deut</span><span class="op">(</span>
-  <span class="va">HD_matrices</span>,
-  <span class="va">maxD</span>,
-  <span class="va">maxND</span>,
-  <span class="va">isotopic_probs</span>,
-  <span class="va">peptide_mass</span>,
-  <span class="va">times</span>,
-  <span class="va">charge</span>,
-  <span class="va">pH</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_iso_probs_deut</span><span class="op">(</span></span>
+<span>  <span class="va">HD_matrices</span>,</span>
+<span>  <span class="va">maxD</span>,</span>
+<span>  <span class="va">maxND</span>,</span>
+<span>  <span class="va">isotopic_probs</span>,</span>
+<span>  <span class="va">peptide_mass</span>,</span>
+<span>  <span class="va">times</span>,</span>
+<span>  <span class="va">charge</span>,</span>
+<span>  <span class="va">pH</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -82,30 +82,55 @@ computed by <code>get_observed_iso_dist</code>.</p>
 hydrogen-deuterium-exchange. Calculated via
 <code><a href="get_HD_matrices.html">get_HD_matrices</a></code> or
 <code><a href="get_HD_matrices_using_markov.html">get_HD_matrices_using_markov</a></code></p></dd>
+
+
 <dt>maxD</dt>
 <dd><p>length of the sequence - amount of prolines</p></dd>
+
+
 <dt>maxND</dt>
 <dd><p>length of the isotopic distribution - 1</p></dd>
+
+
 <dt>isotopic_probs</dt>
 <dd><p>the isotopic distribution for the undeuterated peptide.</p></dd>
+
+
 <dt>peptide_mass</dt>
 <dd><p>mass of the peptide + mass of H2O</p></dd>
+
+
 <dt>times</dt>
 <dd><p>a vector of times at which deuteration levels will be measured
 (seconds)</p></dd>
+
+
 <dt>charge</dt>
 <dd><p>vector of charges of the peptide ion. If NULL, one value is
 sampled from vector 2:6. Default NULL.</p></dd>
+
+
 <dt>pH</dt>
 <dd><p>pH of the reaction. Default to 7.5.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>The output is a data frame with the variables:
-<code>Exposure</code> (time point of measurement consistent with given HD matrix),
-<code>Mz</code> - m/z values,
-<code>Intensity</code> - isotopic probabilities,
-<code>PH</code> - pH.</p>
+    
+
+<p>The output is a data frame with the variables:</p>
+
+
+<p><code>Exposure</code> (time point of measurement consistent with given HD matrix),</p>
+
+
+<p><code>Mz</code> - m/z values,</p>
+
+
+<p><code>Intensity</code> - isotopic probabilities,</p>
+
+
+<p><code>PH</code> - pH.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -124,11 +149,11 @@ charge of the peptide ion is added.</p>
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by Krystyna Grzesiak, Mateusz Staniak.</p>
+  <p></p><p>Developed by Krystyna Grzesiak, Mateusz Staniak, Weronika Puchala.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

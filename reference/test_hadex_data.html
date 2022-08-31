@@ -28,7 +28,7 @@ procedures of provided tests."><!-- mathjax --><script src="https://cdnjs.cloudf
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -61,21 +61,25 @@ procedures of provided tests.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">test_hadex_data</span><span class="op">(</span>
-  <span class="va">dat</span>,
-  states <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">dat</span><span class="op">[[</span><span class="st">"State"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>,
-  tests <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">test_houde</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">test_hadex_data</span><span class="op">(</span></span>
+<span>  <span class="va">dat</span>,</span>
+<span>  states <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">dat</span><span class="op">[[</span><span class="st">"State"</span><span class="op">]</span><span class="op">]</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>,</span>
+<span>  tests <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">test_houde</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>dat</dt>
 <dd><p>data.table. The data of hdx_data class from the HaDeX package.</p></dd>
+
+
 <dt>states</dt>
 <dd><p>a character vector containing two states from provided `dat`
 that should be tested. By default the first two states (if exist) from `dat`
 are chosen.</p></dd>
+
+
 <dt>tests</dt>
 <dd><p>a list of testing functions. In the `powerHaDeX` package the
 following tests are implemented:</p>
@@ -83,15 +87,26 @@ following tests are implemented:</p>
 <p>- <code><a href="test_hdx_analyzer.html">test_hdx_analyzer</a></code>,</p>
 <p>- <code><a href="test_memhdx_model.html">test_memhdx_model</a></code>,</p>
 <p>-<code><a href="test_semiparametric.html">test_semiparametric</a></code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>This function returns a data table of variables:
-- <code>Test</code> - name of test,
-- <code>State_1</code>, <code>State_2</code> - tested states from <code>states</code>,
-- <code>Significant_difference</code> - <code>TRUE</code> or <code>FALSE</code>, indicating
-whether the null hypothesis is rejected
-- <code>Sequence</code> - amino acid sequence that was tested</p>
+    
+
+<p>This function returns a data table of variables:</p>
+
+
+<p>- <code>Test</code> - name of test,</p>
+
+
+<p>- <code>State_1</code>, <code>State_2</code> - tested states from <code>states</code>,</p>
+
+
+<p>- <code>Significant_difference</code> - <code>TRUE</code> or <code>FALSE</code>, indicating
+whether the null hypothesis is rejected</p>
+
+
+<p>- <code>Sequence</code> - amino acid sequence that was tested</p>
     </div>
 
   </div>
@@ -102,11 +117,11 @@ whether the null hypothesis is rejected
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by Krystyna Grzesiak, Mateusz Staniak.</p>
+  <p></p><p>Developed by Krystyna Grzesiak, Mateusz Staniak, Weronika Puchala.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

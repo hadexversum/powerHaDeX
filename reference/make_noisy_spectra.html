@@ -26,7 +26,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -57,13 +57,13 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">make_noisy_spectra</span><span class="op">(</span>
-  <span class="va">spectra</span>,
-  n_experiments <span class="op">=</span> <span class="fl">100</span>,
-  <span class="va">undeuterated_mass</span>,
-  mass_deviations <span class="op">=</span> <span class="fl">50</span>,
-  intensity_deviations <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">make_noisy_spectra</span><span class="op">(</span></span>
+<span>  <span class="va">spectra</span>,</span>
+<span>  n_experiments <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>  <span class="va">undeuterated_mass</span>,</span>
+<span>  mass_deviations <span class="op">=</span> <span class="fl">50</span>,</span>
+<span>  intensity_deviations <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -71,12 +71,18 @@
     <dl><dt>spectra</dt>
 <dd><p>a list of spectra obtained via
 <code><a href="make_experimental_design.html">make_experimental_design</a></code>.</p></dd>
+
+
 <dt>n_experiments</dt>
 <dd><p>number of replicates of an experiment for power
 calculation.</p></dd>
+
+
 <dt>undeuterated_mass</dt>
 <dd><p>the value of mass of an undeuterated peptide
 computed by <code><a href="get_undeuterated_mass.html">get_undeuterated_mass</a></code>.</p></dd>
+
+
 <dt>mass_deviations</dt>
 <dd><p>mass deviation in parts per million. Either a single
 number (then the error at each time point will be the same) or a vector of
@@ -84,16 +90,21 @@ the same length as number of unique time points in the experiment. The error
 will be sampled from normal distribution with standard deviation equal to
 $$mass_deviations * undeuterated_mass/1e6$$
 Default to 50.</p></dd>
+
+
 <dt>intensity_deviations</dt>
 <dd><p>optional, standard deviations of random noise
 that will be added to intensities. Either a single number (then the error at
 each time point will be the same) or a vector of the same length as number of
 unique time points in the experiment. The error will be sampled from normal
 distribution with these standard deviations.Default <code>NULL</code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>list of lists of data.tables</p>
+    
+
+<p>list of lists of data.tables</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -109,11 +120,11 @@ distribution with these standard deviations.Default <code>NULL</code>.</p></dd>
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by Krystyna Grzesiak, Mateusz Staniak.</p>
+  <p></p><p>Developed by Krystyna Grzesiak, Mateusz Staniak, Weronika Puchala.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>
