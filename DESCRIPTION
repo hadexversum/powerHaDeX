@@ -34,11 +34,8 @@ Imports:
     expm,
     ggplot2,
     glmnet,
-    lme4,
     lmerTest,
-    methods,
     nlme,
-    plyr,
     Rcpp (>= 1.0.3),
     signal,
 Depends: R (>= 3.5.0)
