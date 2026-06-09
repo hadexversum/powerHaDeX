@@ -126,7 +126,7 @@ get_pkc <- function(temp_kelvin, gas_constant, exchange = "HD") {
 #' \code{\link[powerHaDeX]{get_poly_const}}
 #'
 #' @return a matrix named \code{constants} of tabular and calculated constants
-#' (specifically for \code{Asp}, \code{Glu}, \code{His}, \code{C−Term} and
+#' (specifically for \code{Asp}, \code{Glu}, \code{His}, \code{C-Term} and
 #' \code{NHMe})
 #'
 #' @keywords internal

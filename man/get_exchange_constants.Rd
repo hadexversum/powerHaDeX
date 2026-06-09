@@ -16,7 +16,7 @@ get_exchange_constants(pH, pkc_consts, k_consts)
 }
 \value{
 a matrix named \code{constants} of tabular and calculated constants
-(specifically for \code{Asp}, \code{Glu}, \code{His}, \code{C−Term} and
+(specifically for \code{Asp}, \code{Glu}, \code{His}, \code{C-Term} and
 \code{NHMe})
 }
 \description{

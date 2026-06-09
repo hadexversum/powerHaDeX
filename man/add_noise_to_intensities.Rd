@@ -21,6 +21,6 @@ Adds noise to a single time point in intensity domain
 \details{
 if the \code{intensity_deviations} were provided, then noise is
 sampled from a normal distribution with mean \code{0} and standard deviation
-equal tothose deviations and added to \code{Intensity}.
+equal to those deviations and added to \code{Intensity}.
 }
 \keyword{internal}
