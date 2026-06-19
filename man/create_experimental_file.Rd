@@ -11,7 +11,8 @@ create_experimental_file(
   n_replicates = 3,
   mass_deviations = 50,
   intensity_deviations = NULL,
-  file_type = "DynamX"
+  file_type = "DynamX",
+  print_progress = FALSE
 )
 }
 \arguments{
@@ -43,6 +44,9 @@ unique time points in the experiment. The error will be sampled from normal
 distribution with these standard deviations.Default \code{NULL}.}
 
 \item{file_type}{the type of file. Default to "DynamX".}
+
+\item{print_progress}{logical, indicating whether the progress of simulation
+should be printed. Default to FALSE.}
 }
 \value{
 data table. The table of HDX-MS results consistent with `file_type`
