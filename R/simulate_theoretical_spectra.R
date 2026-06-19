@@ -116,7 +116,7 @@ simulate_theoretical_spectra <- function(sequence,
 
     if (floor(max(times)/deltaT) == 0) {
 
-        print("There is no deuteration before given time point.
+        warning("There is no deuteration before given time point.
                 The measurement at the control time (conventionally 0) is returned.")
         isotope_dists <- data.table::data.table()
     } else {

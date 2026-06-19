@@ -11,6 +11,8 @@
 #' @inheritParams simulate_theoretical_spectra
 #' @inheritParams get_noisy_deuteration_curves
 #' @param file_type the type of file. Default to "DynamX".
+#' @param print_progress logical, indicating whether the progress of simulation
+#' should be printed. Default to FALSE.
 #'
 #' @return data table. The table of HDX-MS results consistent with `file_type`
 #' format.
@@ -29,7 +31,8 @@ create_experimental_file <- function(peptides,
                                      n_replicates = 3,
                                      mass_deviations = 50,
                                      intensity_deviations = NULL,
-                                     file_type = "DynamX") {
+                                     file_type = "DynamX",
+                                     print_progress = FALSE) {
 
     Modification <- MaxUptake <- Fragment <- Sequence <- RT <- NULL
 
@@ -39,7 +42,8 @@ create_experimental_file <- function(peptides,
 
     noisy_spectra_data <- rbindlist(lapply(1:nrow(all_params), function(ith_row) {
 
-        print(paste("Simulation row:", ith_row))
+        if(print_progress) { print(paste("Simulation row:", ith_row)) }
+
         spectrum <- tryCatch(
             simulate_theoretical_spectra(sequence = all_params[ith_row,
                                                                "sequence"],
@@ -58,7 +62,7 @@ create_experimental_file <- function(peptides,
                                          use_markov = all_params[ith_row,
                                                                  "use_markov"]),
             error = function(e) {
-                print(e)
+                warning(e)
                 data.frame()})
 
         spectra_by_charge <- split(spectrum, f = spectrum[["Charge"]])

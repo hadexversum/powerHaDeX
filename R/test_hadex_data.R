@@ -59,7 +59,7 @@ test_hadex_data <- function(dat, states = unique(dat[["State"]])[1:2],
                 test(by_seq,
                      significance_level = 0.05)
             ))}, error = function(e) {
-                print(e)
+                warning(e)
                 data.table::data.table()
             })[, list(Test, State_1, State_2, Significant_difference)]
 
